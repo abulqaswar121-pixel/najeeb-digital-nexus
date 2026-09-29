@@ -1,4 +1,4 @@
-export type DesignDirectionId = 'direction-a' | 'direction-b' | 'direction-c';
+export type DesignDirectionId = 'direction-a' | 'direction-b' | 'direction-c' | 'hybrid_blend';
 
 export type UserRole =
   | 'super_admin'
@@ -73,8 +73,8 @@ export interface ClientOrganization {
 
 export interface TalentProfile {
   id: string;
-  pseudonym: string; // Talents use secure internal handles / vetted names in NDH system
-  fullName: string; // Strictly confidential to Admins/PMs
+  pseudonym: string;
+  fullName: string;
   department: ServiceDepartment;
   tier: TalentTier;
   location: string;
@@ -82,8 +82,8 @@ export interface TalentProfile {
   skills: string[];
   tools: string[];
   completedProjects: number;
-  onTimeDeliveryRate: number; // e.g., 99.2%
-  qualityScore: number; // 4.95 / 5.0
+  onTimeDeliveryRate: number;
+  qualityScore: number;
   activeTasks: number;
   hourlyRateInternalUSD: number;
   totalEarnedUSD: number;
@@ -143,8 +143,8 @@ export interface ProjectMilestone {
   status: 'pending' | 'in_progress' | 'in_qa' | 'in_client_review' | 'approved' | 'revision_requested';
   clientCostUSD: number;
   clientCostNGN: number;
-  talentAllocationUSD: number; // Invisible to client & talent
-  assignedTalentId: string; // Invisible to client
+  talentAllocationUSD: number;
+  assignedTalentId: string;
   assignedTalentPseudonym: string;
   qaScore?: number;
   deliverableFileCount: number;
@@ -185,8 +185,8 @@ export interface Project {
   targetEndDate: string;
   totalClientBudgetUSD: number;
   totalClientBudgetNGN: number;
-  totalTalentCostUSD: number; // Invisible to client/talent
-  grossMarginPercentage: number; // Invisible to client/talent
+  totalTalentCostUSD: number;
+  grossMarginPercentage: number;
   currency: 'USD' | 'NGN' | 'GBP';
   milestones: ProjectMilestone[];
   unreadClientMessagesCount: number;
@@ -208,7 +208,7 @@ export interface Lead {
   timeline: string;
   projectOverview: string;
   ndaRequested: boolean;
-  score: number; // 0 - 100
+  score: number;
   qualificationStage: 'inbox' | 'qualified' | 'proposal_drafted' | 'negotiation' | 'converted' | 'archived';
   assignedPMId?: string;
   assignedPMName?: string;
@@ -257,11 +257,23 @@ export interface SecurityAuditLog {
   severity: 'low' | 'medium' | 'critical';
 }
 
-export interface AcademyIntegrationContract {
-  academyApiEndpoint: string;
-  ssoSharedProvider: string;
-  talentGraduationWebhookActive: boolean;
-  talentVerificationLedgerEndpoint: string;
-  referralTrackingKey: string;
-  dataIsolationCertified: boolean;
+export interface UserSession {
+  id: string;
+  fullName: string;
+  email: string;
+  role: UserRole;
+  roleTitle: string;
+  organizationId?: string;
+  organizationName?: string;
+  avatarUrl: string;
+  isDemoAccount: boolean;
+}
+
+export interface AIChatMessage {
+  id: string;
+  sender: 'user' | 'assistant' | 'system';
+  text: string;
+  timestamp: string;
+  quickActions?: { label: string; action: string }[];
+  structuredData?: any;
 }
