@@ -343,6 +343,16 @@ export interface SecurityAuditLog {
   severity: 'low' | 'medium' | 'critical';
 }
 
+export interface ClientWelcomeDiscountInfo {
+  totalCreditPoolNGN: number; // ₦50,000
+  totalCreditPoolUSD: number; // $50
+  usedCreditNGN: number;
+  usedCreditUSD: number;
+  remainingCreditNGN: number;
+  remainingCreditUSD: number;
+  discountPercentagePerInvoice: number; // 10%
+}
+
 export interface UserSession {
   id: string;
   fullName: string;
@@ -357,7 +367,11 @@ export interface UserSession {
   country?: string;
   loyaltyTier?: 'Bronze Pioneer' | 'Silver Scaler' | 'Gold Enterprise' | 'Diamond Sovereign';
   referralCode?: string;
-  referralCredits?: number;
+  referralCredits?: number; // Referrer's earned credits from funded invites
+  welcomeCreditBalanceNGN?: number; // Initial ₦50,000 credit for all new clients
+  welcomeCreditBalanceUSD?: number; // Initial $50 credit for all new clients
+  welcomeCreditUsedNGN?: number;
+  welcomeCreditUsedUSD?: number;
   activeProjectsCount?: number;
 }
 

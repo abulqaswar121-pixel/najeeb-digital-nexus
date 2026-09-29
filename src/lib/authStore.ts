@@ -17,7 +17,11 @@ const DEFAULT_ACCOUNTS: StoredAccount[] = [
     avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
     loyaltyTier: 'Gold Enterprise',
     referralCode: 'FOLAKE-NDH-2026',
-    referralCredits: 250000,
+    referralCredits: 250000, // Earned from Zenith Logistics first milestone payment
+    welcomeCreditBalanceNGN: 20000, // ₦30,000 used on 1st project (10% of ₦300k), ₦20,000 remaining for next project
+    welcomeCreditBalanceUSD: 20,
+    welcomeCreditUsedNGN: 30000,
+    welcomeCreditUsedUSD: 30,
     activeProjectsCount: 2,
     country: 'Nigeria',
     phone: '+234 803 123 4567',
@@ -165,7 +169,11 @@ export const registerClientAccount = (data: {
     country: data.country || 'Nigeria',
     loyaltyTier: 'Bronze Pioneer',
     referralCode: `${data.fullName.slice(0, 4).toUpperCase()}-NDH-${Math.floor(100 + Math.random() * 900)}`,
-    referralCredits: data.referralCodeUsed ? 50000 : 25000, // Bonus for using referral
+    referralCredits: 0, // Referrer only earns when their invitees pay
+    welcomeCreditBalanceNGN: 50000, // ₦50,000 universal welcome credit granted to ALL new clients
+    welcomeCreditBalanceUSD: 50,    // $50 USD
+    welcomeCreditUsedNGN: 0,
+    welcomeCreditUsedUSD: 0,
     activeProjectsCount: 0,
   };
 

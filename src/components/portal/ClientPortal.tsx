@@ -372,8 +372,50 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard, o
                 </div>
                 <h3 className="text-xl font-bold text-white">Client Ranks, Special Offers &amp; Referral Rewards</h3>
                 <p className="text-xs text-slate-400">
-                  Earn credits on every project, level up your client rank for permanent discounts, and earn 10% cashback whenever friends or partners launch a project with your code.
+                  Universal 10% Welcome Discount Allowance on all new client accounts, loyalty rank benefits, and 10% referral credits.
                 </p>
+              </div>
+
+              {/* 1. Universal Welcome Discount Credit Ledger */}
+              <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0F172A] to-[#1E293B] border border-amber-500/40 space-y-4 shadow-xl">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold border border-amber-500/40">
+                        UNIVERSAL NEW CLIENT ALLOWANCE
+                      </span>
+                      <h4 className="font-bold text-base text-white">₦50,000 ($50 USD) Welcome Discount Bucket</h4>
+                    </div>
+                    <p className="text-xs text-slate-300">
+                      Granted to <strong>every new client</strong>. 10% is automatically deducted from each milestone invoice until your ₦50,000 allowance is completely consumed.
+                    </p>
+                  </div>
+
+                  <div className="text-right shrink-0 p-3 rounded-2xl bg-black/40 border border-amber-500/30">
+                    <span className="text-[10px] text-slate-400 block font-bold uppercase tracking-wider">Remaining Allowance:</span>
+                    <div className="text-2xl font-bold font-mono text-emerald-400">₦20,000 NGN</div>
+                    <div className="text-[10px] text-slate-400 font-mono">($20 USD) • Ready for next sprint</div>
+                  </div>
+                </div>
+
+                {/* Progress Visualizer */}
+                <div className="space-y-1.5 pt-2 border-t border-slate-700/60 text-xs">
+                  <div className="flex justify-between text-slate-300 font-mono text-[11px]">
+                    <span>₦30,000 Used (Milestone 1)</span>
+                    <span className="text-emerald-400 font-bold">₦20,000 Remaining (40% Pool Left)</span>
+                  </div>
+                  <div className="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                    <div className="h-full bg-gradient-to-r from-amber-500 to-emerald-400 rounded-full w-[40%]" />
+                  </div>
+                </div>
+
+                {/* Real-world Rule Clarification */}
+                <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-[11px] text-slate-300 space-y-1">
+                  <span className="text-amber-300 font-bold block">💡 How the 10% drawdown works on your invoices:</span>
+                  <p className="text-slate-400 leading-relaxed">
+                    If your next milestone is <strong>₦150,000</strong>, a 10% discount (<strong>₦15,000</strong>) is deducted directly from this bucket. You pay only <strong>₦135,000</strong>, and <strong>₦5,000</strong> remains in your allowance for subsequent projects.
+                  </p>
+                </div>
               </div>
 
               {/* Ranks Cards */}

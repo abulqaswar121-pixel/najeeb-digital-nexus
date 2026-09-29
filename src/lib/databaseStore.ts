@@ -1,6 +1,29 @@
 import { ServiceDepartment, ClientReferralRecord, TalentRank, TalentRankDetails, RevenueSplitBreakdown } from '../types/ndh';
 import { TALENT_RANK_CONFIGS, calculateRevenueSplit } from '../data/mockData';
 
+export function calculateWelcomeCreditDeduction(
+  invoiceAmount: number,
+  availableCredit: number,
+  discountPercentage: number = 0.10 // 10%
+): {
+  nominalDiscount: number;
+  appliedDiscount: number;
+  finalPayable: number;
+  remainingCredit: number;
+} {
+  const nominalDiscount = Math.round(invoiceAmount * discountPercentage);
+  const appliedDiscount = Math.min(nominalDiscount, Math.max(0, availableCredit));
+  const finalPayable = Math.max(0, invoiceAmount - appliedDiscount);
+  const remainingCredit = Math.max(0, availableCredit - appliedDiscount);
+
+  return {
+    nominalDiscount,
+    appliedDiscount,
+    finalPayable,
+    remainingCredit,
+  };
+}
+
 export interface DatabaseProjectBrief {
   id: string;
   projectName: string;
