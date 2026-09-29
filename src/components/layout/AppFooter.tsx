@@ -13,6 +13,9 @@ import {
   Heart,
   CreditCard,
   UserPlus,
+  FileCheck,
+  User,
+  ArrowRight,
 } from 'lucide-react';
 import { MainNavView } from './AppNavbar';
 import { BrandLogo } from '../brand/BrandLogo';
@@ -35,12 +38,12 @@ export const AppFooter: React.FC<AppFooterProps> = ({
   const { user } = useAuth();
   const { currency, detectedCountry } = useCurrencyLanguage();
 
-  const handleOpenWorkspace = (view: MainNavView) => {
-    if (!user) {
-      openAuthModal('login');
-    } else {
-      onSelectView(view);
+  const handleClientPortalClick = () => {
+    if (user) {
+      onSelectView('client-dashboard');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      openAuthModal('login');
     }
   };
 
@@ -114,19 +117,6 @@ export const AppFooter: React.FC<AppFooterProps> = ({
                     <span>Apply as Vetted Talent</span>
                   </span>
                   <span className="text-[10px] bg-emerald-500/20 px-1.5 py-0.5 rounded font-mono">Join Squad</span>
-                </button>
-              )}
-
-              {onOpenPaymentModal && (
-                <button
-                  onClick={onOpenPaymentModal}
-                  className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white text-xs font-semibold transition-all flex items-center justify-between"
-                >
-                  <span className="flex items-center gap-1.5">
-                    <CreditCard className="w-3.5 h-3.5 text-blue-400" />
-                    <span>Paystack / Flutterwave Portal</span>
-                  </span>
-                  <span className="text-[10px] text-blue-400 font-mono">Escrow</span>
                 </button>
               )}
             </div>
@@ -246,54 +236,51 @@ export const AppFooter: React.FC<AppFooterProps> = ({
             </ul>
           </div>
 
-          {/* Col 4: Portals & Workspaces */}
+          {/* Col 4: Client & Governance */}
           <div className="space-y-3">
             <div className="font-bold text-white uppercase tracking-wider text-xs">
-              Dedicated Workspaces
+              Client &amp; Governance
             </div>
             <ul className="space-y-2 text-slate-300 text-xs">
               <li>
                 <button
-                  onClick={() => handleOpenWorkspace('client-dashboard')}
-                  className="hover:text-blue-400 flex items-center justify-between w-full transition-colors"
+                  onClick={handleClientPortalClick}
+                  className="hover:text-blue-400 flex items-center justify-between w-full transition-colors font-medium text-white"
                 >
-                  <span>Client Workspace</span>
-                  <span className="text-[10px] text-blue-400 font-mono px-1.5 py-0.5 rounded bg-blue-950 border border-blue-800">
-                    {user ? 'Open' : 'Sign In'}
+                  <span className="flex items-center gap-1.5">
+                    <User className="w-3.5 h-3.5 text-blue-400" />
+                    <span>Client Portal</span>
+                  </span>
+                  <span className="text-[10px] text-blue-400 font-mono px-2 py-0.5 rounded bg-blue-950 border border-blue-800">
+                    {user ? 'Active' : 'Sign In'}
                   </span>
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => handleOpenWorkspace('pm-dashboard')}
-                  className="hover:text-blue-400 flex items-center justify-between w-full transition-colors"
+                  onClick={() => onSelectView('process')}
+                  className="hover:text-blue-400 text-left transition-colors flex items-center gap-1.5"
                 >
-                  <span>Project Manager Desk</span>
-                  <span className="text-[10px] text-indigo-400 font-mono px-1.5 py-0.5 rounded bg-indigo-950 border border-indigo-800">
-                    PM Ops
-                  </span>
+                  <FileCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Dual-Key Escrow Guarantee</span>
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => handleOpenWorkspace('talent-dashboard')}
-                  className="hover:text-blue-400 flex items-center justify-between w-full transition-colors"
+                  onClick={() => onSelectView('about')}
+                  className="hover:text-blue-400 text-left transition-colors flex items-center gap-1.5"
                 >
-                  <span>Talent Workspace</span>
-                  <span className="text-[10px] text-emerald-400 font-mono px-1.5 py-0.5 rounded bg-emerald-950 border border-emerald-800">
-                    Private
-                  </span>
+                  <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+                  <span>Standard Enterprise NDA</span>
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => handleOpenWorkspace('admin-command')}
-                  className="hover:text-blue-400 flex items-center justify-between w-full transition-colors"
+                  onClick={() => onSelectView('contact')}
+                  className="hover:text-blue-400 text-left transition-colors flex items-center gap-1.5"
                 >
-                  <span>Admin Command Nexus</span>
-                  <span className="text-[10px] text-amber-400 font-mono px-1.5 py-0.5 rounded bg-amber-950 border border-amber-800">
-                    Dual-Sign
-                  </span>
+                  <Phone className="w-3.5 h-3.5 text-indigo-400" />
+                  <span>Book Consultation Call</span>
                 </button>
               </li>
             </ul>
