@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../lib/authStore';
+import { useAuth, openAuthModal, logoutUser } from '../../lib/authStore';
 import { useCurrencyLanguage, SupportedCurrency, SupportedLanguage } from '../../lib/currencyLanguageStore';
 import { BrandLogo } from '../brand/BrandLogo';
 import {
@@ -20,6 +20,9 @@ import {
   Globe,
   ArrowRight,
   Check,
+  LogOut,
+  User,
+  Gift,
 } from 'lucide-react';
 
 export type MainNavView =
@@ -49,11 +52,12 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
   onSelectView,
   onOpenBriefWizard,
 }) => {
-  const { user, switchDemoRole } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const { currency, setCurrency, currencies, language, setLanguage, languages, t } = useCurrencyLanguage();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [portalDropdownOpen, setPortalDropdownOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
 
@@ -67,43 +71,18 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
     { id: 'contact', label: t('nav_contact') },
   ];
 
-  const portalsList: { id: MainNavView; label: string; desc: string; icon: React.ReactNode; roleName: any }[] = [
-    {
-      id: 'client-dashboard',
-      label: 'Client Workspace',
-      desc: 'Milestones, deliverables & escrow invoices',
-      icon: <UserCheck className="w-4 h-4 text-blue-400" />,
-      roleName: 'client_owner',
-    },
-    {
-      id: 'pm-dashboard',
-      label: 'Project Manager Command',
-      desc: 'Brief triage, margin health & QA gates',
-      icon: <Briefcase className="w-4 h-4 text-indigo-400" />,
-      roleName: 'project_manager',
-    },
-    {
-      id: 'talent-dashboard',
-      label: 'Talent Workspace',
-      desc: 'Private tasks, tickets & bank payouts',
-      icon: <Terminal className="w-4 h-4 text-emerald-400" />,
-      roleName: 'talent',
-    },
-    {
-      id: 'admin-command',
-      label: 'Admin Command Nexus',
-      desc: 'Super admin telemetry & dual-approval batches',
-      icon: <Sliders className="w-4 h-4 text-amber-400" />,
-      roleName: 'super_admin',
-    },
-  ];
-
-  const handleSelectPortal = (portalId: MainNavView, roleName: any) => {
-    switchDemoRole(roleName);
-    onSelectView(portalId);
-    setPortalDropdownOpen(false);
+  const handleGoToUserWorkspace = () => {
+    if (user?.role === 'super_admin') {
+      onSelectView('admin-command');
+    } else if (user?.role === 'project_manager') {
+      onSelectView('pm-dashboard');
+    } else if (user?.role === 'talent') {
+      onSelectView('talent-dashboard');
+    } else {
+      onSelectView('client-dashboard');
+    }
+    setUserDropdownOpen(false);
     setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const isPortalView = [
@@ -255,60 +234,77 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
             )}
           </div>
 
-          {/* 3. Discreet Portal Access Dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => {
-                setPortalDropdownOpen(!portalDropdownOpen);
-                setLangDropdownOpen(false);
-                setCurrencyDropdownOpen(false);
-              }}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
-                isPortalView
-                  ? 'bg-blue-950/90 text-blue-300 border-blue-500/50 shadow-sm'
-                  : 'bg-slate-900 text-slate-200 border-slate-700 hover:bg-slate-800'
-              }`}
-            >
-              <Lock className="w-3.5 h-3.5 text-blue-400" />
-              <span>{isPortalView ? 'Active Workspace' : t('nav_client_login')}</span>
-              <ChevronDown
-                className={`w-3.5 h-3.5 text-slate-400 transition-transform ${
-                  portalDropdownOpen ? 'rotate-180' : ''
-                }`}
-              />
-            </button>
+          {/* 3. User Session / Portal Dropdown */}
+          {user ? (
+            <div className="relative">
+              <button
+                onClick={() => {
+                  setUserDropdownOpen(!userDropdownOpen);
+                  setLangDropdownOpen(false);
+                  setCurrencyDropdownOpen(false);
+                }}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-slate-500 text-slate-200 text-xs font-semibold transition-all"
+              >
+                <img
+                  src={user.avatarUrl}
+                  alt={user.fullName}
+                  className="w-5 h-5 rounded-full object-cover border border-slate-600"
+                />
+                <span className="max-w-[100px] truncate">{user.fullName.split(' ')[0]}</span>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+              </button>
 
-            {portalDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-72 rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl p-2 z-50 text-slate-200">
-                <div className="px-3 py-2 border-b border-slate-800 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                  Access Operating Workspace
-                </div>
-                <div className="py-1 space-y-1">
-                  {portalsList.map((p) => (
+              {userDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl p-2 z-50 text-slate-200 animate-in fade-in zoom-in-95 duration-150 space-y-1">
+                  <div className="px-3 py-2 border-b border-slate-800">
+                    <div className="font-bold text-xs text-white">{user.fullName}</div>
+                    <div className="text-[10px] text-slate-400 truncate">{user.email}</div>
+                    <div className="text-[10px] text-emerald-400 font-mono mt-0.5">{user.roleTitle}</div>
+                  </div>
+
+                  <button
+                    onClick={handleGoToUserWorkspace}
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-slate-200 hover:bg-blue-600 hover:text-white transition-colors"
+                  >
+                    <UserCheck className="w-4 h-4 text-blue-400" />
+                    <span>Open My Workspace</span>
+                  </button>
+
+                  {user.role === 'client_owner' && (
                     <button
-                      key={p.id}
-                      onClick={() => handleSelectPortal(p.id, p.roleName)}
-                      className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-colors ${
-                        currentView === p.id
-                          ? 'bg-blue-600/20 border border-blue-500/40 text-white'
-                          : 'hover:bg-slate-800 text-slate-300 hover:text-white'
-                      }`}
+                      onClick={() => {
+                        onSelectView('client-dashboard');
+                        setUserDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-slate-200 hover:bg-slate-800 transition-colors"
                     >
-                      <div className="mt-0.5 p-1 rounded-lg bg-slate-800 border border-slate-700">
-                        {p.icon}
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">{p.label}</div>
-                        <div className="text-[11px] text-slate-400 line-clamp-1">
-                          {p.desc}
-                        </div>
-                      </div>
+                      <Gift className="w-4 h-4 text-amber-400" />
+                      <span>Referral Credits (₦250k)</span>
                     </button>
-                  ))}
+                  )}
+
+                  <button
+                    onClick={() => {
+                      logout();
+                      setUserDropdownOpen(false);
+                    }}
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-red-400 hover:bg-red-950/40 transition-colors border-t border-slate-800"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Sign Out</span>
+                  </button>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={() => openAuthModal('login')}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-200 text-xs font-bold transition-all"
+            >
+              <User className="w-3.5 h-3.5 text-blue-400" />
+              <span>Sign In</span>
+            </button>
+          )}
 
           {/* 4. High-Impact CTA Button */}
           <button

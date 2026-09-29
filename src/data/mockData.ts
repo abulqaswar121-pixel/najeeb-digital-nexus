@@ -13,14 +13,17 @@ import {
 export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
   {
     id: 'brand_strategy',
-    name: 'Brand Strategy & Identity',
+    category: 'design',
+    name: 'Brand Strategy & Visual Identity',
     tagline: 'World-class positioning, visual systems, and sovereign market identity.',
     description:
       'We craft iconic visual identities, narrative positioning, and comprehensive design systems that command authority across African and global markets.',
     leadName: 'Najeeb Al-Hassan',
     leadTitle: 'Principal Brand Director',
     activeTalentsCount: 14,
-    averageTurnaroundDays: 18,
+    averageTurnaroundDays: 14,
+    coverImage:
+      'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?w=900&auto=format&fit=crop&q=80',
     capabilities: [
       'Brand Architecture & Archetype Mapping',
       'Visual Identity Systems & Brand Guidelines',
@@ -35,12 +38,13 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
       'Executive Brand Playbook (PDF & Web)',
     ],
     techStack: ['Figma Enterprise', 'Adobe Illustrator', 'FontLab', 'Storybook Tokens'],
-    startingBudgetUSD: 3500,
-    startingBudgetNGN: 5200000,
+    startingBudgetUSD: 190,
+    startingBudgetNGN: 45000,
     iconName: 'Sparkles',
   },
   {
     id: 'ui_ux_design',
+    category: 'design',
     name: 'Product & UI/UX Design',
     tagline: 'High-conversion, accessible, and frictionless digital product experiences.',
     description:
@@ -48,7 +52,9 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     leadName: 'Amara Nwosu',
     leadTitle: 'Head of Product Design',
     activeTalentsCount: 19,
-    averageTurnaroundDays: 21,
+    averageTurnaroundDays: 14,
+    coverImage:
+      'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=900&auto=format&fit=crop&q=80',
     capabilities: [
       'User Research & Usability Benchmarking',
       'High-Fidelity Wireframes & Clickable Prototypes',
@@ -63,23 +69,26 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
       'Usability Test Research Synthesis',
     ],
     techStack: ['Figma', 'Protopie', 'Maze', 'Zeroheight', 'Tokens Studio'],
-    startingBudgetUSD: 4800,
-    startingBudgetNGN: 7200000,
+    startingBudgetUSD: 240,
+    startingBudgetNGN: 55000,
     iconName: 'Layout',
   },
   {
     id: 'web_app_development',
-    name: 'Website & App Development',
+    category: 'engineering',
+    name: 'Website & Full-Stack Web Development',
     tagline: 'Production-grade full-stack engineering with zero technical debt.',
     description:
-      'Engineered with modern TypeScript, React, Next.js, TanStack Start, Node.js, and robust cloud infrastructure. High speed, military-grade security, and 99.99% uptime.',
+      'Engineered with modern TypeScript, React, Next.js, Node.js, and robust cloud infrastructure. High speed, military-grade security, and 99.99% uptime.',
     leadName: 'Tunde Bakare',
     leadTitle: 'VP of Technology & Engineering',
     activeTalentsCount: 28,
-    averageTurnaroundDays: 30,
+    averageTurnaroundDays: 18,
+    coverImage:
+      'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=900&auto=format&fit=crop&q=80',
     capabilities: [
       'Modern Jamstack & Full-Stack Web Platforms',
-      'Cross-Platform Mobile Apps (React Native / Flutter)',
+      'High-Speed Landing Pages & Corporate Portals',
       'High-Throughput REST & GraphQL APIs',
       'Cloud Architecture (AWS, Cloudflare, Supabase)',
       'Performance Optimization & Core Web Vitals 95+',
@@ -90,21 +99,55 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
       'API Schema Specs & Swagger Documentation',
       'Zero-Downtime Production Deployment',
     ],
-    techStack: ['React 19', 'TypeScript', 'Node.js', 'PostgreSQL', 'Cloudflare Workers', 'Docker'],
-    startingBudgetUSD: 6500,
-    startingBudgetNGN: 9800000,
+    techStack: ['React 19', 'TypeScript', 'Next.js', 'Node.js', 'PostgreSQL', 'Cloudflare Workers'],
+    startingBudgetUSD: 290,
+    startingBudgetNGN: 65000,
     iconName: 'Code',
   },
   {
-    id: 'ai_automation',
-    name: 'AI Solutions & Workflow Automation',
-    tagline: 'Autonomous agentic workflows and intelligent enterprise intelligence.',
+    id: 'mobile_app_development',
+    category: 'engineering',
+    name: 'Mobile App Engineering (iOS & Android)',
+    tagline: 'Native and cross-platform mobile apps with buttery smooth 60fps performance.',
     description:
-      'We integrate LLM orchestration, custom RAG knowledge engines, CRM automated pipelines, and intelligent data parsers to reduce operational friction by up to 80%.',
+      'Cross-platform Flutter and React Native mobile applications engineered with offline-first synchronization, biometric authentication, and push notifications.',
+    leadName: 'Ibrahim Danladi',
+    leadTitle: 'Principal Mobile Architect',
+    activeTalentsCount: 20,
+    averageTurnaroundDays: 24,
+    coverImage:
+      'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=900&auto=format&fit=crop&q=80',
+    capabilities: [
+      'Flutter & React Native Cross-Platform Apps',
+      'Offline-First Local Database & Cloud Sync',
+      'Biometric KYC & Mobile Security Encryption',
+      'In-App Purchases & Multi-Currency Checkout',
+      'App Store & Google Play Deployment & Compliance',
+    ],
+    deliverables: [
+      'Production iOS (IPA) & Android (AAB) Release Builds',
+      'Source Code in Monorepo with Automated Fastlane CI',
+      'Store Listing Graphics & Compliance Approval',
+      'Crashlytics & Telemetry Monitoring Setup',
+    ],
+    techStack: ['Flutter', 'React Native', 'Swift', 'Kotlin', 'Firebase', 'Fastlane'],
+    startingBudgetUSD: 490,
+    startingBudgetNGN: 120000,
+    iconName: 'Smartphone',
+  },
+  {
+    id: 'ai_automation',
+    category: 'ai',
+    name: 'AI Solutions, Agents & Workflow Automation',
+    tagline: 'Autonomous agentic workflows and custom enterprise intelligence.',
+    description:
+      'We integrate LLM orchestration, custom RAG knowledge engines, WhatsApp automated CRM pipelines, and intelligent data parsers to reduce operational friction by up to 80%.',
     leadName: 'Dr. Fatima Bello',
     leadTitle: 'Lead AI & Automation Architect',
     activeTalentsCount: 12,
-    averageTurnaroundDays: 14,
+    averageTurnaroundDays: 10,
+    coverImage:
+      'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&auto=format&fit=crop&q=80',
     capabilities: [
       'Custom Enterprise RAG & Semantic Search',
       'LLM Tool Calling & Multi-Agent Orchestration',
@@ -119,20 +162,23 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
       'AI Safeguard & Hallucination Mitigation Layer',
     ],
     techStack: ['Python', 'LangChain', 'OpenAI / Claude APIs', 'Pinecone', 'n8n', 'FastAPI'],
-    startingBudgetUSD: 5500,
-    startingBudgetNGN: 8250000,
+    startingBudgetUSD: 320,
+    startingBudgetNGN: 75000,
     iconName: 'Bot',
   },
   {
     id: 'ecommerce',
-    name: 'E-commerce & Growth Funnels',
+    category: 'marketing',
+    name: 'E-Commerce & Digital Storefronts',
     tagline: 'Scalable commerce architectures with seamless multi-currency checkout.',
     description:
       'High-velocity e-commerce stores, custom Shopify Plus liquid themes, headless storefronts, and seamless local/international payment gateways (Paystack, Stripe, Moniepoint).',
     leadName: 'Emeka Okafor',
     leadTitle: 'Director of Commerce',
     activeTalentsCount: 15,
-    averageTurnaroundDays: 20,
+    averageTurnaroundDays: 14,
+    coverImage:
+      'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=900&auto=format&fit=crop&q=80',
     capabilities: [
       'Shopify Plus Custom Theme & App Development',
       'Headless Commerce (Next.js / Medusa / Saleor)',
@@ -147,20 +193,116 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
       'Merchant Operations Guidebook',
     ],
     techStack: ['Shopify Plus', 'Next.js Commerce', 'Paystack API', 'Stripe', 'Klaviyo'],
-    startingBudgetUSD: 4200,
-    startingBudgetNGN: 6300000,
+    startingBudgetUSD: 220,
+    startingBudgetNGN: 50000,
     iconName: 'ShoppingBag',
   },
   {
+    id: 'fintech_payments',
+    category: 'engineering',
+    name: 'FinTech & Payment Gateway Systems',
+    tagline: 'Bank-grade transaction settlement, escrow engines, and sub-300ms APIs.',
+    description:
+      'End-to-end FinTech infrastructure, automated split payouts, Paystack/Flutterwave/Stripe webhook engines, virtual account issuance, and NIBSS banking integrations.',
+    leadName: 'Kayode Alabi',
+    leadTitle: 'Head of FinTech Engineering',
+    activeTalentsCount: 16,
+    averageTurnaroundDays: 16,
+    coverImage:
+      'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=900&auto=format&fit=crop&q=80',
+    capabilities: [
+      'Paystack, Flutterwave, Stripe & Moniepoint Integrations',
+      'Virtual Account Generation & Webhook Processing',
+      'Multi-Tier Escrow & Dual-Approval Payout Engines',
+      'PCI-DSS Compliance Audits & Tokenized Vaults',
+      'High-Throughput Financial Ledger Engineering',
+    ],
+    deliverables: [
+      'Zero-Loss Transaction Processing Layer',
+      'Automated Reconciliations Dashboard',
+      'Cryptographic Webhook Signature Verifier',
+      'Sandbox & Production Testing Matrix',
+    ],
+    techStack: ['Node.js', 'PostgreSQL', 'Redis', 'Paystack API', 'Flutterwave API', 'Stripe'],
+    startingBudgetUSD: 380,
+    startingBudgetNGN: 85000,
+    iconName: 'CreditCard',
+  },
+  {
+    id: 'cloud_devops',
+    category: 'engineering',
+    name: 'Cloud Architecture, DevOps & SRE',
+    tagline: 'High-availability Kubernetes, automated CI/CD, and global edge computing.',
+    description:
+      'Distributed multi-cloud deployments, Docker container orchestration, automated GitHub Actions pipelines, Cloudflare Workers edge caching, and 99.99% SLA management.',
+    leadName: 'Samuel Adeleke',
+    leadTitle: 'Principal Cloud Architect',
+    activeTalentsCount: 14,
+    averageTurnaroundDays: 12,
+    coverImage:
+      'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900&auto=format&fit=crop&q=80',
+    capabilities: [
+      'AWS / GCP / Cloudflare Multi-Region Architecture',
+      'Docker & Kubernetes Cluster Orchestration',
+      'Automated Zero-Downtime CI/CD Pipelines',
+      'Edge CDN Optimization & Sub-100ms Latency',
+      '24/7 Datadog / Prometheus Telemetry & SRE',
+    ],
+    deliverables: [
+      'Terraform Infrastructure as Code (IaC)',
+      'Automated Deployment Pipelines in Git',
+      'Live Uptime Monitoring & Alerting Matrix',
+      'Cloud Security Hardening Report',
+    ],
+    techStack: ['AWS', 'Cloudflare Workers', 'Docker', 'Kubernetes', 'Terraform', 'GitHub Actions'],
+    startingBudgetUSD: 260,
+    startingBudgetNGN: 60000,
+    iconName: 'Server',
+  },
+  {
+    id: 'cybersecurity_compliance',
+    category: 'engineering',
+    name: 'Cybersecurity, Penetration Audits & Compliance',
+    tagline: 'Sovereign protection, NDPR/GDPR compliance, and penetration testing.',
+    description:
+      'Vulnerability assessments, automated ethical hacking, cryptographic key escrow, SOC 2 Type II audit readiness, and NDPR data protection governance.',
+    leadName: 'Dr. Tariq Sanusi',
+    leadTitle: 'Chief Security Officer',
+    activeTalentsCount: 10,
+    averageTurnaroundDays: 10,
+    coverImage:
+      'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=900&auto=format&fit=crop&q=80',
+    capabilities: [
+      'Full Web & API Penetration Testing (OWASP Top 10)',
+      'NDPR (Nigeria Data Protection Regulation) Compliance',
+      'GDPR & SOC 2 Readiness Frameworks',
+      'End-to-End Cryptographic Secret Management',
+      'Incident Response & Disaster Recovery Playbooks',
+    ],
+    deliverables: [
+      'Certified Vulnerability & Penetration Audit Report',
+      'NDPR Legal Compliance Certificate of Readiness',
+      'Remediation Code Patches & Security Runbook',
+      'Executive Risk Assessment Scorecard',
+    ],
+    techStack: ['OWASP ZAP', 'Burp Suite', 'Wazuh', 'Trivy', 'HashiCorp Vault'],
+    startingBudgetUSD: 310,
+    startingBudgetNGN: 70000,
+    iconName: 'ShieldCheck',
+  },
+  {
     id: 'digital_marketing',
-    name: 'Digital Marketing & Growth',
+    category: 'marketing',
+    name: 'Digital Marketing & Paid Media (PPC)',
     tagline: 'Precision performance marketing, high CAC efficiency, and measurable ROI.',
     description:
       'Data-driven performance marketing campaigns, search engine optimization (SEO), paid user acquisition, and lifecycle retention funnels tailored for scale.',
     leadName: 'Zainab Danjuma',
     leadTitle: 'Head of Growth Marketing',
     activeTalentsCount: 16,
-    averageTurnaroundDays: 15,
+    averageTurnaroundDays: 10,
+    coverImage:
+      'https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=900&auto=format&fit=crop&q=80',
     capabilities: [
       'Paid Search & Social Acquisition (Meta, Google, LinkedIn)',
       'Programmatic SEO & Content Keyword Engines',
@@ -175,20 +317,54 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
       'A/B Testing Experiments Log',
     ],
     techStack: ['Google Ads', 'Meta Business Manager', 'GA4', 'PostHog', 'Mixpanel', 'Klaviyo'],
-    startingBudgetUSD: 3000,
-    startingBudgetNGN: 4500000,
+    startingBudgetUSD: 180,
+    startingBudgetNGN: 40000,
     iconName: 'TrendingUp',
   },
   {
+    id: 'seo_growth',
+    category: 'marketing',
+    name: 'SEO & Organic Search Dominance',
+    tagline: 'Dominate high-intent search terms with programmatic & technical SEO.',
+    description:
+      'Technical site audits, Core Web Vitals optimization, programmatic keyword landing page clusters, high-authority backlink acquisition, and local search dominance.',
+    leadName: 'Farouk Bello',
+    leadTitle: 'Principal SEO Strategist',
+    activeTalentsCount: 12,
+    averageTurnaroundDays: 12,
+    coverImage:
+      'https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=900&auto=format&fit=crop&q=80',
+    capabilities: [
+      'Technical SEO Audits & Core Web Vitals 95+',
+      'Programmatic SEO Scaled Content Clusters',
+      'Local SEO & Google Business Profile Ranking',
+      'High-Authority Domain Backlink Strategy',
+      'Competitor Keyword Gap & Search Intent Analysis',
+    ],
+    deliverables: [
+      'Actionable SEO Technical Roadmap',
+      'Keyword Research Blueprint & Target Matrix',
+      'On-Page Schema & Structured Data Injection',
+      'Monthly Ranking & Organic Traffic Reports',
+    ],
+    techStack: ['Ahrefs', 'SEMrush', 'Screaming Frog', 'Google Search Console', 'SurferSEO'],
+    startingBudgetUSD: 160,
+    startingBudgetNGN: 35000,
+    iconName: 'Search',
+  },
+  {
     id: 'content_copywriting',
-    name: 'Content Writing & Copywriting',
+    category: 'marketing',
+    name: 'Content Writing & Technical Copywriting',
     tagline: 'Compelling narrative, conversion copy, and thought-leadership editorial.',
     description:
       'High-impact landing page copy, technical whitepapers, executive thought leadership, and SEO content engines crafted by veteran African journalists and tech copywriters.',
     leadName: 'Kemi Adeleke',
     leadTitle: 'Editorial Lead',
     activeTalentsCount: 11,
-    averageTurnaroundDays: 10,
+    averageTurnaroundDays: 7,
+    coverImage:
+      'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=900&auto=format&fit=crop&q=80',
     capabilities: [
       'High-Conversion Landing Page & Sales Copy',
       'Technical Whitepapers & Research Reports',
@@ -203,20 +379,23 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
       'Product Messaging Value Pillars Document',
     ],
     techStack: ['Notion Enterprise', 'Clearscope', 'Grammarly Business', 'SurferSEO'],
-    startingBudgetUSD: 2000,
-    startingBudgetNGN: 3000000,
+    startingBudgetUSD: 140,
+    startingBudgetNGN: 30000,
     iconName: 'PenTool',
   },
   {
     id: 'social_media',
-    name: 'Social Media & Community',
+    category: 'marketing',
+    name: 'Social Media Management & Community',
     tagline: 'Audience growth, viral cultural moments, and high engagement communities.',
     description:
       'End-to-end social media architecture, high-frequency creative production, community moderation, and strategic cultural campaigns across LinkedIn, X, TikTok, and Instagram.',
     leadName: 'Chidi Anozie',
     leadTitle: 'Social & Cultural Strategy Lead',
     activeTalentsCount: 10,
-    averageTurnaroundDays: 14,
+    averageTurnaroundDays: 10,
+    coverImage:
+      'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=900&auto=format&fit=crop&q=80',
     capabilities: [
       'Social Strategy & Platform Positioning',
       'Short-Form Video Production (Reels / TikTok / Shorts)',
@@ -231,20 +410,23 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
       'Community Playbook & Escalation Rules',
     ],
     techStack: ['CapCut Pro', 'Figma', 'Sprout Social', 'Brand24', 'Buffer'],
-    startingBudgetUSD: 2500,
-    startingBudgetNGN: 3750000,
+    startingBudgetUSD: 160,
+    startingBudgetNGN: 35000,
     iconName: 'Share2',
   },
   {
     id: 'video_media',
-    name: 'Video, Motion & 3D Production',
+    category: 'media',
+    name: 'Video Production, 3D & Motion Graphics',
     tagline: 'Cinema-grade brand films, 3D product renders, and explanatory motion graphics.',
     description:
       'World-class visual storytelling, 3D product showcases, cinematic brand trailers, UI interactive motion reels, and commercial broadcast production.',
     leadName: 'David Oladipo',
     leadTitle: 'Creative Media Director',
     activeTalentsCount: 8,
-    averageTurnaroundDays: 25,
+    averageTurnaroundDays: 14,
+    coverImage:
+      'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=900&auto=format&fit=crop&q=80',
     capabilities: [
       '3D Product Modeling & Photorealistic Renders',
       '2D/3D Kinetic Motion Graphics & Explainer Films',
@@ -259,20 +441,23 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
       'Raw Project Files & Audio Stems',
     ],
     techStack: ['Cinema 4D', 'Blender', 'After Effects', 'Premiere Pro', 'DaVinci Resolve'],
-    startingBudgetUSD: 4500,
-    startingBudgetNGN: 6750000,
+    startingBudgetUSD: 230,
+    startingBudgetNGN: 50000,
     iconName: 'Video',
   },
   {
     id: 'data_business',
-    name: 'Data, Research & Business Support',
+    category: 'data',
+    name: 'Data Analytics, BI & Market Research',
     tagline: 'Strategic African market intelligence, financial modeling, and data pipelines.',
     description:
       'Deep market sizing, pan-African regulatory feasibility studies, executive dashboards, automated BI pipelines, and fractional analytics consulting.',
     leadName: 'Amina Yusuf',
     leadTitle: 'Principal Research Analyst',
     activeTalentsCount: 9,
-    averageTurnaroundDays: 16,
+    averageTurnaroundDays: 12,
+    coverImage:
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&auto=format&fit=crop&q=80',
     capabilities: [
       'Pan-African Market Intelligence & Competitor Sizing',
       'Financial Models & Unit Economics Projections',
@@ -287,9 +472,40 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
       'Executive Summary Presentation',
     ],
     techStack: ['Python', 'SQL', 'Tableau', 'PowerBI', 'Snowflake', 'dbt'],
-    startingBudgetUSD: 3800,
-    startingBudgetNGN: 5700000,
+    startingBudgetUSD: 190,
+    startingBudgetNGN: 45000,
     iconName: 'BarChart3',
+  },
+  {
+    id: 'nocode_rapid_mvp',
+    category: 'mvp',
+    name: 'No-Code & Rapid MVP Launchpad',
+    tagline: 'Launch stunning web apps and MVPs in 3 to 7 days for students & startups.',
+    description:
+      'Super-affordable rapid development with Framer, Webflow, Bubble, and Airtable. Perfect for students, solopreneurs, idea validation, and agile founders on a budget.',
+    leadName: 'Basit Adeleke',
+    leadTitle: 'Rapid MVP & No-Code Lead',
+    activeTalentsCount: 14,
+    averageTurnaroundDays: 5,
+    coverImage:
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&auto=format&fit=crop&q=80',
+    capabilities: [
+      'Framer & Webflow Ultra-Fast Custom Builds',
+      'Bubble Web Applications & User Portals',
+      'Airtable & Zapier Automated Backends',
+      'Student & Early-Stage Idea Validation MVPs',
+      '1-Click CMS & Direct Handover Training',
+    ],
+    deliverables: [
+      'Fully Published Live Website / Web App',
+      'Custom Domain Connection & SSL Certificate',
+      'Video Walkthrough Tutorial & Admin Access',
+      'Integrated Contact & Lead Capture Forms',
+    ],
+    techStack: ['Framer', 'Webflow', 'Bubble', 'Airtable', 'Make', 'Supabase'],
+    startingBudgetUSD: 150,
+    startingBudgetNGN: 35000,
+    iconName: 'Zap',
   },
 ];
 
@@ -365,6 +581,98 @@ export const CLIENT_ORGANIZATIONS: ClientOrganization[] = [
   },
 ];
 
+export const TALENT_RANK_CONFIGS: Record<TalentRank, TalentRankDetails> = {
+  'Bronze Prodigy': {
+    rank: 'Bronze Prodigy',
+    level: 1,
+    minProjects: 1,
+    minQAScore: 80,
+    bonusRatePercentage: 0,
+    badgeColor: 'from-amber-700/80 to-amber-900/90 border-amber-600/40 text-amber-200',
+    perks: [
+      'Standard Task Allocation Queue',
+      'Basic Task Milestone Payout (1.0x Rate)',
+      '14-Day Bi-Weekly Standard Settlement'
+    ]
+  },
+  'Silver Artisan': {
+    rank: 'Silver Artisan',
+    level: 2,
+    minProjects: 5,
+    minQAScore: 90,
+    bonusRatePercentage: 5,
+    badgeColor: 'from-slate-400/80 to-slate-700/90 border-slate-300/50 text-slate-100',
+    perks: [
+      'Priority PM Task Allocation',
+      '+5% Performance Task Bonus (1.05x Rate)',
+      'Access to Mid-Tier Client Sprints',
+      'Bi-Weekly Direct Bank Settlement'
+    ]
+  },
+  'Gold Master': {
+    rank: 'Gold Master',
+    level: 3,
+    minProjects: 15,
+    minQAScore: 95,
+    bonusRatePercentage: 10,
+    badgeColor: 'from-yellow-400/80 to-amber-700/90 border-yellow-400/50 text-yellow-100',
+    perks: [
+      'VIP Priority Queue & High-Ticket Briefs',
+      '+10% Performance Task Bonus (1.10x Rate)',
+      'Fast-Track Escrow Release',
+      'Eligible for Hybrid PM-Lead Appointed Roles'
+    ]
+  },
+  'Diamond Principal': {
+    rank: 'Diamond Principal',
+    level: 4,
+    minProjects: 30,
+    minQAScore: 98,
+    bonusRatePercentage: 15,
+    badgeColor: 'from-cyan-400/80 to-blue-700/90 border-cyan-400/60 text-cyan-100',
+    perks: [
+      'Elite Sovereign Architecture Projects',
+      '+15% Maximum Task Bonus (1.15x Rate)',
+      'Dual-Role PM-Lead Certified (Earns PM 15% + Talent 40% = 55% pool)',
+      'Priority NIBSS/Wise Same-Day Wire Verification'
+    ]
+  }
+};
+
+export const DEFAULT_PROFIT_SPLIT = {
+  adminMarginPercent: 45, // 45% Agency Owner Profit & Infrastructure
+  pmFeePercent: 15,       // 15% PM Management & QA Score Fee
+  talentPoolPercent: 40,  // 40% Talent Execution Milestone Pool
+};
+
+export function calculateRevenueSplit(amountNGN: number, amountUSD: number, isHybridPMTalent: boolean = false): RevenueSplitBreakdown {
+  const adminMarginNGN = Math.round(amountNGN * 0.45);
+  const adminMarginUSD = Math.round(amountUSD * 0.45);
+  
+  const pmFeeNGN = Math.round(amountNGN * 0.15);
+  const pmFeeUSD = Math.round(amountUSD * 0.15);
+  
+  const talentPoolNGN = Math.round(amountNGN * 0.40);
+  const talentPoolUSD = Math.round(amountUSD * 0.40);
+  
+  return {
+    totalClientPaidNGN: amountNGN,
+    totalClientPaidUSD: amountUSD,
+    adminMarginPercent: 45,
+    adminMarginNGN,
+    adminMarginUSD,
+    pmFeePercent: 15,
+    pmFeeNGN,
+    pmFeeUSD,
+    talentPoolPercent: 40,
+    talentPoolNGN,
+    talentPoolUSD,
+    isHybridDualRolePMTalent: isHybridPMTalent,
+    hybridTotalPayoutNGN: isHybridPMTalent ? (pmFeeNGN + talentPoolNGN) : undefined,
+    hybridTotalPayoutUSD: isHybridPMTalent ? (pmFeeUSD + talentPoolUSD) : undefined,
+  };
+}
+
 export const VETTED_TALENTS: TalentProfile[] = [
   {
     id: 'tal-001',
@@ -372,13 +680,16 @@ export const VETTED_TALENTS: TalentProfile[] = [
     fullName: 'Oluwaseun Adedipe',
     department: 'web_app_development',
     tier: 'Elite',
+    rank: 'Diamond Principal',
     location: 'Lagos, Nigeria',
     timezone: 'GMT+1',
     skills: ['TypeScript', 'React 19', 'TanStack Start', 'PostgreSQL', 'Cloudflare Workers', 'Distributed Systems'],
     tools: ['VS Code', 'Docker', 'Postman', 'GitLab', 'Datadog'],
-    completedProjects: 24,
+    completedProjects: 34,
     onTimeDeliveryRate: 99.4,
     qualityScore: 4.98,
+    qaPercentageScore: 99.6,
+    bonusMultiplier: 1.15,
     activeTasks: 2,
     hourlyRateInternalUSD: 65,
     totalEarnedUSD: 38200,
@@ -388,8 +699,15 @@ export const VETTED_TALENTS: TalentProfile[] = [
     academyCohort: 'Cohort 2025-A',
     verificationStatus: 'verified',
     ndaSigned: true,
+    isDualRolePM: true,
+    managedProjectsCount: 8,
     avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-    bio: 'Specialist in low-latency financial systems and clean architecture TypeScript applications.',
+    bio: 'Specialist in low-latency financial systems and clean architecture TypeScript applications. Dual-role appointed PM.',
+    bankDetails: {
+      bankName: 'Access Bank PLC',
+      accountNumber: '0129849201',
+      accountName: 'Oluwaseun Adedipe'
+    }
   },
   {
     id: 'tal-002',
@@ -397,13 +715,16 @@ export const VETTED_TALENTS: TalentProfile[] = [
     fullName: 'Chioma Eze',
     department: 'ui_ux_design',
     tier: 'Lead',
+    rank: 'Gold Master',
     location: 'Abuja, Nigeria',
     timezone: 'GMT+1',
     skills: ['Figma System Architecture', 'WCAG 2.2 AA Auditing', 'Fintech Design Systems', 'Micro-Interactions'],
     tools: ['Figma', 'Tokens Studio', 'Protopie', 'Maze'],
-    completedProjects: 19,
+    completedProjects: 21,
     onTimeDeliveryRate: 98.8,
     qualityScore: 4.96,
+    qaPercentageScore: 97.2,
+    bonusMultiplier: 1.10,
     activeTasks: 1,
     hourlyRateInternalUSD: 55,
     totalEarnedUSD: 29400,
@@ -413,8 +734,14 @@ export const VETTED_TALENTS: TalentProfile[] = [
     academyCohort: 'Cohort 2024-C',
     verificationStatus: 'verified',
     ndaSigned: true,
+    isDualRolePM: false,
     avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
     bio: 'Lead UX designer with extensive experience across multi-currency remittances and biometric KYC onboarding.',
+    bankDetails: {
+      bankName: 'Guaranty Trust Bank (GTBank)',
+      accountNumber: '0238491028',
+      accountName: 'Chioma Eze'
+    }
   },
   {
     id: 'tal-003',
@@ -422,6 +749,7 @@ export const VETTED_TALENTS: TalentProfile[] = [
     fullName: 'Farouk Al-Mansoor',
     department: 'ai_automation',
     tier: 'Senior',
+    rank: 'Silver Artisan',
     location: 'Kano, Nigeria',
     timezone: 'GMT+1',
     skills: ['LLM Orchestration', 'n8n Enterprise Automation', 'RAG Embeddings', 'FastAPI', 'Python'],
@@ -429,6 +757,8 @@ export const VETTED_TALENTS: TalentProfile[] = [
     completedProjects: 14,
     onTimeDeliveryRate: 99.0,
     qualityScore: 4.92,
+    qaPercentageScore: 94.5,
+    bonusMultiplier: 1.05,
     activeTasks: 1,
     hourlyRateInternalUSD: 50,
     totalEarnedUSD: 21500,
@@ -438,6 +768,11 @@ export const VETTED_TALENTS: TalentProfile[] = [
     ndaSigned: true,
     avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
     bio: 'AI pipeline specialist integrating structured data extraction and autonomous business agent tools.',
+    bankDetails: {
+      bankName: 'Zenith Bank PLC',
+      accountNumber: '2119384920',
+      accountName: 'Farouk Al-Mansoor'
+    }
   },
   {
     id: 'tal-004',
@@ -445,6 +780,7 @@ export const VETTED_TALENTS: TalentProfile[] = [
     fullName: 'Zainab Bello',
     department: 'brand_strategy',
     tier: 'Lead',
+    rank: 'Gold Master',
     location: 'London, UK / Lagos',
     timezone: 'GMT',
     skills: ['Brand Identity', 'Custom Typography', 'Packaging Design', 'Sovereign Brand Guidelines'],
@@ -452,6 +788,8 @@ export const VETTED_TALENTS: TalentProfile[] = [
     completedProjects: 22,
     onTimeDeliveryRate: 98.5,
     qualityScore: 4.97,
+    qaPercentageScore: 98.0,
+    bonusMultiplier: 1.10,
     activeTasks: 1,
     hourlyRateInternalUSD: 60,
     totalEarnedUSD: 34100,
@@ -463,6 +801,11 @@ export const VETTED_TALENTS: TalentProfile[] = [
     ndaSigned: true,
     avatarUrl: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&auto=format&fit=crop&q=80',
     bio: 'Brand architect crafting bold cultural identities for modern African fintechs and luxury lifestyle platforms.',
+    bankDetails: {
+      bankName: 'Standard Chartered Bank',
+      accountNumber: '0039482910',
+      accountName: 'Zainab Bello'
+    }
   },
   {
     id: 'tal-005',
@@ -470,6 +813,7 @@ export const VETTED_TALENTS: TalentProfile[] = [
     fullName: 'Babatunde Fash',
     department: 'digital_marketing',
     tier: 'Senior',
+    rank: 'Silver Artisan',
     location: 'Lagos, Nigeria',
     timezone: 'GMT+1',
     skills: ['Conversion Rate Optimization', 'Meta CAPI', 'Google Ads Smart Bidding', 'PostHog Analytics'],
@@ -477,40 +821,53 @@ export const VETTED_TALENTS: TalentProfile[] = [
     completedProjects: 16,
     onTimeDeliveryRate: 97.9,
     qualityScore: 4.89,
+    qaPercentageScore: 92.4,
+    bonusMultiplier: 1.05,
     activeTasks: 2,
     hourlyRateInternalUSD: 45,
     totalEarnedUSD: 18900,
     totalEarnedNGN: 28350000,
-    academyGraduate: true,
-    academyBadgeTitle: 'NDH Academy Performance Marketing Graduate',
-    academyCohort: 'Cohort 2025-B',
+    academyGraduate: false,
     verificationStatus: 'verified',
     ndaSigned: true,
     avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
-    bio: 'Data-led performance marketer specializing in lowering CAC for high-growth tech platforms.',
+    bio: 'Performance marketing and CAPI infrastructure architect driving qualified enterprise leads.',
+    bankDetails: {
+      bankName: 'United Bank for Africa (UBA)',
+      accountNumber: '1029384819',
+      accountName: 'Babatunde Fash'
+    }
   },
   {
     id: 'tal-006',
     pseudonym: 'Motion-Forge',
-    fullName: 'Kelechi Umeh',
+    fullName: 'Kelechi Nwosu',
     department: 'video_media',
     tier: 'Senior',
+    rank: 'Bronze Prodigy',
     location: 'Port Harcourt, Nigeria',
     timezone: 'GMT+1',
-    skills: ['3D Motion Design', 'After Effects Cinema Renders', 'Lottie Animation', 'Sound Synthesis'],
-    tools: ['Cinema 4D', 'After Effects', 'Blender', 'DaVinci Resolve'],
-    completedProjects: 15,
-    onTimeDeliveryRate: 100.0,
+    skills: ['After Effects', 'Cinema 4D', '3D Spline', 'Sound Design'],
+    tools: ['After Effects', 'Premiere Pro', 'Spline 3D', 'Blender'],
+    completedProjects: 4,
+    onTimeDeliveryRate: 98.2,
     qualityScore: 4.94,
+    qaPercentageScore: 89.0,
+    bonusMultiplier: 1.00,
     activeTasks: 1,
     hourlyRateInternalUSD: 50,
-    totalEarnedUSD: 23400,
-    totalEarnedNGN: 35100000,
+    totalEarnedUSD: 6400,
+    totalEarnedNGN: 9600000,
     academyGraduate: false,
     verificationStatus: 'verified',
     ndaSigned: true,
     avatarUrl: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150&auto=format&fit=crop&q=80',
     bio: 'Cinema-grade motion artist creating slick 3D product previews and UI animation systems.',
+    bankDetails: {
+      bankName: 'First Bank of Nigeria',
+      accountNumber: '3029184719',
+      accountName: 'Kelechi Nwosu'
+    }
   },
   {
     id: 'tal-007',
@@ -518,6 +875,7 @@ export const VETTED_TALENTS: TalentProfile[] = [
     fullName: 'Aisha Garba',
     department: 'content_copywriting',
     tier: 'Intermediate',
+    rank: 'Silver Artisan',
     location: 'Kaduna, Nigeria',
     timezone: 'GMT+1',
     skills: ['Conversion Copywriting', 'Whitepaper Research', 'Brand Tone Alignment', 'SEO Markdown'],
@@ -525,6 +883,8 @@ export const VETTED_TALENTS: TalentProfile[] = [
     completedProjects: 11,
     onTimeDeliveryRate: 98.0,
     qualityScore: 4.88,
+    qaPercentageScore: 91.5,
+    bonusMultiplier: 1.05,
     activeTasks: 1,
     hourlyRateInternalUSD: 35,
     totalEarnedUSD: 11200,
@@ -536,6 +896,11 @@ export const VETTED_TALENTS: TalentProfile[] = [
     ndaSigned: true,
     avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
     bio: 'High-clarity technical and conversion copywriter for enterprise SaaS and finance products.',
+    bankDetails: {
+      bankName: 'Fidelity Bank PLC',
+      accountNumber: '5029183921',
+      accountName: 'Aisha Garba'
+    }
   },
   {
     id: 'tal-008',
@@ -543,6 +908,7 @@ export const VETTED_TALENTS: TalentProfile[] = [
     fullName: 'Dayo Adebayo',
     department: 'ecommerce',
     tier: 'Senior',
+    rank: 'Gold Master',
     location: 'Ibadan, Nigeria',
     timezone: 'GMT+1',
     skills: ['Shopify Liquid Masters', 'Next.js Headless Commerce', 'Paystack Multi-Currency', 'ERP Sync'],
@@ -550,6 +916,8 @@ export const VETTED_TALENTS: TalentProfile[] = [
     completedProjects: 18,
     onTimeDeliveryRate: 99.1,
     qualityScore: 4.93,
+    qaPercentageScore: 96.8,
+    bonusMultiplier: 1.10,
     activeTasks: 1,
     hourlyRateInternalUSD: 50,
     totalEarnedUSD: 27800,
@@ -561,6 +929,11 @@ export const VETTED_TALENTS: TalentProfile[] = [
     ndaSigned: true,
     avatarUrl: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80',
     bio: 'Specialist in custom Shopify themes and multi-region payment routing.',
+    bankDetails: {
+      bankName: 'Kuda Microfinance Bank',
+      accountNumber: '2019283719',
+      accountName: 'Dayo Adebayo'
+    }
   },
   {
     id: 'tal-009',
@@ -568,6 +941,7 @@ export const VETTED_TALENTS: TalentProfile[] = [
     fullName: 'Musa Abdullahi',
     department: 'data_business',
     tier: 'Senior',
+    rank: 'Silver Artisan',
     location: 'Abuja, Nigeria',
     timezone: 'GMT+1',
     skills: ['Financial Modeling', 'Market Sizing', 'PowerBI Dashboards', 'dbt Data Modeling'],
@@ -575,6 +949,8 @@ export const VETTED_TALENTS: TalentProfile[] = [
     completedProjects: 13,
     onTimeDeliveryRate: 100.0,
     qualityScore: 4.95,
+    qaPercentageScore: 94.0,
+    bonusMultiplier: 1.05,
     activeTasks: 1,
     hourlyRateInternalUSD: 48,
     totalEarnedUSD: 19600,
@@ -584,6 +960,11 @@ export const VETTED_TALENTS: TalentProfile[] = [
     ndaSigned: true,
     avatarUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80',
     bio: 'Economic research analyst building automated financial forecasts and market viability models.',
+    bankDetails: {
+      bankName: 'Stanbic IBTC Bank',
+      accountNumber: '0029183921',
+      accountName: 'Musa Abdullahi'
+    }
   },
   {
     id: 'tal-010',
@@ -591,6 +972,7 @@ export const VETTED_TALENTS: TalentProfile[] = [
     fullName: 'Ngozi Obi',
     department: 'social_media',
     tier: 'Intermediate',
+    rank: 'Silver Artisan',
     location: 'Enugu, Nigeria',
     timezone: 'GMT+1',
     skills: ['Viral Content Strategy', 'Short-Form Video Directing', 'Community Governance', 'X Strategy'],
@@ -598,6 +980,8 @@ export const VETTED_TALENTS: TalentProfile[] = [
     completedProjects: 12,
     onTimeDeliveryRate: 97.5,
     qualityScore: 4.87,
+    qaPercentageScore: 91.0,
+    bonusMultiplier: 1.05,
     activeTasks: 1,
     hourlyRateInternalUSD: 35,
     totalEarnedUSD: 12400,
@@ -609,6 +993,11 @@ export const VETTED_TALENTS: TalentProfile[] = [
     ndaSigned: true,
     avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80',
     bio: 'Cultural strategist shaping high-resonance social engagement campaigns across West Africa.',
+    bankDetails: {
+      bankName: 'Wema Bank PLC / ALAT',
+      accountNumber: '0192837482',
+      accountName: 'Ngozi Obi'
+    }
   },
   {
     id: 'tal-011',
@@ -616,6 +1005,7 @@ export const VETTED_TALENTS: TalentProfile[] = [
     fullName: 'Emmanuel Bassey',
     department: 'web_app_development',
     tier: 'Senior',
+    rank: 'Gold Master',
     location: 'Calabar, Nigeria',
     timezone: 'GMT+1',
     skills: ['PostgreSQL Performance Tuning', 'Cloudflare Edge Workers', 'Docker', 'OAuth2 Security'],
@@ -623,6 +1013,8 @@ export const VETTED_TALENTS: TalentProfile[] = [
     completedProjects: 17,
     onTimeDeliveryRate: 98.9,
     qualityScore: 4.91,
+    qaPercentageScore: 95.5,
+    bonusMultiplier: 1.10,
     activeTasks: 1,
     hourlyRateInternalUSD: 52,
     totalEarnedUSD: 26100,
@@ -634,6 +1026,11 @@ export const VETTED_TALENTS: TalentProfile[] = [
     ndaSigned: true,
     avatarUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80',
     bio: 'DevOps and cloud engineer ensuring sub-50ms latency across global edge networks.',
+    bankDetails: {
+      bankName: 'Sterling Bank PLC',
+      accountNumber: '0039281920',
+      accountName: 'Emmanuel Bassey'
+    }
   },
   {
     id: 'tal-012',
@@ -641,6 +1038,7 @@ export const VETTED_TALENTS: TalentProfile[] = [
     fullName: 'Tariq Suleiman',
     department: 'ui_ux_design',
     tier: 'Junior',
+    rank: 'Bronze Prodigy',
     location: 'Zaria, Nigeria',
     timezone: 'GMT+1',
     skills: ['Interactive Prototypes', 'Responsive Layouts', 'Icon Sets', 'Figma Variants'],
@@ -648,6 +1046,8 @@ export const VETTED_TALENTS: TalentProfile[] = [
     completedProjects: 7,
     onTimeDeliveryRate: 100.0,
     qualityScore: 4.86,
+    qaPercentageScore: 88.5,
+    bonusMultiplier: 1.00,
     activeTasks: 1,
     hourlyRateInternalUSD: 28,
     totalEarnedUSD: 6800,
@@ -659,6 +1059,11 @@ export const VETTED_TALENTS: TalentProfile[] = [
     ndaSigned: true,
     avatarUrl: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80',
     bio: 'Rising UI design talent with pixel-perfect attention to detail and design token mastery.',
+    bankDetails: {
+      bankName: 'Jaiz Bank PLC',
+      accountNumber: '0182938471',
+      accountName: 'Tariq Suleiman'
+    }
   },
 ];
 

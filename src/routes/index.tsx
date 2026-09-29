@@ -2,6 +2,8 @@ import { createFileRoute } from '@tanstack/react-router';
 import React, { useState } from 'react';
 import { AppNavbar, MainNavView } from '../components/layout/AppNavbar';
 import { AppFooter } from '../components/layout/AppFooter';
+import { AnnouncementBar } from '../components/layout/AnnouncementBar';
+import { AppInstallBanner } from '../components/ui/AppInstallBanner';
 import { HomepagePreview } from '../components/directions/views/HomepagePreview';
 import { ServicesPreview } from '../components/directions/views/ServicesPreview';
 import { CaseStudyPreview } from '../components/directions/views/CaseStudyPreview';
@@ -21,6 +23,8 @@ import { AuthModal } from '../components/auth/AuthModal';
 import { CreateAccountModal } from '../components/auth/CreateAccountModal';
 import { InteractiveBriefModal } from '../components/directions/modals/InteractiveBriefModal';
 import { ArchitecturalBlueprintModal } from '../components/directions/modals/ArchitecturalBlueprintModal';
+import { TalentApplicationModal } from '../components/public/TalentApplicationModal';
+import { PaystackPaymentModal } from '../components/payment/PaystackPaymentModal';
 
 export const Route = createFileRoute('/')({
   component: NDHAgencyMainApp,
@@ -30,97 +34,125 @@ function NDHAgencyMainApp() {
   const [currentView, setCurrentView] = useState<MainNavView>('homepage');
   const [isBriefModalOpen, setIsBriefModalOpen] = useState<boolean>(false);
   const [isBlueprintModalOpen, setIsBlueprintModalOpen] = useState<boolean>(false);
+  const [isTalentModalOpen, setIsTalentModalOpen] = useState<boolean>(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
+
+  const isPortalView = [
+    'client-dashboard',
+    'pm-dashboard',
+    'talent-dashboard',
+    'admin-command',
+  ].includes(currentView);
+
+  const handleNavigate = (view: MainNavView) => {
+    setCurrentView(view);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
-    <div className="min-h-screen bg-[#080C14] text-[#F1F5F9] flex flex-col font-sans antialiased selection:bg-blue-600/30 selection:text-white">
-      {/* Production Navigation Bar */}
-      <AppNavbar
-        currentView={currentView}
-        onSelectView={(view) => {
-          setCurrentView(view);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
-        onOpenBriefWizard={() => setIsBriefModalOpen(true)}
-      />
+    <div className="min-h-screen bg-[#070A14] text-[#F1F5F9] flex flex-col font-sans antialiased selection:bg-blue-600/30 selection:text-white">
+      {/* 1. BROADCAST ANNOUNCEMENT BAR (Public Pages Only) */}
+      {!isPortalView && (
+        <AnnouncementBar
+          onActionClick={() => {
+            handleNavigate('homepage');
+            setTimeout(() => {
+              const el = document.getElementById('estimator');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+          }}
+        />
+      )}
 
-      {/* Main Content Area */}
+      {/* 2. PUBLIC TOP NAVIGATION */}
+      {!isPortalView && (
+        <AppNavbar
+          currentView={currentView}
+          onSelectView={handleNavigate}
+          onOpenBriefWizard={() => setIsBriefModalOpen(true)}
+        />
+      )}
+
+      {/* 3. MAIN CONTENT AREA */}
       <main className="flex-1">
+        {/* Public Marketing Views */}
         {currentView === 'homepage' && (
           <HomepagePreview
-            direction="direction-a"
             onOpenBriefWizard={() => setIsBriefModalOpen(true)}
-            onSelectScreen={(s) => {
-              setCurrentView(s as any);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onSelectScreen={(s) => handleNavigate(s as MainNavView)}
           />
         )}
 
         {currentView === 'services' && (
           <ServicesPreview
-            direction="direction-a"
             onOpenBriefWizard={() => setIsBriefModalOpen(true)}
           />
         )}
 
         {currentView === 'case-study' && (
           <CaseStudyPreview
-            direction="direction-a"
             onOpenBriefWizard={() => setIsBriefModalOpen(true)}
           />
         )}
 
         {currentView === 'about' && (
           <AboutView
-            onSelectView={(v) => setCurrentView(v)}
+            onSelectView={handleNavigate}
             onOpenBriefWizard={() => setIsBriefModalOpen(true)}
           />
         )}
 
         {currentView === 'process' && (
           <ProcessView
-            onSelectView={(v) => setCurrentView(v)}
+            onSelectView={handleNavigate}
             onOpenBriefWizard={() => setIsBriefModalOpen(true)}
           />
         )}
 
         {currentView === 'talent-network' && (
           <TalentNetworkView
-            onSelectView={(v) => setCurrentView(v)}
+            onSelectView={handleNavigate}
             onOpenBriefWizard={() => setIsBriefModalOpen(true)}
           />
         )}
 
         {currentView === 'insights' && (
           <InsightsView
-            onSelectView={(v) => setCurrentView(v)}
+            onSelectView={handleNavigate}
             onOpenBriefWizard={() => setIsBriefModalOpen(true)}
           />
         )}
 
         {currentView === 'contact' && (
           <ContactView
-            onSelectView={(v) => setCurrentView(v)}
+            onSelectView={handleNavigate}
             onOpenBriefWizard={() => setIsBriefModalOpen(true)}
           />
         )}
 
+        {/* 4. STANDALONE ROLE-BASED PORTALS (Stand completely on their own) */}
         {currentView === 'client-dashboard' && (
-          <ClientPortal onOpenBriefWizard={() => setIsBriefModalOpen(true)} />
+          <ClientPortal
+            onOpenBriefWizard={() => setIsBriefModalOpen(true)}
+            onBackToAgency={() => handleNavigate('homepage')}
+          />
         )}
 
-        {currentView === 'pm-dashboard' && <PMPortal />}
+        {currentView === 'pm-dashboard' && (
+          <PMPortal onBackToAgency={() => handleNavigate('homepage')} />
+        )}
 
-        {currentView === 'talent-dashboard' && <TalentPortal />}
+        {currentView === 'talent-dashboard' && (
+          <TalentPortal onBackToAgency={() => handleNavigate('homepage')} />
+        )}
 
-        {currentView === 'admin-command' && <AdminPortal />}
+        {currentView === 'admin-command' && (
+          <AdminPortal onBackToAgency={() => handleNavigate('homepage')} />
+        )}
 
         {currentView === 'journey' && (
           <InteractiveJourneyWalkthrough
-            onNavigateScreen={(s) => {
-              setCurrentView(s as any);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onNavigateScreen={(s) => handleNavigate(s as MainNavView)}
           />
         )}
 
@@ -132,50 +164,57 @@ function NDHAgencyMainApp() {
         )}
       </main>
 
-      {/* Production Footer with Academy Cross-Link */}
-      <AppFooter
-        onSelectView={(v) => {
-          setCurrentView(v);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
-        onOpenBriefWizard={() => setIsBriefModalOpen(true)}
-      />
+      {/* 5. PUBLIC FOOTER */}
+      {!isPortalView && (
+        <AppFooter
+          onSelectView={handleNavigate}
+          onOpenBriefWizard={() => setIsBriefModalOpen(true)}
+          onOpenTalentModal={() => setIsTalentModalOpen(true)}
+          onOpenPaymentModal={() => setIsPaymentModalOpen(true)}
+        />
+      )}
 
-      {/* Floating AI Customer Service / Support Assistant (NDH Sentinel) */}
+      {/* 6. PWA / App Installation Pill */}
+      {!isPortalView && <AppInstallBanner />}
+
+      {/* 7. Floating AI Customer Service / Support Assistant (NDH Sentinel) */}
       <AIAssistantWidget
         onOpenBriefWizard={() => setIsBriefModalOpen(true)}
-        onNavigateScreen={(screen) => {
-          setCurrentView(screen as any);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
+        onNavigateScreen={(screen) => handleNavigate(screen as MainNavView)}
       />
 
-      {/* Authentication & Role Switcher Modal */}
+      {/* 8. Authentication & Role Switcher Modal */}
       <AuthModal
-        onNavigatePortal={(portal) => {
-          setCurrentView(portal as any);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
+        onNavigatePortal={(portal) => handleNavigate(portal as MainNavView)}
       />
 
-      {/* Create Custom Test Account Modal */}
+      {/* 9. Create Custom Test Account Modal */}
       <CreateAccountModal
-        onNavigatePortal={(portal) => {
-          setCurrentView(portal as any);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
+        onNavigatePortal={(portal) => handleNavigate(portal as MainNavView)}
       />
 
-      {/* Interactive Proposal Scoping Wizard */}
+      {/* 10. Interactive Proposal Scoping Wizard */}
       <InteractiveBriefModal
         isOpen={isBriefModalOpen}
         onClose={() => setIsBriefModalOpen(false)}
       />
 
-      {/* Architecture Blueprint Modal */}
+      {/* 11. Architecture Blueprint Modal */}
       <ArchitecturalBlueprintModal
         isOpen={isBlueprintModalOpen}
         onClose={() => setIsBlueprintModalOpen(false)}
+      />
+
+      {/* 12. Talent Application Portal Modal */}
+      <TalentApplicationModal
+        isOpen={isTalentModalOpen}
+        onClose={() => setIsTalentModalOpen(false)}
+      />
+
+      {/* 13. Paystack / Flutterwave Escrow Payment Modal */}
+      <PaystackPaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
       />
     </div>
   );

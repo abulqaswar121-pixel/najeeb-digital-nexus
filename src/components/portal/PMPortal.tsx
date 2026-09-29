@@ -16,7 +16,11 @@ import {
   TrendingUp,
 } from 'lucide-react';
 
-export const PMPortal: React.FC = () => {
+interface PMPortalProps {
+  onBackToAgency?: () => void;
+}
+
+export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'projects' | 'triage' | 'talent_matching' | 'qa_gates'>('projects');
   const [selectedTaskDept, setSelectedTaskDept] = useState<ServiceDepartment>('web_app_development');
@@ -26,8 +30,37 @@ export const PMPortal: React.FC = () => {
   const availableTalents = VETTED_TALENTS.filter((t) => t.department === selectedTaskDept);
 
   return (
-    <div className="bg-[#080C14] text-[#F1F5F9] min-h-screen py-10 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div className="bg-[#070A14] text-[#F1F5F9] min-h-screen font-sans flex flex-col">
+      {/* Standalone PM Operations Top Bar */}
+      <header className="sticky top-0 z-40 bg-[#0B0F1D]/95 backdrop-blur-xl border-b border-slate-800 px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          {onBackToAgency && (
+            <button
+              onClick={onBackToAgency}
+              className="px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500 text-xs font-bold transition-all flex items-center gap-1.5"
+            >
+              <span>← Back to Agency Website</span>
+            </button>
+          )}
+          <div className="h-4 w-px bg-slate-800 hidden sm:block" />
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-white text-sm sm:text-base">Project Manager Operations Command</span>
+            <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              INTERNAL DISPATCH
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
+            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Lead PM: {user?.fullName || 'Tariq Al-Najeeb'}</span>
+          </div>
+        </div>
+      </header>
+
+      <div className="flex-1 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto space-y-8">
         {/* PM Ops Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 shadow-2xl backdrop-blur-xl">
           <div className="flex items-center gap-4">
@@ -408,6 +441,36 @@ export const PMPortal: React.FC = () => {
           </div>
         )}
       </div>
+      </div>
+
+      {/* Dedicated Standalone PM Operations System Footer */}
+      <footer className="mt-auto border-t border-slate-800/80 bg-[#090D1A] px-4 sm:px-6 lg:px-8 py-4 text-xs text-slate-400">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 text-indigo-400 font-mono text-[11px]">
+              <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+              <span>NDH PM Operational Command Active</span>
+            </div>
+            <span className="text-slate-600 hidden sm:inline">•</span>
+            <span className="text-[11px] text-slate-400">
+              Active Sprints: <strong className="text-slate-200">12 Projects</strong> • Margin Health: <strong className="text-emerald-400">61.8% Avg</strong>
+            </span>
+          </div>
+
+          <div className="flex items-center gap-4 text-[11px] text-slate-400">
+            <span>Sovereign Bureau Isolation Protocol Active</span>
+            <span className="text-slate-600 hidden sm:inline">•</span>
+            {onBackToAgency && (
+              <button
+                onClick={onBackToAgency}
+                className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"
+              >
+                Exit to Agency Website →
+              </button>
+            )}
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

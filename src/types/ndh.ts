@@ -22,16 +22,33 @@ export type ServiceDepartment =
   | 'brand_strategy'
   | 'ui_ux_design'
   | 'web_app_development'
+  | 'mobile_app_development'
   | 'ecommerce'
-  | 'content_copywriting'
+  | 'fintech_payments'
+  | 'cloud_devops'
+  | 'cybersecurity_compliance'
   | 'digital_marketing'
+  | 'seo_growth'
+  | 'content_copywriting'
   | 'social_media'
   | 'video_media'
   | 'data_business'
-  | 'ai_automation';
+  | 'ai_automation'
+  | 'nocode_rapid_mvp';
+
+export type ServiceCategory =
+  | 'all'
+  | 'engineering'
+  | 'design'
+  | 'ai'
+  | 'marketing'
+  | 'media'
+  | 'data'
+  | 'mvp';
 
 export interface ServiceDepartmentInfo {
   id: ServiceDepartment;
+  category: 'engineering' | 'design' | 'ai' | 'marketing' | 'media' | 'data' | 'mvp';
   name: string;
   tagline: string;
   description: string;
@@ -45,6 +62,14 @@ export interface ServiceDepartmentInfo {
   startingBudgetUSD: number;
   startingBudgetNGN: number;
   iconName: string;
+  coverImage?: string;
+  starterPlanPrice?: {
+    NGN: string;
+    USD: string;
+    GBP: string;
+    EUR: string;
+    AED: string;
+  };
 }
 
 export interface ClientOrganization {
@@ -71,12 +96,29 @@ export interface ClientOrganization {
   avatar: string;
 }
 
+export type TalentRank =
+  | 'Bronze Prodigy'
+  | 'Silver Artisan'
+  | 'Gold Master'
+  | 'Diamond Principal';
+
+export interface TalentRankDetails {
+  rank: TalentRank;
+  level: number;
+  minProjects: number;
+  minQAScore: number; // e.g. 80, 90, 95, 98
+  bonusRatePercentage: number; // 0%, 5%, 10%, 15%
+  badgeColor: string;
+  perks: string[];
+}
+
 export interface TalentProfile {
   id: string;
   pseudonym: string;
   fullName: string;
   department: ServiceDepartment;
   tier: TalentTier;
+  rank: TalentRank;
   location: string;
   timezone: string;
   skills: string[];
@@ -84,10 +126,12 @@ export interface TalentProfile {
   completedProjects: number;
   onTimeDeliveryRate: number;
   qualityScore: number;
+  qaPercentageScore: number; // e.g. 98.5
   activeTasks: number;
   hourlyRateInternalUSD: number;
   totalEarnedUSD: number;
   totalEarnedNGN: number;
+  bonusMultiplier: number;
   academyGraduate: boolean;
   academyBadgeTitle?: string;
   academyCohort?: string;
@@ -95,6 +139,48 @@ export interface TalentProfile {
   ndaSigned: boolean;
   avatarUrl: string;
   bio: string;
+  isDualRolePM?: boolean; // Can act as both PM and Talent
+  managedProjectsCount?: number;
+  bankDetails?: {
+    bankName: string;
+    accountNumber: string;
+    accountName: string;
+  };
+}
+
+export interface ClientReferralRecord {
+  id: string;
+  referrerUserId: string;
+  referrerName: string;
+  referredUserName: string;
+  referredUserEmail: string;
+  registeredAt: string;
+  status: 'pending_payment' | 'milestone_funded' | 'credited';
+  referredProjectTitle?: string;
+  fundedAmountNGN?: number;
+  fundedAmountUSD?: number;
+  discountAppliedNGN: number;
+  discountAppliedUSD: number;
+  cashbackEarnedNGN: number;
+  cashbackEarnedUSD: number;
+  fundedAt?: string;
+}
+
+export interface RevenueSplitBreakdown {
+  totalClientPaidNGN: number;
+  totalClientPaidUSD: number;
+  adminMarginPercent: number; // e.g. 45%
+  adminMarginNGN: number;
+  adminMarginUSD: number;
+  pmFeePercent: number; // e.g. 15%
+  pmFeeNGN: number;
+  pmFeeUSD: number;
+  talentPoolPercent: number; // e.g. 40%
+  talentPoolNGN: number;
+  talentPoolUSD: number;
+  isHybridDualRolePMTalent: boolean; // PM personally executed task -> receives PM (15%) + Talent (40%) = 55%
+  hybridTotalPayoutNGN?: number;
+  hybridTotalPayoutUSD?: number;
 }
 
 export interface CaseStudy {
@@ -266,7 +352,13 @@ export interface UserSession {
   organizationId?: string;
   organizationName?: string;
   avatarUrl: string;
-  isDemoAccount: boolean;
+  isDemoAccount?: boolean;
+  phone?: string;
+  country?: string;
+  loyaltyTier?: 'Bronze Pioneer' | 'Silver Scaler' | 'Gold Enterprise' | 'Diamond Sovereign';
+  referralCode?: string;
+  referralCredits?: number;
+  activeProjectsCount?: number;
 }
 
 export interface AIChatMessage {

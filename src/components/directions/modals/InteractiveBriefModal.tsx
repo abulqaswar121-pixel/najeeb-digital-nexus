@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ServiceDepartment, ServiceDepartmentInfo } from '../../../types/ndh';
 import { SERVICE_DEPARTMENTS } from '../../../data/mockData';
+import { dbService } from '../../../lib/databaseStore';
+import { useCurrencyLanguage } from '../../../lib/currencyLanguageStore';
 import {
   X,
   Sparkles,
@@ -8,6 +10,7 @@ import {
   ArrowLeft,
   CheckCircle2,
   ShieldCheck,
+  Globe,
 } from 'lucide-react';
 
 interface InteractiveBriefModalProps {
@@ -16,13 +19,16 @@ interface InteractiveBriefModalProps {
 }
 
 export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({ isOpen, onClose }) => {
+  const { currency, detectedCountry, getRegionalPricing } = useCurrencyLanguage();
+
   const [step, setStep] = useState<number>(1);
   const [selectedDept, setSelectedDept] = useState<ServiceDepartment>('web_app_development');
-  const [budgetRange, setBudgetRange] = useState<string>('$20,000 - $50,000');
-  const [timeline, setTimeline] = useState<string>('8 - 12 Weeks');
+  const [scopeTier, setScopeTier] = useState<'starter' | 'growth' | 'enterprise'>('growth');
+  const [timeline, setTimeline] = useState<string>('2 - 4 Weeks');
   const [companyName, setCompanyName] = useState<string>('');
   const [contactName, setContactName] = useState<string>('');
   const [contactEmail, setContactEmail] = useState<string>('');
+  const [contactPhone, setContactPhone] = useState<string>('');
   const [projectOverview, setProjectOverview] = useState<string>('');
   const [ndaRequested, setNdaRequested] = useState<boolean>(true);
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -32,8 +38,24 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({ is
   const currentDept: ServiceDepartmentInfo =
     SERVICE_DEPARTMENTS.find((d) => d.id === selectedDept) || SERVICE_DEPARTMENTS[0]!;
 
+  const pricingEstimate = getRegionalPricing(selectedDept, scopeTier);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    dbService.createBrief({
+      projectName: companyName ? `${companyName} Digital Project` : `${currentDept.name} Project`,
+      organizationName: companyName || 'Client Organization',
+      department: selectedDept,
+      scopeTier,
+      budgetAmount: pricingEstimate.price,
+      currency,
+      timelineWeeks: timeline,
+      clientEmail: contactEmail || 'client@example.com',
+      clientPhone: contactPhone,
+      briefDetails: projectOverview || `Scope: ${pricingEstimate.starterDesc}`,
+    });
+
     setSubmitted(true);
   };
 
@@ -184,24 +206,25 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({ is
                         onChange={(e) => setTimeline(e.target.value)}
                         className="w-full p-2.5 rounded-lg bg-background border border-border text-xs text-foreground focus:outline-none focus:border-primary"
                       >
-                        <option>Urgent Sprint (2 - 4 Weeks)</option>
-                        <option>Standard Sprint (6 - 8 Weeks)</option>
-                        <option>Enterprise Build (8 - 12 Weeks)</option>
-                        <option>Ongoing Monthly Retainer</option>
+                        <option>Rapid Launch (3 - 7 Days)</option>
+                        <option>Standard Sprint (2 - 4 Weeks)</option>
+                        <option>Comprehensive Build (4 - 8 Weeks)</option>
+                        <option>Enterprise Architecture (8 - 12 Weeks)</option>
                       </select>
                     </div>
 
                     <div>
-                      <label className="font-semibold text-foreground block mb-1">Estimated Budget Range</label>
+                      <label className="font-semibold text-foreground block mb-1">
+                        Scope Tier ({currency} • {detectedCountry})
+                      </label>
                       <select
-                        value={budgetRange}
-                        onChange={(e) => setBudgetRange(e.target.value)}
+                        value={scopeTier}
+                        onChange={(e) => setScopeTier(e.target.value as any)}
                         className="w-full p-2.5 rounded-lg bg-background border border-border text-xs text-foreground focus:outline-none focus:border-primary"
                       >
-                        <option>$5,000 - $15,000 USD (₦7.5M - ₦22.5M)</option>
-                        <option>$15,000 - $35,000 USD (₦22.5M - ₦52.5M)</option>
-                        <option>$35,000 - $75,000 USD (₦52.5M - ₦112.5M)</option>
-                        <option>$75,000+ USD (Enterprise / Sovereign)</option>
+                        <option value="starter">Starter MVP ({getRegionalPricing(selectedDept, 'starter').price})</option>
+                        <option value="growth">Growth Build ({getRegionalPricing(selectedDept, 'growth').price})</option>
+                        <option value="enterprise">Enterprise Dedicated ({getRegionalPricing(selectedDept, 'enterprise').price})</option>
                       </select>
                     </div>
                   </div>
