@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { UserRole, UserSession } from '../types/ndh';
 
 export interface StoredAccount extends UserSession {
-  passwordHash?: string;
+  password?: string;
 }
 
-const DEFAULT_ACCOUNTS: StoredAccount[] = [
+const SYSTEM_ACCOUNTS: StoredAccount[] = [
   {
     id: 'user-client-folake',
     fullName: 'Dr. Folake Adeleke',
@@ -17,8 +17,8 @@ const DEFAULT_ACCOUNTS: StoredAccount[] = [
     avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
     loyaltyTier: 'Gold Enterprise',
     referralCode: 'FOLAKE-NDH-2026',
-    referralCredits: 250000, // Earned from Zenith Logistics first milestone payment
-    welcomeCreditBalanceNGN: 20000, // ₦30,000 used on 1st project (10% of ₦300k), ₦20,000 remaining for next project
+    referralCredits: 250000,
+    welcomeCreditBalanceNGN: 20000,
     welcomeCreditBalanceUSD: 20,
     welcomeCreditUsedNGN: 30000,
     welcomeCreditUsedUSD: 30,
@@ -57,29 +57,29 @@ const DEFAULT_ACCOUNTS: StoredAccount[] = [
 
 // Initialize users from storage
 const getSavedAccounts = (): StoredAccount[] => {
-  if (typeof window === 'undefined') return DEFAULT_ACCOUNTS;
+  if (typeof window === 'undefined') return SYSTEM_ACCOUNTS;
   try {
     const saved = localStorage.getItem('ndh_registered_users');
     if (saved) {
       const parsed = JSON.parse(saved);
-      return [...DEFAULT_ACCOUNTS, ...parsed.filter((p: any) => !DEFAULT_ACCOUNTS.some((d) => d.email === p.email))];
+      return [...SYSTEM_ACCOUNTS, ...parsed.filter((p: any) => !SYSTEM_ACCOUNTS.some((d) => d.email === p.email))];
     }
   } catch (e) {
     console.warn('Error reading saved accounts:', e);
   }
-  return DEFAULT_ACCOUNTS;
+  return SYSTEM_ACCOUNTS;
 };
 
-// Initialize session
+// Initialize session: strictly null by default unless the user has actively logged in!
 const getInitialSession = (): UserSession | null => {
-  if (typeof window === 'undefined') return DEFAULT_ACCOUNTS[0]!;
+  if (typeof window === 'undefined') return null;
   try {
     const session = localStorage.getItem('ndh_auth_session');
     if (session) return JSON.parse(session);
   } catch (e) {
     console.warn('Error reading session:', e);
   }
-  return DEFAULT_ACCOUNTS[0]!; // Default to logged in client for convenient walkthrough
+  return null; // Guest visitors are not logged in
 };
 
 let currentUser: UserSession | null = getInitialSession();
@@ -107,14 +107,14 @@ export const loginWithCredentials = (
   _password: string
 ): { success: boolean; user?: UserSession; error?: string } => {
   const accounts = getSavedAccounts();
-  const found = accounts.find((a) => a.email.toLowerCase() === email.toLowerCase());
+  const found = accounts.find((a) => a.email.toLowerCase() === email.trim().toLowerCase());
 
   if (found) {
     setAuthUser(found);
     return { success: true, user: found };
   }
 
-  // If email contains keywords, assign appropriate portal role
+  // If new email matches role pattern, create account
   let assignedRole: UserRole = 'client_owner';
   let roleTitle = 'Client Owner';
 
@@ -129,19 +129,33 @@ export const loginWithCredentials = (
     roleTitle = 'Vetted Talent Member';
   }
 
-  const newUser: UserSession = {
+  const newUser: StoredAccount = {
     id: `usr-${Date.now()}`,
-    fullName: email.split('@')[0]?.replace('.', ' ').toUpperCase() || 'User',
-    email,
+    fullName: email.split('@')[0]?.replace('.', ' ').toUpperCase() || 'Client User',
+    email: email.trim(),
     role: assignedRole,
     roleTitle,
-    organizationName: 'Client Organization',
+    organizationName: 'My Organization',
     avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
     loyaltyTier: 'Bronze Pioneer',
     referralCode: `NDH-${Math.floor(1000 + Math.random() * 9000)}`,
-    referralCredits: 50000,
-    activeProjectsCount: 1,
+    referralCredits: 0,
+    welcomeCreditBalanceNGN: 50000,
+    welcomeCreditBalanceUSD: 50,
+    welcomeCreditUsedNGN: 0,
+    welcomeCreditUsedUSD: 0,
+    activeProjectsCount: 0,
   };
+
+  if (typeof window !== 'undefined') {
+    try {
+      const existing = getSavedAccounts();
+      existing.push(newUser);
+      localStorage.setItem('ndh_registered_users', JSON.stringify(existing));
+    } catch (e) {
+      console.warn('Error saving new account:', e);
+    }
+  }
 
   setAuthUser(newUser);
   return { success: true, user: newUser };
@@ -159,7 +173,8 @@ export const registerClientAccount = (data: {
   const newUser: StoredAccount = {
     id: `usr-client-${Date.now()}`,
     fullName: data.fullName,
-    email: data.email,
+    email: data.email.trim(),
+    password: data.password,
     role: 'client_owner',
     roleTitle: 'Client Organization Owner',
     organizationId: `org-${Date.now()}`,
@@ -169,9 +184,9 @@ export const registerClientAccount = (data: {
     country: data.country || 'Nigeria',
     loyaltyTier: 'Bronze Pioneer',
     referralCode: `${data.fullName.slice(0, 4).toUpperCase()}-NDH-${Math.floor(100 + Math.random() * 900)}`,
-    referralCredits: 0, // Referrer only earns when their invitees pay
-    welcomeCreditBalanceNGN: 50000, // ₦50,000 universal welcome credit granted to ALL new clients
-    welcomeCreditBalanceUSD: 50,    // $50 USD
+    referralCredits: 0,
+    welcomeCreditBalanceNGN: 50000, // ₦50,000 Welcome discount pool for all new clients
+    welcomeCreditBalanceUSD: 50,
     welcomeCreditUsedNGN: 0,
     welcomeCreditUsedUSD: 0,
     activeProjectsCount: 0,
@@ -193,22 +208,6 @@ export const registerClientAccount = (data: {
 
 export const logoutUser = () => {
   setAuthUser(null);
-};
-
-export const switchDemoRole = (role: UserRole) => {
-  const match = DEFAULT_ACCOUNTS.find((u) => u.role === role);
-  if (match) {
-    setAuthUser(match);
-  } else {
-    setAuthUser({
-      id: `custom-role-${role}-${Date.now()}`,
-      fullName: `${role.replace('_', ' ').toUpperCase()}`,
-      email: `${role}@agency.ndh.com.ng`,
-      role,
-      roleTitle: role.replace('_', ' ').toUpperCase(),
-      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-    });
-  }
 };
 
 export const openAuthModal = (tab: 'login' | 'register' = 'login') => {
@@ -246,7 +245,6 @@ export const useAuth = () => {
     login: loginWithCredentials,
     register: registerClientAccount,
     logout: logoutUser,
-    switchDemoRole,
     isAuthModalOpen: isOpen,
     initialAuthTab: initialTab,
     openAuthModal,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth, openAuthModal, logoutUser, switchDemoRole } from '../../lib/authStore';
+import { useAuth, openAuthModal, logoutUser } from '../../lib/authStore';
 import { useCurrencyLanguage, SupportedCurrency, SupportedLanguage } from '../../lib/currencyLanguageStore';
 import { BrandLogo } from '../brand/BrandLogo';
 import {
@@ -56,7 +56,6 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
   const { currency, setCurrency, currencies, language, setLanguage, languages, t } = useCurrencyLanguage();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [portalDropdownOpen, setPortalDropdownOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
@@ -70,45 +69,6 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
     { id: 'insights', label: t('nav_insights') },
     { id: 'contact', label: t('nav_contact') },
   ];
-
-  const portalsList: { id: MainNavView; label: string; desc: string; icon: React.ReactNode; roleName: any }[] = [
-    {
-      id: 'client-dashboard',
-      label: 'Client Workspace',
-      desc: 'Milestones, deliverables & escrow invoices',
-      icon: <UserCheck className="w-4 h-4 text-blue-400" />,
-      roleName: 'client_owner',
-    },
-    {
-      id: 'pm-dashboard',
-      label: 'Project Manager Command',
-      desc: 'Brief triage, margin health & QA gates',
-      icon: <Briefcase className="w-4 h-4 text-indigo-400" />,
-      roleName: 'project_manager',
-    },
-    {
-      id: 'talent-dashboard',
-      label: 'Talent Workspace',
-      desc: 'Private tasks, tickets & bank payouts',
-      icon: <Terminal className="w-4 h-4 text-emerald-400" />,
-      roleName: 'talent',
-    },
-    {
-      id: 'admin-command',
-      label: 'Admin Command Nexus',
-      desc: 'Super admin telemetry & dual-approval batches',
-      icon: <Sliders className="w-4 h-4 text-amber-400" />,
-      roleName: 'super_admin',
-    },
-  ];
-
-  const handleSelectPortal = (portalId: MainNavView, roleName: any) => {
-    switchDemoRole(roleName);
-    onSelectView(portalId);
-    setPortalDropdownOpen(false);
-    setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   const handleGoToUserWorkspace = () => {
     if (user?.role === 'super_admin') {
@@ -155,7 +115,6 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                 key={link.id}
                 onClick={() => {
                   onSelectView(link.id);
-                  setPortalDropdownOpen(false);
                   setUserDropdownOpen(false);
                 }}
                 className={`transition-colors py-1 relative ${
@@ -179,7 +138,6 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
               onClick={() => {
                 setLangDropdownOpen(!langDropdownOpen);
                 setCurrencyDropdownOpen(false);
-                setPortalDropdownOpen(false);
                 setUserDropdownOpen(false);
               }}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-slate-500 text-slate-200 text-xs font-semibold transition-all"
@@ -231,7 +189,6 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
               onClick={() => {
                 setCurrencyDropdownOpen(!currencyDropdownOpen);
                 setLangDropdownOpen(false);
-                setPortalDropdownOpen(false);
                 setUserDropdownOpen(false);
               }}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-slate-500 text-slate-200 text-xs font-bold transition-all"
@@ -277,7 +234,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
             )}
           </div>
 
-          {/* 3. User Session / Portal Dropdown */}
+          {/* 3. User Session / Sign In */}
           {user ? (
             <div className="relative">
               <button
@@ -285,7 +242,6 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                   setUserDropdownOpen(!userDropdownOpen);
                   setLangDropdownOpen(false);
                   setCurrencyDropdownOpen(false);
-                  setPortalDropdownOpen(false);
                 }}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-slate-500 text-slate-200 text-xs font-semibold transition-all"
               >
@@ -389,23 +345,35 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
         <div className="md:hidden border-t border-slate-800 bg-[#070A14] px-4 py-6 space-y-5 animate-in slide-in-from-top-4 duration-200">
           {/* User Status in Mobile */}
           {user ? (
-            <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <img
-                  src={user.avatarUrl}
-                  alt={user.fullName}
-                  className="w-9 h-9 rounded-full object-cover border border-slate-700"
-                />
-                <div>
-                  <div className="font-bold text-xs text-white">{user.fullName}</div>
-                  <div className="text-[10px] text-emerald-400 font-mono">{user.roleTitle}</div>
+            <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <img
+                    src={user.avatarUrl}
+                    alt={user.fullName}
+                    className="w-9 h-9 rounded-full object-cover border border-slate-700"
+                  />
+                  <div>
+                    <div className="font-bold text-xs text-white">{user.fullName}</div>
+                    <div className="text-[10px] text-emerald-400 font-mono">{user.roleTitle}</div>
+                  </div>
                 </div>
+                <button
+                  onClick={handleGoToUserWorkspace}
+                  className="px-3 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-bold"
+                >
+                  Workspace
+                </button>
               </div>
+
               <button
-                onClick={handleGoToUserWorkspace}
-                className="px-3 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-bold"
+                onClick={() => {
+                  logout();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full py-1.5 text-center text-xs text-red-400 hover:text-red-300 font-medium border-t border-slate-800 pt-2"
               >
-                Workspace
+                Sign Out
               </button>
             </div>
           ) : (
@@ -414,7 +382,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                 setMobileMenuOpen(false);
                 openAuthModal('login');
               }}
-              className="w-full py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-bold text-xs flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl bg-slate-900 border border-slate-700 text-white font-bold text-xs flex items-center justify-center gap-2"
             >
               <User className="w-4 h-4 text-blue-400" />
               <span>Sign In / Register Account</span>
@@ -471,25 +439,6 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                 }`}
               >
                 {link.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="pt-4 border-t border-slate-800 space-y-2">
-            <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-1">
-              Client & Operational Portals
-            </div>
-            {portalsList.map((p) => (
-              <button
-                key={p.id}
-                onClick={() => handleSelectPortal(p.id, p.roleName)}
-                className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 text-xs font-medium"
-              >
-                <div className="flex items-center gap-2.5">
-                  {p.icon}
-                  <span>{p.label}</span>
-                </div>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
               </button>
             ))}
           </div>
