@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { DesignDirectionId, ServiceDepartment, ServiceDepartmentInfo } from '../../../types/ndh';
-import { DIRECTION_CONFIGS } from '../DirectionStyles';
+import { ServiceDepartment, ServiceDepartmentInfo } from '../../../types/ndh';
 import { SERVICE_DEPARTMENTS } from '../../../data/mockData';
 import {
   CheckCircle2,
@@ -8,15 +7,17 @@ import {
   ArrowRight,
   Layers,
   Search,
+  Sparkles,
+  ShieldCheck,
+  Check,
 } from 'lucide-react';
 
 interface ServicesPreviewProps {
-  direction: DesignDirectionId;
+  direction?: string;
   onOpenBriefWizard: () => void;
 }
 
-export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ direction, onOpenBriefWizard }) => {
-  const config = DIRECTION_CONFIGS[direction];
+export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWizard }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDeptId, setSelectedDeptId] = useState<ServiceDepartment>('web_app_development');
 
@@ -32,39 +33,39 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ direction, onO
     SERVICE_DEPARTMENTS.find((d) => d.id === selectedDeptId) || SERVICE_DEPARTMENTS[0]!;
 
   return (
-    <div className={`min-h-screen ${config.containerBg} py-12 px-4 sm:px-6 lg:px-8 font-sans`}>
+    <div className="min-h-screen bg-[#090D1A] text-slate-100 py-14 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Header Banner */}
         <div className="space-y-4 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
-            <Layers className="w-3.5 h-3.5" />
-            <span>Managed Service Matrix • Ten Core Departments</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
+            <Layers className="w-3.5 h-3.5 text-blue-400" />
+            <span>Managed Service Matrix • 10 Core Departments</span>
           </div>
-          <h1 className={`text-3xl sm:text-4xl lg:text-5xl ${config.typographyHeading} text-foreground`}>
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-white leading-tight">
             World-Class Capabilities. Managed by Dedicated Project Managers.
           </h1>
-          <p className={`text-base ${config.subtext} leading-relaxed`}>
-            Every department is backed by vetted elite African talent, an experienced department lead, strict QA gates, and full intellectual property protection. No freelance bidding, no direct talent management overhead.
+          <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            Every department is backed by vetted African engineering and design talent, an experienced department lead, strict QA gates, and full intellectual property escrow. Zero freelance bidding, zero communication chaos.
           </p>
         </div>
 
         {/* Filter and Search Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-card border border-border">
-          <div className="relative w-full sm:w-80">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
+          <div className="relative w-full sm:w-96">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
-              placeholder="Search capabilities, stacks, departments..."
+              placeholder="Search capabilities, stacks (e.g. Next.js, Flutter, Brand, NDPR)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-lg bg-background border border-border text-xs focus:outline-none focus:border-primary text-foreground"
+              className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs focus:outline-none focus:border-blue-500 text-white placeholder-slate-500"
             />
           </div>
 
-          <div className="flex items-center gap-2 self-start sm:self-auto">
+          <div className="flex items-center gap-3 self-start sm:self-auto">
             <button
               onClick={onOpenBriefWizard}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 ${config.accentBtn}`}
+              className="px-5 py-2.5 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 flex items-center gap-2 transition-all hover:scale-105"
             >
               <span>Build Custom Scope</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -80,28 +81,38 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ direction, onO
               <div
                 key={dept.id}
                 onClick={() => setSelectedDeptId(dept.id)}
-                className={`p-6 rounded-2xl cursor-pointer transition-all ${config.cardBg} border ${
-                  isSelected ? 'border-primary ring-2 ring-primary/20 shadow-xl' : `${config.cardBorder} hover:border-primary/50`
-                } flex flex-col justify-between space-y-6`}
+                className={`p-6 rounded-2xl cursor-pointer transition-all bg-slate-900/90 border ${
+                  isSelected
+                    ? 'border-blue-500 ring-2 ring-blue-500/20 shadow-2xl'
+                    : 'border-slate-800 hover:border-blue-500/60 shadow-xl'
+                } flex flex-col justify-between space-y-6 group`}
               >
                 <div className="space-y-4">
                   <div className="flex items-start justify-between">
-                    <span className={config.badgeStyle}>{dept.name.split('&')[0]}</span>
-                    <span className="text-[11px] font-mono text-muted-foreground flex items-center gap-1">
+                    <span className="px-2.5 py-1 rounded-md bg-blue-950 text-blue-300 border border-blue-800/80 text-[11px] font-semibold">
+                      {dept.name.split('&')[0]}
+                    </span>
+                    <span className="text-[11px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/60 flex items-center gap-1">
                       <Clock className="w-3 h-3" />
                       <span>{dept.averageTurnaroundDays}d SLA</span>
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-foreground">{dept.name}</h3>
-                  <p className={`text-xs ${config.subtext} leading-relaxed line-clamp-3`}>{dept.description}</p>
+                  <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">
+                    {dept.name}
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                    {dept.description}
+                  </p>
 
-                  <div className="space-y-1.5 pt-2">
-                    <div className="text-[11px] font-semibold text-foreground uppercase tracking-wider">Top Capabilities:</div>
-                    <ul className="space-y-1 text-xs text-muted-foreground">
+                  <div className="space-y-2 pt-2">
+                    <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                      Key Capabilities:
+                    </div>
+                    <ul className="space-y-1.5 text-xs text-slate-300">
                       {dept.capabilities.slice(0, 3).map((cap, i) => (
-                        <li key={i} className="flex items-center gap-1.5">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
+                        <li key={i} className="flex items-center gap-2">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-blue-400 shrink-0" />
                           <span className="truncate">{cap}</span>
                         </li>
                       ))}
@@ -109,19 +120,23 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ direction, onO
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-border/50 flex items-center justify-between">
+                <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
                   <div>
-                    <div className="text-[10px] text-muted-foreground">Starting from:</div>
-                    <div className={`text-base ${config.statValue}`}>${dept.startingBudgetUSD.toLocaleString()} USD</div>
+                    <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
+                      Starting Investment:
+                    </div>
+                    <div className="text-sm font-mono font-bold text-blue-400">
+                      ${dept.startingBudgetUSD.toLocaleString()} USD
+                    </div>
                   </div>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       onOpenBriefWizard();
                     }}
-                    className="px-3 py-1.5 rounded-lg text-xs font-medium bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all flex items-center gap-1"
+                    className="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600/20 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-500/40 transition-all flex items-center gap-1"
                   >
-                    <span>Request Proposal</span>
+                    <span>Scope</span>
                     <ArrowRight className="w-3 h-3" />
                   </button>
                 </div>
@@ -130,67 +145,80 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ direction, onO
           })}
         </div>
 
-        {/* Deep Dive on Selected Department */}
-        <div className={`p-8 rounded-2xl ${config.cardBg} border ${config.cardBorder} space-y-6 shadow-2xl`}>
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border/50 pb-6">
+        {/* Selected Department Deep-Dive Box */}
+        <div className="p-8 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-2xl space-y-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800">
             <div>
-              <span className="text-xs font-mono uppercase tracking-wider text-primary">Detailed Breakdown</span>
-              <h2 className={`text-2xl font-bold text-foreground mt-1`}>{selectedDept.name}</h2>
-              <p className={`text-sm ${config.subtext} mt-1`}>{selectedDept.tagline}</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="text-right">
-                <div className="text-xs text-muted-foreground">Lead Architect</div>
-                <div className="font-semibold text-foreground text-sm">{selectedDept.leadName}</div>
+              <div className="text-xs font-mono text-blue-400 font-semibold uppercase tracking-wider">
+                Department Deep-Dive
               </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+                {selectedDept.name}
+              </h2>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="text-right">
+                <div className="text-[11px] text-slate-400">Standard Delivery SLA</div>
+                <div className="text-sm font-bold font-mono text-emerald-400">{selectedDept.averageTurnaroundDays} Days</div>
+              </div>
+              <button
+                onClick={onOpenBriefWizard}
+                className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-transform hover:scale-105"
+              >
+                Initiate Department Brief
+              </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="space-y-3">
-              <h4 className="text-xs font-mono uppercase tracking-wider text-foreground">Standard Deliverables Package</h4>
-              <div className="space-y-2">
-                {selectedDept.deliverables.map((del, i) => (
-                  <div key={i} className="p-3 rounded-lg bg-background border border-border text-xs flex items-center gap-2 text-foreground">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>{del}</span>
-                  </div>
+              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                Full Scope of Capabilities
+              </h4>
+              <ul className="space-y-2 text-xs text-slate-200">
+                {selectedDept.capabilities.map((cap, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <span>{cap}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
 
             <div className="space-y-3">
-              <h4 className="text-xs font-mono uppercase tracking-wider text-foreground">Production Tech Stack</h4>
+              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                Engineered Tech Stacks
+              </h4>
               <div className="flex flex-wrap gap-2">
                 {selectedDept.techStack.map((tech, i) => (
-                  <span key={i} className="px-3 py-1.5 rounded-lg bg-background border border-border font-mono text-xs text-foreground">
+                  <span
+                    key={i}
+                    className="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono text-slate-300"
+                  >
                     {tech}
                   </span>
                 ))}
               </div>
-              <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 text-xs text-muted-foreground space-y-1 mt-4">
-                <div className="font-semibold text-foreground">Quality & SLA Guarantee:</div>
-                <p>Every milestone undergoes strict PM code/asset reviews before client presentation. 100% IP ownership transferred upon settlement.</p>
-              </div>
             </div>
 
-            <div className="space-y-4 p-6 rounded-xl bg-background border border-border flex flex-col justify-between">
-              <div className="space-y-2">
-                <div className="text-xs text-muted-foreground">Tailored Proposal Engine:</div>
-                <div className={`text-2xl ${config.statValue}`}>${selectedDept.startingBudgetUSD.toLocaleString()} USD</div>
-                <div className="text-xs text-muted-foreground">₦{selectedDept.startingBudgetNGN.toLocaleString()} NGN equivalent</div>
-                <p className="text-[11px] text-muted-foreground pt-2">
-                  No public fixed pricing. Every proposal includes a tailored milestone schedule, PM allocation, and formal NDA.
-                </p>
-              </div>
-
-              <button
-                onClick={onOpenBriefWizard}
-                className={`w-full py-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 ${config.accentBtn}`}
-              >
-                <span>Initiate Proposal for {selectedDept.name}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+            <div className="space-y-3">
+              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                Governance & Deliverables
+              </h4>
+              <ul className="space-y-2 text-xs text-slate-300">
+                <li className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-blue-400 shrink-0" />
+                  <span>Dedicated PM SLA Oversight</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-blue-400 shrink-0" />
+                  <span>Clean Git Repositories & CI/CD Pipelines</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-blue-400 shrink-0" />
+                  <span>Full Intellectual Property Escrow Release</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

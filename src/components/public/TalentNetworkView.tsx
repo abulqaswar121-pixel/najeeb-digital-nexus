@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
-import { VETTED_TALENTS } from '../../data/mockData';
 import {
-  Users,
   Award,
   ShieldCheck,
   CheckCircle2,
+  ExternalLink,
+  Code2,
   Terminal,
   Sparkles,
   ArrowRight,
-  ExternalLink,
-  Code2,
-  Briefcase,
-  Layers,
-  Star,
+  Send,
+  Building,
 } from 'lucide-react';
 import { MainNavView } from '../layout/AppNavbar';
 
@@ -22,225 +19,202 @@ interface TalentNetworkViewProps {
 }
 
 export const TalentNetworkView: React.FC<TalentNetworkViewProps> = ({ onSelectView, onOpenBriefWizard }) => {
-  const [activeTierFilter, setActiveTierFilter] = useState<'All' | 'Elite' | 'Lead' | 'Senior'>('All');
-  const [appSubmitted, setAppSubmitted] = useState<boolean>(false);
-  const [appName, setAppName] = useState('');
-  const [appEmail, setAppEmail] = useState('');
-  const [appDept, setAppDept] = useState('web_app_development');
-  const [appPortfolio, setAppPortfolio] = useState('');
+  const [applicantRole, setApplicantRole] = useState('Full-Stack Engineer');
+  const [submitted, setSubmitted] = useState(false);
 
-  const filteredTalents = VETTED_TALENTS.filter((t) => {
-    if (activeTierFilter === 'All') return true;
-    return t.tier === activeTierFilter;
-  });
-
-  const handleApply = (e: React.FormEvent) => {
-    e.preventDefault();
-    setAppSubmitted(true);
-  };
+  const tiers = [
+    {
+      tier: 'Tier 1: NDH Academy Resident',
+      desc: 'Top 5% graduates of NDH Academy intensive programs. Mentored under senior architects on internal sandbox sprints.',
+      badge: 'Academy Certified',
+    },
+    {
+      tier: 'Tier 2: Senior Specialist',
+      desc: '3–6 years proven commercial experience. Specialists in React, Flutter, Go, Kubernetes, and enterprise UI systems.',
+      badge: 'Production Verified',
+    },
+    {
+      tier: 'Tier 3: Lead Systems Architect',
+      desc: '7+ years leading mission-critical fintech cores, distributed microservices, and multi-cloud infrastructure.',
+      badge: 'Staff Architect',
+    },
+    {
+      tier: 'Tier 4: Principal Technical Fellow',
+      desc: 'Industry veterans who have scaled platforms to 5M+ daily active users across Africa, Europe, and the US.',
+      badge: 'Principal Fellow',
+    },
+    {
+      tier: 'Tier 5: Advisory Partner',
+      desc: 'Executive domain consultants specializing in Central Bank regulatory frameworks, NDPR/GDPR, and venture strategy.',
+      badge: 'Strategic Advisory',
+    },
+  ];
 
   return (
-    <div className="bg-[#080C14] text-[#F1F5F9] min-h-screen py-16 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="bg-[#090D1A] text-slate-100 min-h-screen py-16 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto space-y-16">
         {/* Header */}
         <div className="space-y-4 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-mono border border-blue-500/20">
-            <Users className="w-3.5 h-3.5" />
-            <span>The Top 1% African Digital Workforce</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
+            <Terminal className="w-3.5 h-3.5 text-blue-400" />
+            <span>The NDH Sovereign Talent Network</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-serif font-bold text-white tracking-tight">
-            Vetted African Tech Talents. Orchestrated by Enterprise PMs.
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+            The Top 3% of African Digital Talent. Zero Marketplace Chaos.
           </h1>
 
           <p className="text-base text-slate-300 leading-relaxed">
-            Our talent network connects vetted software engineers, product designers, AI specialists, and brand strategists with high-impact sovereign and enterprise projects.
+            Our curated talent bench is rigorously tested, certified by NDH Academy standards, and deployed through dedicated PM orchestrators. We protect our talent with prompt NIBSS payouts and protect clients with guaranteed SLAs.
           </p>
         </div>
 
-        {/* 5 Talent Tiers Progression */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
-            <div>
-              <span className="text-xs font-mono uppercase tracking-wider text-blue-400">Progression Framework</span>
-              <h2 className="text-2xl font-bold text-white mt-1">Five Transparent Talent Tiers</h2>
-            </div>
-            <span className="text-xs text-slate-400 font-mono">Performance & SLA Governed</span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
-            {[
-              { tier: 'Junior', exp: '1-2 Yrs', rate: '$25 - $35/hr', req: 'Academy Graduate / Verified Basics' },
-              { tier: 'Intermediate', exp: '2-4 Yrs', rate: '$35 - $48/hr', req: '5+ Delivered Projects / 97%+ SLA' },
-              { tier: 'Senior', exp: '4-7 Yrs', rate: '$48 - $60/hr', req: '12+ Sprints / 4.9+ Quality Score' },
-              { tier: 'Lead', exp: '7-10 Yrs', rate: '$60 - $75/hr', req: 'Squad Architecture & Mentorship' },
-              { tier: 'Elite', exp: '10+ Yrs', rate: '$75 - $100+/hr', req: 'Sovereign Systems & FinTech Masters' },
-            ].map((t, idx) => (
-              <div
-                key={idx}
-                className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="font-bold text-white text-sm">{t.tier} Tier</div>
-                  <div className="text-[10px] text-blue-400 font-mono">{t.exp} Experience</div>
-                </div>
-                <div className="pt-2 border-t border-slate-800 space-y-1">
-                  <div className="font-mono text-emerald-400 font-bold">{t.rate}</div>
-                  <div className="text-[10px] text-slate-400 leading-tight">{t.req}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Talent Showcase Directory */}
+        {/* 5-Tier Talent Hierarchy */}
         <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h3 className="text-2xl font-bold text-white">Active Talent Squad Showcase</h3>
-              <p className="text-xs text-slate-400">Showing vetted profiles across all 10 managed departments.</p>
-            </div>
-
-            <div className="flex items-center gap-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs">
-              {(['All', 'Elite', 'Lead', 'Senior'] as const).map((filter) => (
-                <button
-                  key={filter}
-                  onClick={() => setActiveTierFilter(filter)}
-                  className={`px-3 py-1 rounded-lg font-medium transition-all ${
-                    activeTierFilter === filter ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  {filter}
-                </button>
-              ))}
-            </div>
+          <div className="space-y-2">
+            <span className="text-xs font-mono uppercase tracking-wider text-blue-400 font-bold">
+              Talent Architecture
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">
+              The 5-Tier Capability Matrix
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredTalents.map((tal) => (
+            {tiers.map((t, idx) => (
               <div
-                key={tal.id}
-                className="p-6 rounded-2xl bg-[#0F172A]/80 border border-blue-900/40 space-y-4 flex flex-col justify-between shadow-lg"
+                key={idx}
+                className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4 shadow-xl hover:border-blue-500/60 transition-colors"
               >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="px-2.5 py-0.5 rounded bg-blue-950 text-blue-400 font-mono text-[10px] font-bold border border-blue-800/60">
-                      {tal.tier} Tier
-                    </span>
-                    <span className="text-[11px] font-mono text-emerald-400 font-bold">
-                      {tal.qualityScore} / 5.0 Rating
-                    </span>
-                  </div>
-
-                  <div>
-                    <h4 className="font-bold text-base text-white">{tal.pseudonym}</h4>
-                    <div className="text-xs text-slate-400">{tal.location} • {tal.department.replace('_', ' ').toUpperCase()}</div>
-                  </div>
-
-                  <p className="text-xs text-slate-300 leading-relaxed line-clamp-2">{tal.bio}</p>
-
-                  {tal.academyGraduate && (
-                    <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[11px] flex items-center gap-1.5">
-                      <Award className="w-3.5 h-3.5 shrink-0" />
-                      <span className="truncate">{tal.academyBadgeTitle}</span>
-                    </div>
-                  )}
-
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {tal.skills.slice(0, 4).map((skill, i) => (
-                      <span key={i} className="px-2 py-0.5 rounded bg-slate-900 text-[10px] font-mono text-slate-300 border border-slate-800">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">
+                    {t.badge}
+                  </span>
+                  <Award className="w-4 h-4 text-emerald-400" />
                 </div>
-
-                <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400 font-mono">
-                  <span>{tal.completedProjects} Projects Delivered</span>
-                  <span className="text-emerald-400">{tal.onTimeDeliveryRate}% On-Time</span>
-                </div>
+                <h3 className="font-bold text-base text-white">{t.tier}</h3>
+                <p className="text-xs text-slate-300 leading-relaxed">{t.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Join the Talent Network Form */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-blue-950/80 via-slate-900 to-indigo-950/80 border border-blue-800/40 space-y-6 shadow-2xl">
-          <div className="space-y-2 max-w-xl">
-            <span className="text-xs font-mono uppercase tracking-wider text-blue-400">Join the Elite Squad</span>
-            <h3 className="text-2xl font-bold text-white">Apply to the NDH Talent Workforce</h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              Are you a senior developer, product designer, or AI engineer in Africa or the diaspora? Work on sovereign enterprise projects with guaranteed on-time weekly payouts.
+        {/* NDH Academy Upskilling Bridge */}
+        <div className="p-8 sm:p-10 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="space-y-3 max-w-2xl">
+            <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 font-bold uppercase tracking-wider">
+              <Award className="w-4 h-4" />
+              <span>Decoupled Talent Pipeline</span>
+            </div>
+            <h3 className="text-2xl font-bold text-white">
+              NDH Academy Certification Bridge
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              While NDH Agency operates exclusively as a managed enterprise bureau, our talent pipeline is continuously enriched by high-caliber alumni from NDH Academy (academy.ndh.com.ng).
             </p>
           </div>
 
-          {appSubmitted ? (
-            <div className="p-6 rounded-2xl bg-emerald-950/40 border border-emerald-800/60 text-emerald-300 space-y-2 text-xs">
-              <h4 className="font-bold text-sm">Application Successfully Received!</h4>
-              <p>Our talent vetting team will review your portfolio and send you an invitation to Stage 2 Technical Assessment.</p>
+          <a
+            href="https://academy.ndh.com.ng"
+            target="_blank"
+            rel="noreferrer"
+            className="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-2 shrink-0 shadow-lg shadow-blue-600/30 transition-transform hover:scale-105"
+          >
+            <span>Visit NDH Academy Platform</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+        </div>
+
+        {/* Apply to Join the Talent Network */}
+        <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/90 border border-slate-800 space-y-6 shadow-2xl max-w-3xl mx-auto">
+          <div className="text-center space-y-2">
+            <span className="text-xs font-mono uppercase tracking-wider text-blue-400 font-bold">
+              Join the Bench
+            </span>
+            <h3 className="text-2xl font-bold text-white">Apply to Join the Vetted Network</h3>
+            <p className="text-xs text-slate-300">
+              Pass our coding benchmark, technical interview, and background verification.
+            </p>
+          </div>
+
+          {submitted ? (
+            <div className="p-6 rounded-2xl bg-emerald-950/40 border border-emerald-800 text-center space-y-2">
+              <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto" />
+              <h4 className="font-bold text-white">Application Received</h4>
+              <p className="text-xs text-slate-300">
+                Our Talent Operations Team will review your portfolio and send you the technical benchmark test.
+              </p>
             </div>
           ) : (
-            <form onSubmit={handleApply} className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div>
-                <label className="text-slate-300 block mb-1 font-semibold">Your Full Name *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g., Kelechi Umeh"
-                  value={appName}
-                  onChange={(e) => setAppName(e.target.value)}
-                  className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
-                />
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setSubmitted(true);
+              }}
+              className="space-y-4"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[11px] font-bold text-slate-300 uppercase block mb-1">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Babatunde Okafor"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] font-bold text-slate-300 uppercase block mb-1">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="e.g. babatunde@domain.com"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="text-slate-300 block mb-1 font-semibold">Email Address *</label>
-                <input
-                  type="email"
-                  required
-                  placeholder="kelechi@domain.com"
-                  value={appEmail}
-                  onChange={(e) => setAppEmail(e.target.value)}
-                  className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="text-slate-300 block mb-1 font-semibold">Primary Discipline *</label>
+                <label className="text-[11px] font-bold text-slate-300 uppercase block mb-1">
+                  Primary Specialization
+                </label>
                 <select
-                  value={appDept}
-                  onChange={(e) => setAppDept(e.target.value)}
-                  className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  value={applicantRole}
+                  onChange={(e) => setApplicantRole(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-blue-500"
                 >
-                  <option value="web_app_development">Website & App Development</option>
-                  <option value="ui_ux_design">Product & UI/UX Design</option>
-                  <option value="ai_automation">AI Solutions & Automation</option>
-                  <option value="brand_strategy">Brand Strategy & Identity</option>
-                  <option value="ecommerce">E-commerce</option>
+                  <option>Full-Stack Engineer (React / Node / Go)</option>
+                  <option>Mobile Engineer (Flutter / Swift / Kotlin)</option>
+                  <option>UI/UX & Product Design Systems</option>
+                  <option>DevOps & Cloud Site Reliability Engineer</option>
+                  <option>AI Engineer & Python Pipeline Specialist</option>
+                  <option>Cybersecurity & NDPR Compliance Auditor</option>
                 </select>
               </div>
 
               <div>
-                <label className="text-slate-300 block mb-1 font-semibold">GitHub / Portfolio URL *</label>
+                <label className="text-[11px] font-bold text-slate-300 uppercase block mb-1">
+                  GitHub / Portfolio / LinkedIn URL
+                </label>
                 <input
                   type="url"
                   required
-                  placeholder="https://github.com/..."
-                  value={appPortfolio}
-                  onChange={(e) => setAppPortfolio(e.target.value)}
-                  className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  placeholder="https://github.com/your-username"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
                 />
               </div>
 
-              <div className="sm:col-span-2 pt-2">
-                <button
-                  type="submit"
-                  className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-lg shadow-blue-600/30 transition-all flex items-center gap-2"
-                >
-                  <span>Submit Talent Application</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
+              <button
+                type="submit"
+                className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-transform hover:scale-105 flex items-center justify-center gap-2"
+              >
+                <span>Submit Application to Talent Board</span>
+                <Send className="w-3.5 h-3.5" />
+              </button>
             </form>
           )}
         </div>

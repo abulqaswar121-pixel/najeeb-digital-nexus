@@ -60,16 +60,16 @@ export const InsightsView: React.FC<InsightsViewProps> = ({ onSelectView, onOpen
   ];
 
   return (
-    <div className="bg-[#080C14] text-[#F1F5F9] min-h-screen py-16 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="bg-[#090D1A] text-slate-100 min-h-screen py-16 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto space-y-16">
         {/* Header */}
         <div className="space-y-4 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-mono border border-blue-500/20">
-            <BookOpen className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
+            <BookOpen className="w-3.5 h-3.5 text-blue-400" />
             <span>NDH Strategic Intelligence & Technical Dossiers</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-serif font-bold text-white tracking-tight">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
             Insights on Sovereign Technology, FinTech & African Scale.
           </h1>
 
@@ -79,67 +79,77 @@ export const InsightsView: React.FC<InsightsViewProps> = ({ onSelectView, onOpen
         </div>
 
         {/* Featured Article */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center shadow-2xl">
+        <div className="p-8 sm:p-12 rounded-3xl bg-slate-900/90 border border-slate-800 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center shadow-2xl">
           <div className="lg:col-span-8 space-y-4">
             <div className="flex items-center gap-2.5">
-              <span className="px-2.5 py-0.5 rounded bg-blue-950 text-blue-400 font-mono text-[10px] uppercase font-bold border border-blue-800/60">
+              <span className="px-3 py-1 rounded-md bg-blue-950 text-blue-300 font-mono text-[11px] font-bold border border-blue-800">
                 {articles[0]?.tag}
               </span>
               <span className="text-xs text-slate-400 font-mono flex items-center gap-1">
-                <Clock className="w-3 h-3" />
+                <Clock className="w-3 h-3 text-slate-400" />
                 <span>{articles[0]?.readTime}</span>
               </span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-bold text-white hover:text-blue-400 cursor-pointer transition-colors">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white hover:text-blue-400 cursor-pointer transition-colors leading-tight">
               {articles[0]?.title}
             </h2>
 
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{articles[0]?.excerpt}</p>
+            <p className="text-sm text-slate-300 leading-relaxed">{articles[0]?.excerpt}</p>
 
-            <div className="pt-2 flex items-center gap-3 text-xs text-slate-400">
-              <span className="font-semibold text-white">{articles[0]?.author}</span>
+            <div className="pt-2 flex items-center gap-3 text-xs text-slate-300">
+              <span className="font-bold text-white">{articles[0]?.author}</span>
               <span>•</span>
-              <span>{articles[0]?.authorRole}</span>
+              <span className="text-blue-400">{articles[0]?.authorRole}</span>
               <span>•</span>
-              <span>{articles[0]?.date}</span>
+              <span className="text-slate-400">{articles[0]?.date}</span>
             </div>
           </div>
 
-          <div className="lg:col-span-4 flex justify-end">
+          <div className="lg:col-span-4 p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-4 text-center">
+            <div className="text-xs font-mono text-emerald-400 font-bold uppercase">
+              Download Full Whitepaper
+            </div>
+            <p className="text-xs text-slate-300">
+              Read the full 24-page technical architecture paper with Go / Rust code snippets and benchmark telemetry.
+            </p>
             <button
-              onClick={() => onSelectView('case-study')}
-              className="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-lg shadow-blue-600/30 transition-all flex items-center gap-2"
+              onClick={onOpenBriefWizard}
+              className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-transform hover:scale-105"
             >
-              <span>Read Full Dossier</span>
-              <ArrowRight className="w-4 h-4" />
+              Request Whitepaper & Code →
             </button>
           </div>
         </div>
 
-        {/* Grid of Articles */}
+        {/* Article Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {articles.slice(1).map((art) => (
             <div
               key={art.id}
-              className="p-6 rounded-2xl bg-[#0F172A]/70 border border-blue-900/40 space-y-4 flex flex-col justify-between shadow-lg hover:border-blue-700/60 transition-colors"
+              className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4 shadow-xl hover:border-blue-500/60 transition-colors flex flex-col justify-between"
             >
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-blue-400 font-mono uppercase">{art.tag}</span>
-                  <span className="text-slate-500">{art.readTime}</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">
+                    {art.tag}
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-mono">{art.readTime}</span>
                 </div>
 
-                <h3 className="font-bold text-base text-white hover:text-blue-400 cursor-pointer transition-colors leading-snug">
+                <h3 className="font-bold text-base text-white hover:text-blue-400 cursor-pointer transition-colors">
                   {art.title}
                 </h3>
 
-                <p className="text-xs text-slate-400 leading-relaxed line-clamp-3">{art.excerpt}</p>
+                <p className="text-xs text-slate-300 leading-relaxed line-clamp-3">{art.excerpt}</p>
               </div>
 
-              <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-                <span className="font-semibold text-white">{art.author}</span>
-                <span>{art.date}</span>
+              <div className="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-300">
+                <div>
+                  <div className="font-bold text-white">{art.author}</div>
+                  <div className="text-[11px] text-blue-400">{art.authorRole}</div>
+                </div>
+                <ArrowRight className="w-4 h-4 text-blue-400" />
               </div>
             </div>
           ))}

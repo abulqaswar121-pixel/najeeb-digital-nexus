@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { DesignDirectionId, ServiceDepartment, ServiceDepartmentInfo } from '../../../types/ndh';
-import { DIRECTION_CONFIGS } from '../DirectionStyles';
+import { ServiceDepartment, ServiceDepartmentInfo } from '../../../types/ndh';
 import { SERVICE_DEPARTMENTS, CASE_STUDIES } from '../../../data/mockData';
 import {
   ArrowRight,
@@ -11,348 +10,459 @@ import {
   Users,
   ChevronRight,
   ExternalLink,
+  Sparkles,
+  Zap,
+  Clock,
+  Layers,
+  BarChart3,
+  Globe2,
+  FileText,
+  Check,
+  TrendingUp,
+  Sliders,
+  DollarSign,
+  Building,
 } from 'lucide-react';
 
 interface HomepagePreviewProps {
-  direction: DesignDirectionId;
+  direction?: string;
   onOpenBriefWizard: () => void;
-  onSelectScreen: (screen: any) => void;
+  onSelectScreen: (screen: string) => void;
 }
 
 export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
-  direction,
   onOpenBriefWizard,
   onSelectScreen,
 }) => {
-  const config = DIRECTION_CONFIGS[direction];
-  const [selectedDept, setSelectedDept] = useState<ServiceDepartment>('web_app_development');
+  const [calculatorDept, setCalculatorDept] = useState<ServiceDepartment>('web_app_development');
+  const [calculatorTier, setCalculatorTier] = useState<'standard' | 'growth' | 'enterprise'>('growth');
   const [currency, setCurrency] = useState<'USD' | 'NGN'>('USD');
 
-  const currentDeptInfo: ServiceDepartmentInfo =
-    SERVICE_DEPARTMENTS.find((d) => d.id === selectedDept) || SERVICE_DEPARTMENTS[0]!;
   const featuredCases = CASE_STUDIES.filter((c) => c.featured);
 
+  // Quick estimator calculations matching exact ServiceDepartment keys
+  const deptPricingMap: Record<ServiceDepartment, { standard: number; growth: number; enterprise: number; weeks: string }> = {
+    web_app_development: { standard: 6500, growth: 12500, enterprise: 25000, weeks: '4-8 weeks' },
+    mobile_app_development: { standard: 8000, growth: 15000, enterprise: 32000, weeks: '6-10 weeks' },
+    ui_ux_product_design: { standard: 5000, growth: 9500, enterprise: 18000, weeks: '4-6 weeks' },
+    brand_strategy_identity: { standard: 4500, growth: 8500, enterprise: 16000, weeks: '3-5 weeks' },
+    ai_solutions_automation: { standard: 7000, growth: 14000, enterprise: 28000, weeks: '3-6 weeks' },
+    ecommerce_growth: { standard: 4000, growth: 8000, enterprise: 16000, weeks: '4-7 weeks' },
+    cloud_devops_sre: { standard: 5500, growth: 11000, enterprise: 20000, weeks: '3-6 weeks' },
+    pan_african_market_research: { standard: 4000, growth: 8000, enterprise: 15000, weeks: '3-5 weeks' },
+    cybersecurity_ndpr_audits: { standard: 6000, growth: 12000, enterprise: 24000, weeks: '3-5 weeks' },
+    enterprise_erp_custom_software: { standard: 10000, growth: 22000, enterprise: 45000, weeks: '8-14 weeks' },
+  };
+
+  const currentPricing = deptPricingMap[calculatorDept] || deptPricingMap.web_app_development;
+  const estimatedUsd = currentPricing[calculatorTier];
+  const estimatedNgn = estimatedUsd * 1520;
+  const estimatedWeeks = currentPricing.weeks;
+
   return (
-    <div className={`min-h-screen ${config.containerBg} transition-colors duration-300 font-sans`}>
-      {/* Direction Spec Indicator Bar */}
-      <div className="border-b border-border/40 bg-muted/30 px-4 py-2 text-xs">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className={config.badgeStyle}>{config.badge}</span>
-            <span className="font-medium text-foreground">{config.name}</span>
-            <span className={config.subtext}>— {config.tagline}</span>
-          </div>
-          <div className="flex items-center gap-3 text-[11px]">
-            <span className={config.subtext}>Palette: {config.paletteDescription.split(',')[0]}</span>
-            <button
-              onClick={() => setCurrency(currency === 'USD' ? 'NGN' : 'USD')}
-              className="px-2 py-0.5 rounded bg-background border border-border font-mono text-xs hover:border-primary transition-colors"
-            >
-              Currency: {currency} (Click to toggle)
-            </button>
-          </div>
-        </div>
-      </div>
+    <div className="bg-[#090D1A] text-slate-100 min-h-screen font-sans selection:bg-blue-600/30 selection:text-white">
+      {/* 1. HERO SECTION */}
+      <section className="relative overflow-hidden pt-12 pb-20 sm:pt-20 sm:pb-28 border-b border-slate-800">
+        {/* Subtle Ambient Background Gradients */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+        <div className="absolute top-1/3 right-10 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none -z-10" />
 
-      {/* Main Agency Header / Nav */}
-      <nav className={`sticky top-0 z-40 ${config.navBg}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-black text-lg tracking-wider">
-              N
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-base tracking-tight text-foreground">NDH Agency</span>
-                <span className="px-1.5 py-0.2 rounded text-[10px] bg-primary/10 text-primary font-mono uppercase">
-                  Nexus
-                </span>
-              </div>
-              <p className="text-[10px] text-muted-foreground leading-none">Part of Najeeb Digital Hub</p>
-            </div>
-          </div>
-
-          <div className="hidden md:flex items-center gap-6 text-xs font-medium text-muted-foreground">
-            <button onClick={() => onSelectScreen('services')} className="hover:text-foreground transition-colors">
-              Services & Capabilities
-            </button>
-            <button onClick={() => onSelectScreen('case-study')} className="hover:text-foreground transition-colors">
-              Work & Case Studies
-            </button>
-            <button onClick={() => onSelectScreen('pm-dashboard')} className="hover:text-foreground transition-colors">
-              How We Work (Managed PM)
-            </button>
-            <button onClick={() => onSelectScreen('talent-dashboard')} className="hover:text-foreground transition-colors">
-              Vetted Talent Network
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2.5">
-            <button
-              onClick={() => onSelectScreen('client-dashboard')}
-              className="px-3 py-1.5 rounded-md text-xs font-medium border border-border hover:bg-muted text-foreground transition-colors"
-            >
-              Client Login
-            </button>
-            <button onClick={onOpenBriefWizard} className={`px-4 py-2 rounded-md text-xs ${config.accentBtn}`}>
-              Request a Proposal
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-16 sm:py-24 border-b border-border/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7 space-y-6">
-              {/* Trust Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium text-primary">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Managed Digital Services Bureau • Not an Open Freelance Marketplace</span>
-              </div>
-
-              {/* Dynamic Hero Title according to direction */}
-              <h1 className={`text-4xl sm:text-5xl lg:text-6xl ${config.typographyHeading} leading-[1.1] text-foreground`}>
-                {direction === 'direction-a' && (
-                  <>
-                    Engineering Sovereign Digital Products with <span className={config.accentText}>Algorithmic Precision.</span>
-                  </>
-                )}
-                {direction === 'direction-b' && (
-                  <>
-                    Pan-African Creative Mastery. <span className={config.accentText}>Engineered for Global Impact.</span>
-                  </>
-                )}
-                {direction === 'direction-c' && (
-                  <>
-                    The High-Throughput <span className={config.accentText}>Operating System</span> for Digital Services.
-                  </>
-                )}
-              </h1>
-
-              <p className={`text-base sm:text-lg ${config.subtext} max-w-2xl leading-relaxed`}>
-                NDH Agency pairs venture-backed startups, sovereign institutions, and global diaspora enterprises with dedicated project managers and vetted top 1% African tech & creative talents. Zero communication friction. Guaranteed SLAs. Complete privacy.
-              </p>
-
-              {/* Action Buttons & Value Props */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                <button
-                  onClick={onOpenBriefWizard}
-                  className={`px-6 py-3.5 rounded-lg text-sm font-semibold flex items-center gap-2 ${config.accentBtn}`}
-                >
-                  <span>Build Tailored Scope & Proposal</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-
-                <button
-                  onClick={() => onSelectScreen('case-study')}
-                  className="px-5 py-3.5 rounded-lg text-sm font-medium border border-border bg-card hover:bg-muted text-foreground transition-all flex items-center gap-2"
-                >
-                  <span>Explore Verified Case Studies</span>
-                  <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                </button>
-              </div>
-
-              {/* Live Telemetry / Trust Indicators */}
-              <div className="pt-6 grid grid-cols-3 gap-4 border-t border-border/50">
-                <div>
-                  <div className={`text-2xl sm:text-3xl ${config.statValue}`}>99.4%</div>
-                  <div className={`text-xs ${config.subtext}`}>On-Time SLA Delivery</div>
-                </div>
-                <div>
-                  <div className={`text-2xl sm:text-3xl ${config.statValue}`}>140+</div>
-                  <div className={`text-xs ${config.subtext}`}>Vetted Tier Talents</div>
-                </div>
-                <div>
-                  <div className={`text-2xl sm:text-3xl ${config.statValue}`}>$42M+</div>
-                  <div className={`text-xs ${config.subtext}`}>Client Impact Volume</div>
-                </div>
-              </div>
+          <div className="text-center max-w-4xl mx-auto space-y-6">
+            {/* Eyebrow Trust Badge */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-blue-950/80 border border-blue-600/40 text-blue-300 text-xs font-semibold shadow-inner">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Managed Digital Services Bureau • Dedicated PM Governance</span>
             </div>
 
-            {/* Hero Right Visual / Live HUD Preview Card */}
-            <div className="lg:col-span-5">
-              <div className={`p-6 rounded-2xl ${config.cardBg} border ${config.cardBorder} space-y-5 shadow-2xl`}>
-                <div className="flex items-center justify-between border-b border-border/50 pb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-                    <span className="text-xs font-mono font-semibold text-foreground uppercase tracking-wider">
-                      Live Delivery Orchestrator
-                    </span>
-                  </div>
-                  <span className="px-2 py-0.5 rounded bg-primary/10 text-primary font-mono text-[10px]">
-                    SLA: 99.9%
-                  </span>
+            {/* High-Impact Headline */}
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]">
+              Engineering Sovereign Digital Systems for{' '}
+              <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-blue-500 bg-clip-text text-transparent">
+                Visionary Enterprises.
+              </span>
+            </h1>
+
+            {/* Clear Subtitle */}
+            <p className="text-base sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed font-normal">
+              NDH Agency delivers mission-critical software, mobile applications, high-craft brand systems, and Pan-African market intelligence. Managed end-to-end by senior Project Managers with strict SLAs, zero freelance bidding, and guaranteed IP escrow.
+            </p>
+
+            {/* Primary Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <button
+                onClick={onOpenBriefWizard}
+                className="w-full sm:w-auto px-8 py-4 rounded-xl text-sm font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-xl shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2.5"
+              >
+                <span>Request a Proposal</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <button
+                onClick={() => onSelectScreen('services')}
+                className="w-full sm:w-auto px-7 py-4 rounded-xl text-sm font-semibold bg-slate-900/90 hover:bg-slate-800 text-slate-100 border border-slate-700 hover:border-slate-500 transition-all flex items-center justify-center gap-2"
+              >
+                <Layers className="w-4 h-4 text-blue-400" />
+                <span>Explore 10 Services</span>
+              </button>
+
+              <button
+                onClick={() => onSelectScreen('case-study')}
+                className="w-full sm:w-auto px-7 py-4 rounded-xl text-sm font-semibold bg-slate-900/90 hover:bg-slate-800 text-slate-100 border border-slate-700 hover:border-slate-500 transition-all flex items-center justify-center gap-2"
+              >
+                <span>Case Studies & ROI</span>
+              </button>
+            </div>
+
+            {/* Trust Metrics Bar */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-12 text-left">
+              <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-lg">
+                <div className="text-2xl sm:text-3xl font-extrabold text-blue-400 font-mono">
+                  $188.5K+
                 </div>
+                <div className="text-xs font-semibold text-white mt-1">Active Scoped Volume</div>
+                <div className="text-[11px] text-slate-400 mt-0.5">Multi-currency billing</div>
+              </div>
 
-                {/* Operating Model Sandbox */}
-                <div className="space-y-3 text-xs">
-                  <div className="p-3 rounded-lg bg-background/80 border border-border/60 flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-7 h-7 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center font-bold">
-                        C
-                      </div>
-                      <div>
-                        <div className="font-semibold text-foreground">Client Enterprise (Lagos / London)</div>
-                        <div className="text-[11px] text-muted-foreground">Scope: FinTech Edge Web App</div>
-                      </div>
-                    </div>
-                    <span className="text-emerald-500 font-mono text-[11px]">Protected</span>
-                  </div>
-
-                  <div className="flex justify-center text-primary py-0.5">
-                    <div className="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-mono flex items-center gap-1.5">
-                      <Lock className="w-3 h-3" />
-                      <span>NDH Project Manager Buffer & QA Gate</span>
-                    </div>
-                  </div>
-
-                  <div className="p-3 rounded-lg bg-background/80 border border-border/60 flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-7 h-7 rounded-full bg-purple-500/10 text-purple-500 flex items-center justify-center font-bold">
-                        T
-                      </div>
-                      <div>
-                        <div className="font-semibold text-foreground">Internal Vetted Squad (Architect-Alpha)</div>
-                        <div className="text-[11px] text-muted-foreground">Elite Tier • TanStack/Cloudflare</div>
-                      </div>
-                    </div>
-                    <span className="text-blue-400 font-mono text-[11px]">Active Sprint</span>
-                  </div>
+              <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-lg">
+                <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono">
+                  99.4%
                 </div>
+                <div className="text-xs font-semibold text-white mt-1">SLA Delivery Adherence</div>
+                <div className="text-[11px] text-slate-400 mt-0.5">Rigid dual QA gates</div>
+              </div>
 
-                <div className="p-3.5 rounded-xl bg-muted/40 border border-border/40 text-xs space-y-2">
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="text-muted-foreground">Milestone 2 QA Gate:</span>
-                    <span className="text-emerald-400 font-mono font-medium">Passed (Score: 4.95/5.0)</span>
-                  </div>
-                  <div className="w-full bg-background rounded-full h-2 overflow-hidden border border-border/40">
-                    <div className="bg-emerald-500 h-full rounded-full" style={{ width: '85%' }}></div>
-                  </div>
-                  <p className="text-[10px] text-muted-foreground">
-                    Private identity isolation enforced: Client and talent cannot exchange direct contact or raw margins.
-                  </p>
+              <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-lg">
+                <div className="text-2xl sm:text-3xl font-extrabold text-indigo-400 font-mono">
+                  42
                 </div>
+                <div className="text-xs font-semibold text-white mt-1">Vetted Specialists</div>
+                <div className="text-[11px] text-slate-400 mt-0.5">Top 3% African engineers</div>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-lg">
+                <div className="text-2xl sm:text-3xl font-extrabold text-amber-400 font-mono">
+                  &lt;300ms
+                </div>
+                <div className="text-xs font-semibold text-white mt-1">FinTech Core Latency</div>
+                <div className="text-[11px] text-slate-400 mt-0.5">High-throughput infra</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 10 Core Service Departments Selector */}
-      <section className="py-16 border-b border-border/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <span className="text-xs font-mono uppercase tracking-wider text-primary">Department Capabilities</span>
-              <h2 className={`text-2xl sm:text-3xl ${config.typographyHeading} text-foreground mt-1`}>
-                Ten Specialized Managed Departments
+      {/* 2. THE MANAGED BUREAU ADVANTAGE (VS FREELANCE MARKETPLACES) */}
+      <section className="py-20 border-b border-slate-800 bg-[#070A14]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto text-center space-y-4 mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
+              <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+              <span>Operational Model</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+              Why Global Leaders Choose the NDH Managed Bureau
+            </h2>
+            <p className="text-sm sm:text-base text-slate-300">
+              We eliminate the chaos of unvetted freelance platforms and the bloated overhead of legacy agencies.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* The NDH Bureau */}
+            <div className="p-8 rounded-2xl bg-slate-900/90 border-2 border-blue-500/60 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 px-4 py-1.5 bg-blue-600 text-white text-[11px] font-bold rounded-bl-xl uppercase tracking-wider">
+                NDH Managed Standard
+              </div>
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                    <span>The NDH Managed Bureau</span>
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-1">
+                    Direct executive accountability and institutional SLAs.
+                  </p>
+                </div>
+
+                <ul className="space-y-4 text-xs">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-white block font-semibold">Dedicated Project Manager Buffer</strong>
+                      <span className="text-slate-300">
+                        Clients communicate exclusively with a senior PM. No managing freelancer chats or missed deadlines.
+                      </span>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-white block font-semibold">Dual-Gate Quality Assurance</strong>
+                      <span className="text-slate-300">
+                        Every line of code and design token is peer-reviewed and tested before the client reviews milestone deliverables.
+                      </span>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-white block font-semibold">Guaranteed Intellectual Property & Escrow</strong>
+                      <span className="text-slate-300">
+                        Institutional NDAs, complete source code assignment, and Paystack/Stripe milestone escrow releases.
+                      </span>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-white block font-semibold">Zero Talent-Client Friction</strong>
+                      <span className="text-slate-300">
+                        Strict commercial privacy boundaries. Clients get crystal-clear pricing; talent gets guaranteed disbursements.
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Unmanaged Freelancer Marketplaces */}
+            <div className="p-8 rounded-2xl bg-slate-900/60 border border-slate-800 shadow-xl">
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xl font-bold text-slate-300">
+                    Open Freelance Platforms (Upwork / Fiverr)
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Unmanaged marketplaces with high client overhead and delivery risk.
+                  </p>
+                </div>
+
+                <ul className="space-y-4 text-xs text-slate-400">
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-400 font-bold shrink-0 mt-0.5">✕</span>
+                    <div>
+                      <strong className="text-slate-300 block font-medium">Zero Project Management Oversight</strong>
+                      <span>
+                        Client must act as full-time project manager, chasing multiple disparate contractors.
+                      </span>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-400 font-bold shrink-0 mt-0.5">✕</span>
+                    <div>
+                      <strong className="text-slate-300 block font-medium">Unpredictable Code & Design Quality</strong>
+                      <span>
+                        No automated QA gates or peer code reviews, leading to critical production security flaws.
+                      </span>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-400 font-bold shrink-0 mt-0.5">✕</span>
+                    <div>
+                      <strong className="text-slate-300 block font-medium">Freelancer Ghosting & IP Ambiguity</strong>
+                      <span>
+                        High risk of mid-sprint developer abandonment and unclear copyright transfer across borders.
+                      </span>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-400 font-bold shrink-0 mt-0.5">✕</span>
+                    <div>
+                      <strong className="text-slate-300 block font-medium">Unpredictable Timezone & Currency Friction</strong>
+                      <span>
+                        Disjointed communication, high FX transaction loss, and uncoordinated sprints.
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. TEN CORE SERVICE DEPARTMENTS */}
+      <section className="py-20 border-b border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
+                <Layers className="w-3.5 h-3.5 text-blue-400" />
+                <span>Full-Spectrum Execution</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+                10 Core Service Departments
               </h2>
-              <p className={`text-sm ${config.subtext} mt-1 max-w-xl`}>
-                Select a department below to explore capabilities, deliverables, turnaround SLAs, and starting proposal estimates.
+              <p className="text-sm sm:text-base text-slate-300">
+                From sub-300ms fintech engines to pan-African brand systems, our departments operate under strict SLAs and proven architectures.
               </p>
             </div>
 
             <button
               onClick={() => onSelectScreen('services')}
-              className="text-xs font-semibold text-primary hover:underline flex items-center gap-1 self-start md:self-auto"
+              className="inline-flex items-center gap-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors"
             >
-              <span>View Full Services Directory</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <span>View Full Service Catalog</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Department Chips */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
-            {SERVICE_DEPARTMENTS.map((dept) => {
-              const isSelected = selectedDept === dept.id;
-              return (
-                <button
-                  key={dept.id}
-                  onClick={() => setSelectedDept(dept.id)}
-                  className={`px-3.5 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all border ${
-                    isSelected
-                      ? 'bg-primary text-primary-foreground border-primary shadow-sm'
-                      : 'bg-card border-border hover:border-border/80 text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  {dept.name}
-                </button>
-              );
-            })}
-          </div>
+          {/* Department Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {SERVICE_DEPARTMENTS.slice(0, 6).map((dept) => (
+              <div
+                key={dept.id}
+                className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-blue-500/60 shadow-xl transition-all duration-300 group flex flex-col justify-between"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="w-10 h-10 rounded-xl bg-blue-600/10 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold group-hover:scale-110 transition-transform">
+                      <Sparkles className="w-5 h-5 text-blue-400" />
+                    </div>
+                    <span className="text-[11px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/80">
+                      {dept.averageTurnaroundDays}d Turnaround
+                    </span>
+                  </div>
 
-          {/* Selected Department Showcase Card */}
-          <div className={`p-8 rounded-2xl ${config.cardBg} border ${config.cardBorder} space-y-6 shadow-xl`}>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              <div className="lg:col-span-7 space-y-4">
-                <div className="flex items-center gap-2">
-                  <span className={config.badgeStyle}>{currentDeptInfo.name}</span>
-                  <span className="text-xs text-muted-foreground font-mono">
-                    Avg Turnaround: {currentDeptInfo.averageTurnaroundDays} Days
-                  </span>
-                </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">
+                      {dept.name}
+                    </h3>
+                    <p className="text-xs text-slate-300 mt-2 leading-relaxed line-clamp-3">
+                      {dept.description}
+                    </p>
+                  </div>
 
-                <h3 className={`text-xl sm:text-2xl ${config.typographyHeading} text-foreground`}>
-                  {currentDeptInfo.tagline}
-                </h3>
-
-                <p className={`text-sm ${config.subtext} leading-relaxed`}>{currentDeptInfo.description}</p>
-
-                {/* Capabilities Grid */}
-                <div className="space-y-2 pt-2">
-                  <h4 className="text-xs font-mono uppercase tracking-wider text-foreground">Core Capabilities:</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                    {currentDeptInfo.capabilities.map((cap, i) => (
-                      <div key={i} className="flex items-center gap-2 text-muted-foreground">
-                        <CheckCircle className="w-3.5 h-3.5 text-primary shrink-0" />
-                        <span>{cap}</span>
-                      </div>
-                    ))}
+                  <div className="pt-2">
+                    <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                      Key Capabilities:
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {dept.capabilities.slice(0, 3).map((cap, i) => (
+                        <span
+                          key={i}
+                          className="px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 text-[11px] border border-slate-700"
+                        >
+                          {cap}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
-                {/* Tech Stack Chips */}
-                <div className="pt-2 flex flex-wrap items-center gap-1.5">
-                  <span className="text-[11px] text-muted-foreground mr-1">Stack:</span>
-                  {currentDeptInfo.techStack.map((tech, i) => (
-                    <span key={i} className="px-2 py-0.5 rounded bg-muted text-[11px] font-mono text-muted-foreground">
-                      {tech}
-                    </span>
+                <div className="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-between">
+                  <div className="text-xs font-mono font-bold text-white">
+                    Starting from ${dept.startingBudgetUSD.toLocaleString()} USD
+                  </div>
+                  <button
+                    onClick={onOpenBriefWizard}
+                    className="text-xs font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                  >
+                    <span>Scope Project</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. INTERACTIVE PROJECT ESTIMATOR & SCOPING WIDGET */}
+      <section className="py-20 border-b border-slate-800 bg-[#070A14]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto bg-slate-900/90 border border-slate-700/80 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+            <div className="space-y-8">
+              <div className="text-center space-y-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
+                  <Sliders className="w-3.5 h-3.5 text-blue-400" />
+                  <span>Instant Scoping Calculator</span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+                  Estimate Your Project Timeline & Investment
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
+                  Select your primary department and engagement tier to estimate deliverables, timeline, and multi-currency billing.
+                </p>
+              </div>
+
+              {/* Department Selector */}
+              <div className="space-y-3">
+                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                  1. Select Department:
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5">
+                  {SERVICE_DEPARTMENTS.map((dept) => (
+                    <button
+                      key={dept.id}
+                      onClick={() => setCalculatorDept(dept.id)}
+                      className={`p-2.5 rounded-xl text-xs font-medium text-left border transition-all ${
+                        calculatorDept === dept.id
+                          ? 'bg-blue-600 text-white border-blue-500 shadow-md font-bold'
+                          : 'bg-slate-800/80 text-slate-300 border-slate-700 hover:border-slate-600 hover:bg-slate-800'
+                      }`}
+                    >
+                      <div className="truncate">{dept.name.split(' ')[0]}</div>
+                      <div className="text-[10px] opacity-80 truncate">{dept.name.split(' ').slice(1).join(' ')}</div>
+                    </button>
                   ))}
                 </div>
               </div>
 
-              {/* Right Side: Lead Info & Starting Estimate */}
-              <div className="lg:col-span-5 space-y-5 lg:border-l lg:border-border/60 lg:pl-8">
-                <div className="p-4 rounded-xl bg-background/60 border border-border/50 space-y-2">
-                  <div className="text-[11px] text-muted-foreground">Department Lead:</div>
-                  <div className="font-semibold text-foreground text-sm">{currentDeptInfo.leadName}</div>
-                  <div className="text-xs text-primary">{currentDeptInfo.leadTitle}</div>
-                  <div className="text-[11px] text-muted-foreground flex items-center gap-1.5 pt-1">
-                    <Users className="w-3.5 h-3.5" />
-                    <span>{currentDeptInfo.activeTalentsCount} Vetted Talents in Pool</span>
-                  </div>
+              {/* Tier Selector */}
+              <div className="space-y-3">
+                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                  2. Engagement Scope:
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[
+                    { id: 'standard', title: 'Standard Sprint', desc: 'Core MVP, single-stack, essential QA' },
+                    { id: 'growth', title: 'Growth Build (Recommended)', desc: 'Multi-platform, custom architecture & dedicated PM' },
+                    { id: 'enterprise', title: 'Enterprise Sovereign', desc: 'High-availability, microservices, 24/7 SLA & NDPR audit' },
+                  ].map((t) => (
+                    <button
+                      key={t.id}
+                      onClick={() => setCalculatorTier(t.id as any)}
+                      className={`p-4 rounded-xl text-left border transition-all ${
+                        calculatorTier === t.id
+                          ? 'bg-blue-600/20 border-blue-500 text-white shadow-lg'
+                          : 'bg-slate-800/60 border-slate-700 text-slate-300 hover:bg-slate-800'
+                      }`}
+                    >
+                      <div className="font-bold text-xs text-white">{t.title}</div>
+                      <div className="text-[11px] text-slate-300 mt-1">{t.desc}</div>
+                    </button>
+                  ))}
                 </div>
+              </div>
 
-                <div className="p-4 rounded-xl bg-background/60 border border-border/50 space-y-2">
-                  <div className="text-[11px] text-muted-foreground">Estimated Starting Investment:</div>
-                  <div className={`text-2xl ${config.statValue}`}>
-                    {currency === 'USD'
-                      ? `$${currentDeptInfo.startingBudgetUSD.toLocaleString()} USD`
-                      : `₦${currentDeptInfo.startingBudgetNGN.toLocaleString()} NGN`}
+              {/* Live Result Display */}
+              <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div className="space-y-1 text-center sm:text-left">
+                  <div className="text-xs text-slate-400 font-semibold uppercase tracking-wider">
+                    Estimated Investment & Delivery
                   </div>
-                  <p className="text-[10px] text-muted-foreground">
-                    Custom tailored scope generated via proposal after discovery triage.
-                  </p>
+                  <div className="flex items-baseline gap-3 justify-center sm:justify-start">
+                    <span className="text-3xl sm:text-4xl font-extrabold text-blue-400 font-mono">
+                      {currency === 'USD' ? `$${estimatedUsd.toLocaleString()}` : `₦${estimatedNgn.toLocaleString()}`}
+                    </span>
+                    <button
+                      onClick={() => setCurrency(currency === 'USD' ? 'NGN' : 'USD')}
+                      className="text-xs text-slate-400 hover:text-white underline font-mono"
+                    >
+                      Switch to {currency === 'USD' ? 'NGN' : 'USD'}
+                    </button>
+                  </div>
+                  <div className="text-xs text-slate-300">
+                    Typical Delivery: <strong className="text-white">{estimatedWeeks}</strong> • Includes Dedicated PM & QA Gate
+                  </div>
                 </div>
 
                 <button
                   onClick={onOpenBriefWizard}
-                  className={`w-full py-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 ${config.accentBtn}`}
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 shrink-0 transition-transform hover:scale-105"
                 >
-                  <span>Request Proposal for {currentDeptInfo.name}</span>
+                  <span>Build Formal Proposal</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -361,71 +471,82 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
         </div>
       </section>
 
-      {/* Featured Case Studies Section */}
-      <section className="py-16 border-b border-border/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <span className="text-xs font-mono uppercase tracking-wider text-primary">Proven Commercial Impact</span>
-              <h2 className={`text-2xl sm:text-3xl ${config.typographyHeading} text-foreground mt-1`}>
-                Flagship Case Studies & Measurable ROI
+      {/* 5. FLAGSHIP CASE STUDIES & VERIFIED ROI */}
+      <section className="py-20 border-b border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
+                <TrendingUp className="w-3.5 h-3.5 text-blue-400" />
+                <span>Verified Outcomes</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+                Proven Enterprise Results
               </h2>
-              <p className={`text-sm ${config.subtext} mt-1 max-w-xl`}>
-                Explore audited transformation records across fintech, agri-supply chains, luxury commerce, and sovereign portals.
+              <p className="text-sm sm:text-base text-slate-300">
+                Real digital systems delivered for high-growth African scale-ups and global multinational brands.
               </p>
             </div>
 
             <button
               onClick={() => onSelectScreen('case-study')}
-              className="text-xs font-semibold text-primary hover:underline flex items-center gap-1"
+              className="inline-flex items-center gap-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors"
             >
-              <span>View All 6 Case Studies</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <span>View All Case Studies</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {featuredCases.map((cs) => (
               <div
                 key={cs.id}
-                onClick={() => onSelectScreen('case-study')}
-                className={`group cursor-pointer rounded-2xl overflow-hidden ${config.cardBg} border ${config.cardBorder} hover:border-primary/50 transition-all shadow-md flex flex-col justify-between`}
+                className="rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden shadow-xl hover:border-blue-500/60 transition-all group flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative h-48 overflow-hidden bg-muted">
+                  <div className="relative h-48 overflow-hidden bg-slate-950">
                     <img
                       src={cs.heroImage}
                       alt={cs.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                     />
-                    <div className="absolute top-3 left-3">
-                      <span className="px-2 py-1 rounded bg-black/70 backdrop-blur-md text-[10px] font-mono text-white">
-                        {cs.industry}
-                      </span>
+                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-black/80 backdrop-blur-md text-[11px] font-semibold text-blue-300 border border-blue-500/30">
+                      {cs.industry}
                     </div>
                   </div>
 
-                  <div className="p-6 space-y-3">
-                    <div className="text-xs text-muted-foreground">{cs.location} • {cs.year}</div>
-                    <h3 className={`text-base font-bold text-foreground group-hover:${config.accentText} transition-colors line-clamp-2`}>
-                      {cs.title}
-                    </h3>
-                    <p className={`text-xs ${config.subtext} line-clamp-3 leading-relaxed`}>{cs.challenge}</p>
+                  <div className="p-6 space-y-4">
+                    <div>
+                      <div className="text-xs text-slate-400 font-semibold">{cs.clientName}</div>
+                      <h3 className="text-lg font-bold text-white mt-1 group-hover:text-blue-400 transition-colors">
+                        {cs.title}
+                      </h3>
+                    </div>
+
+                    <p className="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                      {cs.challenge}
+                    </p>
+
+                    {/* Metrics Grid */}
+                    <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800">
+                      {cs.measurableOutcomes.slice(0, 3).map((m, i) => (
+                        <div key={i} className="text-center p-2 rounded-lg bg-slate-950/60 border border-slate-850">
+                          <div className="text-xs font-bold font-mono text-emerald-400">{m.metric}</div>
+                          <div className="text-[10px] text-slate-400 truncate mt-0.5">{m.label}</div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
-                {/* Primary Metric Banner */}
-                <div className="p-6 pt-0 border-t border-border/40 mt-4">
-                  <div className="pt-3 flex items-center justify-between">
-                    <div>
-                      <div className={`text-xl ${config.statValue}`}>{cs.measurableOutcomes[0]?.metric}</div>
-                      <div className="text-[10px] text-muted-foreground">{cs.measurableOutcomes[0]?.label}</div>
-                    </div>
-                    <span className="text-xs font-semibold text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                      <span>Read Story</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </span>
-                  </div>
+                <div className="p-6 pt-0">
+                  <button
+                    onClick={() => onSelectScreen('case-study')}
+                    className="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                  >
+                    <span>Read Full Dossier</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
             ))}
@@ -433,104 +554,34 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
         </div>
       </section>
 
-      {/* Discrete NDH Academy Bridge Footer Cross-Link */}
-      <footer className={`${config.footerBg} py-12 text-xs`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          {/* Academy Cross-Link Banner */}
-          <div className="p-6 rounded-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary font-bold">
-                <Award className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-sm font-semibold text-foreground">
-                  Looking to build your skills? Explore NDH Academy.
-                </h4>
-                <p className="text-xs text-muted-foreground">
-                  NDH Academy trains and certifies elite tech talents across Africa. Decoupled codebase & separate platform.
-                </p>
-              </div>
-            </div>
-            <a
-              href="https://academy.ndh.com.ng"
-              target="_blank"
-              rel="noreferrer"
-              className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-semibold text-xs flex items-center gap-1.5 shrink-0 hover:bg-primary/90 transition-colors"
-            >
-              <span>Visit academy.ndh.com.ng</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
+      {/* 6. CONVERSION CTA BANNER */}
+      <section className="py-20 bg-gradient-to-b from-[#090D1A] to-[#070A12]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+          <div className="p-10 sm:p-14 rounded-3xl bg-gradient-to-r from-blue-900/60 via-indigo-900/40 to-blue-950/80 border border-blue-500/40 shadow-2xl space-y-6">
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+              Ready to Build Sovereign Digital Systems?
+            </h2>
+            <p className="text-sm sm:text-base text-slate-200 max-w-2xl mx-auto leading-relaxed">
+              Partner with NDH Agency today. Receive a scoped technical roadmap, transparent multi-currency milestone schedule, and assigned Project Manager within 24 hours.
+            </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 border-t border-border/40">
-            <div className="space-y-3">
-              <div className="font-bold text-sm text-foreground">NDH Agency</div>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Managed digital services bureau engineered for sovereign enterprises, high-growth scale-ups, and international diaspora leaders.
-              </p>
-              <div className="text-[11px] text-muted-foreground">Part of Najeeb Digital Hub Ecosystem</div>
-            </div>
-
-            <div className="space-y-2">
-              <div className="font-semibold text-foreground uppercase tracking-wider text-[11px]">Core Services</div>
-              <ul className="space-y-1 text-muted-foreground">
-                <li>Web & App Development</li>
-                <li>Product & UI/UX Design</li>
-                <li>AI Solutions & Automation</li>
-                <li>Brand Strategy & Identity</li>
-                <li>Growth & E-commerce</li>
-              </ul>
-            </div>
-
-            <div className="space-y-2">
-              <div className="font-semibold text-foreground uppercase tracking-wider text-[11px]">Operations & Security</div>
-              <ul className="space-y-1 text-muted-foreground">
-                <li>Dedicated Project Managers</li>
-                <li>Confidential Talent Privacy</li>
-                <li>Multi-Currency Billing (NGN/USD)</li>
-                <li>NDPR & Privacy Compliance</li>
-                <li>SLA Assurance & QA Gates</li>
-              </ul>
-            </div>
-
-            <div className="space-y-2">
-              <div className="font-semibold text-foreground uppercase tracking-wider text-[11px]">Portals & Access</div>
-              <ul className="space-y-1 text-muted-foreground">
-                <li>
-                  <button onClick={() => onSelectScreen('client-dashboard')} className="hover:text-foreground">
-                    Client Workspace
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => onSelectScreen('pm-dashboard')} className="hover:text-foreground">
-                    Project Manager Portal
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => onSelectScreen('talent-dashboard')} className="hover:text-foreground">
-                    Talent Workforce Network
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => onSelectScreen('admin-command')} className="hover:text-foreground">
-                    Admin Command Centre
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border/30 text-[11px] text-muted-foreground">
-            <div>© 2026 NDH Agency (agency.ndh.com.ng). All rights reserved.</div>
-            <div className="flex items-center gap-4">
-              <span>Privacy Policy</span>
-              <span>Terms of Engagement</span>
-              <span>Security Audits</span>
-              <span>ISO 27001 / NDPR Certified</span>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <button
+                onClick={onOpenBriefWizard}
+                className="w-full sm:w-auto px-8 py-4 rounded-xl text-sm font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-xl shadow-blue-600/40 transition-all hover:scale-105"
+              >
+                Start Scoping Your Project →
+              </button>
+              <button
+                onClick={() => onSelectScreen('contact')}
+                className="w-full sm:w-auto px-8 py-4 rounded-xl text-sm font-semibold bg-slate-900 text-slate-200 border border-slate-700 hover:bg-slate-800 transition-colors"
+              >
+                Schedule Consultation
+              </button>
             </div>
           </div>
         </div>
-      </footer>
+      </section>
     </div>
   );
 };

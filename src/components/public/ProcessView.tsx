@@ -47,16 +47,16 @@ export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBr
   ];
 
   return (
-    <div className="bg-[#080C14] text-[#F1F5F9] min-h-screen py-16 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="bg-[#090D1A] text-slate-100 min-h-screen py-16 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto space-y-16">
         {/* Header */}
         <div className="space-y-4 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-mono border border-blue-500/20">
-            <GitBranch className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
+            <GitBranch className="w-3.5 h-3.5 text-blue-400" />
             <span>The NDH Operational Delivery Framework</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-serif font-bold text-white tracking-tight">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
             How We Work: Precision Sprints with Zero Friction.
           </h1>
 
@@ -70,7 +70,7 @@ export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBr
           {steps.map((step, idx) => (
             <div
               key={idx}
-              className="p-8 rounded-3xl bg-[#0F172A]/80 border border-blue-900/40 grid grid-cols-1 md:grid-cols-12 gap-6 items-center shadow-xl hover:border-blue-700/60 transition-colors"
+              className="p-8 rounded-3xl bg-slate-900/90 border border-slate-800 grid grid-cols-1 md:grid-cols-12 gap-6 items-center shadow-xl hover:border-blue-500/60 transition-colors"
             >
               <div className="md:col-span-2">
                 <span className="text-3xl sm:text-4xl font-mono font-bold text-blue-400">
@@ -79,7 +79,7 @@ export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBr
               </div>
               <div className="md:col-span-10 space-y-2">
                 <h3 className="text-xl font-bold text-white">{step.title}</h3>
-                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">{step.description}</p>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{step.description}</p>
               </div>
             </div>
           ))}
@@ -87,39 +87,44 @@ export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBr
 
         {/* Quality Safeguards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
-          <div className="p-6 rounded-2xl bg-[#0F172A]/60 border border-slate-800 space-y-3">
+          <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 shadow-lg">
             <ShieldCheck className="w-8 h-8 text-emerald-400" />
             <h4 className="font-bold text-base text-white">99.4% On-Time SLA</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-300 leading-relaxed">
               Every milestone is bound by contractual delivery deadlines. Real-time telemetry monitors progress daily.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#0F172A]/60 border border-slate-800 space-y-3">
+          <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 shadow-lg">
             <Lock className="w-8 h-8 text-blue-400" />
             <h4 className="font-bold text-base text-white">Confidential Identity Barrier</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Clients and internal talents communicate exclusively via the assigned PM. Zero data or financial leaks.
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Clients and talents never share private identities or contact details, ensuring total corporate confidentiality.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#0F172A]/60 border border-slate-800 space-y-3">
-            <FileCheck className="w-8 h-8 text-purple-400" />
-            <h4 className="font-bold text-base text-white">100% IP Transferred</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Full copyright, source code repositories, design tokens, and vector masters transfer immediately upon settlement.
+          <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 shadow-lg">
+            <FileCheck className="w-8 h-8 text-indigo-400" />
+            <h4 className="font-bold text-base text-white">Total IP Assignment</h4>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Upon final milestone sign-off, complete repository copyrights, Figma tokens, and credentials transfer immediately.
             </p>
           </div>
         </div>
 
         {/* CTA */}
-        <div className="text-center pt-8">
+        <div className="p-10 rounded-3xl bg-slate-900 border border-slate-700/80 text-center space-y-6 shadow-2xl">
+          <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+            Experience the Managed Delivery Difference
+          </h3>
+          <p className="text-sm text-slate-300 max-w-xl mx-auto">
+            Submit your requirements to receive a structured milestone proposal and meet your dedicated Project Manager.
+          </p>
           <button
             onClick={onOpenBriefWizard}
-            className="px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-xl shadow-blue-600/30 transition-all inline-flex items-center gap-2"
+            className="px-8 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-transform hover:scale-105"
           >
-            <span>Start a Project with NDH</span>
-            <ArrowRight className="w-4 h-4" />
+            Start Discovery Brief →
           </button>
         </div>
       </div>
