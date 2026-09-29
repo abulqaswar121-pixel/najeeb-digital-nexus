@@ -17,6 +17,7 @@ import {
 import { MainNavView } from './AppNavbar';
 import { BrandLogo } from '../brand/BrandLogo';
 import { useCurrencyLanguage } from '../../lib/currencyLanguageStore';
+import { useAuth, openAuthModal } from '../../lib/authStore';
 
 interface AppFooterProps {
   onSelectView: (view: MainNavView) => void;
@@ -31,7 +32,17 @@ export const AppFooter: React.FC<AppFooterProps> = ({
   onOpenTalentModal,
   onOpenPaymentModal,
 }) => {
+  const { user } = useAuth();
   const { currency, detectedCountry } = useCurrencyLanguage();
+
+  const handleOpenWorkspace = (view: MainNavView) => {
+    if (!user) {
+      openAuthModal('login');
+    } else {
+      onSelectView(view);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
     <footer className="bg-[#05070D] border-t border-slate-800/80 py-16 text-xs font-sans text-slate-300">
@@ -243,18 +254,18 @@ export const AppFooter: React.FC<AppFooterProps> = ({
             <ul className="space-y-2 text-slate-300 text-xs">
               <li>
                 <button
-                  onClick={() => onSelectView('client-dashboard')}
+                  onClick={() => handleOpenWorkspace('client-dashboard')}
                   className="hover:text-blue-400 flex items-center justify-between w-full transition-colors"
                 >
                   <span>Client Workspace</span>
                   <span className="text-[10px] text-blue-400 font-mono px-1.5 py-0.5 rounded bg-blue-950 border border-blue-800">
-                    Sign In
+                    {user ? 'Open' : 'Sign In'}
                   </span>
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('pm-dashboard')}
+                  onClick={() => handleOpenWorkspace('pm-dashboard')}
                   className="hover:text-blue-400 flex items-center justify-between w-full transition-colors"
                 >
                   <span>Project Manager Desk</span>
@@ -265,7 +276,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('talent-dashboard')}
+                  onClick={() => handleOpenWorkspace('talent-dashboard')}
                   className="hover:text-blue-400 flex items-center justify-between w-full transition-colors"
                 >
                   <span>Talent Workspace</span>
@@ -276,7 +287,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('admin-command')}
+                  onClick={() => handleOpenWorkspace('admin-command')}
                   className="hover:text-blue-400 flex items-center justify-between w-full transition-colors"
                 >
                   <span>Admin Command Nexus</span>

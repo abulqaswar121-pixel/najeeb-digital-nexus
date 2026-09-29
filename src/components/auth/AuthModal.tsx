@@ -205,23 +205,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
               <span>Sign In to Workspace</span>
               <ArrowRight className="w-4 h-4" />
             </button>
-
-            {/* Quick Demo Credentials Helper */}
-            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 text-[11px] text-slate-400 space-y-1">
-              <div className="font-bold text-slate-300">Test Account Credentials:</div>
-              <div className="flex justify-between font-mono text-[10px]">
-                <span>Client: folake@kobopay.com</span>
-                <span className="text-slate-500">Any Pass</span>
-              </div>
-              <div className="flex justify-between font-mono text-[10px]">
-                <span>Admin: najeeb@ndh.com.ng</span>
-                <span className="text-slate-500">Any Pass</span>
-              </div>
-              <div className="flex justify-between font-mono text-[10px]">
-                <span>PM: tariq.pm@agency.ndh.com.ng</span>
-                <span className="text-slate-500">Any Pass</span>
-              </div>
-            </div>
           </form>
         ) : (
           /* REGISTRATION FORM */

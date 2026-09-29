@@ -35,37 +35,49 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error(error);
+  console.error("Runtime error caught by root boundary:", error);
   const router = useRouter();
+
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0B0F19] px-4 text-slate-100">
-      <div className="max-w-md text-center">
-        <h1 className="text-2xl font-bold tracking-tight text-white">
-          System Notice
+    <div className="flex min-h-screen items-center justify-center bg-[#070A14] px-4 text-slate-100 font-sans">
+      <div className="max-w-md text-center p-8 rounded-3xl bg-[#0F172A] border border-blue-900/40 shadow-2xl space-y-4">
+        <div className="w-12 h-12 rounded-2xl bg-blue-600/20 text-blue-400 flex items-center justify-center mx-auto">
+          <span className="text-xl font-bold">NDH</span>
+        </div>
+        <h1 className="text-xl font-bold tracking-tight text-white">
+          Session Refresh
         </h1>
-        <p className="mt-2 text-sm text-slate-400">
-          An operational session refresh is recommended. Please reload the interface.
+        <p className="text-xs text-slate-400 leading-relaxed">
+          {error?.message || "An operational session refresh is recommended. Please reload the interface."}
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
+        <div className="pt-2 flex flex-wrap justify-center gap-3">
           <button
             onClick={() => {
-              router.invalidate();
-              reset();
+              if (typeof window !== 'undefined') {
+                window.location.reload();
+              } else {
+                router.invalidate();
+                reset();
+              }
             }}
-            className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
+            className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-xs font-bold text-white transition-all hover:bg-blue-500 shadow-lg shadow-blue-600/30"
           >
-            Refresh View
+            Refresh Interface
           </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-800"
+          <button
+            onClick={() => {
+              if (typeof window !== 'undefined') {
+                window.location.href = "/";
+              }
+            }}
+            className="inline-flex items-center justify-center rounded-xl border border-slate-700 bg-slate-900 px-5 py-2.5 text-xs font-bold text-slate-200 transition-colors hover:bg-slate-800"
           >
             Go to Home
-          </a>
+          </button>
         </div>
       </div>
     </div>
