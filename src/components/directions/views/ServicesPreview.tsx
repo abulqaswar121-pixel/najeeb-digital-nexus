@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ServiceDepartment, ServiceDepartmentInfo } from '../../../types/ndh';
 import { SERVICE_DEPARTMENTS } from '../../../data/mockData';
+import { useCurrencyLanguage } from '../../../lib/currencyLanguageStore';
 import {
   CheckCircle2,
   Clock,
@@ -18,6 +19,7 @@ interface ServicesPreviewProps {
 }
 
 export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWizard }) => {
+  const { formatPrice, currency } = useCurrencyLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDeptId, setSelectedDeptId] = useState<ServiceDepartment>('web_app_development');
 
@@ -33,13 +35,13 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWiz
     SERVICE_DEPARTMENTS.find((d) => d.id === selectedDeptId) || SERVICE_DEPARTMENTS[0]!;
 
   return (
-    <div className="min-h-screen bg-[#090D1A] text-slate-100 py-14 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="min-h-screen bg-[#070A14] text-slate-100 py-14 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Header Banner */}
         <div className="space-y-4 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
             <Layers className="w-3.5 h-3.5 text-blue-400" />
-            <span>Managed Service Matrix • 10 Core Departments</span>
+            <span>Service Matrix • 10 Core Departments</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white leading-tight">
             World-Class Capabilities. Managed by Dedicated Project Managers.
@@ -123,10 +125,10 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWiz
                 <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
                   <div>
                     <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
-                      Starting Investment:
+                      Starting Investment ({currency}):
                     </div>
-                    <div className="text-sm font-mono font-bold text-blue-400">
-                      ${dept.startingBudgetUSD.toLocaleString()} USD
+                    <div className="text-sm font-mono font-bold text-emerald-400">
+                      {formatPrice(dept.startingBudgetUSD)}
                     </div>
                   </div>
                   <button

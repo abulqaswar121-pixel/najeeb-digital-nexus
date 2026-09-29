@@ -10,8 +10,11 @@ import {
   MapPin,
   Mail,
   Phone,
+  Heart,
 } from 'lucide-react';
 import { MainNavView } from './AppNavbar';
+import { BrandLogo } from '../brand/BrandLogo';
+import { useCurrencyLanguage } from '../../lib/currencyLanguageStore';
 
 interface AppFooterProps {
   onSelectView: (view: MainNavView) => void;
@@ -19,26 +22,28 @@ interface AppFooterProps {
 }
 
 export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefWizard }) => {
+  const { currency, setCurrency, currencies, language, setLanguage, languages, t } = useCurrencyLanguage();
+
   return (
-    <footer className="bg-[#070A12] border-t border-slate-800 py-16 text-xs font-sans text-slate-300">
+    <footer className="bg-[#05070D] border-t border-slate-800/80 py-16 text-xs font-sans text-slate-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Discrete NDH Academy Cross-Link Banner */}
-        <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-slate-900 via-blue-950/60 to-slate-900 border border-slate-700/80 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950/60 to-slate-900 border border-slate-700/80 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
           <div className="flex items-start sm:items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0 shadow-inner">
+            <div className="w-12 h-12 rounded-2xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0 shadow-inner">
               <Award className="w-6 h-6 text-blue-400" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-bold text-white">
-                  Looking for Tech Education? Visit NDH Academy.
+                  Looking for Tech Education & Training? Visit NDH Academy.
                 </span>
                 <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] bg-blue-500/20 text-blue-300 font-mono font-medium">
                   Separate Platform
                 </span>
               </div>
               <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
-                NDH Academy trains African developers, product designers, and AI engineers. Operates as an independent platform with dedicated curriculum and faculty.
+                NDH Academy trains African developers, product designers, and AI engineers. Operates as an independent platform with dedicated curriculum.
               </p>
             </div>
           </div>
@@ -55,17 +60,12 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
         </div>
 
         {/* 4-Column Directory Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pt-4 border-t border-slate-800">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pt-4 border-t border-slate-850">
           {/* Col 1: Brand & Parent Hub */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-sm shadow-md">
-                N
-              </div>
-              <span className="font-extrabold text-lg text-white">NDH Agency</span>
-            </div>
+            <BrandLogo size="md" showSubtitle={true} />
             <p className="text-xs text-slate-300 leading-relaxed">
-              The premier managed digital services bureau of Najeeb Digital Hub. Engineering sovereign technology, world-class design systems, and Pan-African market research for enterprise leaders.
+              We design and build world-class digital systems, mobile apps, and brand strategies that help modern businesses scale with certainty.
             </p>
             <div className="space-y-2 text-slate-300 text-xs pt-1">
               <div className="flex items-center gap-2">
@@ -82,7 +82,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
           {/* Col 2: Managed Departments */}
           <div className="space-y-3">
             <div className="font-bold text-white uppercase tracking-wider text-xs">
-              10 Core Departments
+              What We Build
             </div>
             <ul className="space-y-2 text-slate-300 text-xs">
               <li>
@@ -90,7 +90,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                   onClick={() => onSelectView('services')}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
-                  Enterprise Web Engineering
+                  Custom Websites & Web Apps
                 </button>
               </li>
               <li>
@@ -98,7 +98,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                   onClick={() => onSelectView('services')}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
-                  Mobile Application Systems
+                  Mobile Apps (iOS & Android)
                 </button>
               </li>
               <li>
@@ -114,7 +114,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                   onClick={() => onSelectView('services')}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
-                  Brand Strategy & Visual Identity
+                  Brand Strategy & Logo Design
                 </button>
               </li>
               <li>
@@ -122,7 +122,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                   onClick={() => onSelectView('services')}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
-                  Cloud Architecture & SRE
+                  AI Agents & Workflow Automation
                 </button>
               </li>
               <li>
@@ -130,7 +130,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                   onClick={() => onSelectView('services')}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
-                  Pan-African Market Research
+                  Cloud Architecture & Security
                 </button>
               </li>
             </ul>
@@ -139,7 +139,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
           {/* Col 3: Operations & Governance */}
           <div className="space-y-3">
             <div className="font-bold text-white uppercase tracking-wider text-xs">
-              Governance & Framework
+              Why Choose Us
             </div>
             <ul className="space-y-2 text-slate-300 text-xs">
               <li>
@@ -147,7 +147,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                   onClick={() => onSelectView('process')}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
-                  The Managed Bureau Model
+                  Managed Bureau vs Freelancers
                 </button>
               </li>
               <li>
@@ -155,7 +155,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                   onClick={() => onSelectView('process')}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
-                  Dedicated PM SLA & Dual QA Gates
+                  Guaranteed On-Time Delivery
                 </button>
               </li>
               <li>
@@ -163,7 +163,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                   onClick={() => onSelectView('talent-network')}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
-                  Strict Talent Privacy Escrow
+                  Top 3% Vetted African Talent
                 </button>
               </li>
               <li>
@@ -171,7 +171,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                   onClick={() => onSelectView('case-study')}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
-                  Verified Enterprise ROI Case Studies
+                  Client Success Stories & ROI
                 </button>
               </li>
               <li>
@@ -179,7 +179,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                   onClick={() => onSelectView('insights')}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
-                  Strategic Intelligence & Blog
+                  Tech Insights & Case Studies
                 </button>
               </li>
             </ul>
@@ -188,7 +188,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
           {/* Col 4: Operating Portals */}
           <div className="space-y-3">
             <div className="font-bold text-white uppercase tracking-wider text-xs">
-              Client & Operational Portals
+              Portals & Workspaces
             </div>
             <ul className="space-y-2 text-slate-300 text-xs">
               <li>
@@ -198,7 +198,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                 >
                   <span>Client Workspace</span>
                   <span className="text-[10px] text-blue-400 font-mono px-1.5 py-0.5 rounded bg-blue-950 border border-blue-800">
-                    Client Access
+                    Sign In
                   </span>
                 </button>
               </li>
@@ -207,7 +207,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                   onClick={() => onSelectView('pm-dashboard')}
                   className="hover:text-blue-400 flex items-center justify-between w-full transition-colors"
                 >
-                  <span>Project Manager Command</span>
+                  <span>Project Manager Desk</span>
                   <span className="text-[10px] text-indigo-400 font-mono px-1.5 py-0.5 rounded bg-indigo-950 border border-indigo-800">
                     PM Ops
                   </span>
@@ -218,7 +218,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                   onClick={() => onSelectView('talent-dashboard')}
                   className="hover:text-blue-400 flex items-center justify-between w-full transition-colors"
                 >
-                  <span>Talent Workforce Desk</span>
+                  <span>Talent Workspace</span>
                   <span className="text-[10px] text-emerald-400 font-mono px-1.5 py-0.5 rounded bg-emerald-950 border border-emerald-800">
                     Private
                   </span>
@@ -231,7 +231,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
                 >
                   <span>Admin Command Nexus</span>
                   <span className="text-[10px] text-amber-400 font-mono px-1.5 py-0.5 rounded bg-amber-950 border border-amber-800">
-                    Dual-Approval
+                    Dual-Sign
                   </span>
                 </button>
               </li>
@@ -254,7 +254,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({ onSelectView, onOpenBriefW
               <span>ISO 27001 Certified Security</span>
             </span>
             <button onClick={() => onSelectView('contact')} className="hover:text-white transition-colors">
-              Terms & SLA
+              Terms of Service
             </button>
             <button onClick={() => onSelectView('contact')} className="hover:text-white transition-colors">
               Privacy Policy
