@@ -37,7 +37,7 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
   const [amount, setAmount] = useState<number>(defaultAmount);
   const [applyWelcomeDiscount, setApplyWelcomeDiscount] = useState<boolean>(true);
   const [paystackPublicKey, setPaystackPublicKey] = useState(
-    (typeof process !== 'undefined' && process.env?.VITE_PAYSTACK_PUBLIC_KEY) || 'pk_test_ndh_agency_demo_9921448'
+    import.meta.env['VITE_PAYSTACK_PUBLIC_KEY'] || 'pk_test_ndh_agency_demo_9921448'
   );
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentCompleted, setPaymentCompleted] = useState<string | null>(null);

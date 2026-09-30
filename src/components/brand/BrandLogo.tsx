@@ -24,7 +24,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   };
 
   return (
-    <div className={`flex items-center gap-3 select-none group ${className}`}>
+    <div className={`flex min-w-0 items-center gap-2.5 select-none group ${className}`}>
       {/* 3D Geometric Nexus Diamond Emblem */}
       <div className={`relative ${iconSizes[size]} shrink-0 transition-transform duration-300 group-hover:scale-105`}>
         {/* Glowing Ambient Halo */}
@@ -74,9 +74,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       </div>
 
       {/* Brand Typography */}
-      <div className="flex flex-col">
-        <div className="flex items-center gap-2">
-          <span className={`font-black tracking-tight text-white ${textSizes[size]} group-hover:text-blue-400 transition-colors`}>
+      <div className="flex min-w-0 flex-col">
+        <div className="flex min-w-0 items-center gap-2">
+          <span className={`whitespace-nowrap font-black tracking-tight text-white ${textSizes[size]} group-hover:text-blue-400 transition-colors`}>
             NDH<span className="font-light text-blue-400 ml-1">AGENCY</span>
           </span>
           <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-gradient-to-r from-blue-500/20 to-indigo-500/20 border border-blue-400/30 text-blue-300 uppercase tracking-wider font-mono">

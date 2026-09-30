@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth, openAuthModal, logoutUser } from '../../lib/authStore';
+import { useAuth, openAuthModal } from '../../lib/authStore';
 import { useCurrencyLanguage, SupportedCurrency, SupportedLanguage } from '../../lib/currencyLanguageStore';
 import { BrandLogo } from '../brand/BrandLogo';
 import {
@@ -93,17 +93,18 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
   ].includes(currentView);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#070A14]/95 backdrop-blur-xl border-b border-slate-800/90 shadow-2xl font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full max-w-full overflow-x-clip bg-[#070A14]/95 backdrop-blur-xl border-b border-slate-800/90 shadow-2xl font-sans">
+      <div className="mx-auto grid h-16 w-full max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-3 sm:h-20 sm:px-6 lg:px-8">
         {/* Brand / Logo */}
         <div
           onClick={() => {
             onSelectView('homepage');
             setMobileMenuOpen(false);
           }}
-          className="cursor-pointer"
+          className="min-w-0 cursor-pointer"
         >
-          <BrandLogo size="md" showSubtitle={true} />
+          <BrandLogo size="sm" showSubtitle={false} className="min-w-0 sm:hidden" />
+          <BrandLogo size="md" showSubtitle={true} className="hidden sm:flex" />
         </div>
 
         {/* Desktop Navigation Links */}
@@ -317,22 +318,16 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
         </div>
 
         {/* Mobile Hamburger Button */}
-        <div className="flex md:hidden items-center gap-2">
-          <button
-            onClick={() => setCurrency(currency === 'USD' ? 'NGN' : 'USD')}
-            className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200"
-          >
-            {currencies[currency]?.symbol} {currency}
-          </button>
+        <div className="flex shrink-0 items-center gap-2 md:hidden">
           <button
             onClick={onOpenBriefWizard}
-            className="px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white"
+            className="h-10 px-3 rounded-lg text-xs font-bold bg-blue-600 text-white"
           >
             Proposal
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-200"
+            className="grid size-10 shrink-0 place-items-center rounded-lg bg-slate-900 border border-slate-700 text-slate-200"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -342,7 +337,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-800 bg-[#070A14] px-4 py-6 space-y-5 animate-in slide-in-from-top-4 duration-200">
+        <div className="max-h-[calc(100dvh-4rem)] w-full max-w-full overflow-x-hidden overflow-y-auto border-t border-slate-800 bg-[#070A14] px-4 py-5 md:hidden space-y-5 animate-in slide-in-from-top-4 duration-200">
           {/* User Status in Mobile */}
           {user ? (
             <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
@@ -390,13 +385,13 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
           )}
 
           {/* Currency and Language Pickers for Mobile */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid min-w-0 grid-cols-1 gap-3 min-[380px]:grid-cols-2">
             <div>
               <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1">Currency</label>
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value as SupportedCurrency)}
-                className="w-full p-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white font-bold"
+                className="w-full min-w-0 p-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white font-bold"
               >
                 {(Object.keys(currencies) as SupportedCurrency[]).map((c) => (
                   <option key={c} value={c}>
@@ -410,7 +405,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value as SupportedLanguage)}
-                className="w-full p-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white font-bold"
+                className="w-full min-w-0 p-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white font-bold"
               >
                 {(Object.keys(languages) as SupportedLanguage[]).map((l) => (
                   <option key={l} value={l}>

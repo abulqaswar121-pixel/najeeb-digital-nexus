@@ -495,7 +495,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               </h3>
 
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                {currentCase.summary}
+                 {currentCase.summary ?? currentCase.solution}
               </p>
 
               {/* Verified Metrics Grid */}

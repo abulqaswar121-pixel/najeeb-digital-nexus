@@ -20,13 +20,22 @@ import { MobileSimulatorPreview } from '../components/directions/views/MobileSim
 import { InteractiveJourneyWalkthrough } from '../components/journey/InteractiveJourneyWalkthrough';
 import { AIAssistantWidget } from '../components/ai/AIAssistantWidget';
 import { AuthModal } from '../components/auth/AuthModal';
-import { CreateAccountModal } from '../components/auth/CreateAccountModal';
 import { InteractiveBriefModal } from '../components/directions/modals/InteractiveBriefModal';
 import { ArchitecturalBlueprintModal } from '../components/directions/modals/ArchitecturalBlueprintModal';
 import { TalentApplicationModal } from '../components/public/TalentApplicationModal';
 import { PaystackPaymentModal } from '../components/payment/PaystackPaymentModal';
 
 export const Route = createFileRoute('/')({
+  head: () => ({
+    meta: [
+      { title: 'NDH Agency | Digital Products, Brands & Growth Systems' },
+      { name: 'description', content: 'NDH Agency builds premium software, brand systems, automation, and growth experiences for ambitious organizations.' },
+      { property: 'og:title', content: 'NDH Agency | Digital Products, Brands & Growth Systems' },
+      { property: 'og:description', content: 'Premium digital delivery with dedicated project leadership and vetted specialist teams.' },
+      { property: 'og:type', content: 'website' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+    ],
+  }),
   component: NDHAgencyMainApp,
 });
 
@@ -50,7 +59,7 @@ function NDHAgencyMainApp() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070A14] text-[#F1F5F9] flex flex-col font-sans antialiased selection:bg-blue-600/30 selection:text-white">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#070A14] text-[#F1F5F9] flex flex-col font-sans antialiased selection:bg-blue-600/30 selection:text-white">
       {/* 1. BROADCAST ANNOUNCEMENT BAR (Public Pages Only) */}
       {!isPortalView && (
         <AnnouncementBar
@@ -188,12 +197,7 @@ function NDHAgencyMainApp() {
         onNavigatePortal={(portal) => handleNavigate(portal as MainNavView)}
       />
 
-      {/* 9. Create Custom Test Account Modal */}
-      <CreateAccountModal
-        onNavigatePortal={(portal) => handleNavigate(portal as MainNavView)}
-      />
-
-      {/* 10. Interactive Proposal Scoping Wizard */}
+      {/* 9. Interactive Proposal Scoping Wizard */}
       <InteractiveBriefModal
         isOpen={isBriefModalOpen}
         onClose={() => setIsBriefModalOpen(false)}

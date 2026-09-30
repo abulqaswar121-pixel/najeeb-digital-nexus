@@ -473,7 +473,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onBackToAgency, onSw
 
                           <div className="space-y-1.5 pt-1">
                             <span className="text-[10px] uppercase font-bold text-slate-400 block">Rank Perks:</span>
-                            {cfg.perks.map((p, idx) => (
+                            {cfg.perks.map((p: string, idx: number) => (
                               <div key={idx} className="flex items-start gap-1.5 text-xs text-slate-300">
                                 <CheckCircle className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
                                 <span className="leading-tight text-[11px]">{p}</span>
