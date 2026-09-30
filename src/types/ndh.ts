@@ -194,6 +194,9 @@ export interface CaseStudy {
   year: string;
   location: string;
   projectDuration: string;
+  summary?: string;
+  leadPM?: string;
+  teamSize?: number;
   heroImage: string;
   galleryImages: string[];
   challenge: string;

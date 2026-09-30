@@ -70,6 +70,13 @@
   --ring: oklch(0.6 0.22 260);
 }
 
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 .dark {
   --background: oklch(0.08 0.02 260);
   --foreground: oklch(0.98 0.01 260);

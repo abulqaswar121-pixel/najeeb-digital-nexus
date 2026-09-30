@@ -339,7 +339,7 @@ class NDHDatabaseService {
     // 10% cashback earned by the referrer once funded
     ref.cashbackEarnedNGN = Math.round(paidAmountNGN * 0.10);
     ref.cashbackEarnedUSD = Math.round(paidAmountUSD * 0.10);
-    ref.fundedAt = new Date().toISOString().split('T')[0];
+    ref.fundedAt = new Date().toISOString().split('T')[0] ?? '2026-09-30';
 
     this.persist('ndh_db_referrals', this.referrals);
     return ref;

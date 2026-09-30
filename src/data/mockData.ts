@@ -8,6 +8,9 @@ import {
   FinancialInvoice,
   TalentPayoutBatch,
   SecurityAuditLog,
+  TalentRank,
+  TalentRankDetails,
+  RevenueSplitBreakdown,
 } from '../types/ndh';
 
 export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [

@@ -176,12 +176,12 @@ export const CaseStudyPreview: React.FC<CaseStudyPreviewProps> = ({ onOpenBriefW
               <div className="space-y-4 text-xs">
                 <div>
                   <div className="text-slate-400 uppercase font-semibold text-[10px]">Managing Lead</div>
-                  <div className="text-white font-bold mt-0.5">{cs.leadPM}</div>
+                   <div className="text-white font-bold mt-0.5">{cs.leadPM ?? 'NDH Delivery Lead'}</div>
                 </div>
 
                 <div>
                   <div className="text-slate-400 uppercase font-semibold text-[10px]">Team Composition</div>
-                  <div className="text-white font-bold mt-0.5">{cs.teamSize} Vetted Specialists</div>
+                   <div className="text-white font-bold mt-0.5">{cs.teamSize ?? cs.techStack.length} Vetted Specialists</div>
                 </div>
 
                 <div>

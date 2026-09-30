@@ -213,11 +213,11 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
   return (
     <>
       {/* Floating Action Launcher Button */}
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-4 left-3 right-3 z-50 flex justify-end sm:bottom-6 sm:left-auto sm:right-6">
         {!isOpen && (
           <button
             onClick={() => setIsOpen(true)}
-            className="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white shadow-2xl shadow-blue-600/50 border border-blue-400/40 transition-all duration-300 hover:scale-105 active:scale-95"
+            className="group relative flex max-w-full items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white shadow-2xl shadow-blue-600/50 border border-blue-400/40 transition-all duration-300 hover:scale-105 active:scale-95"
           >
             <div className="relative">
               <Bot className="w-5 h-5 text-blue-200 group-hover:rotate-12 transition-transform" />
@@ -231,7 +231,7 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                   AI Support
                 </span>
               </div>
-              <div className="text-[10px] text-blue-200/90 leading-tight">Instant Scoping & PM Concierge</div>
+               <div className="hidden text-[10px] text-blue-200/90 leading-tight min-[380px]:block">Instant Scoping & PM Concierge</div>
             </div>
           </button>
         )}
@@ -239,7 +239,7 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
 
       {/* Floating Assistant Modal Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-full max-w-[420px] h-[600px] bg-[#0A0E17]/95 border border-blue-900/60 rounded-3xl shadow-2xl shadow-black/90 flex flex-col justify-between overflow-hidden backdrop-blur-2xl text-xs font-sans text-slate-200 animate-in slide-in-from-bottom-5 duration-300">
+        <div className="fixed bottom-3 left-3 right-3 z-50 flex h-[min(600px,calc(100dvh-1.5rem))] flex-col justify-between overflow-hidden rounded-3xl border border-blue-900/60 bg-[#0A0E17]/95 text-xs text-slate-200 shadow-2xl shadow-black/90 backdrop-blur-2xl animate-in slide-in-from-bottom-5 duration-300 sm:bottom-6 sm:left-auto sm:right-6 sm:w-full sm:max-w-[420px]">
           {/* Header */}
           <div className="p-4 border-b border-blue-900/40 bg-gradient-to-r from-blue-950/80 via-slate-900/90 to-indigo-950/80 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2.5">

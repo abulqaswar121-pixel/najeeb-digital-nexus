@@ -45,6 +45,8 @@ import {
   ArrowRight,
   ShieldCheck,
   Star,
+  Briefcase,
+  Terminal,
 } from 'lucide-react';
 
 interface AdminPortalProps {
@@ -923,7 +925,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                     <div className="flex items-center gap-3">
                       <span className="text-slate-500">{log.timestamp.split('T')[1]?.slice(0, 8)}</span>
                       <span className="text-blue-400">{log.action}</span>
-                      <span className="text-slate-400">by {log.performedBy}</span>
+                       <span className="text-slate-400">by {log.actorName}</span>
                     </div>
                     <span className="px-2 py-0.5 rounded text-[10px] bg-slate-950 text-emerald-400 border border-slate-800">
                       {log.location}
