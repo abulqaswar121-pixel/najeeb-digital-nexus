@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../lib/authStore';
-import { BrandLogo } from '../brand/BrandLogo';
+import React, { useState } from "react";
+import { useAuth, DEMO_ACCOUNT_PASSWORD } from "../../lib/authStore";
+import { useModalA11y } from "../../hooks/use-modal-a11y";
+import { BrandLogo } from "../brand/BrandLogo";
 import {
   X,
   Lock,
@@ -13,7 +14,15 @@ import {
   CheckCircle2,
   Sparkles,
   Gift,
-} from 'lucide-react';
+  FlaskConical,
+} from "lucide-react";
+
+const DEMO_ACCOUNTS: { label: string; email: string; roleTitle: string }[] = [
+  { label: "Client", email: "folake@kobopay.com", roleTitle: "Client Owner" },
+  { label: "Project Manager", email: "tariq.pm@agency.ndh.com.ng", roleTitle: "Principal PM" },
+  { label: "Talent", email: "alpha.dev@network.ndh.com.ng", roleTitle: "Elite Talent" },
+  { label: "Super Admin", email: "najeeb@ndh.com.ng", roleTitle: "Managing Director" },
+];
 
 interface AuthModalProps {
   onNavigatePortal: (portal: string) => void;
@@ -22,24 +31,26 @@ interface AuthModalProps {
 export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
   const { isAuthModalOpen, initialAuthTab, closeAuthModal, login, register, user } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<'login' | 'register'>(initialAuthTab || 'login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [orgName, setOrgName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [referralCode, setReferralCode] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [activeTab, setActiveTab] = useState<"login" | "register">(initialAuthTab || "login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [orgName, setOrgName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [referralCode, setReferralCode] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  useModalA11y(isAuthModalOpen, closeAuthModal);
 
   if (!isAuthModalOpen) return null;
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage('');
+    setErrorMessage("");
 
     if (!email || !password) {
-      setErrorMessage('Please enter both your email address and password.');
+      setErrorMessage("Please enter both your email address and password.");
       return;
     }
 
@@ -48,27 +59,27 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
       setSuccessMessage(`Welcome back, ${result.user.fullName}!`);
       setTimeout(() => {
         closeAuthModal();
-        if (result.user?.role === 'super_admin') {
-          onNavigatePortal('admin-command');
-        } else if (result.user?.role === 'project_manager') {
-          onNavigatePortal('pm-dashboard');
-        } else if (result.user?.role === 'talent') {
-          onNavigatePortal('talent-dashboard');
+        if (result.user?.role === "super_admin") {
+          onNavigatePortal("admin-command");
+        } else if (result.user?.role === "project_manager") {
+          onNavigatePortal("pm-dashboard");
+        } else if (result.user?.role === "talent") {
+          onNavigatePortal("talent-dashboard");
         } else {
-          onNavigatePortal('client-dashboard');
+          onNavigatePortal("client-dashboard");
         }
       }, 700);
     } else {
-      setErrorMessage(result.error || 'Invalid credentials. Please try again.');
+      setErrorMessage(result.error || "Invalid credentials. Please try again.");
     }
   };
 
   const handleRegisterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage('');
+    setErrorMessage("");
 
     if (!fullName || !email || !orgName) {
-      setErrorMessage('Please provide your full name, email, and company/project name.');
+      setErrorMessage("Please provide your full name, email, and company/project name.");
       return;
     }
 
@@ -85,13 +96,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
       setSuccessMessage(`Account created for ${result.user.fullName}!`);
       setTimeout(() => {
         closeAuthModal();
-        onNavigatePortal('client-dashboard');
+        onNavigatePortal("client-dashboard");
       }, 700);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={activeTab === "login" ? "Sign in" : "Create account"}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans"
+    >
       <div className="w-full max-w-md rounded-3xl bg-[#0F172A] border border-blue-500/40 p-6 sm:p-8 shadow-2xl relative space-y-6">
         <button
           onClick={closeAuthModal}
@@ -106,12 +122,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
             <BrandLogo size="md" showSubtitle={false} />
           </div>
           <h2 className="text-xl font-black text-white">
-            {activeTab === 'login' ? 'Sign In to Workspace' : 'Create Client Account'}
+            {activeTab === "login" ? "Sign In to Workspace" : "Create Client Account"}
           </h2>
           <p className="text-xs text-slate-400">
-            {activeTab === 'login'
-              ? 'Access your proposals, active milestones, and PM direct channel'
-              : 'Start your project with milestone escrow protection and dedicated PMs'}
+            {activeTab === "login"
+              ? "Access your proposals, active milestones, and PM direct channel"
+              : "Start your project with milestone escrow protection and dedicated PMs"}
           </p>
         </div>
 
@@ -120,13 +136,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
           <button
             type="button"
             onClick={() => {
-              setActiveTab('login');
-              setErrorMessage('');
+              setActiveTab("login");
+              setErrorMessage("");
             }}
             className={`py-2 rounded-xl transition-all ${
-              activeTab === 'login'
-                ? 'bg-blue-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
+              activeTab === "login"
+                ? "bg-blue-600 text-white shadow-md"
+                : "text-slate-400 hover:text-white"
             }`}
           >
             Sign In
@@ -134,13 +150,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
           <button
             type="button"
             onClick={() => {
-              setActiveTab('register');
-              setErrorMessage('');
+              setActiveTab("register");
+              setErrorMessage("");
             }}
             className={`py-2 rounded-xl transition-all ${
-              activeTab === 'register'
-                ? 'bg-blue-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
+              activeTab === "register"
+                ? "bg-blue-600 text-white shadow-md"
+                : "text-slate-400 hover:text-white"
             }`}
           >
             Create Account
@@ -161,8 +177,38 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
         )}
 
         {/* LOGIN FORM */}
-        {activeTab === 'login' ? (
+        {activeTab === "login" ? (
           <form onSubmit={handleLoginSubmit} className="space-y-4 text-xs">
+            <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-800/50 space-y-2">
+              <div className="flex items-center gap-1.5 text-[11px] font-bold text-indigo-300">
+                <FlaskConical className="w-3.5 h-3.5" />
+                <span>Preview Environment — Try a Demo Role</span>
+              </div>
+              <p className="text-[10px] text-slate-400 leading-relaxed">
+                This is a sandbox build, not a live account system. Pick a role to auto-fill its
+                demo credentials below, then hit Sign In.
+              </p>
+              <div className="grid grid-cols-2 gap-1.5">
+                {DEMO_ACCOUNTS.map((acc) => (
+                  <button
+                    type="button"
+                    key={acc.email}
+                    onClick={() => {
+                      setEmail(acc.email);
+                      setPassword(DEMO_ACCOUNT_PASSWORD);
+                      setErrorMessage("");
+                    }}
+                    className="px-2 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-indigo-500 text-left text-[10px] font-semibold text-slate-200 transition-colors"
+                  >
+                    <div>{acc.label}</div>
+                    <div className="text-[9px] text-slate-500 font-normal truncate">
+                      {acc.roleTitle}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="space-y-1.5">
               <label className="font-bold text-slate-300">Email Address</label>
               <div className="relative">
@@ -181,7 +227,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="font-bold text-slate-300">Password</label>
-                <button type="button" className="text-[10px] text-blue-400 hover:underline">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setErrorMessage(
+                      "Password reset isn\u2019t available in this preview sandbox. Use one of the demo accounts above, or create a new client account.",
+                    )
+                  }
+                  className="text-[10px] text-blue-400 hover:underline"
+                >
                   Forgot Password?
                 </button>
               </div>
@@ -282,7 +336,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
             <div className="space-y-1">
               <label className="font-semibold text-slate-400 flex items-center justify-between">
                 <span>Referral Code (Optional)</span>
-                <span className="text-[10px] text-emerald-400 font-mono">Get ₦50k / $50 Discount</span>
+                <span className="text-[10px] text-emerald-400 font-mono">
+                  Get ₦50k / $50 Discount
+                </span>
               </label>
               <div className="relative">
                 <Gift className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-emerald-400" />
@@ -306,9 +362,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
           </form>
         )}
 
-        <div className="flex items-center justify-center gap-2 text-[11px] text-slate-400 pt-1">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-          <span>256-bit Encrypted • NDPR &amp; ISO 27001 Certified Security</span>
+        <div className="flex items-center justify-center gap-2 text-[11px] text-slate-400 pt-1 text-center">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+          <span>
+            Sandbox session — demo data stays in this browser only, no real payments are processed.
+          </span>
         </div>
       </div>
     </div>

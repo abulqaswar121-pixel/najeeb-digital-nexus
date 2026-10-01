@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Mail,
   Phone,
@@ -9,8 +9,8 @@ import {
   ArrowRight,
   ShieldCheck,
   Building,
-} from 'lucide-react';
-import { MainNavView } from '../layout/AppNavbar';
+} from "lucide-react";
+import { MainNavView } from "../layout/AppNavbar";
 
 interface ContactViewProps {
   onSelectView: (view: MainNavView) => void;
@@ -19,10 +19,10 @@ interface ContactViewProps {
 
 export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBriefWizard }) => {
   const [consultSubmitted, setConsultSubmitted] = useState<boolean>(false);
-  const [consultName, setConsultName] = useState('');
-  const [consultEmail, setConsultEmail] = useState('');
-  const [consultDate, setConsultDate] = useState('2026-10-02');
-  const [consultTopic, setConsultTopic] = useState('Full-Stack Web/App Re-Architecture');
+  const [consultName, setConsultName] = useState("");
+  const [consultEmail, setConsultEmail] = useState("");
+  const [consultDate, setConsultDate] = useState("2026-10-02");
+  const [consultTopic, setConsultTopic] = useState("Full-Stack Web/App Re-Architecture");
 
   const handleBookConsult = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +44,8 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
           </h1>
 
           <p className="text-base text-slate-300 leading-relaxed">
-            Connect directly with our Principal Project Managers and Department Leads in Lagos, Abuja, or London.
+            Connect directly with our Principal Project Managers and Department Leads in Lagos,
+            Abuja, or London.
           </p>
         </div>
 
@@ -56,17 +57,24 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
               <span className="text-xs font-mono uppercase tracking-wider text-blue-400 font-bold">
                 Direct Discovery
               </span>
-              <h3 className="text-2xl font-bold text-white">Book an Executive Discovery Consultation</h3>
+              <h3 className="text-2xl font-bold text-white">
+                Book an Executive Discovery Consultation
+              </h3>
               <p className="text-xs text-slate-300">
-                A 30-minute technical discovery session with a dedicated Project Manager and Lead Architect.
+                A 30-minute technical discovery session with a dedicated Project Manager and Lead
+                Architect.
               </p>
             </div>
 
             {consultSubmitted ? (
               <div className="p-6 rounded-2xl bg-emerald-950/40 border border-emerald-800 text-emerald-300 space-y-2 text-xs">
-                <h4 className="font-bold text-sm text-white">Consultation Scheduled Successfully!</h4>
+                <h4 className="font-bold text-sm text-white">
+                  Consultation Scheduled Successfully!
+                </h4>
                 <p className="text-slate-200">
-                  Calendar invite and Google Meet link dispatched to <strong className="text-white">{consultEmail}</strong>. Principal PM Tariq Al-Najeeb has been assigned to your session.
+                  Calendar invite and Google Meet link dispatched to{" "}
+                  <strong className="text-white">{consultEmail}</strong>. Principal PM Tariq
+                  Al-Najeeb has been assigned to your session.
                 </p>
               </div>
             ) : (

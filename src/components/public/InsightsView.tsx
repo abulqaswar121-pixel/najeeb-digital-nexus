@@ -1,14 +1,6 @@
-import React from 'react';
-import {
-  BookOpen,
-  ArrowRight,
-  Clock,
-  Sparkles,
-  TrendingUp,
-  Cpu,
-  Layers,
-} from 'lucide-react';
-import { MainNavView } from '../layout/AppNavbar';
+import React from "react";
+import { BookOpen, ArrowRight, Clock, Sparkles, TrendingUp, Cpu, Layers } from "lucide-react";
+import { MainNavView } from "../layout/AppNavbar";
 
 interface InsightsViewProps {
   onSelectView: (view: MainNavView) => void;
@@ -18,44 +10,51 @@ interface InsightsViewProps {
 export const InsightsView: React.FC<InsightsViewProps> = ({ onSelectView, onOpenBriefWizard }) => {
   const articles = [
     {
-      id: 'art-1',
-      title: 'Architecting Sub-300ms FinTech Settlement Corridors for Cross-Border Diaspora Banking',
-      tag: 'Engineering / FinTech',
-      readTime: '6 min read',
-      date: 'September 2026',
-      excerpt: 'How decoupling non-blocking KYC verification and leveraging Cloudflare edge workers slashed transaction drop-offs by 74% across UK-to-Nigeria remittances.',
-      author: 'Tunde Bakare',
-      authorRole: 'VP of Engineering',
+      id: "art-1",
+      title:
+        "Architecting Sub-300ms FinTech Settlement Corridors for Cross-Border Diaspora Banking",
+      tag: "Engineering / FinTech",
+      readTime: "6 min read",
+      date: "September 2026",
+      excerpt:
+        "How decoupling non-blocking KYC verification and leveraging Cloudflare edge workers slashed transaction drop-offs by 74% across UK-to-Nigeria remittances.",
+      author: "Tunde Bakare",
+      authorRole: "VP of Engineering",
     },
     {
-      id: 'art-2',
-      title: 'The Sovereign Agency Model: Why African Conglomerates Are Replacing Open Freelance Marketplaces',
-      tag: 'Strategy & Governance',
-      readTime: '8 min read',
-      date: 'September 2026',
-      excerpt: 'Examining the hidden costs of freelancer bidding vs dedicated PM-managed squads with milestone escrow and strict intellectual property guarantees.',
-      author: 'Najeeb Al-Hassan',
-      authorRole: 'Managing Director',
+      id: "art-2",
+      title:
+        "The Sovereign Agency Model: Why African Conglomerates Are Replacing Open Freelance Marketplaces",
+      tag: "Strategy & Governance",
+      readTime: "8 min read",
+      date: "September 2026",
+      excerpt:
+        "Examining the hidden costs of freelancer bidding vs dedicated PM-managed squads with milestone escrow and strict intellectual property guarantees.",
+      author: "Najeeb Al-Hassan",
+      authorRole: "Managing Director",
     },
     {
-      id: 'art-3',
-      title: 'Autonomous AI Dispatch & Low-Bandwidth USSD/SMS Pipelines in West African AgriTech',
-      tag: 'AI & Automation',
-      readTime: '5 min read',
-      date: 'August 2026',
-      excerpt: 'How intelligent n8n agent orchestration and Twilio SMS fallbacks prevented 32% food spoilage across 25,000 smallholder grain farms in Northern Nigeria.',
-      author: 'Dr. Fatima Bello',
-      authorRole: 'Lead AI Architect',
+      id: "art-3",
+      title: "Autonomous AI Dispatch & Low-Bandwidth USSD/SMS Pipelines in West African AgriTech",
+      tag: "AI & Automation",
+      readTime: "5 min read",
+      date: "August 2026",
+      excerpt:
+        "How intelligent n8n agent orchestration and Twilio SMS fallbacks prevented 32% food spoilage across 25,000 smallholder grain farms in Northern Nigeria.",
+      author: "Dr. Fatima Bello",
+      authorRole: "Lead AI Architect",
     },
     {
-      id: 'art-4',
-      title: 'Building Inclusive High-Conversion Design Systems for Multi-Lingual African Mobile Products',
-      tag: 'Product Design (WCAG 2.2)',
-      readTime: '7 min read',
-      date: 'July 2026',
-      excerpt: 'Design token frameworks, typography scaling, and cultural heuristics for multilingual products across Hausa, Yoruba, Igbo, and French West Africa.',
-      author: 'Amara Nwosu',
-      authorRole: 'Head of Product Design',
+      id: "art-4",
+      title:
+        "Building Inclusive High-Conversion Design Systems for Multi-Lingual African Mobile Products",
+      tag: "Product Design (WCAG 2.2)",
+      readTime: "7 min read",
+      date: "July 2026",
+      excerpt:
+        "Design token frameworks, typography scaling, and cultural heuristics for multilingual products across Hausa, Yoruba, Igbo, and French West Africa.",
+      author: "Amara Nwosu",
+      authorRole: "Head of Product Design",
     },
   ];
 
@@ -74,7 +73,8 @@ export const InsightsView: React.FC<InsightsViewProps> = ({ onSelectView, onOpen
           </h1>
 
           <p className="text-base text-slate-300 leading-relaxed">
-            In-depth engineering blueprints, product architecture case studies, and strategic research published by NDH department leads.
+            In-depth engineering blueprints, product architecture case studies, and strategic
+            research published by NDH department leads.
           </p>
         </div>
 
@@ -111,7 +111,8 @@ export const InsightsView: React.FC<InsightsViewProps> = ({ onSelectView, onOpen
               Download Full Whitepaper
             </div>
             <p className="text-xs text-slate-300">
-              Read the full 24-page technical architecture paper with Go / Rust code snippets and benchmark telemetry.
+              Read the full 24-page technical architecture paper with Go / Rust code snippets and
+              benchmark telemetry.
             </p>
             <button
               onClick={onOpenBriefWizard}

@@ -1,54 +1,47 @@
-export type DesignDirectionId = 'direction-a' | 'direction-b' | 'direction-c' | 'hybrid_blend';
+export type DesignDirectionId = "direction-a" | "direction-b" | "direction-c" | "hybrid_blend";
 
 export type UserRole =
-  | 'super_admin'
-  | 'ops_admin'
-  | 'dept_lead'
-  | 'finance_admin'
-  | 'content_admin'
-  | 'talent_admin'
-  | 'support_admin'
-  | 'project_manager'
-  | 'talent'
-  | 'client_owner'
-  | 'client_admin'
-  | 'client_billing'
-  | 'client_reviewer'
-  | 'client_viewer';
+  | "super_admin"
+  | "ops_admin"
+  | "dept_lead"
+  | "finance_admin"
+  | "content_admin"
+  | "talent_admin"
+  | "support_admin"
+  | "project_manager"
+  | "talent"
+  | "client_owner"
+  | "client_admin"
+  | "client_billing"
+  | "client_reviewer"
+  | "client_viewer";
 
-export type TalentTier = 'Junior' | 'Intermediate' | 'Senior' | 'Lead' | 'Elite';
+export type TalentTier = "Junior" | "Intermediate" | "Senior" | "Lead" | "Elite";
 
 export type ServiceDepartment =
-  | 'brand_strategy'
-  | 'ui_ux_design'
-  | 'web_app_development'
-  | 'mobile_app_development'
-  | 'ecommerce'
-  | 'fintech_payments'
-  | 'cloud_devops'
-  | 'cybersecurity_compliance'
-  | 'digital_marketing'
-  | 'seo_growth'
-  | 'content_copywriting'
-  | 'social_media'
-  | 'video_media'
-  | 'data_business'
-  | 'ai_automation'
-  | 'nocode_rapid_mvp';
+  | "brand_strategy"
+  | "ui_ux_design"
+  | "web_app_development"
+  | "mobile_app_development"
+  | "ecommerce"
+  | "fintech_payments"
+  | "cloud_devops"
+  | "cybersecurity_compliance"
+  | "digital_marketing"
+  | "seo_growth"
+  | "content_copywriting"
+  | "social_media"
+  | "video_media"
+  | "data_business"
+  | "ai_automation"
+  | "nocode_rapid_mvp";
 
 export type ServiceCategory =
-  | 'all'
-  | 'engineering'
-  | 'design'
-  | 'ai'
-  | 'marketing'
-  | 'media'
-  | 'data'
-  | 'mvp';
+  "all" | "engineering" | "design" | "ai" | "marketing" | "media" | "data" | "mvp";
 
 export interface ServiceDepartmentInfo {
   id: ServiceDepartment;
-  category: 'engineering' | 'design' | 'ai' | 'marketing' | 'media' | 'data' | 'mvp';
+  category: "engineering" | "design" | "ai" | "marketing" | "media" | "data" | "mvp";
   name: string;
   tagline: string;
   description: string;
@@ -79,8 +72,8 @@ export interface ClientOrganization {
   country: string;
   city: string;
   industry: string;
-  tier: 'Growth' | 'Enterprise' | 'Global Sovereign';
-  billingCurrency: 'USD' | 'NGN' | 'GBP';
+  tier: "Growth" | "Enterprise" | "Global Sovereign";
+  billingCurrency: "USD" | "NGN" | "GBP";
   activeProjectsCount: number;
   totalSpentUSD: number;
   totalSpentNGN: number;
@@ -96,11 +89,7 @@ export interface ClientOrganization {
   avatar: string;
 }
 
-export type TalentRank =
-  | 'Bronze Prodigy'
-  | 'Silver Artisan'
-  | 'Gold Master'
-  | 'Diamond Principal';
+export type TalentRank = "Bronze Prodigy" | "Silver Artisan" | "Gold Master" | "Diamond Principal";
 
 export interface TalentRankDetails {
   rank: TalentRank;
@@ -135,7 +124,7 @@ export interface TalentProfile {
   academyGraduate: boolean;
   academyBadgeTitle?: string;
   academyCohort?: string;
-  verificationStatus: 'verified' | 'vetting_stage_3' | 'onboarding';
+  verificationStatus: "verified" | "vetting_stage_3" | "onboarding";
   ndaSigned: boolean;
   avatarUrl: string;
   bio: string;
@@ -155,7 +144,7 @@ export interface ClientReferralRecord {
   referredUserName: string;
   referredUserEmail: string;
   registeredAt: string;
-  status: 'pending_payment' | 'milestone_funded' | 'credited';
+  status: "pending_payment" | "milestone_funded" | "credited";
   referredProjectTitle?: string;
   fundedAmountNGN?: number;
   fundedAmountUSD?: number;
@@ -218,7 +207,7 @@ export interface CaseStudy {
   };
   techStack: string[];
   featured: boolean;
-  status: 'published' | 'review' | 'scheduled' | 'confidential_preview';
+  status: "published" | "review" | "scheduled" | "confidential_preview";
   clientApprovalRecorded: boolean;
   publishedDate: string;
 }
@@ -229,7 +218,8 @@ export interface ProjectMilestone {
   description: string;
   department: ServiceDepartment;
   dueDate: string;
-  status: 'pending' | 'in_progress' | 'in_qa' | 'in_client_review' | 'approved' | 'revision_requested';
+  status:
+    "pending" | "in_progress" | "in_qa" | "in_client_review" | "approved" | "revision_requested";
   clientCostUSD: number;
   clientCostNGN: number;
   talentAllocationUSD: number;
@@ -266,8 +256,15 @@ export interface Project {
   assignedPMId: string;
   assignedPMName: string;
   assignedPMAvatar: string;
-  status: 'triage' | 'proposal_review' | 'active_sprint' | 'qa_review' | 'client_review' | 'completed' | 'on_hold';
-  healthScore: 'healthy' | 'needs_attention' | 'at_risk';
+  status:
+    | "triage"
+    | "proposal_review"
+    | "active_sprint"
+    | "qa_review"
+    | "client_review"
+    | "completed"
+    | "on_hold";
+  healthScore: "healthy" | "needs_attention" | "at_risk";
   healthReason?: string;
   progressPercentage: number;
   startDate: string;
@@ -276,11 +273,11 @@ export interface Project {
   totalClientBudgetNGN: number;
   totalTalentCostUSD: number;
   grossMarginPercentage: number;
-  currency: 'USD' | 'NGN' | 'GBP';
+  currency: "USD" | "NGN" | "GBP";
   milestones: ProjectMilestone[];
   unreadClientMessagesCount: number;
   unreadTalentMessagesCount: number;
-  ndaStatus: 'executed' | 'pending';
+  ndaStatus: "executed" | "pending";
   lastActivity: string;
 }
 
@@ -298,10 +295,11 @@ export interface Lead {
   projectOverview: string;
   ndaRequested: boolean;
   score: number;
-  qualificationStage: 'inbox' | 'qualified' | 'proposal_drafted' | 'negotiation' | 'converted' | 'archived';
+  qualificationStage:
+    "inbox" | "qualified" | "proposal_drafted" | "negotiation" | "converted" | "archived";
   assignedPMId?: string;
   assignedPMName?: string;
-  source: 'Organic Search' | 'NDH Academy Referral' | 'Executive Network' | 'Clutch' | 'Direct';
+  source: "Organic Search" | "NDH Academy Referral" | "Executive Network" | "Clutch" | "Direct";
 }
 
 export interface FinancialInvoice {
@@ -312,11 +310,11 @@ export interface FinancialInvoice {
   organizationName: string;
   amountUSD: number;
   amountNGN: number;
-  currency: 'USD' | 'NGN' | 'GBP';
-  status: 'draft' | 'issued' | 'paid' | 'overdue' | 'reconciled';
+  currency: "USD" | "NGN" | "GBP";
+  status: "draft" | "issued" | "paid" | "overdue" | "reconciled";
   dueDate: string;
   paidDate?: string;
-  paymentGateway: 'Paystack' | 'Flutterwave' | 'Stripe' | 'Direct Wire (Escrow)';
+  paymentGateway: "Paystack" | "Flutterwave" | "Stripe" | "Direct Wire (Escrow)";
   milestoneTitle: string;
 }
 
@@ -327,10 +325,10 @@ export interface TalentPayoutBatch {
   totalAmountUSD: number;
   totalAmountNGN: number;
   talentsCount: number;
-  status: 'draft' | 'pending_dual_approval' | 'approved' | 'disbursed';
+  status: "draft" | "pending_dual_approval" | "approved" | "disbursed";
   primaryApproverName: string;
   secondaryApproverName?: string;
-  payoutMethod: 'Nigerian Bank Settlement (NIBSS)' | 'Wise International' | 'Crypto (USDC)';
+  payoutMethod: "Nigerian Bank Settlement (NIBSS)" | "Wise International" | "Crypto (USDC)";
   auditHash: string;
 }
 
@@ -343,7 +341,7 @@ export interface SecurityAuditLog {
   targetEntity: string;
   ipAddress: string;
   location: string;
-  severity: 'low' | 'medium' | 'critical';
+  severity: "low" | "medium" | "critical";
 }
 
 export interface ClientWelcomeDiscountInfo {
@@ -368,7 +366,7 @@ export interface UserSession {
   isDemoAccount?: boolean;
   phone?: string;
   country?: string;
-  loyaltyTier?: 'Bronze Pioneer' | 'Silver Scaler' | 'Gold Enterprise' | 'Diamond Sovereign';
+  loyaltyTier?: "Bronze Pioneer" | "Silver Scaler" | "Gold Enterprise" | "Diamond Sovereign";
   referralCode?: string;
   referralCredits?: number; // Referrer's earned credits from funded invites
   welcomeCreditBalanceNGN?: number; // Initial ₦50,000 credit for all new clients
@@ -380,9 +378,8 @@ export interface UserSession {
 
 export interface AIChatMessage {
   id: string;
-  sender: 'user' | 'assistant' | 'system';
+  sender: "user" | "assistant" | "system";
   text: string;
   timestamp: string;
   quickActions?: { label: string; action: string }[];
-  structuredData?: any;
 }

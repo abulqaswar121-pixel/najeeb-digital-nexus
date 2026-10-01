@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   ShieldCheck,
   CheckCircle2,
@@ -9,8 +9,8 @@ import {
   GitBranch,
   Layers,
   FileCheck,
-} from 'lucide-react';
-import { MainNavView } from '../layout/AppNavbar';
+} from "lucide-react";
+import { MainNavView } from "../layout/AppNavbar";
 
 interface ProcessViewProps {
   onSelectView: (view: MainNavView) => void;
@@ -20,29 +20,34 @@ interface ProcessViewProps {
 export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBriefWizard }) => {
   const steps = [
     {
-      num: '01',
-      title: 'Discovery & Brief Scoping',
-      description: 'You submit a tailored brief. Our automated triage and department leads decompose requirements into measurable sprint milestones within 24 hours.',
+      num: "01",
+      title: "Discovery & Brief Scoping",
+      description:
+        "You submit a tailored brief. Our automated triage and department leads decompose requirements into measurable sprint milestones within 24 hours.",
     },
     {
-      num: '02',
-      title: 'Tailored Milestone Proposal & Mutual NDA',
-      description: 'We draft a formal proposal specifying exact deliverables, timelines, fixed pricing in USD/NGN, and execute bilateral non-disclosure agreements.',
+      num: "02",
+      title: "Tailored Milestone Proposal & Mutual NDA",
+      description:
+        "We draft a formal proposal specifying exact deliverables, timelines, fixed pricing in USD/NGN, and execute bilateral non-disclosure agreements.",
     },
     {
-      num: '03',
-      title: 'Dedicated PM Allocation & Vetted Squad Assembly',
-      description: 'A principal Project Manager assumes ownership and matches vetted internal talents based on proven domain capability and tier certification.',
+      num: "03",
+      title: "Dedicated PM Allocation & Vetted Squad Assembly",
+      description:
+        "A principal Project Manager assumes ownership and matches vetted internal talents based on proven domain capability and tier certification.",
     },
     {
-      num: '04',
-      title: 'Sprint Execution & Strict PM QA Gates',
-      description: 'Internal talents build within isolated sandboxes. Deliverables must pass automated code testing, latency benchmarks, and PM audits before client preview.',
+      num: "04",
+      title: "Sprint Execution & Strict PM QA Gates",
+      description:
+        "Internal talents build within isolated sandboxes. Deliverables must pass automated code testing, latency benchmarks, and PM audits before client preview.",
     },
     {
-      num: '05',
-      title: 'Client Review, Sign-Off & Escrow Release',
-      description: 'You inspect the verified artifacts in your Client Workspace, provide feedback or sign off. Full intellectual property transfers instantly upon approval.',
+      num: "05",
+      title: "Client Review, Sign-Off & Escrow Release",
+      description:
+        "You inspect the verified artifacts in your Client Workspace, provide feedback or sign off. Full intellectual property transfers instantly upon approval.",
     },
   ];
 
@@ -61,7 +66,8 @@ export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBr
           </h1>
 
           <p className="text-base text-slate-300 leading-relaxed">
-            Our five-stage delivery operating system guarantees transparency, strict intellectual property defense, and audited quality assurance at every sprint milestone.
+            Our five-stage delivery operating system guarantees transparency, strict intellectual
+            property defense, and audited quality assurance at every sprint milestone.
           </p>
         </div>
 
@@ -79,7 +85,9 @@ export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBr
               </div>
               <div className="md:col-span-10 space-y-2">
                 <h3 className="text-xl font-bold text-white">{step.title}</h3>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{step.description}</p>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  {step.description}
+                </p>
               </div>
             </div>
           ))}
@@ -91,7 +99,8 @@ export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBr
             <ShieldCheck className="w-8 h-8 text-emerald-400" />
             <h4 className="font-bold text-base text-white">99.4% On-Time SLA</h4>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Every milestone is bound by contractual delivery deadlines. Real-time telemetry monitors progress daily.
+              Every milestone is bound by contractual delivery deadlines. Real-time telemetry
+              monitors progress daily.
             </p>
           </div>
 
@@ -99,7 +108,8 @@ export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBr
             <Lock className="w-8 h-8 text-blue-400" />
             <h4 className="font-bold text-base text-white">Confidential Identity Barrier</h4>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Clients and talents never share private identities or contact details, ensuring total corporate confidentiality.
+              Clients and talents never share private identities or contact details, ensuring total
+              corporate confidentiality.
             </p>
           </div>
 
@@ -107,7 +117,8 @@ export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBr
             <FileCheck className="w-8 h-8 text-indigo-400" />
             <h4 className="font-bold text-base text-white">Total IP Assignment</h4>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Upon final milestone sign-off, complete repository copyrights, Figma tokens, and credentials transfer immediately.
+              Upon final milestone sign-off, complete repository copyrights, Figma tokens, and
+              credentials transfer immediately.
             </p>
           </div>
         </div>
@@ -118,7 +129,8 @@ export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBr
             Experience the Managed Delivery Difference
           </h3>
           <p className="text-sm text-slate-300 max-w-xl mx-auto">
-            Submit your requirements to receive a structured milestone proposal and meet your dedicated Project Manager.
+            Submit your requirements to receive a structured milestone proposal and meet your
+            dedicated Project Manager.
           </p>
           <button
             onClick={onOpenBriefWizard}

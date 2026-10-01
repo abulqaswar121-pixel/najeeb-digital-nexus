@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -13,8 +13,8 @@ import {
   Cpu,
   Smartphone,
   Lock,
-} from 'lucide-react';
-import { useCurrencyLanguage } from '../../lib/currencyLanguageStore';
+} from "lucide-react";
+import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 
 interface HeroSlide {
   id: string;
@@ -33,60 +33,68 @@ interface HeroSlide {
 
 const HERO_SLIDES: HeroSlide[] = [
   {
-    id: 'fintech-core',
-    category: 'FinTech & Core Banking',
-    badgeColor: 'bg-blue-500/20 text-blue-300 border-blue-400/40',
-    title: 'High-Speed Payment Platforms Built for',
-    highlightText: 'Millions of Daily Users.',
-    subtitle: 'We engineer bank-grade web and mobile applications with sub-300ms transaction speeds and multi-currency billing.',
-    statValue: '< 240ms',
-    statLabel: 'Transaction Speed',
-    statSubtext: '2.4M active accounts processed across Africa & UK',
-    image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&auto=format&fit=crop&q=80',
-    tags: ['React 19', 'Go Microservices', 'Paystack', 'Cloudflare Edge'],
-    client: 'KoboPay Global Inc.',
+    id: "fintech-core",
+    category: "FinTech & Core Banking",
+    badgeColor: "bg-blue-500/20 text-blue-300 border-blue-400/40",
+    title: "High-Speed Payment Platforms Built for",
+    highlightText: "Millions of Daily Users.",
+    subtitle:
+      "We engineer bank-grade web and mobile applications with sub-300ms transaction speeds and multi-currency billing.",
+    statValue: "< 240ms",
+    statLabel: "Transaction Speed",
+    statSubtext: "2.4M active accounts processed across Africa & UK",
+    image:
+      "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&auto=format&fit=crop&q=80",
+    tags: ["React 19", "Go Microservices", "Paystack", "Cloudflare Edge"],
+    client: "KoboPay Global Inc.",
   },
   {
-    id: 'mobile-apps',
-    category: 'Cross-Platform Mobile Apps',
-    badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
-    title: 'Intuitive iOS & Android Apps with',
-    highlightText: 'Offline-First Speed.',
-    subtitle: 'Sleek, fluid mobile applications that work even in low-bandwidth areas with instant local sync.',
-    statValue: '99.98%',
-    statLabel: 'Uptime & Reliability',
-    statSubtext: '4.9★ App Store rating with 150k+ clinical consultations',
-    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&auto=format&fit=crop&q=80',
-    tags: ['Flutter', 'iOS Swift', 'Android Kotlin', 'Supabase'],
-    client: 'AfriHealth Telemedicine',
+    id: "mobile-apps",
+    category: "Cross-Platform Mobile Apps",
+    badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-400/40",
+    title: "Intuitive iOS & Android Apps with",
+    highlightText: "Offline-First Speed.",
+    subtitle:
+      "Sleek, fluid mobile applications that work even in low-bandwidth areas with instant local sync.",
+    statValue: "99.98%",
+    statLabel: "Uptime & Reliability",
+    statSubtext: "4.9★ App Store rating with 150k+ clinical consultations",
+    image:
+      "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&auto=format&fit=crop&q=80",
+    tags: ["Flutter", "iOS Swift", "Android Kotlin", "Supabase"],
+    client: "AfriHealth Telemedicine",
   },
   {
-    id: 'luxury-commerce',
-    category: 'E-Commerce & Brand Systems',
-    badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/40',
-    title: 'High-Conversion Digital Stores for',
-    highlightText: 'Global Luxury Brands.',
-    subtitle: 'Bespoke design systems, interactive 3D product previews, and frictionless checkout that boost sales by 185%.',
-    statValue: '+185%',
-    statLabel: 'Conversion Increase',
-    statSubtext: 'Over $42M in fractional luxury real estate assets sold',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80',
-    tags: ['Next.js Commerce', 'Tailwind', 'Stripe', '3D WebGL'],
-    client: 'Sovereign Asset Escrow',
+    id: "luxury-commerce",
+    category: "E-Commerce & Brand Systems",
+    badgeColor: "bg-amber-500/20 text-amber-300 border-amber-400/40",
+    title: "High-Conversion Digital Stores for",
+    highlightText: "Global Luxury Brands.",
+    subtitle:
+      "Bespoke design systems, interactive 3D product previews, and frictionless checkout that boost sales by 185%.",
+    statValue: "+185%",
+    statLabel: "Conversion Increase",
+    statSubtext: "Over $42M in fractional luxury real estate assets sold",
+    image:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80",
+    tags: ["Next.js Commerce", "Tailwind", "Stripe", "3D WebGL"],
+    client: "Sovereign Asset Escrow",
   },
   {
-    id: 'ai-automation',
-    category: 'AI & Workflow Automation',
-    badgeColor: 'bg-purple-500/20 text-purple-300 border-purple-400/40',
-    title: 'Autonomous AI Agents that',
-    highlightText: '10x Your Team Velocity.',
-    subtitle: 'Custom generative AI agents, intelligent customer service bots, and automated data pipelines deployed in 14 days.',
-    statValue: '10x Faster',
-    statLabel: 'Operations Output',
-    statSubtext: 'Saved 350+ manual hours per month per client squad',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?w=1200&auto=format&fit=crop&q=80',
-    tags: ['Python', 'OpenAI Agents', 'n8n Workflows', 'Vector DB'],
-    client: 'AgriTech Intelligence Hub',
+    id: "ai-automation",
+    category: "AI & Workflow Automation",
+    badgeColor: "bg-purple-500/20 text-purple-300 border-purple-400/40",
+    title: "Autonomous AI Agents that",
+    highlightText: "10x Your Team Velocity.",
+    subtitle:
+      "Custom generative AI agents, intelligent customer service bots, and automated data pipelines deployed in 14 days.",
+    statValue: "10x Faster",
+    statLabel: "Operations Output",
+    statSubtext: "Saved 350+ manual hours per month per client squad",
+    image:
+      "https://images.unsplash.com/photo-1677442136019-21780efad99a?w=1200&auto=format&fit=crop&q=80",
+    tags: ["Python", "OpenAI Agents", "n8n Workflows", "Vector DB"],
+    client: "AgriTech Intelligence Hub",
   },
 ];
 
@@ -138,7 +146,7 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
 
           {/* Headline */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-[1.15]">
-            {currentSlide.title}{' '}
+            {currentSlide.title}{" "}
             <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent">
               {currentSlide.highlightText}
             </span>
@@ -193,7 +201,7 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
             <img
               src={currentSlide.image}
               alt={currentSlide.title}
-              className="w-full h-72 sm:h-84 lg:h-96 object-cover transition-all duration-700 group-hover:scale-105 opacity-90"
+              className="w-full h-72 sm:h-80 lg:h-96 object-cover transition-all duration-700 group-hover:scale-105 opacity-90"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
 
@@ -222,11 +230,11 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
               }}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                 currentSlideIndex === idx
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                  ? "bg-blue-600 text-white shadow-md"
+                  : "text-slate-400 hover:text-white hover:bg-slate-900"
               }`}
             >
-              0{idx + 1}. {slide.category.split(' ')[0]}
+              0{idx + 1}. {slide.category.split(" ")[0]}
             </button>
           ))}
         </div>

@@ -1,52 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Award,
   ShieldCheck,
   CheckCircle2,
-  ExternalLink,
   Code2,
   Terminal,
   Sparkles,
   ArrowRight,
   Send,
   Building,
-} from 'lucide-react';
-import { MainNavView } from '../layout/AppNavbar';
+} from "lucide-react";
+import { MainNavView } from "../layout/AppNavbar";
 
 interface TalentNetworkViewProps {
   onSelectView: (view: MainNavView) => void;
   onOpenBriefWizard: () => void;
 }
 
-export const TalentNetworkView: React.FC<TalentNetworkViewProps> = ({ onSelectView, onOpenBriefWizard }) => {
-  const [applicantRole, setApplicantRole] = useState('Full-Stack Engineer');
+export const TalentNetworkView: React.FC<TalentNetworkViewProps> = ({
+  onSelectView,
+  onOpenBriefWizard,
+}) => {
+  const [applicantRole, setApplicantRole] = useState("Full-Stack Engineer");
   const [submitted, setSubmitted] = useState(false);
 
   const tiers = [
     {
-      tier: 'Tier 1: NDH Academy Resident',
-      desc: 'Top 5% graduates of NDH Academy intensive programs. Mentored under senior architects on internal sandbox sprints.',
-      badge: 'Academy Certified',
+      tier: "Tier 1: NDH Academy Resident",
+      desc: "Top 5% graduates of NDH Academy intensive programs. Mentored under senior architects on internal sandbox sprints.",
+      badge: "Academy Certified",
     },
     {
-      tier: 'Tier 2: Senior Specialist',
-      desc: '3–6 years proven commercial experience. Specialists in React, Flutter, Go, Kubernetes, and enterprise UI systems.',
-      badge: 'Production Verified',
+      tier: "Tier 2: Senior Specialist",
+      desc: "3–6 years proven commercial experience. Specialists in React, Flutter, Go, Kubernetes, and enterprise UI systems.",
+      badge: "Production Verified",
     },
     {
-      tier: 'Tier 3: Lead Systems Architect',
-      desc: '7+ years leading mission-critical fintech cores, distributed microservices, and multi-cloud infrastructure.',
-      badge: 'Staff Architect',
+      tier: "Tier 3: Lead Systems Architect",
+      desc: "7+ years leading mission-critical fintech cores, distributed microservices, and multi-cloud infrastructure.",
+      badge: "Staff Architect",
     },
     {
-      tier: 'Tier 4: Principal Technical Fellow',
-      desc: 'Industry veterans who have scaled platforms to 5M+ daily active users across Africa, Europe, and the US.',
-      badge: 'Principal Fellow',
+      tier: "Tier 4: Principal Technical Fellow",
+      desc: "Industry veterans who have scaled platforms to 5M+ daily active users across Africa, Europe, and the US.",
+      badge: "Principal Fellow",
     },
     {
-      tier: 'Tier 5: Advisory Partner',
-      desc: 'Executive domain consultants specializing in Central Bank regulatory frameworks, NDPR/GDPR, and venture strategy.',
-      badge: 'Strategic Advisory',
+      tier: "Tier 5: Advisory Partner",
+      desc: "Executive domain consultants specializing in Central Bank regulatory frameworks, NDPR/GDPR, and venture strategy.",
+      badge: "Strategic Advisory",
     },
   ];
 
@@ -65,7 +67,9 @@ export const TalentNetworkView: React.FC<TalentNetworkViewProps> = ({ onSelectVi
           </h1>
 
           <p className="text-base text-slate-300 leading-relaxed">
-            Our curated talent bench is rigorously tested, certified by NDH Academy standards, and deployed through dedicated PM orchestrators. We protect our talent with prompt NIBSS payouts and protect clients with guaranteed SLAs.
+            Our curated talent bench is rigorously tested, certified by NDH Academy standards, and
+            deployed through dedicated PM orchestrators. We protect our talent with prompt NIBSS
+            payouts and protect clients with guaranteed SLAs.
           </p>
         </div>
 
@@ -106,23 +110,17 @@ export const TalentNetworkView: React.FC<TalentNetworkViewProps> = ({ onSelectVi
               <Award className="w-4 h-4" />
               <span>Decoupled Talent Pipeline</span>
             </div>
-            <h3 className="text-2xl font-bold text-white">
-              NDH Academy Certification Bridge
-            </h3>
+            <h3 className="text-2xl font-bold text-white">NDH Academy Certification Bridge</h3>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              While NDH Agency operates exclusively as a managed enterprise bureau, our talent pipeline is continuously enriched by high-caliber alumni from NDH Academy (academy.ndh.com.ng).
+              While NDH Agency operates exclusively as a managed enterprise bureau, our talent
+              pipeline will be continuously enriched by high-caliber alumni from NDH Academy — a
+              sister training platform that is currently in development and not yet live.
             </p>
           </div>
 
-          <a
-            href="https://academy.ndh.com.ng"
-            target="_blank"
-            rel="noreferrer"
-            className="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-2 shrink-0 shadow-lg shadow-blue-600/30 transition-transform hover:scale-105"
-          >
-            <span>Visit NDH Academy Platform</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
+          <span className="px-6 py-3.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 font-bold text-xs flex items-center gap-2 shrink-0">
+            <span>NDH Academy — Launching Soon</span>
+          </span>
         </div>
 
         {/* Apply to Join the Talent Network */}
@@ -142,7 +140,8 @@ export const TalentNetworkView: React.FC<TalentNetworkViewProps> = ({ onSelectVi
               <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto" />
               <h4 className="font-bold text-white">Application Received</h4>
               <p className="text-xs text-slate-300">
-                Our Talent Operations Team will review your portfolio and send you the technical benchmark test.
+                Our Talent Operations Team will review your portfolio and send you the technical
+                benchmark test.
               </p>
             </div>
           ) : (

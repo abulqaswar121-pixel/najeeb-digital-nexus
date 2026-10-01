@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { dbService } from '../../lib/databaseStore';
-import { Sparkles, X, ArrowRight, Zap } from 'lucide-react';
+import React, { useState } from "react";
+import { dbService } from "../../lib/databaseStore";
+import { Sparkles, X, ArrowRight, Zap } from "lucide-react";
 
 interface AnnouncementBarProps {
   onActionClick: () => void;
@@ -13,7 +13,10 @@ export const AnnouncementBar: React.FC<AnnouncementBarProps> = ({ onActionClick 
   if (!isVisible || !announcement.active) return null;
 
   return (
-    <aside aria-label="Announcement" className="bg-gradient-to-r from-blue-700 via-indigo-600 to-cyan-600 text-white text-xs py-2 px-4 shadow-md relative z-50">
+    <aside
+      aria-label="Announcement"
+      className="bg-gradient-to-r from-blue-700 via-indigo-600 to-cyan-600 text-white text-xs py-2 px-4 shadow-md relative z-50"
+    >
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 flex-1 justify-center text-center">
           <span className="px-2 py-0.5 rounded-full bg-white/20 text-white font-mono text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm flex items-center gap-1 shrink-0">

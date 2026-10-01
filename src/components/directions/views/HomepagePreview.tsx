@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { ServiceDepartment, ServiceDepartmentInfo } from '../../../types/ndh';
-import {
-  SERVICE_DEPARTMENTS,
-  CASE_STUDIES,
-} from '../../../data/mockData';
-import { useCurrencyLanguage } from '../../../lib/currencyLanguageStore';
-import { HeroShowcaseSlider } from '../../home/HeroShowcaseSlider';
-import { ServiceDetailModal } from '../modals/ServiceDetailModal';
+import React, { useState, useEffect } from "react";
+import { ServiceDepartment, ServiceDepartmentInfo } from "../../../types/ndh";
+import { SERVICE_DEPARTMENTS, CASE_STUDIES } from "../../../data/mockData";
+import { useCurrencyLanguage } from "../../../lib/currencyLanguageStore";
+import { HeroShowcaseSlider } from "../../home/HeroShowcaseSlider";
+import { ServiceDetailModal } from "../modals/ServiceDetailModal";
 import {
   ShieldCheck,
   CheckCircle2,
@@ -36,7 +33,7 @@ import {
   UserCheck,
   MessageSquare,
   Globe,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface HomepagePreviewProps {
   direction?: string;
@@ -48,10 +45,13 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
   onOpenBriefWizard,
   onSelectScreen,
 }) => {
-  const { currency, setCurrency, currencies, getRegionalPricing, detectedCountry, t } = useCurrencyLanguage();
+  const { currency, setCurrency, currencies, getRegionalPricing, detectedCountry, t } =
+    useCurrencyLanguage();
 
-  const [calculatorDept, setCalculatorDept] = useState<ServiceDepartment>('web_app_development');
-  const [calculatorTier, setCalculatorTier] = useState<'starter' | 'growth' | 'enterprise'>('growth');
+  const [calculatorDept, setCalculatorDept] = useState<ServiceDepartment>("web_app_development");
+  const [calculatorTier, setCalculatorTier] = useState<"starter" | "growth" | "enterprise">(
+    "growth",
+  );
   const [activeCaseIdx, setActiveCaseIdx] = useState<number>(0);
   const [livePulse, setLivePulse] = useState<number>(240);
   const [selectedModalDept, setSelectedModalDept] = useState<ServiceDepartmentInfo | null>(null);
@@ -79,7 +79,9 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           <span className="text-slate-500">•</span>
           <span className="flex items-center gap-1.5 text-blue-300">
             <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-            <span>Dedicated PM Layer Active (100% Client-Talent Isolation &amp; Margin Protection)</span>
+            <span>
+              Dedicated PM Layer Active (100% Client-Talent Isolation &amp; Margin Protection)
+            </span>
           </span>
           <span className="text-slate-500">•</span>
           <span className="flex items-center gap-1.5 text-indigo-300">
@@ -89,7 +91,9 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           <span className="text-slate-500">•</span>
           <span className="flex items-center gap-1.5 text-emerald-300">
             <Globe className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Localized in {detectedCountry} ({currency}) • Sub-15min PM Response SLA</span>
+            <span>
+              Localized in {detectedCountry} ({currency}) • Sub-15min PM Response SLA
+            </span>
           </span>
         </div>
       </div>
@@ -104,25 +108,26 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           {/* Hero Header */}
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-950/80 border border-blue-800/80 text-blue-300 text-xs font-semibold shadow-lg backdrop-blur-md">
-              <span>{t('hero_badge')}</span>
+              <span>{t("hero_badge")}</span>
             </div>
 
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08]">
-              {t('hero_title_1')}{' '}
+              {t("hero_title_1")}{" "}
               <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">
-                {t('hero_title_2')}
+                {t("hero_title_2")}
               </span>
             </h1>
 
             <p className="text-base sm:text-xl text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
-              {t('hero_desc')}
+              {t("hero_desc")}
             </p>
 
             {/* Quick Country/Currency Affirmation Pill */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
               <Globe className="w-3.5 h-3.5 text-emerald-400" />
               <span>
-                Viewing in <strong className="text-white">{detectedCountry}</strong> • Starter packages tailored for students, solopreneurs &amp; enterprises
+                Viewing in <strong className="text-white">{detectedCountry}</strong> • Starter
+                packages tailored for students, solopreneurs &amp; enterprises
               </span>
             </div>
 
@@ -132,15 +137,15 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 onClick={onOpenBriefWizard}
                 className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-sm shadow-2xl shadow-blue-600/40 border border-blue-400/30 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
               >
-                <span>{t('hero_cta_primary')}</span>
+                <span>{t("hero_cta_primary")}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
               <button
-                onClick={() => onSelectScreen('services')}
+                onClick={() => onSelectScreen("services")}
                 className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold text-sm border border-slate-700/80 shadow-xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
               >
-                <span>{t('hero_cta_secondary')}</span>
+                <span>{t("hero_cta_secondary")}</span>
               </button>
             </div>
           </div>
@@ -157,34 +162,38 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
             <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
               <div className="text-2xl sm:text-3xl font-black font-mono text-blue-400">
-                {t('hero_stat_1_val')}
+                {t("hero_stat_1_val")}
               </div>
-              <div className="text-xs font-bold text-white mt-1">{t('hero_stat_1_lbl')}</div>
+              <div className="text-xs font-bold text-white mt-1">{t("hero_stat_1_lbl")}</div>
               <div className="text-[11px] text-slate-400 mt-0.5">Across 100+ projects</div>
             </div>
 
             <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
               <div className="text-2xl sm:text-3xl font-black font-mono text-emerald-400">
-                {t('hero_stat_2_val')}
+                {t("hero_stat_2_val")}
               </div>
-              <div className="text-xs font-bold text-white mt-1">{t('hero_stat_2_lbl')}</div>
+              <div className="text-xs font-bold text-white mt-1">{t("hero_stat_2_lbl")}</div>
               <div className="text-[11px] text-slate-400 mt-0.5">Strict contractual deadlines</div>
             </div>
 
             <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
               <div className="text-2xl sm:text-3xl font-black font-mono text-indigo-400">
-                {t('hero_stat_3_val')}
+                {t("hero_stat_3_val")}
               </div>
-              <div className="text-xs font-bold text-white mt-1">{t('hero_stat_3_lbl')}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">Web, mobile &amp; cloud systems</div>
+              <div className="text-xs font-bold text-white mt-1">{t("hero_stat_3_lbl")}</div>
+              <div className="text-[11px] text-slate-400 mt-0.5">
+                Web, mobile &amp; cloud systems
+              </div>
             </div>
 
             <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
               <div className="flex items-center gap-1.5 text-amber-400">
                 <Star className="w-5 h-5 fill-amber-400" />
-                <span className="text-2xl sm:text-3xl font-black font-mono">{t('hero_stat_4_val')}</span>
+                <span className="text-2xl sm:text-3xl font-black font-mono">
+                  {t("hero_stat_4_val")}
+                </span>
               </div>
-              <div className="text-xs font-bold text-white mt-1">{t('hero_stat_4_lbl')}</div>
+              <div className="text-xs font-bold text-white mt-1">{t("hero_stat_4_lbl")}</div>
               <div className="text-[11px] text-slate-400 mt-0.5">From 120+ executive reviews</div>
             </div>
           </div>
@@ -236,12 +245,13 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 16 Core Service Departments.
               </h2>
               <p className="text-sm sm:text-base text-slate-300">
-                From landing pages and rapid MVPs to enterprise mobile apps and AI agents. Assigned PM oversight with zero risk.
+                From landing pages and rapid MVPs to enterprise mobile apps and AI agents. Assigned
+                PM oversight with zero risk.
               </p>
             </div>
 
             <button
-              onClick={() => onSelectScreen('services')}
+              onClick={() => onSelectScreen("services")}
               className="inline-flex items-center gap-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors"
             >
               <span>Explore All 16 Departments</span>
@@ -252,7 +262,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           {/* Department Cards Grid (6 Top Featured on Homepage) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {SERVICE_DEPARTMENTS.slice(0, 6).map((dept) => {
-              const starterInfo = getRegionalPricing(dept.id, 'starter');
+              const starterInfo = getRegionalPricing(dept.id, "starter");
               return (
                 <div
                   key={dept.id}
@@ -268,7 +278,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
-                      
+
                       <div className="absolute top-3 left-3 px-3 py-1 rounded-lg bg-black/80 backdrop-blur-md text-[11px] font-bold text-blue-300 border border-blue-500/30">
                         {dept.averageTurnaroundDays}d SLA Delivery
                       </div>
@@ -336,7 +346,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
 
           <div className="text-center pt-2">
             <button
-              onClick={() => onSelectScreen('services')}
+              onClick={() => onSelectScreen("services")}
               className="px-8 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-white font-bold text-xs shadow-xl transition-all hover:scale-105 inline-flex items-center gap-2"
             >
               <span>View All 16 Service Departments (No-Code, AI, Mobile, Video, DevOps...)</span>
@@ -353,17 +363,22 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             <div className="text-center space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
                 <Sliders className="w-3.5 h-3.5 text-blue-400" />
-                <span>{t('estimator_title')}</span>
+                <span>{t("estimator_title")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
                 Instant Project Price &amp; Time Estimator
               </h2>
-              <p className="text-sm text-slate-300 max-w-xl mx-auto">
-                {t('estimator_desc')}
-              </p>
+              <p className="text-sm text-slate-300 max-w-xl mx-auto">{t("estimator_desc")}</p>
               <div className="inline-flex items-center gap-2 text-xs text-slate-400 font-mono">
-                <span>Country Target: <strong className="text-emerald-400">{detectedCountry}</strong></span>
-                <span>• Currency: <strong className="text-blue-400">{currencies[currency]?.name} ({currency})</strong></span>
+                <span>
+                  Country Target: <strong className="text-emerald-400">{detectedCountry}</strong>
+                </span>
+                <span>
+                  • Currency:{" "}
+                  <strong className="text-blue-400">
+                    {currencies[currency]?.name} ({currency})
+                  </strong>
+                </span>
               </div>
             </div>
 
@@ -379,11 +394,11 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                     onClick={() => setCalculatorDept(dept.id)}
                     className={`p-3 rounded-xl text-left border transition-all truncate text-xs font-medium ${
                       calculatorDept === dept.id
-                        ? 'bg-blue-600 text-white border-blue-400 shadow-lg'
-                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-600'
+                        ? "bg-blue-600 text-white border-blue-400 shadow-lg"
+                        : "bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-600"
                     }`}
                   >
-                    {dept.name.split('&')[0]}
+                    {dept.name.split("&")[0]}
                   </button>
                 ))}
               </div>
@@ -396,17 +411,31 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
-                  { id: 'starter', title: 'Starter MVP / Student', desc: 'Landing page, rapid launch & essential features' },
-                  { id: 'growth', title: 'Growth Build (Most Popular)', desc: 'Full custom design, backend & complete QA' },
-                  { id: 'enterprise', title: 'Enterprise Dedicated', desc: 'High concurrency, 24/7 SLA & security audit' },
+                  {
+                    id: "starter",
+                    title: "Starter MVP / Student",
+                    desc: "Landing page, rapid launch & essential features",
+                  },
+                  {
+                    id: "growth",
+                    title: "Growth Build (Most Popular)",
+                    desc: "Full custom design, backend & complete QA",
+                  },
+                  {
+                    id: "enterprise",
+                    title: "Enterprise Dedicated",
+                    desc: "High concurrency, 24/7 SLA & security audit",
+                  },
                 ].map((t) => (
                   <button
                     key={t.id}
-                    onClick={() => setCalculatorTier(t.id as any)}
+                    onClick={() =>
+                      setCalculatorTier(t.id as Parameters<typeof setCalculatorTier>[0])
+                    }
                     className={`p-4 rounded-xl text-left border transition-all ${
                       calculatorTier === t.id
-                        ? 'bg-blue-600/20 border-blue-500 text-white shadow-lg'
-                        : 'bg-slate-950 border-slate-800 text-slate-300 hover:bg-slate-900'
+                        ? "bg-blue-600/20 border-blue-500 text-white shadow-lg"
+                        : "bg-slate-950 border-slate-800 text-slate-300 hover:bg-slate-900"
                     }`}
                   >
                     <div className="font-bold text-xs text-white">{t.title}</div>
@@ -429,7 +458,9 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                   {regionalResult.price}
                 </div>
                 <div className="text-xs text-slate-300">
-                  Estimated Delivery: <strong className="text-white font-mono">{regionalResult.weeks}</strong> • Includes Dedicated Lead PM &amp; IP Escrow
+                  Estimated Delivery:{" "}
+                  <strong className="text-white font-mono">{regionalResult.weeks}</strong> •
+                  Includes Dedicated Lead PM &amp; IP Escrow
                 </div>
               </div>
 
@@ -469,8 +500,8 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                   onClick={() => setActiveCaseIdx(i)}
                   className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
                     activeCaseIdx === i
-                      ? 'bg-blue-600 text-white shadow-lg'
-                      : 'bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-600'
+                      ? "bg-blue-600 text-white shadow-lg"
+                      : "bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-600"
                   }`}
                 >
                   {c.clientName}
@@ -486,8 +517,12 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 <span className="px-3 py-1 rounded-md bg-blue-950 text-blue-300 border border-blue-800 text-xs font-bold">
                   {currentCase.industry}
                 </span>
-                <span className="text-xs text-slate-400 font-mono">Completed {currentCase.year}</span>
-                <span className="text-xs text-emerald-400 font-mono">• {currentCase.projectDuration}</span>
+                <span className="text-xs text-slate-400 font-mono">
+                  Completed {currentCase.year}
+                </span>
+                <span className="text-xs text-emerald-400 font-mono">
+                  • {currentCase.projectDuration}
+                </span>
               </div>
 
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
@@ -495,15 +530,19 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               </h3>
 
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                 {currentCase.summary ?? currentCase.solution}
+                {currentCase.summary ?? currentCase.solution}
               </p>
 
               {/* Verified Metrics Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                {(currentCase.measurableOutcomes || []).slice(0, 4).map((metric: any, i: number) => (
+                {(currentCase.measurableOutcomes || []).slice(0, 4).map((metric, i) => (
                   <div key={i} className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
-                    <div className="text-lg font-black font-mono text-emerald-400">{metric.metric || metric.value}</div>
-                    <div className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">{metric.label}</div>
+                    <div className="text-lg font-black font-mono text-emerald-400">
+                      {metric.metric}
+                    </div>
+                    <div className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
+                      {metric.label}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -516,7 +555,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                   Build Similar Solution
                 </button>
                 <button
-                  onClick={() => onSelectScreen('case-study')}
+                  onClick={() => onSelectScreen("case-study")}
                   className="text-xs font-bold text-slate-300 hover:text-white flex items-center gap-1"
                 >
                   <span>Read Full Dossier</span>

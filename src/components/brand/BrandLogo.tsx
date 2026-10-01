@@ -1,32 +1,34 @@
-import React from 'react';
+import React from "react";
 
 interface BrandLogoProps {
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   showSubtitle?: boolean;
   className?: string;
 }
 
 export const BrandLogo: React.FC<BrandLogoProps> = ({
-  size = 'md',
+  size = "md",
   showSubtitle = true,
-  className = '',
+  className = "",
 }) => {
   const iconSizes = {
-    sm: 'w-8 h-8',
-    md: 'w-10 h-10',
-    lg: 'w-12 h-12',
+    sm: "w-8 h-8",
+    md: "w-10 h-10",
+    lg: "w-12 h-12",
   };
 
   const textSizes = {
-    sm: 'text-base',
-    md: 'text-lg',
-    lg: 'text-2xl',
+    sm: "text-base",
+    md: "text-lg",
+    lg: "text-2xl",
   };
 
   return (
     <div className={`flex min-w-0 items-center gap-2.5 select-none group ${className}`}>
       {/* 3D Geometric Nexus Diamond Emblem */}
-      <div className={`relative ${iconSizes[size]} shrink-0 transition-transform duration-300 group-hover:scale-105`}>
+      <div
+        className={`relative ${iconSizes[size]} shrink-0 transition-transform duration-300 group-hover:scale-105`}
+      >
         {/* Glowing Ambient Halo */}
         <div className="absolute inset-0 bg-gradient-to-tr from-blue-600 via-indigo-500 to-cyan-400 rounded-2xl blur-[6px] opacity-75 group-hover:opacity-100 transition-opacity" />
 
@@ -49,23 +51,11 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
               </linearGradient>
             </defs>
             {/* Left Pillar */}
-            <path
-              d="M10 30V10L17 10V30H10Z"
-              fill="url(#ndhGradient1)"
-              rx="2"
-            />
+            <path d="M10 30V10L17 10V30H10Z" fill="url(#ndhGradient1)" rx="2" />
             {/* Diagonal Ribbon */}
-            <path
-              d="M15 10L27 30H22L10 10H15Z"
-              fill="url(#ndhGradient2)"
-              opacity="0.9"
-            />
+            <path d="M15 10L27 30H22L10 10H15Z" fill="url(#ndhGradient2)" opacity="0.9" />
             {/* Right Pillar */}
-            <path
-              d="M23 30V10L30 10V30H23Z"
-              fill="url(#ndhGradient1)"
-              rx="2"
-            />
+            <path d="M23 30V10L30 10V30H23Z" fill="url(#ndhGradient1)" rx="2" />
             {/* Precision Nexus Node */}
             <circle cx="20" cy="20" r="3" fill="#FFFFFF" />
             <circle cx="20" cy="20" r="1.5" fill="#3B82F6" />
@@ -76,7 +66,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       {/* Brand Typography */}
       <div className="flex min-w-0 flex-col">
         <div className="flex min-w-0 items-center gap-2">
-          <span className={`whitespace-nowrap font-black tracking-tight text-white ${textSizes[size]} group-hover:text-blue-400 transition-colors`}>
+          <span
+            className={`whitespace-nowrap font-black tracking-tight text-white ${textSizes[size]} group-hover:text-blue-400 transition-colors`}
+          >
             NDH<span className="font-light text-blue-400 ml-1">AGENCY</span>
           </span>
           <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-gradient-to-r from-blue-500/20 to-indigo-500/20 border border-blue-400/30 text-blue-300 uppercase tracking-wider font-mono">

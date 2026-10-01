@@ -1,7 +1,6 @@
-import React from 'react';
+import React from "react";
 import {
   Award,
-  ExternalLink,
   ShieldCheck,
   Lock,
   Globe,
@@ -16,11 +15,11 @@ import {
   FileCheck,
   User,
   ArrowRight,
-} from 'lucide-react';
-import { MainNavView } from './AppNavbar';
-import { BrandLogo } from '../brand/BrandLogo';
-import { useCurrencyLanguage } from '../../lib/currencyLanguageStore';
-import { useAuth, openAuthModal } from '../../lib/authStore';
+} from "lucide-react";
+import { MainNavView } from "./AppNavbar";
+import { BrandLogo } from "../brand/BrandLogo";
+import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
+import { useAuth, openAuthModal } from "../../lib/authStore";
 
 interface AppFooterProps {
   onSelectView: (view: MainNavView) => void;
@@ -37,13 +36,14 @@ export const AppFooter: React.FC<AppFooterProps> = ({
 }) => {
   const { user } = useAuth();
   const { currency, detectedCountry } = useCurrencyLanguage();
+  const [academyNotifyRequested, setAcademyNotifyRequested] = React.useState(false);
 
   const handleClientPortalClick = () => {
     if (user) {
-      onSelectView('client-dashboard');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      onSelectView("client-dashboard");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      openAuthModal('login');
+      openAuthModal("login");
     }
   };
 
@@ -59,27 +59,35 @@ export const AppFooter: React.FC<AppFooterProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-bold text-white">
-                  Looking for Tech Education &amp; Training? Visit NDH Academy.
+                  Looking for Tech Education &amp; Training? NDH Academy is on the way.
                 </span>
-                <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] bg-blue-500/20 text-blue-300 font-mono font-medium">
-                  Separate Platform
+                <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 font-mono font-medium">
+                  Launching Soon
                 </span>
               </div>
               <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
-                NDH Academy trains African developers, product designers, and AI engineers. Operates as an independent platform with dedicated curriculum.
+                NDH Academy will train African developers, product designers, and AI engineers as an
+                independent platform with its own curriculum. It isn&apos;t live yet, so
+                there&apos;s no site to visit — join the waitlist and we&apos;ll let you know the
+                moment it opens.
               </p>
             </div>
           </div>
 
-          <a
-            href="https://academy.ndh.com.ng"
-            target="_blank"
-            rel="noreferrer"
-            className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-2 shrink-0 shadow-lg shadow-blue-600/30 transition-all hover:scale-105"
-          >
-            <span>Visit academy.ndh.com.ng</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
+          {academyNotifyRequested ? (
+            <div className="px-6 py-3 rounded-xl bg-emerald-950/60 border border-emerald-700/60 text-emerald-300 font-bold text-xs flex items-center gap-2 shrink-0">
+              <span>You&apos;re on the list — we&apos;ll notify you at launch.</span>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setAcademyNotifyRequested(true)}
+              className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-2 shrink-0 shadow-lg shadow-blue-600/30 transition-all hover:scale-105"
+            >
+              <span>Notify Me at Launch</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
 
         {/* 4-Column Directory Grid */}
@@ -88,7 +96,8 @@ export const AppFooter: React.FC<AppFooterProps> = ({
           <div className="space-y-4">
             <BrandLogo size="md" showSubtitle={true} />
             <p className="text-xs text-slate-300 leading-relaxed">
-              We design and build world-class digital systems, mobile apps, and brand strategies that help modern businesses scale with certainty.
+              We design and build world-class digital systems, mobile apps, and brand strategies
+              that help modern businesses scale with certainty.
             </p>
             <div className="space-y-2 text-slate-300 text-xs pt-1">
               <div className="flex items-center gap-2">
@@ -101,7 +110,9 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </div>
               <div className="flex items-center gap-2">
                 <Globe className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>Active Region: {detectedCountry} ({currency})</span>
+                <span>
+                  Active Region: {detectedCountry} ({currency})
+                </span>
               </div>
             </div>
 
@@ -116,7 +127,9 @@ export const AppFooter: React.FC<AppFooterProps> = ({
                     <UserPlus className="w-3.5 h-3.5" />
                     <span>Apply as Vetted Talent</span>
                   </span>
-                  <span className="text-[10px] bg-emerald-500/20 px-1.5 py-0.5 rounded font-mono">Join Squad</span>
+                  <span className="text-[10px] bg-emerald-500/20 px-1.5 py-0.5 rounded font-mono">
+                    Join Squad
+                  </span>
                 </button>
               )}
             </div>
@@ -125,12 +138,12 @@ export const AppFooter: React.FC<AppFooterProps> = ({
           {/* Col 2: Managed Departments */}
           <div className="space-y-3">
             <div className="font-bold text-white uppercase tracking-wider text-xs">
-              16 Core Departments
+              Popular Departments
             </div>
             <ul className="space-y-1.5 text-slate-300 text-xs">
               <li>
                 <button
-                  onClick={() => onSelectView('services')}
+                  onClick={() => onSelectView("services")}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
                   Web &amp; Full-Stack Development
@@ -138,7 +151,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('services')}
+                  onClick={() => onSelectView("services")}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
                   Mobile Apps (iOS &amp; Android)
@@ -146,7 +159,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('services')}
+                  onClick={() => onSelectView("services")}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
                   UI/UX &amp; Product Design Systems
@@ -154,7 +167,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('services')}
+                  onClick={() => onSelectView("services")}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
                   Brand Strategy &amp; Visual Identity
@@ -162,7 +175,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('services')}
+                  onClick={() => onSelectView("services")}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
                   AI Agents &amp; Workflow Automation
@@ -170,7 +183,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('services')}
+                  onClick={() => onSelectView("services")}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
                   FinTech &amp; Payment Gateways
@@ -178,10 +191,18 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('services')}
+                  onClick={() => onSelectView("services")}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
                   Rapid No-Code MVPs (Students &amp; Startups)
+                </button>
+              </li>
+              <li className="pt-1">
+                <button
+                  onClick={() => onSelectView("services")}
+                  className="text-blue-400 hover:text-blue-300 text-left font-bold transition-colors"
+                >
+                  View All 16 Departments →
                 </button>
               </li>
             </ul>
@@ -195,7 +216,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
             <ul className="space-y-2 text-slate-300 text-xs">
               <li>
                 <button
-                  onClick={() => onSelectView('about')}
+                  onClick={() => onSelectView("about")}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
                   Managed Bureau vs Freelancers
@@ -203,7 +224,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('process')}
+                  onClick={() => onSelectView("process")}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
                   Guaranteed On-Time Delivery SLAs
@@ -211,7 +232,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('talent-network')}
+                  onClick={() => onSelectView("talent-network")}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
                   Top 3% Vetted African Talent
@@ -219,7 +240,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('case-study')}
+                  onClick={() => onSelectView("case-study")}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
                   Client Success Stories &amp; ROI
@@ -227,7 +248,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('insights')}
+                  onClick={() => onSelectView("insights")}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
                   Tech Blog &amp; Case Dossiers
@@ -252,13 +273,13 @@ export const AppFooter: React.FC<AppFooterProps> = ({
                     <span>Client Portal</span>
                   </span>
                   <span className="text-[10px] text-blue-400 font-mono px-2 py-0.5 rounded bg-blue-950 border border-blue-800">
-                    {user ? 'Active' : 'Sign In'}
+                    {user ? "Active" : "Sign In"}
                   </span>
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('process')}
+                  onClick={() => onSelectView("process")}
                   className="hover:text-blue-400 text-left transition-colors flex items-center gap-1.5"
                 >
                   <FileCheck className="w-3.5 h-3.5 text-emerald-400" />
@@ -267,7 +288,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('about')}
+                  onClick={() => onSelectView("about")}
                   className="hover:text-blue-400 text-left transition-colors flex items-center gap-1.5"
                 >
                   <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
@@ -276,7 +297,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView('contact')}
+                  onClick={() => onSelectView("contact")}
                   className="hover:text-blue-400 text-left transition-colors flex items-center gap-1.5"
                 >
                   <Phone className="w-3.5 h-3.5 text-indigo-400" />
@@ -289,21 +310,28 @@ export const AppFooter: React.FC<AppFooterProps> = ({
 
         {/* Bottom Bar with Compliance Badges */}
         <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <div>
-            © 2026 NDH Agency (agency.ndh.com.ng). Part of Najeeb Digital Hub. All rights reserved.
+          <div className="space-y-1">
+            <div>
+              © 2026 NDH Agency (agency.ndh.com.ng). Part of Najeeb Digital Hub. All rights
+              reserved.
+            </div>
+            <div className="text-[10px] text-slate-500">
+              Product preview build — office locations, phone numbers, client names, and photos
+              shown throughout this site are illustrative sample data, not live contact details.
+            </div>
           </div>
           <div className="flex flex-wrap items-center gap-6">
             <span className="flex items-center gap-1.5 text-slate-300">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>NDPR &amp; GDPR Compliant</span>
+              <span>NDA-Protected Client Engagements</span>
             </span>
             <span className="flex items-center gap-1.5 text-slate-300">
               <Lock className="w-4 h-4 text-blue-400" />
-              <span>ISO 27001 Certified Security</span>
+              <span>Enterprise-Grade Security Practices</span>
             </span>
             <span className="flex items-center gap-1.5 text-slate-300">
               <CreditCard className="w-4 h-4 text-amber-400" />
-              <span>Paystack &amp; Flutterwave Verified Rails</span>
+              <span>Paystack &amp; Flutterwave Payment Rails</span>
             </span>
           </div>
         </div>

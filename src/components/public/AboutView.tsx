@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   ShieldCheck,
   Building,
@@ -10,8 +10,8 @@ import {
   Sparkles,
   Lock,
   MapPin,
-} from 'lucide-react';
-import { MainNavView } from '../layout/AppNavbar';
+} from "lucide-react";
+import { MainNavView } from "../layout/AppNavbar";
 
 interface AboutViewProps {
   onSelectView: (view: MainNavView) => void;
@@ -34,7 +34,9 @@ export const AboutView: React.FC<AboutViewProps> = ({ onSelectView, onOpenBriefW
           </h1>
 
           <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-            NDH Agency was founded on an unapologetic belief: Africa possesses world-class creative and engineering talent, but international enterprises and scale-ups need institutional project management, guaranteed SLAs, and zero communication friction.
+            NDH Agency was founded on an unapologetic belief: Africa possesses world-class creative
+            and engineering talent, but international enterprises and scale-ups need institutional
+            project management, guaranteed SLAs, and zero communication friction.
           </p>
         </div>
 
@@ -48,7 +50,9 @@ export const AboutView: React.FC<AboutViewProps> = ({ onSelectView, onOpenBriefW
               Why NDH Is a Managed Bureau, Not a Freelancer Marketplace
             </h2>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Open freelance bidding creates unpredictable quality, communication breakdowns, and administrative nightmares. NDH Agency replaces chaotic bidding with an engineering operating system.
+              Open freelance bidding creates unpredictable quality, communication breakdowns, and
+              administrative nightmares. NDH Agency replaces chaotic bidding with an engineering
+              operating system.
             </p>
           </div>
 
@@ -60,15 +64,24 @@ export const AboutView: React.FC<AboutViewProps> = ({ onSelectView, onOpenBriefW
               <ul className="space-y-3 text-xs text-slate-300">
                 <li className="flex items-start gap-2.5">
                   <span className="text-red-400 font-bold">✕</span>
-                  <span>Clients must sift through dozens of untested bids and manage individual freelancers.</span>
+                  <span>
+                    Clients must sift through dozens of untested bids and manage individual
+                    freelancers.
+                  </span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="text-red-400 font-bold">✕</span>
-                  <span>Direct communication leads to scope creep, missed deadlines, and lost IP ownership.</span>
+                  <span>
+                    Direct communication leads to scope creep, missed deadlines, and lost IP
+                    ownership.
+                  </span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="text-red-400 font-bold">✕</span>
-                  <span>Zero formal QA gates; clients are forced to test raw code or unrefined designs themselves.</span>
+                  <span>
+                    Zero formal QA gates; clients are forced to test raw code or unrefined designs
+                    themselves.
+                  </span>
                 </li>
               </ul>
             </div>
@@ -80,15 +93,24 @@ export const AboutView: React.FC<AboutViewProps> = ({ onSelectView, onOpenBriefW
               <ul className="space-y-3 text-xs text-slate-200">
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Clients contract NDH Agency with guaranteed SLAs, milestone escrow, and fixed deliverables.</span>
+                  <span>
+                    Clients contract NDH Agency with guaranteed SLAs, milestone escrow, and fixed
+                    deliverables.
+                  </span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Dedicated internal Project Managers handle talent allocation, daily standups, and scope controls.</span>
+                  <span>
+                    Dedicated internal Project Managers handle talent allocation, daily standups,
+                    and scope controls.
+                  </span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Strict QA Gates: No deliverable is ever shown to a client until PM code audits and latency tests pass.</span>
+                  <span>
+                    Strict QA Gates: No deliverable is ever shown to a client until PM code audits
+                    and latency tests pass.
+                  </span>
                 </li>
               </ul>
             </div>
@@ -109,28 +131,36 @@ export const AboutView: React.FC<AboutViewProps> = ({ onSelectView, onOpenBriefW
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                name: 'Najeeb Al-Hassan',
-                role: 'Managing Director & Founder',
-                background: 'Ex-McKinsey Digital, 12+ years leading enterprise digital transformations across EMEA and Sub-Saharan Africa.',
-                image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80',
+                name: "Najeeb Al-Hassan",
+                role: "Managing Director & Founder",
+                background:
+                  "Ex-McKinsey Digital, 12+ years leading enterprise digital transformations across EMEA and Sub-Saharan Africa.",
+                image:
+                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
               },
               {
-                name: 'Dr. Fatima Bello',
-                role: 'Head of Operations & AI Systems',
-                background: 'PhD in Computer Systems Engineering. Architect of NDH automated sprint matching and QA gate workflows.',
-                image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&auto=format&fit=crop&q=80',
+                name: "Dr. Fatima Bello",
+                role: "Head of Operations & AI Systems",
+                background:
+                  "PhD in Computer Systems Engineering. Architect of NDH automated sprint matching and QA gate workflows.",
+                image:
+                  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&auto=format&fit=crop&q=80",
               },
               {
-                name: 'Tariq Al-Najeeb',
-                role: 'Principal Project Manager',
-                background: 'Certified PMP & Agile Scrum Master. Oversaw 40+ high-concurrency fintech and healthcare platform rollouts.',
-                image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80',
+                name: "Tariq Al-Najeeb",
+                role: "Principal Project Manager",
+                background:
+                  "Certified PMP & Agile Scrum Master. Oversaw 40+ high-concurrency fintech and healthcare platform rollouts.",
+                image:
+                  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
               },
               {
-                name: 'Amina Yusuf',
-                role: 'Director of Finance & Compliance',
-                background: 'Chartered Accountant (ICAN, ACCA). Oversees NDPR/GDPR privacy compliance, multi-currency escrow, and dual-approval payouts.',
-                image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=300&auto=format&fit=crop&q=80',
+                name: "Amina Yusuf",
+                role: "Director of Finance & Compliance",
+                background:
+                  "Chartered Accountant (ICAN, ACCA). Oversees NDPR/GDPR privacy compliance, multi-currency escrow, and dual-approval payouts.",
+                image:
+                  "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=300&auto=format&fit=crop&q=80",
               },
             ].map((member, i) => (
               <div

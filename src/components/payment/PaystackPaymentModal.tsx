@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { dbService, calculateWelcomeCreditDeduction } from '../../lib/databaseStore';
-import { useAuth } from '../../lib/authStore';
-import { useCurrencyLanguage } from '../../lib/currencyLanguageStore';
+import React, { useState } from "react";
+import { useModalA11y } from "../../hooks/use-modal-a11y";
+import { dbService, calculateWelcomeCreditDeduction } from "../../lib/databaseStore";
+import { useAuth } from "../../lib/authStore";
+import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 import {
   X,
   CreditCard,
@@ -13,7 +14,7 @@ import {
   Smartphone,
   Zap,
   Tag,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface PaystackPaymentModalProps {
   isOpen: boolean;
@@ -25,31 +26,37 @@ interface PaystackPaymentModalProps {
 export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
   isOpen,
   onClose,
-  projectName = 'NDH Digital Milestone Sprint',
+  projectName = "NDH Digital Milestone Sprint",
   defaultAmount = 45000,
 }) => {
   const { user } = useAuth();
   const { currency, detectedCountry } = useCurrencyLanguage();
 
-  const [paymentMethod, setPaymentMethod] = useState<'paystack' | 'flutterwave' | 'stripe'>('paystack');
-  const [customerName, setCustomerName] = useState(user?.fullName || 'Dr. Folake Adeleke');
-  const [customerEmail, setCustomerEmail] = useState(user?.email || 'folake@kobopay.com');
+  const [paymentMethod, setPaymentMethod] = useState<"paystack" | "flutterwave" | "stripe">(
+    "paystack",
+  );
+  const [customerName, setCustomerName] = useState(user?.fullName || "Dr. Folake Adeleke");
+  const [customerEmail, setCustomerEmail] = useState(user?.email || "folake@kobopay.com");
   const [amount, setAmount] = useState<number>(defaultAmount);
   const [applyWelcomeDiscount, setApplyWelcomeDiscount] = useState<boolean>(true);
   const [paystackPublicKey, setPaystackPublicKey] = useState(
-    import.meta.env['VITE_PAYSTACK_PUBLIC_KEY'] || 'pk_test_ndh_agency_demo_9921448'
+    import.meta.env["VITE_PAYSTACK_PUBLIC_KEY"] || "pk_test_ndh_agency_demo_9921448",
   );
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentCompleted, setPaymentCompleted] = useState<string | null>(null);
 
+  useModalA11y(isOpen, onClose);
+
   if (!isOpen) return null;
 
-  const availableCredit = currency === 'USD'
-    ? (user?.welcomeCreditBalanceUSD ?? 20)
-    : (user?.welcomeCreditBalanceNGN ?? 20000);
+  const availableCredit =
+    currency === "USD"
+      ? (user?.welcomeCreditBalanceUSD ?? 20)
+      : (user?.welcomeCreditBalanceNGN ?? 20000);
 
-  const discountCalc = calculateWelcomeCreditDeduction(amount, availableCredit, 0.10);
-  const finalPayable = applyWelcomeDiscount && availableCredit > 0 ? discountCalc.finalPayable : amount;
+  const discountCalc = calculateWelcomeCreditDeduction(amount, availableCredit, 0.1);
+  const finalPayable =
+    applyWelcomeDiscount && availableCredit > 0 ? discountCalc.finalPayable : amount;
 
   const handleSimulatePayment = (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,8 +70,8 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
         customerEmail,
         customerName,
         purpose: projectName,
-        status: 'success',
-        channel: 'card',
+        status: "success",
+        channel: "card",
       });
 
       setIsProcessing(false);
@@ -73,7 +80,12 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Payment"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans"
+    >
       <div className="w-full max-w-lg rounded-3xl bg-[#0F172A] border border-blue-500/40 p-6 sm:p-8 shadow-2xl relative space-y-5">
         <button
           onClick={onClose}
@@ -88,9 +100,13 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
               <CheckCircle2 className="w-8 h-8" />
             </div>
             <div className="space-y-1">
-              <h3 className="text-2xl font-black text-white">Payment Verified ✓</h3>
+              <h3 className="text-2xl font-black text-white">Demo Payment Simulated ✓</h3>
               <p className="text-xs text-slate-300">
-                Your payment of <strong className="text-emerald-400">{currency} {finalPayable.toLocaleString()}</strong> has been securely escrowed under reference:
+                This sandbox walkthrough simulated a payment of{" "}
+                <strong className="text-emerald-400">
+                  {currency} {finalPayable.toLocaleString()}
+                </strong>{" "}
+                under reference:
               </p>
               <div className="py-2 px-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-blue-300 inline-block mt-2">
                 {paymentCompleted}
@@ -99,7 +115,15 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
 
             {applyWelcomeDiscount && discountCalc.appliedDiscount > 0 && (
               <div className="p-3.5 rounded-2xl bg-amber-950/40 border border-amber-500/30 text-xs text-amber-300 font-mono text-left">
-                <span>⚡ <strong>Welcome Discount Applied:</strong> -{currency} {discountCalc.appliedDiscount.toLocaleString()} deducted! Remaining welcome allowance for next project: <strong>{currency} {discountCalc.remainingCredit.toLocaleString()}</strong>.</span>
+                <span>
+                  ⚡ <strong>Welcome Discount Applied:</strong> -{currency}{" "}
+                  {discountCalc.appliedDiscount.toLocaleString()} deducted! Remaining welcome
+                  allowance for next project:{" "}
+                  <strong>
+                    {currency} {discountCalc.remainingCredit.toLocaleString()}
+                  </strong>
+                  .
+                </span>
               </div>
             )}
 
@@ -109,7 +133,8 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
                 <span>Dual-Key Escrow Engine Locked</span>
               </div>
               <p className="text-[11px] text-slate-400">
-                Funds will only be released to the engineering squad after your assigned Project Manager validates all milestone QA tests.
+                Funds will only be released to the engineering squad after your assigned Project
+                Manager validates all milestone QA tests.
               </p>
             </div>
             <button
@@ -126,8 +151,8 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
           <form onSubmit={handleSimulatePayment} className="space-y-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono font-bold border border-emerald-500/30">
-                  PCI-DSS SECURE
+                <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold border border-amber-500/30">
+                  SANDBOX DEMO — NO REAL CHARGE
                 </span>
                 <span className="text-xs text-slate-400">Target Region: {detectedCountry}</span>
               </div>
@@ -140,18 +165,18 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
             {/* Gateway Selectors */}
             <div className="grid grid-cols-3 gap-2">
               {[
-                { id: 'paystack', name: 'Paystack', desc: 'Cards, Bank, USSD (NGN/USD)' },
-                { id: 'flutterwave', name: 'Flutterwave', desc: 'Pan-African & M-Pesa' },
-                { id: 'stripe', name: 'Stripe', desc: 'Global Cards & Apple Pay' },
+                { id: "paystack", name: "Paystack", desc: "Cards, Bank, USSD (NGN/USD)" },
+                { id: "flutterwave", name: "Flutterwave", desc: "Pan-African & M-Pesa" },
+                { id: "stripe", name: "Stripe", desc: "Global Cards & Apple Pay" },
               ].map((g) => (
                 <button
                   type="button"
                   key={g.id}
-                  onClick={() => setPaymentMethod(g.id as any)}
+                  onClick={() => setPaymentMethod(g.id as Parameters<typeof setPaymentMethod>[0])}
                   className={`p-3 rounded-xl text-left border transition-all ${
                     paymentMethod === g.id
-                      ? 'bg-blue-600/20 border-blue-500 text-white shadow-md'
-                      : 'bg-slate-950 border-slate-800 text-slate-400 hover:bg-slate-900'
+                      ? "bg-blue-600/20 border-blue-500 text-white shadow-md"
+                      : "bg-slate-950 border-slate-800 text-slate-400 hover:bg-slate-900"
                   }`}
                 >
                   <div className="text-xs font-bold text-white">{g.name}</div>
@@ -163,7 +188,9 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
             {/* Customer Information */}
             <div className="space-y-3 text-xs">
               <div className="space-y-1">
-                <label className="font-bold text-slate-300">Base Milestone Amount ({currency})</label>
+                <label className="font-bold text-slate-300">
+                  Base Milestone Amount ({currency})
+                </label>
                 <input
                   type="number"
                   required
@@ -196,15 +223,21 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
                     <div className="space-y-1 text-[11px] text-slate-300 font-mono border-t border-amber-500/20 pt-2">
                       <div className="flex justify-between">
                         <span className="text-slate-400">10% Discount Amount:</span>
-                        <span className="text-amber-300 font-bold">-{currency} {discountCalc.appliedDiscount.toLocaleString()}</span>
+                        <span className="text-amber-300 font-bold">
+                          -{currency} {discountCalc.appliedDiscount.toLocaleString()}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-slate-400">Available Welcome Allowance:</span>
-                        <span className="text-white">{currency} {availableCredit.toLocaleString()}</span>
+                        <span className="text-white">
+                          {currency} {availableCredit.toLocaleString()}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-slate-400">Remaining for Next Project:</span>
-                        <span className="text-emerald-400 font-bold">{currency} {discountCalc.remainingCredit.toLocaleString()}</span>
+                        <span className="text-emerald-400 font-bold">
+                          {currency} {discountCalc.remainingCredit.toLocaleString()}
+                        </span>
                       </div>
                     </div>
                   )}
@@ -241,7 +274,9 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
                     <Key className="w-3 h-3 text-blue-400" />
                     <span>{paymentMethod.toUpperCase()} Public Key:</span>
                   </span>
-                  <span className="text-[10px] text-emerald-400 font-mono">Ready for Live Keys</span>
+                  <span className="text-[10px] text-emerald-400 font-mono">
+                    Ready for Live Keys
+                  </span>
                 </div>
                 <input
                   type="text"
@@ -266,7 +301,10 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
               ) : (
                 <>
                   <Lock className="w-4 h-4" />
-                  <span>Pay {currency} {finalPayable.toLocaleString()} with {paymentMethod.toUpperCase()}</span>
+                  <span>
+                    Pay {currency} {finalPayable.toLocaleString()} with{" "}
+                    {paymentMethod.toUpperCase()}
+                  </span>
                 </>
               )}
             </button>
