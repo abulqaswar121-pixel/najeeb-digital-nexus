@@ -247,20 +247,82 @@ immediately and isolated. I'll check back in once Phases 1–2 are done and
 before I start rewiring routing, in case you want to reconsider scope at that
 point.
 
-## Execution order I'm about to follow
+## Execution order
 
-1. **Phase 1 — Trust & correctness:** kill the fake-admin-login hole, remove
-   false compliance/security badges, fix the fake PWA-install success, fix
-   the department-count and currency-rate inconsistencies, add visible
-   Sandbox/Demo labeling to payments, AI assistant, and all sample
-   data/contact info/photos.
-2. **Phase 2 — Cleanup:** delete dead/orphaned components, fix the 2 real
-   TypeScript errors, run lint auto-fix + manual fixes for the real issues,
-   fix the Tailwind `h-84` bug, wire up "Forgot password," rename
-   `package.json`, replace dead Academy hyperlinks with "Launching Soon."
-3. **Phase 4 (content/a11y) folded into the above:** ARIA roles, focus trap,
-   Escape-to-close on every modal.
-4. **Phase 3 — Routing migration:** convert the view-switcher into real
-   TanStack routes with per-page metadata, last and in isolated slices.
+1. **Phase 1 — Trust & correctness** ✅ Done
+2. **Phase 2 — Cleanup** ✅ Done
+3. **Phase 4 (content/a11y), folded in** ✅ Done
+4. **Phase 3 — Routing migration** ⏳ Not started (see note below)
 
-Starting Phase 1 now.
+## Status: Phases 1, 2 & 4 complete
+
+Everything below has been implemented, and the app still type-checks, lints
+clean, and builds successfully after every change:
+
+- **#1 Fake-admin-login hole fixed.** `authStore.ts` no longer grants roles by
+  guessing from the email address. Every demo account now requires a real
+  password match (`NDHDemo2026!` for the 4 seeded sandbox accounts). The Sign
+  In modal now has an explicit, transparent "Preview Environment — Try a Demo
+  Role" picker instead of a hidden trick.
+- **#2 False certification badges removed** from the Auth modal, Footer,
+  Client Portal, Payment modal, and AI widget — replaced with honest,
+  defensible language (NDA protection, dual-key escrow, Paystack/Flutterwave
+  rails) instead of claimed ISO 27001/PCI-DSS/256-bit certifications that
+  don't exist.
+- **#3 PWA install flow is now honest.** Added a real `manifest.webmanifest`
+  + app icons + root `<link rel="manifest">`. `AppInstallBanner` now uses the
+  real `beforeinstallprompt`/`appinstalled` browser events when available,
+  shows real platform-specific "Add to Home Screen" instructions when not,
+  and never fakes a success state.
+- **#4/#5 Department count reconciled to 16 everywhere** (AI assistant,
+  Mobile Simulator preview, Footer); Footer's department list now says
+  "Popular Departments" with an honest "View All 16 Departments →" link
+  instead of over-claiming a count it didn't list.
+- **#6 Currency-rate conflict resolved.** Deleted the dead, wrong `formatPrice()`
+  helper (stale ₦280/$1 rate). The AI widget's FX calculator is now explicitly
+  labeled as an indicative market-rate conversion, separate from the
+  PPP-adjusted Services page pricing, and the chatbot's pricing answer no
+  longer states a contradictory hard USD→NGN equivalence.
+- **#7 Dead NDH Academy links removed.** All 5 "visit academy.ndh.com.ng"
+  links (Footer, Talent Portal, Talent Network page, Journey walkthrough) now
+  show an honest "Launching Soon" / waitlist treatment instead of linking to
+  a domain that doesn't exist.
+- **#8/#9 Sample-data disclosure added.** Per your choice, a persistent
+  disclosure now sits in the Footer: "Product preview build — office
+  locations, phone numbers, client names, and photos shown throughout this
+  site are illustrative sample data, not live contact details."
+- **#11 Both real TypeScript errors fixed** (the broken orphaned modal is
+  gone; the `RevenueSplitBreakdown` optional-property violation is fixed).
+  `tsc --noEmit` is now 100% clean.
+- **#12 ~1,900 lines of dead/orphaned/broken code deleted**: `CreateAccountModal`,
+  `BlogView`, `DirectionNavbar`, `DirectionSelectionModal`,
+  `ArchitecturalBlueprintModal` (was unreachable — exposed internal DB schema),
+  `AdminCommandPreview`, `ClientDashboardPreview`, `PMDashboardPreview`,
+  `TalentDashboardPreview`.
+- **#13 ESLint: 3,804 problems → 0 errors** (6 harmless warnings remain, all
+  inside vendored shadcn/ui boilerplate files, which is normal for that kit).
+- **#14 Tailwind `sm:h-84` bug fixed** (changed to a real utility, `sm:h-80`).
+- **#15 Modal accessibility added**: `role="dialog"`, `aria-modal`,
+  Escape-to-close, and background-scroll lock on every custom modal (Auth,
+  Brief Wizard, Service Detail, Payment, Talent Application, Admin's Invite
+  PM modal, App Install).
+- **#16 "Forgot password?" now does something** (explains reset isn't
+  available in this sandbox instead of being a dead link).
+- **#17 Payment modal relabeled** as an explicit sandbox/demo simulation
+  ("SANDBOX DEMO — NO REAL CHARGE", "Demo Payment Simulated").
+- **#19 `package.json` renamed** from the scaffold default to `ndh-agency`.
+
+Verified after each change: `tsc --noEmit` clean, `eslint` clean (0 errors),
+`vite build` succeeds, dev server hot-reloads with no runtime errors. Changes
+are committed and pushed to this session's branch.
+
+## Still outstanding
+
+- **#10 — Routing migration (Phase 3).** Not started yet. This is the
+  highest-effort, highest-risk item (touches every view + all 4 portals) and
+  you indicated you're still deciding on it. Say the word whenever you want
+  me to proceed — I'll convert it in isolated, verified slices (public pages
+  first, then the 4 portals) exactly as planned.
+- A few lower-priority LOW items from the original list weren't touched this
+  pass (sitemap, footer social icons, blog thought-leadership copy tone) —
+  happy to clean those up too if you want.
