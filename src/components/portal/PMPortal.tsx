@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../lib/authStore";
+import { useBriefs, useConsultationRequests } from "../../lib/databaseStore";
 import { ServiceDepartment } from "../../types/ndh";
 import {
   ACTIVE_PROJECTS,
@@ -36,6 +37,13 @@ export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
   const [qaApproved, setQaApproved] = useState<boolean>(false);
 
   const availableTalents = VETTED_TALENTS.filter((t) => t.department === selectedTaskDept);
+
+  // Real briefs submitted through the public "Start Your Project" wizard and
+  // real consultation requests from the Contact page. These used to be
+  // invisible here -- the triage tab only ever showed the hardcoded sample
+  // leads below, so genuine prospect submissions never reached a PM.
+  const liveBriefs = useBriefs();
+  const liveConsultRequests = useConsultationRequests();
 
   return (
     <div className="bg-[#070A14] text-[#F1F5F9] min-h-screen font-sans flex flex-col">
@@ -274,13 +282,128 @@ export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
           {/* Tab 2: Brief Triage & Scope Builder */}
           {activeTab === "triage" && (
             <div className="space-y-6">
+              {/* Live submissions from the public "Start Your Project" wizard and
+                  Contact page consultation form. These previously never appeared
+                  anywhere in the PM/Admin tooling -- a real prospect's brief would
+                  vanish silently. They now surface here in real time. */}
+              <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-emerald-900/40 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <h3 className="font-bold text-sm text-white flex items-center gap-2">
+                    Live Inbound Submissions
+                    <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">
+                      {liveBriefs.length + liveConsultRequests.length} TOTAL
+                    </span>
+                  </h3>
+                  <span className="text-xs text-slate-400 font-mono">
+                    Real visitor activity, this browser
+                  </span>
+                </div>
+
+                {liveBriefs.length === 0 && liveConsultRequests.length === 0 ? (
+                  <p className="text-xs text-slate-400 italic">
+                    No live briefs or consultation requests yet. Submit the "Start Your Project"
+                    wizard or the Contact page form from the public site to see it appear here
+                    instantly.
+                  </p>
+                ) : (
+                  <div className="space-y-4">
+                    {liveBriefs.map((brief) => (
+                      <div
+                        key={brief.id}
+                        className="p-5 rounded-xl bg-slate-900/80 border border-emerald-800/50 space-y-3 text-xs"
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-sm text-white">
+                              {brief.organizationName}
+                            </span>
+                            <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono text-[10px] font-bold uppercase">
+                              Live Brief
+                            </span>
+                            <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px] uppercase">
+                              {brief.status.replace("_", " ")}
+                            </span>
+                          </div>
+                          <span className="text-slate-400 font-mono">
+                            {new Date(brief.createdAt).toLocaleString()}
+                          </span>
+                        </div>
+
+                        <p className="text-slate-300 leading-relaxed">{brief.briefDetails}</p>
+
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1 text-[11px]">
+                          <div>
+                            <span className="text-slate-500 block text-[10px]">Department:</span>
+                            <span className="font-semibold text-white uppercase">
+                              {brief.department.replace("_", " ")}
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-slate-500 block text-[10px]">Scope Tier:</span>
+                            <span className="font-semibold text-emerald-400 font-mono capitalize">
+                              {brief.scopeTier} — {brief.budgetAmount} {brief.currency}
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-slate-500 block text-[10px]">Timeline:</span>
+                            <span className="font-semibold text-white">{brief.timelineWeeks}</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-500 block text-[10px]">Contact:</span>
+                            <span className="font-semibold text-white">
+                              {brief.clientEmail}
+                              {brief.clientPhone ? ` (${brief.clientPhone})` : ""}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-3 border-t border-slate-800">
+                          <span className="text-slate-400">
+                            Auto-assigned PM: {brief.assignedPM}
+                          </span>
+                          <button className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold flex items-center gap-1.5 shadow-md">
+                            <Sparkles className="w-3.5 h-3.5" />
+                            <span>Draft Formal Proposal & Milestone Schedule</span>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+
+                    {liveConsultRequests.map((req) => (
+                      <div
+                        key={req.id}
+                        className="p-5 rounded-xl bg-slate-900/80 border border-blue-800/50 space-y-2 text-xs"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-sm text-white">{req.fullName}</span>
+                            <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 font-mono text-[10px] font-bold uppercase">
+                              Consultation Request
+                            </span>
+                            <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px] uppercase">
+                              {req.status}
+                            </span>
+                          </div>
+                          <span className="text-slate-400 font-mono">
+                            {new Date(req.createdAt).toLocaleString()}
+                          </span>
+                        </div>
+                        <p className="text-slate-300">
+                          {req.email} • Preferred date {req.preferredDate} • Focus: {req.focusArea}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-blue-900/40 space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                   <h3 className="font-bold text-sm text-white">
                     Incoming Brief Qualification & Scope Builder
                   </h3>
-                  <span className="text-xs text-slate-400 font-mono">
-                    Automated Lead Scoring Engine
+                  <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-mono text-[10px] font-bold uppercase">
+                    Sample Data — Demo Leads
                   </span>
                 </div>
 

@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { useAuth } from "../../lib/authStore";
 import { useModalA11y } from "../../hooks/use-modal-a11y";
-import { dbService, DatabaseTalentApplication } from "../../lib/databaseStore";
+import {
+  dbService,
+  useBriefs,
+  useConsultationRequests,
+  useTalentApplications,
+  useTransactions,
+} from "../../lib/databaseStore";
 import {
   SECURITY_AUDIT_LOGS,
   SERVICE_DEPARTMENTS,
@@ -58,6 +64,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<
     | "overview"
+    | "pipeline"
     | "cms"
     | "split_model"
     | "talent_ranks"
@@ -78,11 +85,18 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
   );
   const [cmsSaveSuccess, setCmsSaveSuccess] = useState(false);
 
-  // Talent Applications State
-  const [talentApps, setTalentApps] = useState<DatabaseTalentApplication[]>(
-    dbService.getTalentApplications(),
-  );
+  // Talent Applications State (reactive -- now reflects new applications
+  // submitted during the current session instead of only what existed when
+  // this component first mounted)
+  const talentApps = useTalentApplications();
   const [approvedAppId, setApprovedAppId] = useState<string | null>(null);
+
+  // Live public lead-generation funnel: real "Start Your Project" briefs and
+  // Contact-page consultation requests. Previously nothing in Admin ever
+  // read this data, so real submissions were invisible to operations.
+  const liveBriefs = useBriefs();
+  const liveConsultRequests = useConsultationRequests();
+  const liveTransactions = useTransactions();
 
   // Profit Split & Calculator State
   const [sampleBudget, setSampleBudget] = useState<number>(2000000); // ₦2,000,000
@@ -233,6 +247,14 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
           <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto no-scrollbar text-xs">
             {[
               { id: "overview", label: "Platform Telemetry" },
+              {
+                id: "pipeline",
+                label: "Live Lead Pipeline",
+                badge:
+                  liveBriefs.length + liveConsultRequests.length > 0
+                    ? `${liveBriefs.length + liveConsultRequests.length} New`
+                    : undefined,
+              },
               { id: "split_model", label: "Profit Split & Escrow Governance", badge: "45/15/40" },
               {
                 id: "talent_ranks",
@@ -355,6 +377,126 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                     </div>
                   ))}
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB: LIVE LEAD PIPELINE (real public-site submissions) */}
+          {activeTab === "pipeline" && (
+            <div className="space-y-6">
+              <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-emerald-900/40 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <h3 className="font-bold text-sm text-white">
+                    Real Project Briefs — "Start Your Project" Wizard
+                  </h3>
+                  <span className="text-xs text-slate-400 font-mono">
+                    {liveBriefs.length} submitted this browser session
+                  </span>
+                </div>
+                {liveBriefs.length === 0 ? (
+                  <p className="text-xs text-slate-400 italic">
+                    No live brief submissions yet. These are real visitor submissions captured by
+                    the public brief wizard — distinct from the hardcoded sample leads shown inside
+                    the PM Portal's Triage tab.
+                  </p>
+                ) : (
+                  <div className="space-y-3">
+                    {liveBriefs.map((brief) => (
+                      <div
+                        key={brief.id}
+                        className="p-4 rounded-xl bg-slate-900/80 border border-emerald-800/50 text-xs space-y-2"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-white">{brief.organizationName}</span>
+                          <span className="text-slate-400 font-mono">
+                            {new Date(brief.createdAt).toLocaleString()}
+                          </span>
+                        </div>
+                        <p className="text-slate-300">{brief.briefDetails}</p>
+                        <div className="flex flex-wrap gap-3 text-[11px] text-slate-400">
+                          <span>Dept: {brief.department.replace("_", " ")}</span>
+                          <span>
+                            Budget: {brief.budgetAmount} {brief.currency}
+                          </span>
+                          <span>Timeline: {brief.timelineWeeks}</span>
+                          <span>Contact: {brief.clientEmail}</span>
+                          <span>Status: {brief.status.replace("_", " ")}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-blue-900/40 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <h3 className="font-bold text-sm text-white">
+                    Discovery Consultation Requests — Contact Page
+                  </h3>
+                  <span className="text-xs text-slate-400 font-mono">
+                    {liveConsultRequests.length} requested
+                  </span>
+                </div>
+                {liveConsultRequests.length === 0 ? (
+                  <p className="text-xs text-slate-400 italic">No consultation requests yet.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {liveConsultRequests.map((req) => (
+                      <div
+                        key={req.id}
+                        className="p-4 rounded-xl bg-slate-900/80 border border-blue-800/50 text-xs flex items-center justify-between"
+                      >
+                        <span className="font-semibold text-white">{req.fullName}</span>
+                        <span className="text-slate-300">
+                          {req.email} • {req.preferredDate} • {req.focusArea}
+                        </span>
+                        <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px] uppercase">
+                          {req.status}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-slate-800 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <h3 className="font-bold text-sm text-white">
+                    Recorded Payment Transactions (Sandbox)
+                  </h3>
+                  <span className="text-xs text-slate-400 font-mono">
+                    {liveTransactions.length} recorded
+                  </span>
+                </div>
+                {liveTransactions.length === 0 ? (
+                  <p className="text-xs text-slate-400 italic">
+                    No transactions recorded yet. Transactions created through the Paystack sandbox
+                    payment modal will appear here — this is the first place in the app where that
+                    data was ever surfaced for reconciliation.
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    {liveTransactions.map((tx) => (
+                      <div
+                        key={tx.id}
+                        className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs flex items-center justify-between font-mono"
+                      >
+                        <span>{tx.reference}</span>
+                        <span>{tx.customerName}</span>
+                        <span>
+                          {tx.amount.toLocaleString()} {tx.currency}
+                        </span>
+                        <span
+                          className={
+                            tx.status === "success" ? "text-emerald-400" : "text-amber-400"
+                          }
+                        >
+                          {tx.status}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           )}

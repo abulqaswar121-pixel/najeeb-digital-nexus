@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   ServiceDepartment,
   ClientReferralRecord,
@@ -110,6 +111,16 @@ export interface DatabaseAnnouncement {
   actionText: string;
   actionLink: string;
   active: boolean;
+}
+
+export interface DatabaseConsultationRequest {
+  id: string;
+  fullName: string;
+  email: string;
+  preferredDate: string;
+  focusArea: string;
+  status: "requested" | "confirmed" | "completed" | "cancelled";
+  createdAt: string;
 }
 
 const INITIAL_REFERRALS: ClientReferralRecord[] = [
@@ -252,10 +263,41 @@ Automating Tier-1 customer triage on WhatsApp using self-hosted n8n and localize
   },
 ];
 
+// Lightweight pub/sub so React components can subscribe to store changes and
+// re-render when new data arrives (e.g. a client submits a brief while a PM
+// or Admin has the portal open). This does NOT make the store a real
+// database -- it is still just an in-memory + localStorage wrapper with no
+// server of record -- but it at least makes the UI reflect the data that
+// *is* being captured, instead of silently ignoring it.
+type StoreListener = () => void;
+const storeListeners = new Set<StoreListener>();
+
+function notifyStoreListeners() {
+  storeListeners.forEach((l) => l());
+}
+
+export function subscribeToDatabase(listener: StoreListener): () => void {
+  storeListeners.add(listener);
+  return () => storeListeners.delete(listener);
+}
+
+// Also react to changes made in *other* browser tabs (e.g. a visitor submits
+// a brief on the public site in one tab while a PM has the portal open in
+// another). This is a best-effort convenience for the demo, not a real
+// multi-user sync mechanism.
+if (typeof window !== "undefined") {
+  window.addEventListener("storage", (e) => {
+    if (e.key && e.key.startsWith("ndh_db_")) {
+      notifyStoreListeners();
+    }
+  });
+}
+
 class NDHDatabaseService {
   private briefs: DatabaseProjectBrief[] = [];
   private applications: DatabaseTalentApplication[] = [];
   private transactions: DatabasePaymentTransaction[] = [];
+  private consultationRequests: DatabaseConsultationRequest[] = [];
   private referrals: ClientReferralRecord[] = INITIAL_REFERRALS;
   private blogs: DatabaseBlogArticle[] = INITIAL_BLOGS;
   private announcement: DatabaseAnnouncement = {
@@ -279,6 +321,9 @@ class NDHDatabaseService {
 
         const savedTx = localStorage.getItem("ndh_db_transactions");
         if (savedTx) this.transactions = JSON.parse(savedTx);
+
+        const savedConsults = localStorage.getItem("ndh_db_consultation_requests");
+        if (savedConsults) this.consultationRequests = JSON.parse(savedConsults);
 
         const savedRefs = localStorage.getItem("ndh_db_referrals");
         if (savedRefs) this.referrals = JSON.parse(savedRefs);
@@ -306,11 +351,32 @@ class NDHDatabaseService {
     };
     this.briefs.unshift(newBrief);
     this.persist("ndh_db_briefs", this.briefs);
+    notifyStoreListeners();
     return newBrief;
   }
 
   public getBriefs(): DatabaseProjectBrief[] {
     return this.briefs;
+  }
+
+  // --- DISCOVERY CONSULTATION REQUESTS ---
+  public createConsultationRequest(
+    data: Omit<DatabaseConsultationRequest, "id" | "status" | "createdAt">,
+  ): DatabaseConsultationRequest {
+    const newRequest: DatabaseConsultationRequest = {
+      ...data,
+      id: `consult-${Date.now()}`,
+      status: "requested",
+      createdAt: new Date().toISOString(),
+    };
+    this.consultationRequests.unshift(newRequest);
+    this.persist("ndh_db_consultation_requests", this.consultationRequests);
+    notifyStoreListeners();
+    return newRequest;
+  }
+
+  public getConsultationRequests(): DatabaseConsultationRequest[] {
+    return this.consultationRequests;
   }
 
   // --- TALENT APPLICATIONS ---
@@ -325,6 +391,7 @@ class NDHDatabaseService {
     };
     this.applications.unshift(newApp);
     this.persist("ndh_db_applications", this.applications);
+    notifyStoreListeners();
     return newApp;
   }
 
@@ -357,6 +424,7 @@ class NDHDatabaseService {
     };
     this.referrals.unshift(newRef);
     this.persist("ndh_db_referrals", this.referrals);
+    notifyStoreListeners();
     return newRef;
   }
 
@@ -380,6 +448,7 @@ class NDHDatabaseService {
     ref.fundedAt = new Date().toISOString().split("T")[0] ?? "2026-09-30";
 
     this.persist("ndh_db_referrals", this.referrals);
+    notifyStoreListeners();
     return ref;
   }
 
@@ -404,6 +473,7 @@ class NDHDatabaseService {
     };
     this.transactions.unshift(newTx);
     this.persist("ndh_db_transactions", this.transactions);
+    notifyStoreListeners();
     return newTx;
   }
 
@@ -432,6 +502,7 @@ class NDHDatabaseService {
 
   public setAnnouncementActive(active: boolean): void {
     this.announcement.active = active;
+    notifyStoreListeners();
   }
 
   private persist(key: string, data: unknown) {
@@ -446,3 +517,39 @@ class NDHDatabaseService {
 }
 
 export const dbService = new NDHDatabaseService();
+
+// --- REACT HOOKS ---
+// These give components a live view of the store that updates automatically
+// when new data arrives (same tab or another tab), instead of the previous
+// pattern of calling dbService.getX() once in a useState initializer and
+// never seeing anything submitted afterwards.
+export function useBriefs(): DatabaseProjectBrief[] {
+  const [briefs, setBriefs] = useState<DatabaseProjectBrief[]>(dbService.getBriefs());
+  useEffect(() => subscribeToDatabase(() => setBriefs([...dbService.getBriefs()])), []);
+  return briefs;
+}
+
+export function useConsultationRequests(): DatabaseConsultationRequest[] {
+  const [requests, setRequests] = useState<DatabaseConsultationRequest[]>(
+    dbService.getConsultationRequests(),
+  );
+  useEffect(
+    () => subscribeToDatabase(() => setRequests([...dbService.getConsultationRequests()])),
+    [],
+  );
+  return requests;
+}
+
+export function useTalentApplications(): DatabaseTalentApplication[] {
+  const [apps, setApps] = useState<DatabaseTalentApplication[]>(dbService.getTalentApplications());
+  useEffect(() => subscribeToDatabase(() => setApps([...dbService.getTalentApplications()])), []);
+  return apps;
+}
+
+export function useTransactions(): DatabasePaymentTransaction[] {
+  const [transactions, setTransactions] = useState<DatabasePaymentTransaction[]>(
+    dbService.getTransactions(),
+  );
+  useEffect(() => subscribeToDatabase(() => setTransactions([...dbService.getTransactions()])), []);
+  return transactions;
+}

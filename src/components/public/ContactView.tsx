@@ -11,6 +11,7 @@ import {
   Building,
 } from "lucide-react";
 import { MainNavView } from "../layout/AppNavbar";
+import { dbService } from "../../lib/databaseStore";
 
 interface ContactViewProps {
   onSelectView: (view: MainNavView) => void;
@@ -26,6 +27,12 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
 
   const handleBookConsult = (e: React.FormEvent) => {
     e.preventDefault();
+    dbService.createConsultationRequest({
+      fullName: consultName,
+      email: consultEmail,
+      preferredDate: consultDate,
+      focusArea: consultTopic,
+    });
     setConsultSubmitted(true);
   };
 
@@ -69,12 +76,14 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
             {consultSubmitted ? (
               <div className="p-6 rounded-2xl bg-emerald-950/40 border border-emerald-800 text-emerald-300 space-y-2 text-xs">
                 <h4 className="font-bold text-sm text-white">
-                  Consultation Scheduled Successfully!
+                  Request Received — Logged with Operations
                 </h4>
                 <p className="text-slate-200">
-                  Calendar invite and Google Meet link dispatched to{" "}
-                  <strong className="text-white">{consultEmail}</strong>. Principal PM Tariq
-                  Al-Najeeb has been assigned to your session.
+                  Your discovery session request has been logged for{" "}
+                  <strong className="text-white">{consultEmail}</strong> on your preferred date of{" "}
+                  <strong className="text-white">{consultDate}</strong>. A Principal PM will review
+                  it and follow up by email with a confirmed time and calendar invite within 1
+                  business day.
                 </p>
               </div>
             ) : (
