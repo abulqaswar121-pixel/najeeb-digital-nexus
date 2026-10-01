@@ -23,6 +23,7 @@ import { AuthModal } from "../components/auth/AuthModal";
 import { InteractiveBriefModal } from "../components/directions/modals/InteractiveBriefModal";
 import { TalentApplicationModal } from "../components/public/TalentApplicationModal";
 import { PaystackPaymentModal } from "../components/payment/PaystackPaymentModal";
+import { LegalView } from "../components/public/LegalView";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -66,6 +67,16 @@ function NDHAgencyMainApp() {
 
   return (
     <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#070A14] text-[#F1F5F9] flex flex-col font-sans antialiased selection:bg-blue-600/30 selection:text-white">
+      {/* Accessibility: skip-to-content link, visually hidden until focused
+          via keyboard, so keyboard/screen-reader users don't have to tab
+          through the announcement bar + full navbar on every page. */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-lg focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white focus:shadow-xl"
+      >
+        Skip to main content
+      </a>
+
       {/* 1. BROADCAST ANNOUNCEMENT BAR (Public Pages Only) */}
       {!isPortalView && (
         <AnnouncementBar
@@ -89,7 +100,7 @@ function NDHAgencyMainApp() {
       )}
 
       {/* 3. MAIN CONTENT AREA */}
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* Public Marketing Views */}
         {currentView === "homepage" && (
           <HomepagePreview
@@ -139,6 +150,16 @@ function NDHAgencyMainApp() {
             onSelectView={handleNavigate}
             onOpenBriefWizard={() => setIsBriefModalOpen(true)}
           />
+        )}
+
+        {currentView === "privacy-policy" && (
+          <LegalView page="privacy" onSelectView={handleNavigate} />
+        )}
+        {currentView === "terms-of-service" && (
+          <LegalView page="terms" onSelectView={handleNavigate} />
+        )}
+        {currentView === "refund-policy" && (
+          <LegalView page="refund" onSelectView={handleNavigate} />
         )}
 
         {/* 4. STANDALONE ROLE-BASED PORTALS (Stand completely on their own) */}

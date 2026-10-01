@@ -43,7 +43,10 @@ export type MainNavView =
   | "talent-dashboard"
   | "admin-command"
   | "journey"
-  | "mobile-view";
+  | "mobile-view"
+  | "privacy-policy"
+  | "terms-of-service"
+  | "refund-policy";
 
 interface AppNavbarProps {
   currentView: MainNavView;

@@ -315,6 +315,28 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               © 2026 NDH Agency (agency.ndh.com.ng). Part of Najeeb Digital Hub. All rights
               reserved.
             </div>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px]">
+              <button
+                onClick={() => onSelectView("privacy-policy")}
+                className="hover:text-blue-400 underline underline-offset-2"
+              >
+                Privacy Policy
+              </button>
+              <span className="text-slate-700">•</span>
+              <button
+                onClick={() => onSelectView("terms-of-service")}
+                className="hover:text-blue-400 underline underline-offset-2"
+              >
+                Terms of Service
+              </button>
+              <span className="text-slate-700">•</span>
+              <button
+                onClick={() => onSelectView("refund-policy")}
+                className="hover:text-blue-400 underline underline-offset-2"
+              >
+                Refund Policy
+              </button>
+            </div>
             <div className="text-[10px] text-slate-500">
               Product preview build — office locations, phone numbers, client names, and photos
               shown throughout this site are illustrative sample data, not live contact details.

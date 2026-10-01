@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This currently lists only the one real route the app has ("/"). Every
+  other "page" (services, about, process, talent network, insights,
+  contact, case studies) is a client-side view switch inside that single
+  route, not a crawlable URL, so it cannot truthfully be listed here yet.
+  Regenerate/expand this file once the routing migration (see
+  AUDIT_REPORT.md) converts those views into real routes.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://agency.ndh.com.ng/</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
