@@ -10,33 +10,245 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as CaseStudiesRouteImport } from './routes/case-studies'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as JourneyRouteImport } from './routes/journey'
+import { Route as MobilePreviewRouteImport } from './routes/mobile-preview'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as ProcessRouteImport } from './routes/process'
+import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as TalentNetworkRouteImport } from './routes/talent-network'
+import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
+import { Route as PortalAdminRouteImport } from './routes/portal/admin'
+import { Route as PortalClientRouteImport } from './routes/portal/client'
+import { Route as PortalPmRouteImport } from './routes/portal/pm'
+import { Route as PortalTalentRouteImport } from './routes/portal/talent'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaseStudiesRoute = CaseStudiesRouteImport.update({
+  id: '/case-studies',
+  path: '/case-studies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JourneyRoute = JourneyRouteImport.update({
+  id: '/journey',
+  path: '/journey',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MobilePreviewRoute = MobilePreviewRouteImport.update({
+  id: '/mobile-preview',
+  path: '/mobile-preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProcessRoute = ProcessRouteImport.update({
+  id: '/process',
+  path: '/process',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefundPolicyRoute = RefundPolicyRouteImport.update({
+  id: '/refund-policy',
+  path: '/refund-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TalentNetworkRoute = TalentNetworkRouteImport.update({
+  id: '/talent-network',
+  path: '/talent-network',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
+  id: '/terms-of-service',
+  path: '/terms-of-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalAdminRoute = PortalAdminRouteImport.update({
+  id: '/portal/admin',
+  path: '/portal/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalClientRoute = PortalClientRouteImport.update({
+  id: '/portal/client',
+  path: '/portal/client',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalPmRoute = PortalPmRouteImport.update({
+  id: '/portal/pm',
+  path: '/portal/pm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalTalentRoute = PortalTalentRouteImport.update({
+  id: '/portal/talent',
+  path: '/portal/talent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/case-studies': typeof CaseStudiesRoute
+  '/contact': typeof ContactRoute
+  '/insights': typeof InsightsRoute
+  '/journey': typeof JourneyRoute
+  '/mobile-preview': typeof MobilePreviewRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/process': typeof ProcessRoute
+  '/refund-policy': typeof RefundPolicyRoute
+  '/services': typeof ServicesRoute
+  '/talent-network': typeof TalentNetworkRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
+  '/portal/admin': typeof PortalAdminRoute
+  '/portal/client': typeof PortalClientRoute
+  '/portal/pm': typeof PortalPmRoute
+  '/portal/talent': typeof PortalTalentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/case-studies': typeof CaseStudiesRoute
+  '/contact': typeof ContactRoute
+  '/insights': typeof InsightsRoute
+  '/journey': typeof JourneyRoute
+  '/mobile-preview': typeof MobilePreviewRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/process': typeof ProcessRoute
+  '/refund-policy': typeof RefundPolicyRoute
+  '/services': typeof ServicesRoute
+  '/talent-network': typeof TalentNetworkRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
+  '/portal/admin': typeof PortalAdminRoute
+  '/portal/client': typeof PortalClientRoute
+  '/portal/pm': typeof PortalPmRoute
+  '/portal/talent': typeof PortalTalentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/case-studies': typeof CaseStudiesRoute
+  '/contact': typeof ContactRoute
+  '/insights': typeof InsightsRoute
+  '/journey': typeof JourneyRoute
+  '/mobile-preview': typeof MobilePreviewRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/process': typeof ProcessRoute
+  '/refund-policy': typeof RefundPolicyRoute
+  '/services': typeof ServicesRoute
+  '/talent-network': typeof TalentNetworkRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
+  '/portal/admin': typeof PortalAdminRoute
+  '/portal/client': typeof PortalClientRoute
+  '/portal/pm': typeof PortalPmRoute
+  '/portal/talent': typeof PortalTalentRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/case-studies'
+    | '/contact'
+    | '/insights'
+    | '/journey'
+    | '/mobile-preview'
+    | '/privacy-policy'
+    | '/process'
+    | '/refund-policy'
+    | '/services'
+    | '/talent-network'
+    | '/terms-of-service'
+    | '/portal/admin'
+    | '/portal/client'
+    | '/portal/pm'
+    | '/portal/talent'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/case-studies'
+    | '/contact'
+    | '/insights'
+    | '/journey'
+    | '/mobile-preview'
+    | '/privacy-policy'
+    | '/process'
+    | '/refund-policy'
+    | '/services'
+    | '/talent-network'
+    | '/terms-of-service'
+    | '/portal/admin'
+    | '/portal/client'
+    | '/portal/pm'
+    | '/portal/talent'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/case-studies'
+    | '/contact'
+    | '/insights'
+    | '/journey'
+    | '/mobile-preview'
+    | '/privacy-policy'
+    | '/process'
+    | '/refund-policy'
+    | '/services'
+    | '/talent-network'
+    | '/terms-of-service'
+    | '/portal/admin'
+    | '/portal/client'
+    | '/portal/pm'
+    | '/portal/talent'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  CaseStudiesRoute: typeof CaseStudiesRoute
+  ContactRoute: typeof ContactRoute
+  InsightsRoute: typeof InsightsRoute
+  JourneyRoute: typeof JourneyRoute
+  MobilePreviewRoute: typeof MobilePreviewRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  ProcessRoute: typeof ProcessRoute
+  RefundPolicyRoute: typeof RefundPolicyRoute
+  ServicesRoute: typeof ServicesRoute
+  TalentNetworkRoute: typeof TalentNetworkRoute
+  TermsOfServiceRoute: typeof TermsOfServiceRoute
+  PortalAdminRoute: typeof PortalAdminRoute
+  PortalClientRoute: typeof PortalClientRoute
+  PortalPmRoute: typeof PortalPmRoute
+  PortalTalentRoute: typeof PortalTalentRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +260,139 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/case-studies': {
+      id: '/case-studies'
+      path: '/case-studies'
+      fullPath: '/case-studies'
+      preLoaderRoute: typeof CaseStudiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journey': {
+      id: '/journey'
+      path: '/journey'
+      fullPath: '/journey'
+      preLoaderRoute: typeof JourneyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mobile-preview': {
+      id: '/mobile-preview'
+      path: '/mobile-preview'
+      fullPath: '/mobile-preview'
+      preLoaderRoute: typeof MobilePreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/process': {
+      id: '/process'
+      path: '/process'
+      fullPath: '/process'
+      preLoaderRoute: typeof ProcessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refund-policy': {
+      id: '/refund-policy'
+      path: '/refund-policy'
+      fullPath: '/refund-policy'
+      preLoaderRoute: typeof RefundPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/talent-network': {
+      id: '/talent-network'
+      path: '/talent-network'
+      fullPath: '/talent-network'
+      preLoaderRoute: typeof TalentNetworkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms-of-service': {
+      id: '/terms-of-service'
+      path: '/terms-of-service'
+      fullPath: '/terms-of-service'
+      preLoaderRoute: typeof TermsOfServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/admin': {
+      id: '/portal/admin'
+      path: '/portal/admin'
+      fullPath: '/portal/admin'
+      preLoaderRoute: typeof PortalAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/client': {
+      id: '/portal/client'
+      path: '/portal/client'
+      fullPath: '/portal/client'
+      preLoaderRoute: typeof PortalClientRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/pm': {
+      id: '/portal/pm'
+      path: '/portal/pm'
+      fullPath: '/portal/pm'
+      preLoaderRoute: typeof PortalPmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/talent': {
+      id: '/portal/talent'
+      path: '/portal/talent'
+      fullPath: '/portal/talent'
+      preLoaderRoute: typeof PortalTalentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  CaseStudiesRoute: CaseStudiesRoute,
+  ContactRoute: ContactRoute,
+  InsightsRoute: InsightsRoute,
+  JourneyRoute: JourneyRoute,
+  MobilePreviewRoute: MobilePreviewRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
+  ProcessRoute: ProcessRoute,
+  RefundPolicyRoute: RefundPolicyRoute,
+  ServicesRoute: ServicesRoute,
+  TalentNetworkRoute: TalentNetworkRoute,
+  TermsOfServiceRoute: TermsOfServiceRoute,
+  PortalAdminRoute: PortalAdminRoute,
+  PortalClientRoute: PortalClientRoute,
+  PortalPmRoute: PortalPmRoute,
+  PortalTalentRoute: PortalTalentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
