@@ -25,15 +25,26 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
   const [consultDate, setConsultDate] = useState("2026-10-02");
   const [consultTopic, setConsultTopic] = useState("Full-Stack Web/App Re-Architecture");
 
-  const handleBookConsult = (e: React.FormEvent) => {
+  const [consultError, setConsultError] = useState<string | null>(null);
+  const [isSubmittingConsult, setIsSubmittingConsult] = useState(false);
+
+  const handleBookConsult = async (e: React.FormEvent) => {
     e.preventDefault();
-    dbService.createConsultationRequest({
-      fullName: consultName,
-      email: consultEmail,
-      preferredDate: consultDate,
-      focusArea: consultTopic,
-    });
-    setConsultSubmitted(true);
+    setConsultError(null);
+    setIsSubmittingConsult(true);
+    try {
+      await dbService.createConsultationRequest({
+        fullName: consultName,
+        email: consultEmail,
+        preferredDate: consultDate,
+        focusArea: consultTopic,
+      });
+      setConsultSubmitted(true);
+    } catch {
+      setConsultError("Could not submit your request right now. Please try again shortly.");
+    } finally {
+      setIsSubmittingConsult(false);
+    }
   };
 
   return (
@@ -149,11 +160,15 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
                   </div>
                 </div>
 
+                {consultError && <p className="text-xs text-red-400">{consultError}</p>}
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-transform hover:scale-105 flex items-center justify-center gap-2"
+                  disabled={isSubmittingConsult}
+                  className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-transform hover:scale-105 flex items-center justify-center gap-2"
                 >
-                  <span>Confirm Executive Consultation</span>
+                  <span>
+                    {isSubmittingConsult ? "Submitting..." : "Confirm Executive Consultation"}
+                  </span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </form>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { dbService } from "../../lib/databaseStore";
-import { Sparkles, X, ArrowRight, Zap } from "lucide-react";
+import { useAnnouncement } from "../../lib/databaseStore";
+import { X, ArrowRight, Zap } from "lucide-react";
 
 interface AnnouncementBarProps {
   onActionClick: () => void;
@@ -8,9 +8,9 @@ interface AnnouncementBarProps {
 
 export const AnnouncementBar: React.FC<AnnouncementBarProps> = ({ onActionClick }) => {
   const [isVisible, setIsVisible] = useState(true);
-  const announcement = dbService.getAnnouncement();
+  const announcement = useAnnouncement();
 
-  if (!isVisible || !announcement.active) return null;
+  if (!isVisible || !announcement || !announcement.active) return null;
 
   return (
     <aside

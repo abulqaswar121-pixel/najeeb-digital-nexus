@@ -11,12 +11,12 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     globals: true,
-    setupFiles: ["./src/test/setup.ts"],
-    include: ["src/**/*.{test,spec}.{ts,tsx}"],
+    setupFiles: ["./src/test/setup.ts", "./server/__tests__/setup.ts"],
+    include: ["src/**/*.{test,spec}.{ts,tsx}", "server/**/*.{test,spec}.ts"],
     coverage: {
       provider: "v8",
       reporter: ["text", "html"],
-      include: ["src/lib/**", "src/data/**"],
+      include: ["src/lib/**", "src/data/**", "server/**"],
     },
   },
 });

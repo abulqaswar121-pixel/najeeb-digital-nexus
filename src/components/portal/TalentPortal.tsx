@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../lib/authStore";
-import { VETTED_TALENTS, TALENT_RANK_CONFIGS, calculateRevenueSplit } from "../../data/mockData";
+import { useMyTalentProfile } from "../../lib/databaseStore";
+import { TALENT_RANK_CONFIGS, calculateRevenueSplit } from "../../data/mockData";
 import { TalentRank } from "../../types/ndh";
 import {
   Terminal,
@@ -40,8 +41,12 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onBackToAgency, onSw
   const [talentMessageInput, setTalentMessageInput] = useState<string>("");
   const [calcBudget, setCalcBudget] = useState<number>(1000000); // ₦1,000,000 example
 
-  const talent = VETTED_TALENTS[0]!; // Architect-Alpha (Diamond Principal)
-  const currentRankConfig = TALENT_RANK_CONFIGS[talent.rank || "Diamond Principal"];
+  // Fetches the profile linked to the logged-in talent account from the
+  // server (server/routes/talents.ts `GET /api/talents/me`) instead of
+  // always hardcoding the first entry of a client-bundled array regardless
+  // of who actually logged in.
+  const talent = useMyTalentProfile();
+  const currentRankConfig = TALENT_RANK_CONFIGS[talent?.rank || "Diamond Principal"];
 
   const [pmChat, setPmChat] = useState<
     { sender: string; time: string; text: string; isTalent: boolean }[]
@@ -73,6 +78,26 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onBackToAgency, onSw
     ]);
     setTalentMessageInput("");
   };
+
+  if (!talent) {
+    return (
+      <div className="bg-[#070A14] text-[#F1F5F9] min-h-screen font-sans flex flex-col items-center justify-center gap-4 p-8 text-center">
+        <p className="text-sm text-slate-400">Loading your talent profile…</p>
+        <p className="text-xs text-slate-500 max-w-md">
+          If this doesn't load, this account may not have a linked talent profile on the server yet
+          (only the demo "Architect-Alpha" account is currently linked).
+        </p>
+        {onBackToAgency && (
+          <button
+            onClick={onBackToAgency}
+            className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white text-xs font-bold"
+          >
+            ← Back to Agency Website
+          </button>
+        )}
+      </div>
+    );
+  }
 
   const splitPreview = calculateRevenueSplit(
     calcBudget,

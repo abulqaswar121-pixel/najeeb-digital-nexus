@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../lib/authStore";
 import { ACTIVE_PROJECTS, CLIENT_ORGANIZATIONS, FINANCIAL_INVOICES } from "../../data/mockData";
 import { dbService } from "../../lib/databaseStore";
@@ -45,7 +45,21 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({
   const [activeTab, setActiveTab] = useState<
     "overview" | "milestones" | "invoices" | "messages" | "custom_task" | "rewards" | "contracts"
   >("overview");
+  // Server-persisted milestone approval for proj-001 / milestone 2 (same
+  // record PMPortal's QA gate writes to). The server rejects this call
+  // (409) until the PM has QA-approved the milestone -- previously these
+  // were two fully disconnected local `useState` booleans with no
+  // dependency between them at all.
+  const QA_PROJECT_ID = "proj-001";
+  const QA_MILESTONE_INDEX = 2;
   const [milestoneApproved, setMilestoneApproved] = useState<boolean>(false);
+  const [milestoneApprovalError, setMilestoneApprovalError] = useState<string | null>(null);
+  useEffect(() => {
+    dbService
+      .getMilestoneApproval(QA_PROJECT_ID, QA_MILESTONE_INDEX)
+      .then((approval) => setMilestoneApproved(approval.milestoneApproved))
+      .catch(() => undefined);
+  }, []);
   const [paymentSuccess, setPaymentSuccess] = useState<string | null>(null);
   const [clientMessageInput, setClientMessageInput] = useState<string>("");
   const [copiedReferral, setCopiedReferral] = useState(false);
@@ -106,23 +120,27 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({
     setTimeout(() => setCopiedReferral(false), 2500);
   };
 
-  const handleCustomTaskSubmit = (e: React.FormEvent) => {
+  const handleCustomTaskSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!customTaskTitle || !customBudgetAmount) return;
 
-    dbService.createBrief({
-      projectName: customTaskTitle,
-      organizationName: currentOrg.name,
-      department: "web_app_development",
-      scopeTier: "starter",
-      budgetAmount: `${currency} ${Number(customBudgetAmount).toLocaleString()}`,
-      currency,
-      timelineWeeks: "1 - 2 Weeks",
-      clientEmail: user?.email || "client@example.com",
-      briefDetails: customTaskDesc || "Custom Task dropped by client with custom budget.",
-    });
-
-    setCustomTaskSubmitted(true);
+    try {
+      await dbService.createBrief({
+        projectName: customTaskTitle,
+        organizationName: currentOrg.name,
+        department: "web_app_development",
+        scopeTier: "starter",
+        budgetAmount: `${currency} ${Number(customBudgetAmount).toLocaleString()}`,
+        currency,
+        timelineWeeks: "1 - 2 Weeks",
+        clientEmail: user?.email || "client@example.com",
+        briefDetails: customTaskDesc || "Custom Task dropped by client with custom budget.",
+      });
+      setCustomTaskSubmitted(true);
+    } catch {
+      // Keep the form open so the client can retry; a toast/inline error
+      // here would be a good follow-up but isn't wired to this form yet.
+    }
   };
 
   return (
@@ -681,7 +699,20 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({
                 </div>
                 <div className="flex items-center gap-3 pt-2">
                   <button
-                    onClick={() => setMilestoneApproved(true)}
+                    onClick={async () => {
+                      setMilestoneApprovalError(null);
+                      try {
+                        const approval = await dbService.approveMilestoneAsClient(
+                          QA_PROJECT_ID,
+                          QA_MILESTONE_INDEX,
+                        );
+                        setMilestoneApproved(approval.milestoneApproved);
+                      } catch (err) {
+                        setMilestoneApprovalError(
+                          err instanceof Error ? err.message : "Could not approve this milestone.",
+                        );
+                      }
+                    }}
                     disabled={milestoneApproved}
                     className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
                       milestoneApproved
@@ -694,6 +725,9 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({
                       : "Approve Deliverable & Release Escrow"}
                   </button>
                 </div>
+                {milestoneApprovalError && (
+                  <p className="text-xs text-red-400">{milestoneApprovalError}</p>
+                )}
               </div>
             </div>
           )}

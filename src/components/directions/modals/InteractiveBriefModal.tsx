@@ -31,6 +31,9 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
 
   useModalA11y(isOpen, onClose);
 
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   if (!isOpen) return null;
 
   const currentDept: ServiceDepartmentInfo =
@@ -38,23 +41,30 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
 
   const pricingEstimate = getRegionalPricing(selectedDept, scopeTier);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
+    setIsSubmitting(true);
 
-    dbService.createBrief({
-      projectName: companyName ? `${companyName} Digital Project` : `${currentDept.name} Project`,
-      organizationName: companyName || "Client Organization",
-      department: selectedDept,
-      scopeTier,
-      budgetAmount: pricingEstimate.price,
-      currency,
-      timelineWeeks: timeline,
-      clientEmail: contactEmail || "client@example.com",
-      clientPhone: contactPhone,
-      briefDetails: projectOverview || `Scope: ${pricingEstimate.starterDesc}`,
-    });
-
-    setSubmitted(true);
+    try {
+      await dbService.createBrief({
+        projectName: companyName ? `${companyName} Digital Project` : `${currentDept.name} Project`,
+        organizationName: companyName || "Client Organization",
+        department: selectedDept,
+        scopeTier,
+        budgetAmount: pricingEstimate.price,
+        currency,
+        timelineWeeks: timeline,
+        clientEmail: contactEmail || "client@example.com",
+        ...(contactPhone ? { clientPhone: contactPhone } : {}),
+        briefDetails: projectOverview || `Scope: ${pricingEstimate.starterDesc}`,
+      });
+      setSubmitted(true);
+    } catch {
+      setSubmitError("Could not submit your brief right now. Please try again in a moment.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -371,12 +381,16 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
 
                   <button
                     type="submit"
-                    className="px-6 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-md"
+                    disabled={isSubmitting}
+                    className="px-6 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-60 text-white text-xs font-semibold flex items-center gap-1.5 shadow-md"
                   >
                     <Sparkles className="w-3.5 h-3.5" />
-                    <span>Submit Brief & Dispatch PM Triage</span>
+                    <span>
+                      {isSubmitting ? "Submitting..." : "Submit Brief & Dispatch PM Triage"}
+                    </span>
                   </button>
                 </div>
+                {submitError && <p className="text-xs text-red-500 text-right">{submitError}</p>}
               </div>
             )}
           </form>

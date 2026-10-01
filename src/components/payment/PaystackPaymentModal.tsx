@@ -16,6 +16,33 @@ import {
   Tag,
 } from "lucide-react";
 
+// Paystack test/live public keys look like `pk_test_<40 hex chars>` /
+// `pk_live_<...>`. The historical placeholder baked into this file
+// (`pk_test_ndh_agency_demo_9921448`) does not match this shape, so we use it
+// as the signal for "no real key configured yet" and fall back to an honest
+// sandbox simulation instead of letting Paystack's own widget error out on a
+// malformed key.
+function looksLikeRealPaystackKey(key: string): boolean {
+  return /^pk_(test|live)_[a-zA-Z0-9]{20,}$/.test(key);
+}
+
+let paystackScriptPromise: Promise<void> | null = null;
+function loadPaystackInlineScript(): Promise<void> {
+  if (typeof window === "undefined") return Promise.reject(new Error("No window"));
+  if (window.PaystackPop) return Promise.resolve();
+  if (!paystackScriptPromise) {
+    paystackScriptPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://js.paystack.co/v1/inline.js";
+      script.async = true;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error("Failed to load Paystack script"));
+      document.body.appendChild(script);
+    });
+  }
+  return paystackScriptPromise;
+}
+
 interface PaystackPaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -44,6 +71,8 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
   );
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentCompleted, setPaymentCompleted] = useState<string | null>(null);
+  const [wasGatewayVerified, setWasGatewayVerified] = useState(false);
+  const [paymentError, setPaymentError] = useState<string | null>(null);
 
   useModalA11y(isOpen, onClose);
 
@@ -58,24 +87,71 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
   const finalPayable =
     applyWelcomeDiscount && availableCredit > 0 ? discountCalc.finalPayable : amount;
 
-  const handleSimulatePayment = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsProcessing(true);
-
-    setTimeout(() => {
-      const tx = dbService.recordTransaction({
+  const finalizePayment = async (reference: string) => {
+    try {
+      const tx = await dbService.recordTransaction({
+        reference,
         gateway: paymentMethod,
         amount: finalPayable,
         currency,
         customerEmail,
         customerName,
         purpose: projectName,
-        status: "success",
-        channel: "card",
       });
-
       setIsProcessing(false);
       setPaymentCompleted(tx.reference);
+      setWasGatewayVerified(!!tx.verifiedByGateway);
+    } catch (err) {
+      setIsProcessing(false);
+      setPaymentError(
+        err instanceof Error ? err.message : "Could not record this payment. Please try again.",
+      );
+    }
+  };
+
+  const handleSubmitPayment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPaymentError(null);
+    setIsProcessing(true);
+
+    const reference = `NDH-PAY-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+
+    // Real path: a syntactically valid Paystack public key is configured, so
+    // actually open Paystack's own popup instead of simulating anything.
+    if (paymentMethod === "paystack" && looksLikeRealPaystackKey(paystackPublicKey)) {
+      try {
+        await loadPaystackInlineScript();
+        if (!window.PaystackPop) throw new Error("Paystack script did not load correctly.");
+
+        window.PaystackPop.setup({
+          key: paystackPublicKey,
+          email: customerEmail,
+          amount: Math.round(finalPayable * 100), // kobo/cents
+          currency,
+          ref: reference,
+          metadata: { customerName, projectName },
+          callback: (response) => {
+            void finalizePayment(response.reference);
+          },
+          onClose: () => {
+            setIsProcessing(false);
+          },
+        }).openIframe();
+      } catch (err) {
+        setIsProcessing(false);
+        setPaymentError(
+          err instanceof Error ? err.message : "Could not open the Paystack payment window.",
+        );
+      }
+      return;
+    }
+
+    // Sandbox path: no real key configured for this gateway (or a
+    // non-Paystack gateway was selected, for which we have no integration
+    // yet). Clearly a simulation -- the resulting transaction is still
+    // recorded server-side but marked verifiedByGateway: false.
+    setTimeout(() => {
+      void finalizePayment(reference);
     }, 1800);
   };
 
@@ -100,13 +176,28 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
               <CheckCircle2 className="w-8 h-8" />
             </div>
             <div className="space-y-1">
-              <h3 className="text-2xl font-black text-white">Demo Payment Simulated ✓</h3>
+              <h3 className="text-2xl font-black text-white">
+                {wasGatewayVerified ? "Payment Verified ✓" : "Demo Payment Simulated ✓"}
+              </h3>
               <p className="text-xs text-slate-300">
-                This sandbox walkthrough simulated a payment of{" "}
-                <strong className="text-emerald-400">
-                  {currency} {finalPayable.toLocaleString()}
-                </strong>{" "}
-                under reference:
+                {wasGatewayVerified ? (
+                  <>
+                    Paystack confirmed a real charge of{" "}
+                    <strong className="text-emerald-400">
+                      {currency} {finalPayable.toLocaleString()}
+                    </strong>{" "}
+                    under reference:
+                  </>
+                ) : (
+                  <>
+                    This sandbox walkthrough simulated a payment of{" "}
+                    <strong className="text-emerald-400">
+                      {currency} {finalPayable.toLocaleString()}
+                    </strong>{" "}
+                    under reference (not verified against a real gateway — no live keys configured
+                    yet):
+                  </>
+                )}
               </p>
               <div className="py-2 px-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-blue-300 inline-block mt-2">
                 {paymentCompleted}
@@ -148,7 +239,7 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSimulatePayment} className="space-y-4">
+          <form onSubmit={handleSubmitPayment} className="space-y-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold border border-amber-500/30">
@@ -288,10 +379,16 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
               </div>
             </div>
 
+            {paymentError && (
+              <div className="p-3 rounded-xl bg-red-950/40 border border-red-800 text-red-300 text-xs">
+                {paymentError}
+              </div>
+            )}
+
             <button
               type="submit"
               disabled={isProcessing}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 text-white font-extrabold text-xs shadow-xl shadow-emerald-600/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 disabled:opacity-60 text-white font-extrabold text-xs shadow-xl shadow-emerald-600/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]"
             >
               {isProcessing ? (
                 <div className="flex items-center gap-2">

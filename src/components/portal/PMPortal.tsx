@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../lib/authStore";
-import { useBriefs, useConsultationRequests } from "../../lib/databaseStore";
-import { ServiceDepartment } from "../../types/ndh";
 import {
-  ACTIVE_PROJECTS,
-  INCOMING_LEADS,
-  VETTED_TALENTS,
-  SERVICE_DEPARTMENTS,
-} from "../../data/mockData";
+  dbService,
+  useBriefs,
+  useConsultationRequests,
+  useInternalTalents,
+} from "../../lib/databaseStore";
+import { ServiceDepartment } from "../../types/ndh";
+import { ACTIVE_PROJECTS, INCOMING_LEADS, SERVICE_DEPARTMENTS } from "../../data/mockData";
 import {
   Briefcase,
   Users,
@@ -34,9 +34,22 @@ export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
   const [selectedTaskDept, setSelectedTaskDept] =
     useState<ServiceDepartment>("web_app_development");
   const [talentInvited, setTalentInvited] = useState<string | null>(null);
+  // Server-persisted QA gate state for KoboPay project proj-001, milestone 2
+  // (previously local-only `useState` that reset on refresh and had no
+  // effect on the Client Portal at all).
+  const QA_PROJECT_ID = "proj-001";
+  const QA_MILESTONE_INDEX = 2;
   const [qaApproved, setQaApproved] = useState<boolean>(false);
+  const [qaError, setQaError] = useState<string | null>(null);
+  useEffect(() => {
+    dbService
+      .getMilestoneApproval(QA_PROJECT_ID, QA_MILESTONE_INDEX)
+      .then((approval) => setQaApproved(approval.qaApproved))
+      .catch(() => undefined);
+  }, []);
 
-  const availableTalents = VETTED_TALENTS.filter((t) => t.department === selectedTaskDept);
+  const internalTalents = useInternalTalents();
+  const availableTalents = internalTalents.filter((t) => t.department === selectedTaskDept);
 
   // Real briefs submitted through the public "Start Your Project" wizard and
   // real consultation requests from the Contact page. These used to be
@@ -634,7 +647,18 @@ export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
                       Request Talent Revision
                     </button>
                     <button
-                      onClick={() => setQaApproved(true)}
+                      onClick={async () => {
+                        setQaError(null);
+                        try {
+                          const approval = await dbService.approveQaGate(
+                            QA_PROJECT_ID,
+                            QA_MILESTONE_INDEX,
+                          );
+                          setQaApproved(approval.qaApproved);
+                        } catch (err) {
+                          setQaError(err instanceof Error ? err.message : "Could not approve QA.");
+                        }
+                      }}
                       disabled={qaApproved}
                       className={`px-5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-lg ${
                         qaApproved
@@ -650,6 +674,7 @@ export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
                       </span>
                     </button>
                   </div>
+                  {qaError && <p className="text-xs text-red-400 w-full">{qaError}</p>}
                 </div>
               </div>
             </div>

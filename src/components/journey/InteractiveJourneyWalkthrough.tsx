@@ -472,7 +472,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                     </div>
                     <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
                       <div className="font-semibold text-white">
-                        Matched Talent: Architect-Alpha (Oluwaseun Adedipe)
+                        Matched Talent: Architect-Alpha
                       </div>
                       <div className="text-slate-400 flex items-center gap-3 text-[11px]">
                         <span>

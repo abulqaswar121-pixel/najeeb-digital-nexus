@@ -43,9 +43,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
 
   useModalA11y(isAuthModalOpen, closeAuthModal);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   if (!isAuthModalOpen) return null;
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
 
@@ -54,7 +56,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
       return;
     }
 
-    const result = login(email, password);
+    setIsSubmitting(true);
+    const result = await login(email, password);
+    setIsSubmitting(false);
     if (result.success && result.user) {
       setSuccessMessage(`Welcome back, ${result.user.fullName}!`);
       setTimeout(() => {
@@ -74,7 +78,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
     }
   };
 
-  const handleRegisterSubmit = (e: React.FormEvent) => {
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
 
@@ -83,7 +87,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
       return;
     }
 
-    const result = register({
+    setIsSubmitting(true);
+    const result = await register({
       fullName,
       email,
       password,
@@ -91,8 +96,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
       phone,
       referralCodeUsed: referralCode,
     });
+    setIsSubmitting(false);
 
-    if (result.success) {
+    if (!result.success) {
+      setErrorMessage(result.error || "Could not create your account. Please try again.");
+      return;
+    }
+
+    if (result.success && result.user) {
       setSuccessMessage(`Account created for ${result.user.fullName}!`);
       setTimeout(() => {
         closeAuthModal();
@@ -254,9 +265,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-xs shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]"
+              disabled={isSubmitting}
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 disabled:opacity-60 text-white font-extrabold text-xs shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]"
             >
-              <span>Sign In to Workspace</span>
+              <span>{isSubmitting ? "Signing In..." : "Sign In to Workspace"}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
@@ -354,9 +366,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 text-white font-extrabold text-xs shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]"
+              disabled={isSubmitting}
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 disabled:opacity-60 text-white font-extrabold text-xs shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]"
             >
-              <span>Create Client Workspace</span>
+              <span>{isSubmitting ? "Creating Workspace..." : "Create Client Workspace"}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>

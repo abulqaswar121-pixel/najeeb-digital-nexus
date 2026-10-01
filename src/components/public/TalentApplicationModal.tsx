@@ -42,27 +42,37 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
 
   useModalA11y(isOpen, onClose);
 
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fullName || !email || !portfolioUrl) return;
 
-    dbService.submitTalentApplication({
-      fullName,
-      email,
-      phone,
-      country,
-      primaryDepartment: department,
-      experienceLevel,
-      portfolioUrl,
-      githubOrBehance,
-      hourlyRateExpectation: hourlyRate,
-      availableHoursPerWeek: hoursPerWeek,
-      bioNotes,
-    });
-
-    setIsSubmitted(true);
+    setSubmitError(null);
+    setIsSubmitting(true);
+    try {
+      await dbService.submitTalentApplication({
+        fullName,
+        email,
+        phone,
+        country,
+        primaryDepartment: department,
+        experienceLevel,
+        portfolioUrl,
+        ...(githubOrBehance ? { githubOrBehance } : {}),
+        hourlyRateExpectation: hourlyRate,
+        availableHoursPerWeek: hoursPerWeek,
+        bioNotes,
+      });
+      setIsSubmitted(true);
+    } catch {
+      setSubmitError("Could not submit your application right now. Please try again shortly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -251,12 +261,14 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
               </div>
               <button
                 type="submit"
-                className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 flex items-center gap-2 transition-transform hover:scale-105"
+                disabled={isSubmitting}
+                className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-bold text-xs shadow-lg shadow-blue-600/30 flex items-center gap-2 transition-transform hover:scale-105"
               >
-                <span>Submit Application</span>
+                <span>{isSubmitting ? "Submitting..." : "Submit Application"}</span>
                 <Send className="w-3.5 h-3.5" />
               </button>
             </div>
+            {submitError && <p className="text-xs text-red-400 text-right">{submitError}</p>}
           </form>
         )}
       </div>

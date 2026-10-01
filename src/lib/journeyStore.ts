@@ -108,7 +108,10 @@ export const INITIAL_JOURNEY_STATE: JourneyState = {
   projectCreated: false,
   projectCode: "NDH-2026-104",
   invitedTalentId: "tal-001",
-  invitedTalentPseudonym: "Architect-Alpha (Oluwaseun Adedipe)",
+  // Pseudonym only -- this walkthrough's own narrative (step 13) claims
+  // "Zero Data Leakage Certified" for talent anonymization, so it should not
+  // itself display a talent's real name next to their pseudonym.
+  invitedTalentPseudonym: "Architect-Alpha",
 
   talentAcceptedInvite: false,
   talentStartedWork: false,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../lib/authStore";
 import { useModalA11y } from "../../hooks/use-modal-a11y";
 import {
@@ -7,17 +7,18 @@ import {
   useConsultationRequests,
   useTalentApplications,
   useTransactions,
+  useReferrals,
+  useInternalTalents,
 } from "../../lib/databaseStore";
 import {
   SECURITY_AUDIT_LOGS,
   SERVICE_DEPARTMENTS,
   ACTIVE_PROJECTS,
   CLIENT_ORGANIZATIONS,
-  VETTED_TALENTS,
   TALENT_RANK_CONFIGS,
   calculateRevenueSplit,
 } from "../../data/mockData";
-import { TalentRank, ClientReferralRecord } from "../../types/ndh";
+import { TalentRank } from "../../types/ndh";
 import {
   Sliders,
   ShieldAlert,
@@ -101,19 +102,40 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
   // Profit Split & Calculator State
   const [sampleBudget, setSampleBudget] = useState<number>(2000000); // ₦2,000,000
 
-  // Talent Ranks & Dual-Role Management
-  const [talentsList, setTalentsList] = useState(VETTED_TALENTS);
+  // Talent Ranks & Dual-Role Management. Sourced from the server's
+  // PM/Admin-only internal endpoint (see server/routes/talents.ts) instead
+  // of a direct `VETTED_TALENTS` import -- that import used to ship every
+  // talent's real name, hourly rate, and bank details in the public client
+  // bundle regardless of auth state (confirmed via bundle inspection).
+  const internalTalents = useInternalTalents();
+  const [talentsList, setTalentsList] = useState(internalTalents);
+  useEffect(() => {
+    if (internalTalents.length > 0) setTalentsList(internalTalents);
+  }, [internalTalents]);
   const [dualRoleSuccessMsg, setDualRoleSuccessMsg] = useState<string | null>(null);
 
-  // Referrals State
-  const [referralsList, setReferralsList] = useState<ClientReferralRecord[]>(
-    dbService.getReferrals(),
-  );
+  // Referrals State -- live from the server, refetches automatically after
+  // fundReferral() below.
+  const referralsList = useReferrals();
   const [fundedSuccessMsg, setFundedSuccessMsg] = useState<string | null>(null);
 
-  // Bi-Weekly Payouts State
-  const [dualApprovalStep, setDualApprovalStep] = useState<number>(1);
-  const [batchDisbursed, setBatchDisbursed] = useState(false);
+  // Bi-Weekly Payouts State -- now a real server-enforced maker-checker
+  // control (server/routes/payouts.ts) instead of local component state that
+  // let the same logged-in user "sign" twice.
+  const [payoutBatch, setPayoutBatch] = useState<{
+    id: string;
+    approvals: { userId: string; userName: string; role: string; signedAt: string }[];
+    disbursed: boolean;
+  } | null>(null);
+  const [payoutError, setPayoutError] = useState<string | null>(null);
+  const PAYOUT_BATCH_ID = "batch-2026-10-01";
+
+  useEffect(() => {
+    dbService
+      .getPayoutBatch(PAYOUT_BATCH_ID)
+      .then((batch) => setPayoutBatch(batch))
+      .catch(() => setPayoutBatch(null));
+  }, []);
 
   // Invite PM Modal
   const [showInvitePmModal, setShowInvitePmModal] = useState(false);
@@ -123,9 +145,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
   const [newPmDept, setNewPmDept] = useState("web_app_development");
   const [pmInviteSent, setPmInviteSent] = useState(false);
 
-  const handleSaveCMS = () => {
-    dbService.getAnnouncement().title = announcementText;
-    dbService.getAnnouncement().active = announcementActive;
+  const handleSaveCMS = async () => {
+    await dbService.updateAnnouncement({ title: announcementText, active: announcementActive });
     setCmsSaveSuccess(true);
     setTimeout(() => setCmsSaveSuccess(false), 3000);
   };
@@ -152,14 +173,15 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
     );
   };
 
-  const handleSimulateReferralPayment = (referralId: string) => {
-    const updated = dbService.triggerReferralMilestoneFunding(referralId, 2500000, 1650);
-    if (updated) {
-      setReferralsList([...dbService.getReferrals()]);
+  const handleSimulateReferralPayment = async (referralId: string) => {
+    try {
+      const updated = await dbService.fundReferral(referralId, 2500000, 1650);
       setFundedSuccessMsg(
         `✓ First Project Escrow Funded! ₦50,000 discount applied to ${updated.referredUserName}'s project and ₦250,000 credit (10%) unlocked for ${updated.referrerName}!`,
       );
       setTimeout(() => setFundedSuccessMsg(null), 5000);
+    } catch {
+      setFundedSuccessMsg(null);
     }
   };
 
@@ -1132,7 +1154,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                 </div>
               </div>
 
-              {batchDisbursed ? (
+              {payoutBatch?.disbursed ? (
                 <div className="p-8 text-center rounded-3xl bg-emerald-950/40 border border-emerald-500/40 space-y-3">
                   <div className="w-16 h-16 mx-auto rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
                     <CheckCircle2 className="w-8 h-8" />
@@ -1145,7 +1167,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                     NIBSS FastPay &amp; Wise API.
                   </p>
                   <div className="font-mono text-[11px] text-slate-400 pt-2">
-                    Audit Tx Hash: 0x9f8a...c34b • Signed by Najeeb Al-Hassan &amp; Amina Yusuf
+                    Signed by {payoutBatch.approvals.map((a) => a.userName).join(" & ") || "—"}
                   </div>
                 </div>
               ) : (
@@ -1175,39 +1197,76 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                     </div>
                   </div>
 
-                  {/* Dual-Key Execution */}
-                  <div className="p-5 rounded-2xl bg-blue-950/40 border border-blue-800/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs">
-                    <div className="space-y-1">
-                      <div className="font-bold text-white flex items-center gap-2">
-                        <Lock className="w-4 h-4 text-blue-400" />
-                        <span>Dual-Approval Sovereign Safeguard</span>
+                  {/* Dual-Key Execution -- real maker-checker enforced server-side
+                      (server/routes/payouts.ts): a second signature from the SAME
+                      user id is rejected, and disbursement requires 2 distinct
+                      signer ids. To fully exercise this, sign in as a different
+                      demo account (e.g. Amina Yusuf / Finance Lead) in another
+                      tab/session -- one person cannot complete this alone. */}
+                  <div className="p-5 rounded-2xl bg-blue-950/40 border border-blue-800/40 space-y-4 text-xs">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="space-y-1">
+                        <div className="font-bold text-white flex items-center gap-2">
+                          <Lock className="w-4 h-4 text-blue-400" />
+                          <span>Dual-Approval Sovereign Safeguard</span>
+                        </div>
+                        <p className="text-slate-400 text-[11px]">
+                          Requires 2 distinct Super Admin / Finance Lead signatures. Signed so far:{" "}
+                          {payoutBatch?.approvals.length ?? 0} / 2
+                          {payoutBatch && payoutBatch.approvals.length > 0 && (
+                            <> ({payoutBatch.approvals.map((a) => a.userName).join(", ")})</>
+                          )}
+                        </p>
                       </div>
-                      <p className="text-slate-400 text-[11px]">
-                        Requires Root Super Admin (Najeeb Al-Hassan) &amp; Finance Lead (Amina
-                        Yusuf) digital signature.
-                      </p>
-                    </div>
 
-                    <div className="flex items-center gap-3">
-                      {dualApprovalStep === 1 && (
-                        <button
-                          onClick={() => setDualApprovalStep(2)}
-                          className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md"
-                        >
-                          Sign Key 1: Super Admin (Najeeb)
-                        </button>
-                      )}
+                      <div className="flex items-center gap-3">
+                        {payoutBatch && payoutBatch.approvals.some((a) => a.userId === user?.id) ? (
+                          <span className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 text-[11px] font-mono">
+                            You already signed. A different authorized signer is required for the
+                            next key.
+                          </span>
+                        ) : (
+                          <button
+                            onClick={async () => {
+                              setPayoutError(null);
+                              try {
+                                const updated = await dbService.signPayoutBatch(PAYOUT_BATCH_ID);
+                                setPayoutBatch(updated);
+                              } catch (err) {
+                                setPayoutError(
+                                  err instanceof Error ? err.message : "Could not sign.",
+                                );
+                              }
+                            }}
+                            className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md"
+                          >
+                            Sign as {user?.fullName || "current user"}
+                          </button>
+                        )}
 
-                      {dualApprovalStep === 2 && (
-                        <button
-                          onClick={() => setBatchDisbursed(true)}
-                          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 flex items-center gap-1.5"
-                        >
-                          <Check className="w-4 h-4" />
-                          <span>Sign Key 2 &amp; Execute Payroll Disbursement</span>
-                        </button>
-                      )}
+                        {(payoutBatch?.approvals.length ?? 0) >= 2 && (
+                          <button
+                            onClick={async () => {
+                              setPayoutError(null);
+                              try {
+                                const updated =
+                                  await dbService.disbursePayoutBatch(PAYOUT_BATCH_ID);
+                                setPayoutBatch(updated);
+                              } catch (err) {
+                                setPayoutError(
+                                  err instanceof Error ? err.message : "Could not disburse.",
+                                );
+                              }
+                            }}
+                            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 flex items-center gap-1.5"
+                          >
+                            <Check className="w-4 h-4" />
+                            <span>Execute Payroll Disbursement</span>
+                          </button>
+                        )}
+                      </div>
                     </div>
+                    {payoutError && <p className="text-red-400 text-[11px]">{payoutError}</p>}
                   </div>
                 </div>
               )}
