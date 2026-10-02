@@ -700,3 +700,63 @@ strings remain on the homepage, case studies, contact, or about pages.
   `SERVICE_DEPARTMENTS` (e.g. "28 Active Talents") are likely optimistic
   placeholder figures too, but are a separate, more systemic internal
   catalog concern not explicitly raised this round.
+
+## Case-study refresh: Estore, Academy, SchoolDesk real products (2026-10-02)
+
+Follow-up to the real-data pass above, per client request, to replace three
+of the six case studies with three of the client's own real, currently-live
+products, and to swap hero images on the three being kept.
+
+**Replaced (real product research, not fabricated):**
+- cs-005 "NDH Agency & Academy Web Platform" → **"Najeeb Academy: AI Skills
+  Learning Platform."** Content sourced by fetching the live site
+  (`ndhacademy.lovable.app`, moving to `academy.ndh.com.ng`): 60+
+  project-based courses across 6 tracks, Learn → Assess → Build → Certify
+  structure, 70% graded-assessment pass bar, signed/verifiable certificates.
+  Embeds one real student testimonial (Ibrahim Musa) published on that site.
+  A new `liveUrl`/`liveUrlLabel` field was added to the `CaseStudy` type and
+  rendered as a "Visit Live Project" link in the case study detail sidebar —
+  only populated here since this was the one confirmed-reachable URL.
+- cs-003 "Markazussalaf: Academic Operations Engine" → **"NDH Estore:
+  Multi-Vendor Commerce Platform."** The client-provided URL
+  (`ndhstore.lovable.app`) returns "Project not found" (unpublished), and the
+  client gave no written description, so content was instead sourced
+  directly from the client's own public GitHub source repository
+  (`abulqaswar121-pixel/NDH-Estore-`): a multi-tenant commerce platform with
+  a vendor dashboard (products, orders, payouts, shipping, ad-pixel
+  tracking), per-vendor dynamic storefronts, WhatsApp checkout, and three
+  real pricing tiers (Starter/Pro/Global Enterprise) with Stripe and
+  Flutterwave processing and a 14-day free trial. The example "testimonials"
+  found in that repo's own marketing-page source read as illustrative sample
+  copy for the SaaS's sales page (not verified NDH client quotes), so none
+  were embedded — consistent with the project's testimonial-verification
+  standard.
+- cs-006 "Basic Studies: Academic Result & Reporting System" → **"SchoolDesk:
+  Report Sheets, Salary & Fees Platform."** Content written from the
+  client's own first-hand description (report sheet generation, staff
+  salary payment, school fees tracking). No `liveUrl` was added: the
+  provided address (`ndhschooldesk.lovable.app`) currently also returns
+  "Project not found," and no corrected URL has been supplied yet — omitted
+  rather than linking a broken page.
+- `HeroShowcaseSlider.tsx` (homepage carousel) updated to match: its
+  "ndh-platform" slide became the Najeeb Academy slide, and its
+  "markazussalaf" slide became the NDH Estore slide, using the same honest,
+  factual stat figures as the case-study entries (no invented metrics).
+- New illustrative hero images generated for Academy, Estore, and SchoolDesk
+  in the same style as the existing six; the three orphaned AI-generated
+  images (`ndh-platform.jpg`, `basic-studies.jpg`, `markazussalaf.jpg`) were
+  deleted.
+
+**Explicitly NOT done yet (blocked on the client):**
+- The client's three preferred custom images for Apex Agri-Capital, Miftah
+  al-Arabiyyah, and The Inheritance of Shadows were referenced in chat
+  (`case-apex-custom.webp`, `case-miftah-custom.png`, `case-story-custom.png`)
+  but never actually arrived as files in the workspace across two attempts —
+  these three case studies still use their original AI-generated hero
+  images pending a successful re-upload.
+- No corrected, reachable URL for SchoolDesk has been supplied, so its case
+  study has no "Visit Live Project" link yet.
+
+Verification: `tsc --noEmit`, `eslint` (0 errors; only the 7 pre-existing
+react-refresh warnings in unrelated ui-library files), `vitest run` (27/27
+passing), and `npm run build` all clean after these changes.

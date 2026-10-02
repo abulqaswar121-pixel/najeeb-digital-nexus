@@ -18,10 +18,10 @@ import {
 // these projects, so nothing here claims to be a real screenshot.
 import apexAgriCapitalImg from "../assets/case-studies/apex-agri-capital.jpg";
 import miftahAlArabiyyahImg from "../assets/case-studies/miftah-al-arabiyyah.jpg";
-import markazussalafImg from "../assets/case-studies/markazussalaf.jpg";
 import inheritanceOfShadowsImg from "../assets/case-studies/inheritance-of-shadows.jpg";
 import najeebAcademyImg from "../assets/case-studies/najeeb-academy.jpg";
 import schoolDeskImg from "../assets/case-studies/schooldesk.jpg";
+import ndhEstoreImg from "../assets/case-studies/ndh-estore.jpg";
 
 export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
   {
@@ -790,38 +790,46 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     id: "cs-003",
-    slug: "markazussalaf-academic-operations-engine",
-    title: "Markazussalaf: Academic Operations Engine",
-    clientName: "Markazussalaf Institute",
+    slug: "ndh-estore-multi-vendor-commerce-platform",
+    title: "NDH Estore: Multi-Vendor Commerce Platform",
+    clientName: "NDH Estore",
     isAnonymized: false,
-    industry: "Education / Islamic Studies",
-    department: "data_business",
+    industry: "E-Commerce / SaaS",
+    department: "web_app_development",
     location: "Nigeria",
-    heroImage: markazussalafImg,
+    heroImage: ndhEstoreImg,
     galleryImages: [],
     summary:
-      "A set of academic operations tools built for an Islamic school's Qur'an memorization program, replacing ad hoc tracking with structured, repeatable documents.",
+      "A multi-vendor commerce platform letting African merchants launch an online store in minutes — selling products, services, and experiences with payments, delivery pricing, and a vendor dashboard built in from day one.",
     challenge:
-      "An Islamic school's Qur'an memorization program relied on ad hoc tracking that produced inconsistent records and slow reporting, making it hard to see each learner's real progress across terms.",
+      "Merchants selling across Nigeria and the diaspora were running products, orders, payments, and delivery pricing through a patchwork of separate apps and spreadsheets, with no single system built for how they actually sell — products, services, and bookings together, often across more than one currency.",
     insight:
-      "Reporting is only as fast as the structure behind it — without a shared syllabus and standard per-teacher target sheets, every register ends up tracked differently, and collating them takes days.",
+      "A merchant doesn't need more sales channels — they need one system that already understands local payment rails, state-level delivery pricing, and WhatsApp as a real checkout flow instead of a generic storefront with those pieces missing.",
     strategy:
-      "NDH replaced informal, per-teacher tracking with one shared 4-year master structure, so every teacher's register and every learner's record follows the same format and can be rolled up automatically.",
+      "Built Estore as a complete multi-tenant commerce operating system rather than a single storefront template: every vendor gets their own dashboard, their own public storefront, and their own payout and delivery configuration from the moment they sign up.",
     process:
-      "Created a 4-year master syllabus covering the full program structure, term-by-term teacher target sheets, and individual learner progress cards.",
+      "Designed and built a vendor dashboard covering product management, order management, payouts, and shipping configuration; a dynamic per-vendor storefront; and tiered plans from local Naira-only selling up to a multi-currency, custom-domain Global Enterprise tier with Stripe and Flutterwave payment processing and Meta ad-pixel integration.",
     solution:
-      "Automated generation of student memorization report pages across eight separate teacher registers — reports that took days are now accurate and automated.",
-    measurableOutcomes: [],
-    testimonial: {
-      quote:
-        "The custom academic tracking systems completely transformed how our teachers handle memorization records. Reports that used to take days of manual collation are now accurate and automated.",
-      author: "Dr Ahmad Muhammad Tijjani",
-      title: "Academic Director",
-      company: "Markazussalaf Institute",
-      verifiedNDH: true,
-    },
-    techStack: ["Document Systems", "Academic Reporting"],
-    featured: true,
+      "A live multi-vendor platform where a merchant can publish a store the same day, accept WhatsApp or card checkout, track inventory and orders from one dashboard, and request payouts — with state-level delivery pricing built in rather than negotiated manually per order.",
+    measurableOutcomes: [
+      {
+        metric: "3 Tiers",
+        label: "Starter → Pro → Global Enterprise",
+        evidenceNote: "From solo Naira sellers to multi-currency global brands",
+      },
+      {
+        metric: "14 Days",
+        label: "Free Trial, No Card Required",
+        evidenceNote: "Merchants can publish a live store before paying anything",
+      },
+    ],
+    techStack: [
+      "Vendor Dashboard",
+      "Stripe & Flutterwave Payments",
+      "Multi-Currency Storefronts",
+      "WhatsApp Checkout",
+    ],
+    featured: false,
     status: "published",
     clientApprovalRecorded: true,
     publishedDate: "2026-09-11",

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import apexAgriCapitalImg from "../../assets/case-studies/apex-agri-capital.jpg";
 import miftahAlArabiyyahImg from "../../assets/case-studies/miftah-al-arabiyyah.jpg";
-import markazussalafImg from "../../assets/case-studies/markazussalaf.jpg";
 import najeebAcademyImg from "../../assets/case-studies/najeeb-academy.jpg";
+import ndhEstoreImg from "../../assets/case-studies/ndh-estore.jpg";
 
 interface HeroSlide {
   id: string;
@@ -55,19 +55,19 @@ const HERO_SLIDES: HeroSlide[] = [
     client: "Miftah al-Arabiyyah Project",
   },
   {
-    id: "markazussalaf",
-    category: "Business Support / Document Systems",
+    id: "ndh-estore",
+    category: "E-Commerce / SaaS",
     badgeColor: "bg-amber-500/20 text-amber-300 border-amber-400/40",
-    title: "Automated Academic Reporting for a",
-    highlightText: "Qur'an Memorization Program.",
+    title: "A Multi-Vendor Commerce Platform Letting Merchants",
+    highlightText: "Launch an Online Store in Minutes.",
     subtitle:
-      "A 4-year master syllabus, term-by-term teacher target sheets, and learner progress cards that replaced ad hoc, inconsistent tracking.",
-    statValue: "8 Registers",
-    statLabel: "Automated Reporting",
-    statSubtext: "Reports that took days of manual collation, automated",
-    image: markazussalafImg,
-    tags: ["Document Systems", "Academic Reporting"],
-    client: "Markazussalaf Institute",
+      "A vendor dashboard, dynamic per-vendor storefront, and tiered plans from local Naira-only selling up to multi-currency Global Enterprise accounts.",
+    statValue: "3 Tiers",
+    statLabel: "Starter · Pro · Global Enterprise",
+    statSubtext: "14-day free trial, no card required to publish a store",
+    image: ndhEstoreImg,
+    tags: ["Vendor Dashboard", "Multi-Currency Storefronts"],
+    client: "NDH Estore",
   },
   {
     id: "najeeb-academy",
