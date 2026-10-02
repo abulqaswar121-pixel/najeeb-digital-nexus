@@ -12,16 +12,19 @@ import {
   RevenueSplitBreakdown,
 } from "../types/ndh";
 
-// Hero images for the 6 real, verifiable case studies below. These are
-// generic illustrative photography (AI-generated or otherwise non-literal),
-// not actual client screenshots — no client supplied production assets for
-// these projects, so nothing here claims to be a real screenshot.
-import apexAgriCapitalImg from "../assets/case-studies/apex-agri-capital-custom.webp";
-import miftahAlArabiyyahImg from "../assets/case-studies/miftah-al-arabiyyah-custom.webp";
-import inheritanceOfShadowsImg from "../assets/case-studies/inheritance-of-shadows-custom.webp";
-import najeebAcademyImg from "../assets/case-studies/najeeb-academy.jpg";
-import schoolDeskImg from "../assets/case-studies/schooldesk.jpg";
-import ndhEstoreImg from "../assets/case-studies/ndh-estore.jpg";
+// Hero images for the case studies below live in `public/case-studies/` as
+// plain static files (not bundled via Vite's module-import pipeline). That
+// lets the exact same plain string URL be used here, in the server-side
+// case-study collection that seeds the admin CRUD API, and in any
+// admin-authored case study going forward -- one storage location, one URL
+// format, no duplicate bundling story.
+const apexAgriCapitalImg = "/case-studies/apex-agri-capital-custom.webp";
+const miftahAlArabiyyahImg = "/case-studies/miftah-al-arabiyyah-custom.webp";
+const inheritanceOfShadowsImg = "/case-studies/inheritance-of-shadows-custom.webp";
+const najeebAcademyImg = "/case-studies/najeeb-academy.jpg";
+const schoolDeskImg = "/case-studies/schooldesk.jpg";
+const ndhEstoreImg = "/case-studies/ndh-estore.jpg";
+const hagueExportImg = "/case-studies/hague-export.jpg";
 
 export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
   {
@@ -966,6 +969,54 @@ export const CASE_STUDIES: CaseStudy[] = [
     status: "published",
     clientApprovalRecorded: true,
     publishedDate: "2026-09-11",
+  },
+  {
+    id: "cs-007",
+    slug: "hague-export-b2b-agro-export-marketplace",
+    title: "Hague Export: Verified B2B Agro-Export Marketplace",
+    clientName: "Hague Export",
+    isAnonymized: false,
+    industry: "B2B Trade / AgriTech Marketplace",
+    department: "web_app_development",
+    location: "Nigeria",
+    heroImage: hagueExportImg,
+    galleryImages: [],
+    summary:
+      "A B2B marketplace connecting verified Nigerian agro-commodity exporters to international buyers, built around a 4-tier trust system and a structured RFQ workflow instead of an open, unverified listings board.",
+    challenge:
+      "Agro-export sourcing is full of unverified middlemen and listings nobody can trust — a buyer sourcing cocoa, cashews, or spices from Nigeria has no reliable way to tell a real, capable exporter from a reseller with no stock, no certifications, and no shipping track record.",
+    insight:
+      "Trust, not catalog size, is the actual product in cross-border commodity trade — a buyer will pay more and move faster for an exporter whose verification tier is visible upfront than for the cheapest unverified listing on an open board.",
+    strategy:
+      "Built trust as a first-class, visible system rather than a one-time onboarding checkbox: every exporter sits in one of four tiers (Bronze, Silver, Gold, Platinum) shown directly on their profile, with buyers able to filter and sort by tier before ever opening an RFQ.",
+    process:
+      "Designed and built a structured sourcing workflow — Search & Verify, Submit RFQ, Negotiate & Contract, Inspect & Ship — covering commodity categories from oilseeds and nuts to cocoa, spices, and dried fruit, with third-party inspection (SGS, Bureau Veritas) built into the shipping stage rather than left to buyer and seller to arrange independently.",
+    solution:
+      "A live B2B marketplace where buyers search a verified exporter directory by trust tier and commodity, submit a structured RFQ instead of a cold email, negotiate and contract on-platform, and ship with independent inspection built into the process.",
+    measurableOutcomes: [
+      {
+        metric: "480+",
+        label: "Verified Exporters",
+        evidenceNote: "Across 4 trust tiers",
+      },
+      {
+        metric: "35",
+        label: "Commodity Categories",
+        evidenceNote: "Oilseeds to dried fruit",
+      },
+      {
+        metric: "62",
+        label: "Destination Countries",
+        evidenceNote: "Buyers sourcing from Nigeria",
+      },
+    ],
+    techStack: ["B2B Marketplace", "4-Tier Verification System", "Structured RFQ Workflow"],
+    featured: true,
+    status: "published",
+    clientApprovalRecorded: true,
+    publishedDate: "2026-10-02",
+    liveUrl: "https://hague-export.lovable.app",
+    liveUrlLabel: "hague-export.lovable.app",
   },
 ];
 

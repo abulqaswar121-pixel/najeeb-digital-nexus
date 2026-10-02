@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { CaseStudy } from "../../../types/ndh";
-import { CASE_STUDIES } from "../../../data/mockData";
+import { useCaseStudies } from "../../../lib/databaseStore";
 import {
   ShieldCheck,
   CheckCircle2,
@@ -24,7 +24,18 @@ export const CaseStudyPreview: React.FC<CaseStudyPreviewProps> = ({ onOpenBriefW
   const [selectedCaseId, setSelectedCaseId] = useState<string>("cs-001");
   const [anonymizePreview, setAnonymizePreview] = useState<boolean>(false);
 
-  const cs: CaseStudy = CASE_STUDIES.find((c) => c.id === selectedCaseId) || CASE_STUDIES[0]!;
+  const caseStudiesData = useCaseStudies();
+  const cs: CaseStudy | undefined =
+    caseStudiesData.find((c) => c.id === selectedCaseId) || caseStudiesData[0];
+
+  if (!cs) {
+    return (
+      <div className="min-h-screen bg-[#090D1A] text-slate-100 flex items-center justify-center font-sans">
+        <p className="text-sm text-slate-400">Loading case studies…</p>
+      </div>
+    );
+  }
+
   const displayName = anonymizePreview ? "Confidential Tier-1 Enterprise" : cs.clientName;
 
   return (
@@ -36,7 +47,7 @@ export const CaseStudyPreview: React.FC<CaseStudyPreviewProps> = ({ onOpenBriefW
             <span className="text-xs font-bold text-slate-300 mr-2 whitespace-nowrap">
               Featured Case Studies:
             </span>
-            {CASE_STUDIES.map((c) => (
+            {caseStudiesData.map((c) => (
               <button
                 key={c.id}
                 onClick={() => setSelectedCaseId(c.id)}

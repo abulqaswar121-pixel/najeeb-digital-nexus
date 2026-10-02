@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import apexAgriCapitalImg from "../../assets/case-studies/apex-agri-capital-custom.webp";
-import miftahAlArabiyyahImg from "../../assets/case-studies/miftah-al-arabiyyah-custom.webp";
-import najeebAcademyImg from "../../assets/case-studies/najeeb-academy.jpg";
-import ndhEstoreImg from "../../assets/case-studies/ndh-estore.jpg";
+
+// Hero images live in `public/case-studies/` as plain static files, same
+// location and URL format used by the full case-study records in
+// mockData.ts and the server-side case-study collection -- one source of
+// truth for these assets, not a separate bundled copy.
+const apexAgriCapitalImg = "/case-studies/apex-agri-capital-custom.webp";
+const miftahAlArabiyyahImg = "/case-studies/miftah-al-arabiyyah-custom.webp";
+const ndhEstoreImg = "/case-studies/ndh-estore.jpg";
+const hagueExportImg = "/case-studies/hague-export.jpg";
 
 interface HeroSlide {
   id: string;
@@ -70,19 +75,19 @@ const HERO_SLIDES: HeroSlide[] = [
     client: "NDH Estore",
   },
   {
-    id: "najeeb-academy",
-    category: "EdTech / Online Learning",
+    id: "hague-export",
+    category: "B2B Trade / AgriTech Marketplace",
     badgeColor: "bg-purple-500/20 text-purple-300 border-purple-400/40",
-    title: "60+ Project-Based AI Courses, Each Ending in",
-    highlightText: "a Verifiable Certificate.",
+    title: "A 4-Tier Verification System Powering a B2B",
+    highlightText: "Agro-Export Marketplace.",
     subtitle:
-      "A self-paced AI skills academy across 6 tracks, every course following Learn → Assess → Build → Certify with a graded assessment and a real capstone project.",
-    statValue: "60+",
-    statLabel: "Courses Across 6 Tracks",
-    statSubtext: "Every course ends in a graded, portfolio-ready build",
-    image: najeebAcademyImg,
-    tags: ["Course Platform", "Certificate Verification"],
-    client: "Najeeb Academy",
+      "A structured RFQ workflow — Search & Verify, Submit RFQ, Negotiate & Contract, Inspect & Ship — connecting verified Nigerian exporters to buyers across 62 destination countries.",
+    statValue: "480+",
+    statLabel: "Verified Exporters, 4 Trust Tiers",
+    statSubtext: "35 commodity categories, from oilseeds to dried fruit",
+    image: hagueExportImg,
+    tags: ["B2B Marketplace", "4-Tier Verification"],
+    client: "Hague Export",
   },
 ];
 

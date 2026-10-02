@@ -1,4 +1,4 @@
-import { ServiceDepartment, TalentProfile, UserSession, UserRole } from "../types/ndh";
+import { ServiceDepartment, TalentProfile, UserSession, UserRole, CaseStudy } from "../types/ndh";
 import { api } from "./apiClient";
 import { useEffect, useState, useCallback } from "react";
 
@@ -245,6 +245,15 @@ export function useMyTalentProfile(): TalentProfile | null {
   return profile;
 }
 
+// Public: case studies used to be purely static data bundled straight into
+// the client JS (src/data/mockData.ts), with zero admin path -- editing one
+// meant a code change and a redeploy. They now live in the real backend and
+// are editable from the admin portal; this is what the case-study gallery,
+// homepage spotlight, and hero carousel all read from.
+export function useCaseStudies(): CaseStudy[] {
+  return useApiList<CaseStudy>("/case-studies");
+}
+
 export function useAnnouncement(): DatabaseAnnouncement | null {
   const [announcement, setAnnouncement] = useState<DatabaseAnnouncement | null>(null);
   const refetch = useCallback(() => {
@@ -379,6 +388,23 @@ export const dbService = {
 
   async updateAnnouncement(data: { title?: string; active?: boolean }): Promise<void> {
     await api.put("/announcement", data);
+    notify();
+  },
+
+  async createCaseStudy(data: Partial<CaseStudy>): Promise<CaseStudy> {
+    const { caseStudy } = await api.post<{ caseStudy: CaseStudy }>("/case-studies", data);
+    notify();
+    return caseStudy;
+  },
+
+  async updateCaseStudy(id: string, data: Partial<CaseStudy>): Promise<CaseStudy> {
+    const { caseStudy } = await api.put<{ caseStudy: CaseStudy }>(`/case-studies/${id}`, data);
+    notify();
+    return caseStudy;
+  },
+
+  async deleteCaseStudy(id: string): Promise<void> {
+    await api.delete(`/case-studies/${id}`);
     notify();
   },
 

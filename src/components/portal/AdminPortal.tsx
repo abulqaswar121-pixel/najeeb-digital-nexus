@@ -9,6 +9,7 @@ import {
   useTransactions,
   useReferrals,
   useInternalTalents,
+  useCaseStudies,
 } from "../../lib/databaseStore";
 import {
   SECURITY_AUDIT_LOGS,
@@ -18,7 +19,7 @@ import {
   TALENT_RANK_CONFIGS,
   calculateRevenueSplit,
 } from "../../data/mockData";
-import { TalentRank } from "../../types/ndh";
+import { TalentRank, CaseStudy } from "../../types/ndh";
 import {
   Sliders,
   ShieldAlert,
@@ -67,6 +68,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
     | "overview"
     | "pipeline"
     | "cms"
+    | "case_studies"
     | "split_model"
     | "talent_ranks"
     | "referrals"
@@ -81,9 +83,6 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
     "⚡ Q4 Digital Transformation Special: Free Technical Discovery & PM Consultation for All New Projects",
   );
   const [announcementActive, setAnnouncementActive] = useState(true);
-  const [heroHeading, setHeroHeading] = useState(
-    "We Build World-Class Software & Brands That Fast-Track Your Growth.",
-  );
   const [cmsSaveSuccess, setCmsSaveSuccess] = useState(false);
 
   // Talent Applications State (reactive -- now reflects new applications
@@ -104,6 +103,41 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
   const liveBriefs = useBriefs();
   const liveConsultRequests = useConsultationRequests();
   const liveTransactions = useTransactions();
+
+  // Case Studies & Portfolio -- live from the server (see
+  // server/routes/caseStudies.ts). This used to be static data baked into
+  // the client bundle with zero admin path at all; adding, editing, or
+  // retiring one now takes effect on the live site immediately, no code
+  // change or redeploy required.
+  const caseStudiesList = useCaseStudies();
+  const [editingCaseStudy, setEditingCaseStudy] = useState<CaseStudy | null>(null);
+  const [showCaseStudyModal, setShowCaseStudyModal] = useState(false);
+  const [caseStudyFormError, setCaseStudyFormError] = useState<string | null>(null);
+  const [isSavingCaseStudy, setIsSavingCaseStudy] = useState(false);
+  const [deletingCaseStudyId, setDeletingCaseStudyId] = useState<string | null>(null);
+  useModalA11y(showCaseStudyModal, () => setShowCaseStudyModal(false));
+
+  const emptyCaseStudyForm = {
+    title: "",
+    clientName: "",
+    industry: "",
+    department: "web_app_development",
+    location: "Nigeria",
+    heroImage: "",
+    summary: "",
+    challenge: "",
+    insight: "",
+    strategy: "",
+    process: "",
+    solution: "",
+    techStackText: "",
+    measurableOutcomes: [{ metric: "", label: "", evidenceNote: "" }],
+    featured: false,
+    status: "published" as CaseStudy["status"],
+    liveUrl: "",
+    liveUrlLabel: "",
+  };
+  const [caseStudyForm, setCaseStudyForm] = useState(emptyCaseStudyForm);
 
   // Profit Split & Calculator State
   const [sampleBudget, setSampleBudget] = useState<number>(2000000); // ₦2,000,000
@@ -160,6 +194,105 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
     await dbService.updateAnnouncement({ title: announcementText, active: announcementActive });
     setCmsSaveSuccess(true);
     setTimeout(() => setCmsSaveSuccess(false), 3000);
+  };
+
+  const handleOpenNewCaseStudy = () => {
+    setEditingCaseStudy(null);
+    setCaseStudyForm(emptyCaseStudyForm);
+    setCaseStudyFormError(null);
+    setShowCaseStudyModal(true);
+  };
+
+  const handleOpenEditCaseStudy = (cs: CaseStudy) => {
+    setEditingCaseStudy(cs);
+    setCaseStudyForm({
+      title: cs.title,
+      clientName: cs.clientName,
+      industry: cs.industry,
+      department: cs.department,
+      location: cs.location,
+      heroImage: cs.heroImage,
+      summary: cs.summary || "",
+      challenge: cs.challenge,
+      insight: cs.insight,
+      strategy: cs.strategy,
+      process: cs.process,
+      solution: cs.solution,
+      techStackText: cs.techStack.join(", "),
+      measurableOutcomes:
+        cs.measurableOutcomes.length > 0
+          ? cs.measurableOutcomes
+          : [{ metric: "", label: "", evidenceNote: "" }],
+      featured: cs.featured,
+      status: cs.status,
+      liveUrl: cs.liveUrl || "",
+      liveUrlLabel: cs.liveUrlLabel || "",
+    });
+    setCaseStudyFormError(null);
+    setShowCaseStudyModal(true);
+  };
+
+  const handleSaveCaseStudy = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!caseStudyForm.title || !caseStudyForm.clientName) {
+      setCaseStudyFormError("Title and client name are required.");
+      return;
+    }
+    setIsSavingCaseStudy(true);
+    setCaseStudyFormError(null);
+    try {
+      const payload: Partial<CaseStudy> = {
+        title: caseStudyForm.title,
+        clientName: caseStudyForm.clientName,
+        industry: caseStudyForm.industry,
+        department: caseStudyForm.department as CaseStudy["department"],
+        location: caseStudyForm.location,
+        heroImage: caseStudyForm.heroImage,
+        summary: caseStudyForm.summary,
+        challenge: caseStudyForm.challenge,
+        insight: caseStudyForm.insight,
+        strategy: caseStudyForm.strategy,
+        process: caseStudyForm.process,
+        solution: caseStudyForm.solution,
+        techStack: caseStudyForm.techStackText
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+        measurableOutcomes: caseStudyForm.measurableOutcomes.filter(
+          (m) => m.metric || m.label || m.evidenceNote,
+        ),
+        featured: caseStudyForm.featured,
+        status: caseStudyForm.status,
+        ...(caseStudyForm.liveUrl ? { liveUrl: caseStudyForm.liveUrl } : {}),
+        ...(caseStudyForm.liveUrlLabel ? { liveUrlLabel: caseStudyForm.liveUrlLabel } : {}),
+      };
+      if (editingCaseStudy) {
+        await dbService.updateCaseStudy(editingCaseStudy.id, payload);
+      } else {
+        await dbService.createCaseStudy({
+          ...payload,
+          isAnonymized: false,
+          galleryImages: [],
+          clientApprovalRecorded: false,
+          publishedDate: new Date().toISOString().slice(0, 10),
+        });
+      }
+      setShowCaseStudyModal(false);
+    } catch (err) {
+      setCaseStudyFormError(err instanceof Error ? err.message : "Failed to save case study.");
+    } finally {
+      setIsSavingCaseStudy(false);
+    }
+  };
+
+  const handleDeleteCaseStudy = async (id: string) => {
+    if (!window.confirm("Permanently remove this case study from the live site?")) return;
+    setDeletingCaseStudyId(id);
+    try {
+      await dbService.deleteCaseStudy(id);
+    } finally {
+      setDeletingCaseStudyId(null);
+    }
   };
 
   // Really creates a login + internal talent profile on the server (see
@@ -343,6 +476,11 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                 badge: `${referralsList.length} Codes`,
               },
               { id: "cms", label: "A-to-Z Website CMS" },
+              {
+                id: "case_studies",
+                label: "Case Studies & Portfolio",
+                badge: `${caseStudiesList.length} Published`,
+              },
               { id: "users", label: "Clients & Squads" },
               {
                 id: "talent_apps",
@@ -1011,19 +1149,6 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                   />
                 </div>
 
-                {/* 2. Hero Headline */}
-                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-                  <label className="font-bold text-slate-200">
-                    2. Homepage Hero Primary Headline
-                  </label>
-                  <input
-                    type="text"
-                    value={heroHeading}
-                    onChange={(e) => setHeroHeading(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500 font-sans"
-                  />
-                </div>
-
                 {/* Save CMS CTA */}
                 <div className="flex justify-end pt-2">
                   <button
@@ -1033,6 +1158,90 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                     Publish Changes to Live Agency Site
                   </button>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB: Case Studies & Portfolio */}
+          {activeTab === "case_studies" && (
+            <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-4 flex-wrap gap-3">
+                <div>
+                  <h3 className="font-bold text-base sm:text-lg text-white">
+                    Case Studies &amp; Portfolio
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    Add, edit, or retire case studies shown on the public gallery, homepage
+                    spotlight, and hero carousel. Changes go live immediately — no redeploy
+                    required.
+                  </p>
+                </div>
+                <button
+                  onClick={handleOpenNewCaseStudy}
+                  className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-600/30 flex items-center gap-1.5 transition-transform hover:scale-105"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>New Case Study</span>
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                {caseStudiesList.length === 0 && (
+                  <p className="text-xs text-slate-500 italic">No case studies yet.</p>
+                )}
+                {caseStudiesList.map((cs) => (
+                  <div
+                    key={cs.id}
+                    className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <img
+                        src={cs.heroImage}
+                        alt={cs.title}
+                        className="w-14 h-14 rounded-xl object-cover border border-slate-800 shrink-0"
+                      />
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-bold text-xs text-white truncate">{cs.title}</span>
+                          {cs.featured && (
+                            <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold border border-amber-500/30">
+                              Featured
+                            </span>
+                          )}
+                          <span
+                            className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border ${
+                              cs.status === "published"
+                                ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
+                                : "bg-slate-800 text-slate-400 border-slate-700"
+                            }`}
+                          >
+                            {cs.status}
+                          </span>
+                        </div>
+                        <div className="text-[11px] text-slate-400 mt-0.5 truncate">
+                          {cs.clientName} • {cs.industry}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+                      <button
+                        onClick={() => handleOpenEditCaseStudy(cs)}
+                        className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
+                        aria-label={`Edit ${cs.title}`}
+                      >
+                        <Edit3 className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCaseStudy(cs.id)}
+                        disabled={deletingCaseStudyId === cs.id}
+                        className="p-2 rounded-lg bg-red-950/60 hover:bg-red-900/60 text-red-300 transition-colors disabled:opacity-50"
+                        aria-label={`Delete ${cs.title}`}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -1537,6 +1746,297 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                 </div>
               </form>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Case Study Add/Edit Modal */}
+      {showCaseStudyModal && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={editingCaseStudy ? "Edit Case Study" : "New Case Study"}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans overflow-y-auto"
+        >
+          <div className="w-full max-w-2xl my-8 rounded-3xl bg-[#0F172A] border border-blue-500/40 p-6 sm:p-8 shadow-2xl relative space-y-5">
+            <button
+              onClick={() => setShowCaseStudyModal(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-800 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="space-y-1">
+              <h3 className="text-xl font-bold text-white">
+                {editingCaseStudy ? "Edit Case Study" : "New Case Study"}
+              </h3>
+              <p className="text-xs text-slate-400">
+                Published immediately to the live case-study gallery, homepage spotlight, and hero
+                carousel.
+              </p>
+            </div>
+
+            {caseStudyFormError && (
+              <div className="p-3 rounded-xl bg-red-950/80 border border-red-800/80 text-red-300 text-xs font-medium">
+                {caseStudyFormError}
+              </div>
+            )}
+
+            <form
+              onSubmit={handleSaveCaseStudy}
+              className="space-y-4 text-xs max-h-[65vh] overflow-y-auto pr-1"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-300">Title</label>
+                  <input
+                    type="text"
+                    required
+                    value={caseStudyForm.title}
+                    onChange={(e) => setCaseStudyForm({ ...caseStudyForm, title: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-300">Client Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={caseStudyForm.clientName}
+                    onChange={(e) =>
+                      setCaseStudyForm({ ...caseStudyForm, clientName: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-300">Industry</label>
+                  <input
+                    type="text"
+                    value={caseStudyForm.industry}
+                    onChange={(e) =>
+                      setCaseStudyForm({ ...caseStudyForm, industry: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-300">Service Department</label>
+                  <select
+                    value={caseStudyForm.department}
+                    onChange={(e) =>
+                      setCaseStudyForm({ ...caseStudyForm, department: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500 font-sans"
+                  >
+                    {SERVICE_DEPARTMENTS.map((dept) => (
+                      <option key={dept.id} value={dept.id}>
+                        {dept.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-300">Location</label>
+                  <input
+                    type="text"
+                    value={caseStudyForm.location}
+                    onChange={(e) =>
+                      setCaseStudyForm({ ...caseStudyForm, location: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-300">Hero Image URL</label>
+                  <input
+                    type="text"
+                    placeholder="/case-studies/your-image.jpg"
+                    value={caseStudyForm.heroImage}
+                    onChange={(e) =>
+                      setCaseStudyForm({ ...caseStudyForm, heroImage: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-slate-300">Summary</label>
+                <textarea
+                  rows={2}
+                  value={caseStudyForm.summary}
+                  onChange={(e) => setCaseStudyForm({ ...caseStudyForm, summary: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              {(
+                [
+                  ["challenge", "Challenge"],
+                  ["insight", "Insight"],
+                  ["strategy", "Strategy"],
+                  ["process", "Process"],
+                  ["solution", "Solution"],
+                ] as const
+              ).map(([field, label]) => (
+                <div key={field} className="space-y-1">
+                  <label className="font-bold text-slate-300">{label}</label>
+                  <textarea
+                    rows={2}
+                    value={caseStudyForm[field]}
+                    onChange={(e) =>
+                      setCaseStudyForm({ ...caseStudyForm, [field]: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              ))}
+
+              <div className="space-y-1">
+                <label className="font-bold text-slate-300">
+                  Tech Stack / Capabilities (comma-separated)
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Role-Based Access, Multi-Currency Checkout"
+                  value={caseStudyForm.techStackText}
+                  onChange={(e) =>
+                    setCaseStudyForm({ ...caseStudyForm, techStackText: e.target.value })
+                  }
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="font-bold text-slate-300">
+                    Measurable Outcomes (only real, disclosed metrics)
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setCaseStudyForm({
+                        ...caseStudyForm,
+                        measurableOutcomes: [
+                          ...caseStudyForm.measurableOutcomes,
+                          { metric: "", label: "", evidenceNote: "" },
+                        ],
+                      })
+                    }
+                    className="text-[11px] font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1"
+                  >
+                    <Plus className="w-3 h-3" /> Add Row
+                  </button>
+                </div>
+                {caseStudyForm.measurableOutcomes.map((outcome, idx) => (
+                  <div key={idx} className="grid grid-cols-3 gap-2">
+                    <input
+                      type="text"
+                      placeholder="Metric (e.g. 480+)"
+                      value={outcome.metric}
+                      onChange={(e) => {
+                        const next = [...caseStudyForm.measurableOutcomes];
+                        next[idx] = { ...next[idx]!, metric: e.target.value };
+                        setCaseStudyForm({ ...caseStudyForm, measurableOutcomes: next });
+                      }}
+                      className="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Label"
+                      value={outcome.label}
+                      onChange={(e) => {
+                        const next = [...caseStudyForm.measurableOutcomes];
+                        next[idx] = { ...next[idx]!, label: e.target.value };
+                        setCaseStudyForm({ ...caseStudyForm, measurableOutcomes: next });
+                      }}
+                      className="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Evidence note"
+                      value={outcome.evidenceNote}
+                      onChange={(e) => {
+                        const next = [...caseStudyForm.measurableOutcomes];
+                        next[idx] = { ...next[idx]!, evidenceNote: e.target.value };
+                        setCaseStudyForm({ ...caseStudyForm, measurableOutcomes: next });
+                      }}
+                      className="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-300">Live URL (optional)</label>
+                  <input
+                    type="text"
+                    placeholder="https://your-project.lovable.app"
+                    value={caseStudyForm.liveUrl}
+                    onChange={(e) =>
+                      setCaseStudyForm({ ...caseStudyForm, liveUrl: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-300">Live URL Label (optional)</label>
+                  <input
+                    type="text"
+                    placeholder="your-project.lovable.app"
+                    value={caseStudyForm.liveUrlLabel}
+                    onChange={(e) =>
+                      setCaseStudyForm({ ...caseStudyForm, liveUrlLabel: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between flex-wrap gap-3 pt-1">
+                <div className="flex items-center gap-4">
+                  <label className="flex items-center gap-2 font-bold text-slate-300">
+                    <input
+                      type="checkbox"
+                      checked={caseStudyForm.featured}
+                      onChange={(e) =>
+                        setCaseStudyForm({ ...caseStudyForm, featured: e.target.checked })
+                      }
+                      className="rounded"
+                    />
+                    Featured
+                  </label>
+                  <select
+                    value={caseStudyForm.status}
+                    onChange={(e) =>
+                      setCaseStudyForm({
+                        ...caseStudyForm,
+                        status: e.target.value as CaseStudy["status"],
+                      })
+                    }
+                    className="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500 font-sans"
+                  >
+                    <option value="published">Published</option>
+                    <option value="review">Review</option>
+                    <option value="scheduled">Scheduled</option>
+                    <option value="confidential_preview">Confidential Preview</option>
+                  </select>
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSavingCaseStudy}
+                  className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-all"
+                >
+                  {isSavingCaseStudy
+                    ? "Saving..."
+                    : editingCaseStudy
+                      ? "Save Changes"
+                      : "Publish Case Study"}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

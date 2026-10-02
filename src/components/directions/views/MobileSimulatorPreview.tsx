@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { DesignDirectionId, ServiceDepartment } from "../../../types/ndh";
 import { DIRECTION_CONFIGS } from "../DirectionStyles";
-import { SERVICE_DEPARTMENTS, CASE_STUDIES, ACTIVE_PROJECTS } from "../../../data/mockData";
+import { SERVICE_DEPARTMENTS, ACTIVE_PROJECTS } from "../../../data/mockData";
 import {
   Smartphone,
   Menu,

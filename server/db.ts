@@ -77,6 +77,15 @@ export class Collection<T> {
     this.items = items;
     this.persist();
   }
+
+  /** Removes every item matching `predicate`. Returns how many were removed. */
+  remove(predicate: (item: T) => boolean): number {
+    const before = this.items.length;
+    this.items = this.items.filter((item) => !predicate(item));
+    const removed = before - this.items.length;
+    if (removed > 0) this.persist();
+    return removed;
+  }
 }
 
 export class SingletonRecord<T> {

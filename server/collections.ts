@@ -6,7 +6,13 @@ import type {
   TalentProfile,
   ServiceDepartment,
   ClientReferralRecord,
+  CaseStudy,
 } from "../src/types/ndh.js";
+// Real-content seed for the case-studies collection below. mockData.ts has
+// no Vite-only asset imports (hero images are plain `/case-studies/*.jpg`
+// string paths served from `public/`), so it's safe to import directly here
+// as the one-time seed for the server-persisted, admin-editable collection.
+import { CASE_STUDIES as SEED_CASE_STUDIES } from "../src/data/mockData.js";
 
 // ============================================================================
 // USERS
@@ -832,6 +838,13 @@ export const payoutBatches = new Collection<PayoutBatchRecord>("payoutBatches", 
 ]);
 
 export const projectApprovals = new Collection<ProjectApprovalRecord>("projectApprovals", []);
+
+// Case studies used to be purely static frontend data (src/data/mockData.ts)
+// with no admin path at all -- editing one meant a code change and a
+// redeploy. Seeded once from that same real content, then persisted and
+// mutable through /api/case-studies so a future admin edition can add,
+// edit, or retire a case study without touching code.
+export const caseStudies = new Collection<CaseStudy>("caseStudies", SEED_CASE_STUDIES);
 
 export const announcement = new SingletonRecord<AnnouncementRecord>("announcement", {
   id: "ann-01",

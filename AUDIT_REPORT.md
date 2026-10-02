@@ -795,3 +795,117 @@ to this working branch only — the rest of that stale `main` snapshot
 
 Verification: `tsc --noEmit`, `eslint` (0 errors, same 7 pre-existing
 unrelated warnings), `vitest run` (27/27), `npm run build` all clean.
+
+## Hague Export case study, trust-stat honesty fixes, estimator "Custom" tier, and real admin CRUD for case studies (2026-10-02)
+
+**Trust-stat cards (homepage hero, all 6 languages):** two of the four stat
+cards made claims the site itself doesn't actually back up or that were no
+longer accurate after prior rounds removed the embedded-testimonial pattern
+for unverified clients:
+- "6 Real, Verified Case Studies" → **"0 Anonymous Case Studies"**, with a
+  new subtext ("Every case study names a real client"). This is provably
+  true: every entry in `CASE_STUDIES` has `isAnonymized: false`, confirmed
+  by inspection before writing the copy.
+- "3 Verified Client Testimonials" → **"5 Regional Currencies Supported"**
+  (NGN · USD · GBP · EUR · AED, the `Globe` icon replacing `Quote`), since
+  only one of the six real case studies (Apex Agri-Capital) actually carries
+  a verified testimonial — "3" was already stale/inaccurate.
+- Also fixed: the English hero description still said "student MVPs" (a
+  wording earlier rounds had already removed from the pricing-tier labels
+  per client instruction) while every other language's translation never
+  used that framing — changed to "lean MVPs" for consistency.
+- All six language blocks (`en`, `fr`, `yo`, `ha`, `ig`, `ar`) in
+  `currencyLanguageStore.ts` updated in lockstep.
+
+**Instant Price & Time Estimator:**
+- Removed the explicit "Showing prices in NGN — detected automatically..."
+  line from the estimator card. Currency auto-detection still works exactly
+  as before (per standing instruction to keep it silent) — this was a
+  separate, redundant debug-style sentence restating it inside the
+  estimator body, not the detection mechanism itself.
+- Added a 4th **"Custom Scope"** tier alongside Starter/Growth/Enterprise.
+  Selecting it shows no fixed sticker price — only a "Let's Talk & Quote It"
+  message and a "Start Custom Scoping" CTA into the brief wizard. This is a
+  deliberate escape hatch so a visitor whose scope is bigger, smaller, or
+  different from the fixed Enterprise number doesn't just bounce off
+  sticker shock; it required no invented price data.
+- Reviewed `REGIONAL_MARKET_PRICING` (80 department/currency rows) for
+  internal consistency: every Starter ≤ Growth ≤ Enterprise ratio across all
+  5 currencies falls in a sane 2×–6× band with zero inversions (also
+  enforced by the existing `mockData.test.ts` pricing test, which still
+  passes). No numbers were changed — inventing new price points without the
+  client's actual figures would misrepresent their business, so this was a
+  consistency audit, not a rewrite. One real (unfixed) gap noted for the
+  client: the "weeks" delivery estimate is shared across all three paid
+  tiers per department rather than scaling with tier.
+
+**New case study: Hague Export (cs-007).** A verified B2B agro-export
+marketplace (`https://hague-export.lovable.app`), added as a 7th real,
+non-anonymized case study built from the live site's actual disclosed
+content: the 4-tier Bronze→Silver→Gold→Platinum verification system, the
+Search & Verify → Submit RFQ → Negotiate & Contract → Inspect & Ship
+workflow, third-party inspection (SGS/Bureau Veritas), and the platform's
+own disclosed stats (480+ verified exporters, 35 commodity categories, 62
+destination countries) as `measurableOutcomes`. No testimonial was added —
+the three named testimonials on the live site read as the same
+illustrative/sample marketing-page pattern previously identified and
+excluded on the Estore site, so they're treated as unverified per the
+standing "testimonials embedded-only when verifiably real" rule. An
+illustrative hero image was generated (no client-supplied image available
+for this one). `HeroShowcaseSlider.tsx`'s 4-slide hero carousel swapped its
+Najeeb Academy slide for Hague Export (Academy's full case-study page entry
+is untouched, it simply no longer rotates through the homepage hero).
+
+**Case studies now have a real admin CRUD path (new durable capability).**
+Case studies were purely static data compiled into the client bundle with
+*zero* admin path — adding, editing, or retiring one required a code change
+and a redeploy. This is now a genuine gap closed, matching how every other
+piece of operational data in this app (briefs, talents, referrals,
+payouts, the announcement banner) already works:
+- Hero images moved from bundled Vite imports (`src/assets/case-studies/*`)
+  to plain static files in `public/case-studies/*`, so the exact same
+  string URL works in the server-stored record, the admin "image URL"
+  field, and the public page — one storage location, not two.
+- `server/collections.ts` gained a `caseStudies` collection
+  (`Collection<CaseStudy>`), seeded once from the same real content in
+  `src/data/mockData.ts` (now safe to import server-side since it has no
+  remaining Vite-only asset imports).
+- `server/db.ts`'s generic `Collection<T>` gained a `remove(predicate)`
+  method (it previously had no delete capability at all).
+- New `server/routes/caseStudies.ts`: `GET /` and `GET /:id` are public
+  (marketing content, not sensitive); `POST /`, `PUT /:id`, `DELETE /:id`
+  are gated `requireRole("super_admin")`, mirroring the existing
+  `announcementRouter`/`talentsRouter` patterns. Mounted at
+  `/api/case-studies` in `server/app.ts`.
+- Frontend: new `useCaseStudies()` hook (same `useApiList` polling/pub-sub
+  pattern as every other live list in the app) plus
+  `dbService.createCaseStudy` / `updateCaseStudy` / `deleteCaseStudy`.
+  `CaseStudyPreview.tsx`, the homepage spotlight + client marquee in
+  `HomepagePreview.tsx`, and the stray unused import in
+  `MobileSimulatorPreview.tsx` now all read live data instead of the static
+  `CASE_STUDIES` array (which remains in `mockData.ts` purely as the
+  server's one-time seed source).
+- New admin UI: a **"Case Studies & Portfolio"** tab in `AdminPortal.tsx`
+  with a live list (thumbnail, title, client, featured/status badges,
+  edit/delete) and a full add/edit modal covering every `CaseStudy` field —
+  department via the real `SERVICE_DEPARTMENTS` list, measurable outcomes
+  as repeatable rows, tech stack as a comma-separated field, optional live
+  URL, featured toggle, and status select.
+- New regression test `server/__tests__/caseStudies.test.ts` (3 tests):
+  confirms the public list is real seeded content (not empty), confirms
+  anonymous and non-admin callers are rejected (401/403), and exercises a
+  full super_admin create → update → delete → re-delete-404 cycle.
+- Incidental fix while in this part of `AdminPortal.tsx`: the existing CMS
+  tab had a "Homepage Hero Primary Headline" text field that was pure dead
+  UI — wired to local state only, never sent to any backend, silently
+  reverting on reload. Removed it rather than leave a fake control in
+  place; the admin CMS tab now only contains controls that actually persist
+  (the announcement banner).
+
+Verification: `tsc --noEmit` clean, `eslint src server --max-warnings 7` → 0
+errors (same 7 pre-existing unrelated warnings), `vitest run` → 30/30
+passing (27 previous + 3 new case-study API tests), `npm run build` clean,
+and the dev server manually exercised end-to-end (`GET /api/case-studies`
+returns all 7 real entries including Hague Export; a logged-in super_admin
+could create/update/delete a case study live; the seed reproduces cleanly
+after a server restart).

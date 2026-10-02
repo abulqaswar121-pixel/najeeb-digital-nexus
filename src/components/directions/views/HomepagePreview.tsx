@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { ServiceDepartment, ServiceDepartmentInfo } from "../../../types/ndh";
-import { SERVICE_DEPARTMENTS, CASE_STUDIES } from "../../../data/mockData";
+import { SERVICE_DEPARTMENTS } from "../../../data/mockData";
 import { useCurrencyLanguage } from "../../../lib/currencyLanguageStore";
+import { useCaseStudies } from "../../../lib/databaseStore";
 import { HeroShowcaseSlider } from "../../home/HeroShowcaseSlider";
 import { ServiceDetailModal } from "../modals/ServiceDetailModal";
 import {
@@ -11,7 +12,6 @@ import {
   TrendingUp,
   Sliders,
   Building,
-  Quote,
   Globe,
 } from "lucide-react";
 
@@ -29,14 +29,20 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
     useCurrencyLanguage();
 
   const [calculatorDept, setCalculatorDept] = useState<ServiceDepartment>("web_app_development");
-  const [calculatorTier, setCalculatorTier] = useState<"starter" | "growth" | "enterprise">(
-    "growth",
-  );
+  const [calculatorTier, setCalculatorTier] = useState<
+    "starter" | "growth" | "enterprise" | "custom"
+  >("growth");
   const [activeCaseIdx, setActiveCaseIdx] = useState<number>(0);
   const [selectedModalDept, setSelectedModalDept] = useState<ServiceDepartmentInfo | null>(null);
 
-  const regionalResult = getRegionalPricing(calculatorDept, calculatorTier);
-  const currentCase = CASE_STUDIES[activeCaseIdx] || CASE_STUDIES[0]!;
+  // "Custom" isn't a priced tier -- it's a deliberate escape hatch so a
+  // visitor whose scope is bigger/smaller/different than Enterprise doesn't
+  // just bounce off a sticker-shock number. No regional price is computed
+  // for it; the UI below routes straight to a scoping conversation instead.
+  const regionalResult =
+    calculatorTier === "custom" ? null : getRegionalPricing(calculatorDept, calculatorTier);
+  const caseStudiesData = useCaseStudies();
+  const currentCase = caseStudiesData[activeCaseIdx] || caseStudiesData[0];
 
   return (
     <div className="bg-[#070A14] text-slate-100 min-h-screen font-sans selection:bg-blue-600/30 selection:text-white overflow-x-hidden">
@@ -132,7 +138,9 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 {t("hero_stat_1_val")}
               </div>
               <div className="text-xs font-bold text-white mt-1">{t("hero_stat_1_lbl")}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">Each with a real named client</div>
+              <div className="text-[11px] text-slate-400 mt-0.5">
+                Every case study names a real client
+              </div>
             </div>
 
             <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
@@ -157,13 +165,13 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
 
             <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
               <div className="flex items-center gap-1.5 text-amber-400">
-                <Quote className="w-5 h-5" />
+                <Globe className="w-5 h-5" />
                 <span className="text-2xl sm:text-3xl font-black font-mono">
                   {t("hero_stat_4_val")}
                 </span>
               </div>
               <div className="text-xs font-bold text-white mt-1">{t("hero_stat_4_lbl")}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">Named clients, real quotes</div>
+              <div className="text-[11px] text-slate-400 mt-0.5">NGN · USD · GBP · EUR · AED</div>
             </div>
           </div>
         </div>
@@ -180,7 +188,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           </span>
         </div>
         <div className="animate-marquee flex items-center gap-16 whitespace-nowrap text-slate-300 font-bold text-sm">
-          {CASE_STUDIES.map((c) => (
+          {caseStudiesData.map((c) => (
             <span
               key={c.id}
               className="hover:text-white transition-colors cursor-pointer flex items-center gap-2"
@@ -328,15 +336,6 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 Instant Project Price &amp; Time Estimator
               </h2>
               <p className="text-sm text-slate-300 max-w-xl mx-auto">{t("estimator_desc")}</p>
-              <div className="inline-flex items-center gap-2 text-xs text-slate-400 font-mono">
-                <span>
-                  Showing prices in{" "}
-                  <strong className="text-blue-400">
-                    {currencies[currency]?.name} ({currency})
-                  </strong>{" "}
-                  — detected automatically, change anytime from the currency switcher above.
-                </span>
-              </div>
             </div>
 
             {/* Step 1: Department Chips */}
@@ -366,7 +365,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
                 2. Project Tier &amp; Requirements:
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {[
                   {
                     id: "starter",
@@ -382,6 +381,11 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                     id: "enterprise",
                     title: "Enterprise Dedicated",
                     desc: "High concurrency, 24/7 SLA & security audit",
+                  },
+                  {
+                    id: "custom",
+                    title: "Custom Scope",
+                    desc: "Bigger, smaller, or different — let's talk & quote it",
                   },
                 ].map((t) => (
                   <button
@@ -407,25 +411,43 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               <div className="space-y-2 text-center md:text-left">
                 <div className="flex items-center gap-3 justify-center md:justify-start">
                   <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider">
-                    Instant Estimated Budget ({currencies[currency]?.name}):
+                    {regionalResult
+                      ? `Instant Estimated Budget (${currencies[currency]?.name}):`
+                      : "Custom Scope:"}
                   </span>
                 </div>
 
-                <div className="text-3xl sm:text-4xl font-extrabold text-emerald-400 font-mono">
-                  {regionalResult.price}
-                </div>
-                <div className="text-xs text-slate-300">
-                  Estimated Delivery:{" "}
-                  <strong className="text-white font-mono">{regionalResult.weeks}</strong> •
-                  Includes Dedicated Lead PM &amp; IP Escrow
-                </div>
+                {regionalResult ? (
+                  <>
+                    <div className="text-3xl sm:text-4xl font-extrabold text-emerald-400 font-mono">
+                      {regionalResult.price}
+                    </div>
+                    <div className="text-xs text-slate-300">
+                      Estimated Delivery:{" "}
+                      <strong className="text-white font-mono">{regionalResult.weeks}</strong> •
+                      Includes Dedicated Lead PM &amp; IP Escrow
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400">
+                      Let&apos;s Talk &amp; Quote It
+                    </div>
+                    <div className="text-xs text-slate-300">
+                      No fixed sticker price — tell us your exact scope and a PM gets back to you
+                      with a tailored quote &amp; timeline.
+                    </div>
+                  </>
+                )}
               </div>
 
               <button
                 onClick={onOpenBriefWizard}
                 className="w-full md:w-auto px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-xl shadow-blue-600/30 flex items-center justify-center gap-2 shrink-0 transition-transform hover:scale-105"
               >
-                <span>Generate Official Proposal</span>
+                <span>
+                  {regionalResult ? "Generate Official Proposal" : "Start Custom Scoping"}
+                </span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -451,7 +473,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             </div>
 
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
-              {CASE_STUDIES.map((c, i) => (
+              {caseStudiesData.map((c, i) => (
                 <button
                   key={c.id}
                   onClick={() => setActiveCaseIdx(i)}
@@ -468,84 +490,89 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           </div>
 
           {/* Active Case Study Spotlight Card */}
-          <div className="rounded-3xl bg-slate-900 border border-slate-700/80 p-8 sm:p-12 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-6 space-y-6">
-              <div className="flex items-center gap-3">
-                <span className="px-3 py-1 rounded-md bg-blue-950 text-blue-300 border border-blue-800 text-xs font-bold">
-                  {currentCase.industry}
-                </span>
-                {currentCase.year && (
-                  <span className="text-xs text-slate-400 font-mono">
-                    Completed {currentCase.year}
+          {currentCase && (
+            <div className="rounded-3xl bg-slate-900 border border-slate-700/80 p-8 sm:p-12 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              <div className="lg:col-span-6 space-y-6">
+                <div className="flex items-center gap-3">
+                  <span className="px-3 py-1 rounded-md bg-blue-950 text-blue-300 border border-blue-800 text-xs font-bold">
+                    {currentCase.industry}
                   </span>
-                )}
-                {currentCase.projectDuration && (
-                  <span className="text-xs text-emerald-400 font-mono">
-                    • {currentCase.projectDuration}
-                  </span>
-                )}
-              </div>
-
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
-                {currentCase.title}
-              </h3>
-
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                {currentCase.summary ?? currentCase.solution}
-              </p>
-
-              {/* Verified Metrics Grid (only rendered when real, disclosed metrics exist) */}
-              {currentCase.measurableOutcomes.length > 0 && (
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                  {currentCase.measurableOutcomes.slice(0, 4).map((metric, i) => (
-                    <div key={i} className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
-                      <div className="text-lg font-black font-mono text-emerald-400">
-                        {metric.metric}
-                      </div>
-                      <div className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
-                        {metric.label}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <div className="pt-2 flex items-center gap-4">
-                <button
-                  onClick={onOpenBriefWizard}
-                  className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg transition-transform hover:scale-105"
-                >
-                  Build Similar Solution
-                </button>
-                <button
-                  onClick={() => onSelectScreen("case-study")}
-                  className="text-xs font-bold text-slate-300 hover:text-white flex items-center gap-1"
-                >
-                  <span>Read Full Dossier</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-
-            <div className="lg:col-span-6">
-              <div className="rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl relative h-72 sm:h-96 bg-slate-950">
-                <img
-                  src={currentCase.heroImage}
-                  alt={currentCase.clientName}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-black/80 backdrop-blur-md border border-white/10 text-xs text-slate-300 flex items-center justify-between">
-                  <span>Delivered by NDH</span>
-                  {currentCase.clientApprovalRecorded && (
-                    <span className="font-mono text-emerald-400 font-bold flex items-center gap-1">
-                      <ShieldCheck className="w-3.5 h-3.5" /> Verified Project
+                  {currentCase.year && (
+                    <span className="text-xs text-slate-400 font-mono">
+                      Completed {currentCase.year}
+                    </span>
+                  )}
+                  {currentCase.projectDuration && (
+                    <span className="text-xs text-emerald-400 font-mono">
+                      • {currentCase.projectDuration}
                     </span>
                   )}
                 </div>
+
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                  {currentCase.title}
+                </h3>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  {currentCase.summary ?? currentCase.solution}
+                </p>
+
+                {/* Verified Metrics Grid (only rendered when real, disclosed metrics exist) */}
+                {currentCase.measurableOutcomes.length > 0 && (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                    {currentCase.measurableOutcomes.slice(0, 4).map((metric, i) => (
+                      <div
+                        key={i}
+                        className="p-3.5 rounded-xl bg-slate-950 border border-slate-800"
+                      >
+                        <div className="text-lg font-black font-mono text-emerald-400">
+                          {metric.metric}
+                        </div>
+                        <div className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
+                          {metric.label}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="pt-2 flex items-center gap-4">
+                  <button
+                    onClick={onOpenBriefWizard}
+                    className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg transition-transform hover:scale-105"
+                  >
+                    Build Similar Solution
+                  </button>
+                  <button
+                    onClick={() => onSelectScreen("case-study")}
+                    className="text-xs font-bold text-slate-300 hover:text-white flex items-center gap-1"
+                  >
+                    <span>Read Full Dossier</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="lg:col-span-6">
+                <div className="rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl relative h-72 sm:h-96 bg-slate-950">
+                  <img
+                    src={currentCase.heroImage}
+                    alt={currentCase.clientName}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-black/80 backdrop-blur-md border border-white/10 text-xs text-slate-300 flex items-center justify-between">
+                    <span>Delivered by NDH</span>
+                    {currentCase.clientApprovalRecorded && (
+                      <span className="font-mono text-emerald-400 font-bold flex items-center gap-1">
+                        <ShieldCheck className="w-3.5 h-3.5" /> Verified Project
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
