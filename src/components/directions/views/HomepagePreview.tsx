@@ -101,18 +101,18 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           <span className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
             <span className="text-emerald-400 font-bold">NDH:</span>
-            <span>16 Service Departments • Every Project PM-Reviewed Before Handover</span>
+            <span>{t("ticker_dept_line")}</span>
           </span>
           <span className="text-slate-500">•</span>
           <span className="flex items-center gap-1.5 text-blue-300">
             <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-            <span>Dedicated Project Manager On Every Engagement</span>
+            <span>{t("ticker_pm_line")}</span>
           </span>
           <span className="text-slate-500">•</span>
           <span className="flex items-center gap-1.5 text-emerald-300">
             <Globe className="w-3.5 h-3.5 text-emerald-400" />
             <span>
-              Pricing shown automatically in {currencies[currency]?.name} ({currency})
+              {t("ticker_pricing_prefix")} {currencies[currency]?.name} ({currency})
             </span>
           </span>
         </div>
@@ -159,8 +159,8 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
               <Globe className="w-3.5 h-3.5 text-emerald-400" />
               <span>
-                Prices shown in <strong className="text-white">{currency}</strong> • Starter
-                packages for solopreneurs &amp; enterprises
+                {t("hero_price_prefix")} <strong className="text-white">{currency}</strong> •{" "}
+                {t("hero_price_suffix")}
               </span>
             </div>
 
@@ -198,9 +198,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 {t("hero_stat_1_val")}
               </div>
               <div className="text-xs font-bold text-white mt-1">{t("hero_stat_1_lbl")}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">
-                Every submitted brief gets a real reply, not an autoresponder
-              </div>
+              <div className="text-[11px] text-slate-400 mt-0.5">{t("stat_1_sub")}</div>
             </div>
 
             <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
@@ -208,9 +206,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 {t("hero_stat_2_val")}
               </div>
               <div className="text-xs font-bold text-white mt-1">{t("hero_stat_2_lbl")}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">
-                No deliverable ships unchecked
-              </div>
+              <div className="text-[11px] text-slate-400 mt-0.5">{t("stat_2_sub")}</div>
             </div>
 
             <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
@@ -218,9 +214,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 {t("hero_stat_3_val")}
               </div>
               <div className="text-xs font-bold text-white mt-1">{t("hero_stat_3_lbl")}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">
-                Web, mobile &amp; cloud systems
-              </div>
+              <div className="text-[11px] text-slate-400 mt-0.5">{t("stat_3_sub")}</div>
             </div>
 
             <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
@@ -244,7 +238,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
       <section className="py-8 bg-[#090D1A] border-y border-slate-800/80 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 mb-4 text-center">
           <span className="text-[11px] font-mono uppercase tracking-widest text-slate-400">
-            Real Clients We&apos;ve Delivered For
+            {t("marquee_heading")}
           </span>
         </div>
         <div className="animate-marquee flex items-center gap-16 whitespace-nowrap text-slate-300 font-bold text-sm">
@@ -272,22 +266,19 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             <div className="space-y-3 max-w-2xl">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
                 <Layers className="w-3.5 h-3.5 text-blue-400" />
-                <span>What We Build</span>
+                <span>{t("section_build_badge")}</span>
               </div>
               <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-                16 Core Service Departments.
+                {t("section_build_title")}
               </h2>
-              <p className="text-sm sm:text-base text-slate-300">
-                From landing pages and rapid MVPs to enterprise mobile apps and AI agents. Assigned
-                PM oversight with zero risk.
-              </p>
+              <p className="text-sm sm:text-base text-slate-300">{t("section_build_desc")}</p>
             </div>
 
             <button
               onClick={() => onSelectScreen("services")}
               className="inline-flex items-center gap-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors"
             >
-              <span>Explore All 16 Departments</span>
+              <span>{t("btn_explore_all_departments")}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -335,7 +326,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
 
                       <div className="space-y-2">
                         <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                          Key Capabilities:
+                          {t("label_key_capabilities")}
                         </div>
                         <div className="flex flex-wrap gap-1.5">
                           {dept.capabilities.slice(0, 3).map((cap, i) => (
@@ -355,10 +346,10 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                   <div className="p-6 pt-3 border-t border-slate-800/80 flex items-center justify-between bg-slate-950/30">
                     <div>
                       <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
-                        Starter Plan ({currency}):
+                        {t("label_starter_plan")} ({currency}):
                       </div>
                       <div className="text-xs font-mono font-bold text-emerald-400">
-                        From {starterInfo.price}
+                        {t("label_from_price")} {starterInfo.price}
                       </div>
                     </div>
                     <button
@@ -368,7 +359,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                       }}
                       className="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-md shadow-blue-600/30 transition-all flex items-center gap-1.5 hover:scale-105"
                     >
-                      <span>Explore</span>
+                      <span>{t("btn_explore")}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -382,7 +373,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               onClick={() => onSelectScreen("services")}
               className="px-8 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-white font-bold text-xs shadow-xl transition-all hover:scale-105 inline-flex items-center gap-2"
             >
-              <span>View All 16 Service Departments (No-Code, AI, Mobile, Video, DevOps...)</span>
+              <span>{t("btn_view_all_departments")}</span>
               <ArrowRight className="w-4 h-4 text-blue-400" />
             </button>
           </div>
@@ -399,7 +390,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 <span>{t("estimator_title")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-                Instant Project Price &amp; Time Estimator
+                {t("estimator_title")}
               </h2>
               <p className="text-sm text-slate-300 max-w-xl mx-auto">{t("estimator_desc")}</p>
             </div>
@@ -407,7 +398,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             {/* Step 1: Department Chips */}
             <div className="space-y-3">
               <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
-                1. Select Service Discipline:
+                {t("label_select_service")}
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {SERVICE_DEPARTMENTS.map((dept) => (
@@ -429,7 +420,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             {/* Step 2: Scope & Speed Tiers */}
             <div className="space-y-3">
               <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
-                2. Project Tier &amp; Requirements:
+                {t("label_project_tier")}
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {getTierOptions(calculatorDept).map((t) => (
@@ -457,8 +448,8 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 <div className="flex items-center gap-3 justify-center md:justify-start">
                   <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider">
                     {regionalResult
-                      ? `Instant Estimated Budget (${currencies[currency]?.name}):`
-                      : "Custom Scope:"}
+                      ? `${t("label_instant_budget")} (${currencies[currency]?.name}):`
+                      : t("label_custom_scope")}
                   </span>
                 </div>
 
@@ -468,20 +459,17 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                       {regionalResult.price}
                     </div>
                     <div className="text-xs text-slate-300">
-                      Estimated Delivery:{" "}
-                      <strong className="text-white font-mono">{regionalResult.weeks}</strong> •
-                      Includes Dedicated Lead PM &amp; IP Escrow
+                      {t("label_estimated_delivery")}{" "}
+                      <strong className="text-white font-mono">{regionalResult.weeks}</strong> •{" "}
+                      {t("label_includes_pm_escrow")}
                     </div>
                   </>
                 ) : (
                   <>
                     <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400">
-                      Let&apos;s Talk &amp; Quote It
+                      {t("label_lets_talk_quote")}
                     </div>
-                    <div className="text-xs text-slate-300">
-                      No fixed sticker price — tell us your exact scope and a PM gets back to you
-                      with a tailored quote &amp; timeline.
-                    </div>
+                    <div className="text-xs text-slate-300">{t("label_no_fixed_price_desc")}</div>
                   </>
                 )}
               </div>
@@ -491,7 +479,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 className="w-full md:w-auto px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-xl shadow-blue-600/30 flex items-center justify-center gap-2 shrink-0 transition-transform hover:scale-105"
               >
                 <span>
-                  {regionalResult ? "Generate Official Proposal" : "Start Custom Scoping"}
+                  {regionalResult ? t("btn_generate_proposal") : t("btn_start_custom_scoping")}
                 </span>
                 <ArrowRight className="w-4 h-4" />
               </button>
@@ -507,14 +495,12 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             <div className="space-y-3 max-w-2xl">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
                 <TrendingUp className="w-3.5 h-3.5 text-blue-400" />
-                <span>Real Results</span>
+                <span>{t("section_results_badge")}</span>
               </div>
               <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-                Built for Scalability &amp; Speed.
+                {t("section_results_title")}
               </h2>
-              <p className="text-sm sm:text-base text-slate-300">
-                Explore real case studies from companies that scaled their products with NDH squads.
-              </p>
+              <p className="text-sm sm:text-base text-slate-300">{t("section_results_desc")}</p>
             </div>
 
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
@@ -544,7 +530,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                   </span>
                   {currentCase.year && (
                     <span className="text-xs text-slate-400 font-mono">
-                      Completed {currentCase.year}
+                      {t("label_completed")} {currentCase.year}
                     </span>
                   )}
                   {currentCase.projectDuration && (
@@ -586,13 +572,13 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                     onClick={onOpenBriefWizard}
                     className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg transition-transform hover:scale-105"
                   >
-                    Build Similar Solution
+                    {t("btn_build_similar")}
                   </button>
                   <button
                     onClick={() => onSelectScreen("case-study")}
                     className="text-xs font-bold text-slate-300 hover:text-white flex items-center gap-1"
                   >
-                    <span>Read Full Dossier</span>
+                    <span>{t("btn_read_full_dossier")}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -607,10 +593,10 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-black/80 backdrop-blur-md border border-white/10 text-xs text-slate-300 flex items-center justify-between">
-                    <span>Delivered by NDH</span>
+                    <span>{t("label_delivered_by_ndh")}</span>
                     {currentCase.clientApprovalRecorded && (
                       <span className="font-mono text-emerald-400 font-bold flex items-center gap-1">
-                        <ShieldCheck className="w-3.5 h-3.5" /> Verified Project
+                        <ShieldCheck className="w-3.5 h-3.5" /> {t("label_verified_project")}
                       </span>
                     )}
                   </div>

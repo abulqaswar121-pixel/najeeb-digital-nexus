@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 
 // Hero images live in `public/case-studies/` as plain static files, same
 // location and URL format used by the full case-study records in
@@ -100,6 +101,7 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
   onOpenBriefWizard,
   onSelectScreen,
 }) => {
+  const { t } = useCurrencyLanguage();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
 
@@ -132,7 +134,8 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
               {currentSlide.category}
             </span>
             <span className="text-xs text-slate-400 font-mono">
-              Case Study: <strong className="text-white">{currentSlide.client}</strong>
+              {t("label_case_study_prefix")}{" "}
+              <strong className="text-white">{currentSlide.client}</strong>
             </span>
           </div>
 
@@ -152,7 +155,7 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
           {/* Technology Pills */}
           <div className="flex flex-wrap items-center gap-2 pt-1">
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1">
-              Tech Stack:
+              {t("label_tech_stack_prefix")}
             </span>
             {currentSlide.tags.map((tag, i) => (
               <span
@@ -180,7 +183,7 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
               onClick={onOpenBriefWizard}
               className="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-transform hover:scale-105 shrink-0 flex items-center gap-2"
             >
-              <span>Scope This Project</span>
+              <span>{t("btn_scope_this_project")}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
