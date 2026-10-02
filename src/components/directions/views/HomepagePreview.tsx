@@ -139,7 +139,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               </div>
               <div className="text-xs font-bold text-white mt-1">{t("hero_stat_1_lbl")}</div>
               <div className="text-[11px] text-slate-400 mt-0.5">
-                Every case study names a real client
+                Zero anonymous or confidential case studies
               </div>
             </div>
 
