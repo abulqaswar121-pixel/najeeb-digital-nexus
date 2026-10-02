@@ -11,6 +11,7 @@ import {
   Building,
 } from "lucide-react";
 import { MainNavView } from "../layout/AppNavbar";
+import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 
 interface TalentNetworkViewProps {
   onSelectView: (view: MainNavView) => void;
@@ -21,6 +22,7 @@ export const TalentNetworkView: React.FC<TalentNetworkViewProps> = ({
   onSelectView,
   onOpenBriefWizard,
 }) => {
+  const { t } = useCurrencyLanguage();
   const [applicantRole, setApplicantRole] = useState("Full-Stack Engineer");
   const [submitted, setSubmitted] = useState(false);
 
@@ -59,18 +61,14 @@ export const TalentNetworkView: React.FC<TalentNetworkViewProps> = ({
         <div className="space-y-4 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
             <Terminal className="w-3.5 h-3.5 text-blue-400" />
-            <span>The NDH Sovereign Talent Network</span>
+            <span>{t("talent_badge")}</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-            The Top 3% of African Digital Talent. Zero Marketplace Chaos.
+            {t("talent_title")}
           </h1>
 
-          <p className="text-base text-slate-300 leading-relaxed">
-            Our curated talent bench is rigorously tested, certified by NDH Academy standards, and
-            deployed through dedicated PM orchestrators. We protect our talent with prompt NIBSS
-            payouts and protect clients with guaranteed SLAs.
-          </p>
+          <p className="text-base text-slate-300 leading-relaxed">{t("talent_desc")}</p>
         </div>
 
         {/* 5-Tier Talent Hierarchy */}

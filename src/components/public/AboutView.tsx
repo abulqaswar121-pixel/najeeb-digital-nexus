@@ -12,6 +12,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { MainNavView } from "../layout/AppNavbar";
+import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 
 interface AboutViewProps {
   onSelectView: (view: MainNavView) => void;
@@ -19,6 +20,7 @@ interface AboutViewProps {
 }
 
 export const AboutView: React.FC<AboutViewProps> = ({ onSelectView, onOpenBriefWizard }) => {
+  const { t } = useCurrencyLanguage();
   return (
     <div className="bg-[#090D1A] text-slate-100 min-h-screen py-16 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto space-y-16">
@@ -26,11 +28,11 @@ export const AboutView: React.FC<AboutViewProps> = ({ onSelectView, onOpenBriefW
         <div className="space-y-6 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
             <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-            <span>The NDH Story & Institutional Mandate</span>
+            <span>{t("about_badge")}</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
-            Engineering Sovereign African Technology with Global Precision.
+            {t("about_title")}
           </h1>
 
           <p className="text-base sm:text-lg text-slate-300 leading-relaxed">

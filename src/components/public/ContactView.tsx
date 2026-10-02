@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { MainNavView } from "../layout/AppNavbar";
 import { dbService } from "../../lib/databaseStore";
+import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 
 interface ContactViewProps {
   onSelectView: (view: MainNavView) => void;
@@ -19,6 +20,7 @@ interface ContactViewProps {
 }
 
 export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBriefWizard }) => {
+  const { t } = useCurrencyLanguage();
   const [consultSubmitted, setConsultSubmitted] = useState<boolean>(false);
   const [consultName, setConsultName] = useState("");
   const [consultEmail, setConsultEmail] = useState("");
@@ -54,17 +56,14 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
         <div className="space-y-4 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
             <Mail className="w-3.5 h-3.5 text-blue-400" />
-            <span>Engage NDH Agency Operations</span>
+            <span>{t("contact_badge")}</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Initiate a Project or Schedule an Executive Consultation.
+            {t("contact_title")}
           </h1>
 
-          <p className="text-base text-slate-300 leading-relaxed">
-            Based in Nigeria, working with clients worldwide. Reach us directly on WhatsApp or email
-            and a project manager will respond.
-          </p>
+          <p className="text-base text-slate-300 leading-relaxed">{t("contact_desc")}</p>
         </div>
 
         {/* 2-Column Grid: Consultation Form / Hubs & Contact Specs */}

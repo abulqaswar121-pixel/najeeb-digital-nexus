@@ -11,6 +11,7 @@ import {
   FileCheck,
 } from "lucide-react";
 import { MainNavView } from "../layout/AppNavbar";
+import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 
 interface ProcessViewProps {
   onSelectView: (view: MainNavView) => void;
@@ -18,6 +19,7 @@ interface ProcessViewProps {
 }
 
 export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBriefWizard }) => {
+  const { t } = useCurrencyLanguage();
   const steps = [
     {
       num: "01",
@@ -58,17 +60,14 @@ export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBr
         <div className="space-y-4 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
             <GitBranch className="w-3.5 h-3.5 text-blue-400" />
-            <span>The NDH Operational Delivery Framework</span>
+            <span>{t("process_badge")}</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-            How We Work: Precision Sprints with Zero Friction.
+            {t("process_title")}
           </h1>
 
-          <p className="text-base text-slate-300 leading-relaxed">
-            Our five-stage delivery operating system guarantees transparency, strict intellectual
-            property defense, and audited quality assurance at every sprint milestone.
-          </p>
+          <p className="text-base text-slate-300 leading-relaxed">{t("process_desc")}</p>
         </div>
 
         {/* Process Steps */}

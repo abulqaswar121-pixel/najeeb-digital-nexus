@@ -806,6 +806,20 @@ export const UI_TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> 
     label_case_study_prefix: "Case Study:",
     label_tech_stack_prefix: "Tech Stack:",
     btn_scope_this_project: "Scope This Project",
+    about_badge: "The NDH Story & Institutional Mandate",
+    about_title: "Engineering Sovereign African Technology with Global Precision.",
+    process_badge: "The NDH Operational Delivery Framework",
+    process_title: "How We Work: Precision Sprints with Zero Friction.",
+    process_desc:
+      "Our five-stage delivery operating system guarantees transparency, strict intellectual property defense, and audited quality assurance at every sprint milestone.",
+    contact_badge: "Engage NDH Agency Operations",
+    contact_title: "Initiate a Project or Schedule an Executive Consultation.",
+    contact_desc:
+      "Based in Nigeria, working with clients worldwide. Reach us directly on WhatsApp or email and a project manager will respond.",
+    talent_badge: "The NDH Sovereign Talent Network",
+    talent_title: "The Top 3% of African Digital Talent. Zero Marketplace Chaos.",
+    talent_desc:
+      "Our curated talent bench is rigorously tested, certified by NDH Academy standards, and deployed through dedicated PM orchestrators. We protect our talent with prompt NIBSS payouts and protect clients with guaranteed SLAs.",
   },
   fr: {
     nav_services: "Services",
@@ -878,6 +892,20 @@ export const UI_TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> 
     label_case_study_prefix: "Étude de Cas :",
     label_tech_stack_prefix: "Technologies :",
     btn_scope_this_project: "Cadrer Ce Projet",
+    about_badge: "L'histoire de NDH et son mandat institutionnel",
+    about_title: "Concevoir une technologie africaine souveraine avec une précision mondiale.",
+    process_badge: "Le cadre opérationnel de livraison de NDH",
+    process_title: "Comment nous travaillons : des sprints précis, sans friction.",
+    process_desc:
+      "Notre système d'exploitation de livraison en cinq étapes garantit transparence, défense stricte de la propriété intellectuelle et assurance qualité auditée à chaque jalon de sprint.",
+    contact_badge: "Engager les opérations de l'agence NDH",
+    contact_title: "Lancez un projet ou planifiez une consultation exécutive.",
+    contact_desc:
+      "Basés au Nigeria, nous travaillons avec des clients du monde entier. Contactez-nous directement sur WhatsApp ou par e-mail et un chef de projet vous répondra.",
+    talent_badge: "Le réseau de talents souverain de NDH",
+    talent_title: "Le top 3 % des talents numériques africains. Zéro chaos de marketplace.",
+    talent_desc:
+      "Notre vivier de talents sélectionnés est rigoureusement testé, certifié selon les normes de NDH Academy, et déployé par des chefs de projet dédiés. Nous protégeons nos talents avec des paiements NIBSS rapides et nos clients avec des SLA garantis.",
   },
   ar: {
     nav_services: "الخدمات",
@@ -948,6 +976,20 @@ export const UI_TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> 
     label_case_study_prefix: "دراسة حالة:",
     label_tech_stack_prefix: "التقنيات المستخدمة:",
     btn_scope_this_project: "حدد نطاق هذا المشروع",
+    about_badge: "قصة NDH وولايتها المؤسسية",
+    about_title: "هندسة تقنية أفريقية سيادية بدقة عالمية.",
+    process_badge: "إطار التسليم التشغيلي لدى NDH",
+    process_title: "كيف نعمل: سباقات دقيقة بلا احتكاك.",
+    process_desc:
+      "يضمن نظام التسليم المكوّن من خمس مراحل لدينا الشفافية، والحماية الصارمة للملكية الفكرية، وضمان الجودة المُدقَّق في كل مرحلة من السباق.",
+    contact_badge: "تواصل مع عمليات وكالة NDH",
+    contact_title: "ابدأ مشروعًا أو احجز استشارة تنفيذية.",
+    contact_desc:
+      "نحن مقرّنا في نيجيريا، ونعمل مع عملاء حول العالم. تواصل معنا مباشرة عبر واتساب أو البريد الإلكتروني وسيرد عليك مدير مشروع.",
+    talent_badge: "شبكة المواهب السيادية لدى NDH",
+    talent_title: "أفضل 3% من المواهب الرقمية الأفريقية. بلا فوضى السوق المفتوح.",
+    talent_desc:
+      "يخضع بنك المواهب المُنتقى لدينا لاختبارات صارمة، ومعتمد وفق معايير أكاديمية NDH، ويُنشر عبر منسقي مشاريع مخصصين. نحمي مواهبنا بمدفوعات NIBSS سريعة ونحمي عملاءنا باتفاقيات مستوى خدمة مضمونة.",
   },
 };
 

@@ -104,7 +104,7 @@ const SCHEMA_ORG_JSON = JSON.stringify({
           contactType: "customer service",
           email: "hello@ndh.com.ng",
           areaServed: ["NG", "GB", "US", "GH", "KE", "ZA"],
-          availableLanguage: ["English", "Yoruba", "Hausa", "Igbo"],
+          availableLanguage: ["English", "French", "Arabic"],
         },
       ],
       address: {
