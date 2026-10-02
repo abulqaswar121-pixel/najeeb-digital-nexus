@@ -213,6 +213,11 @@ export interface CaseStudy {
   status: "published" | "review" | "scheduled" | "confidential_preview";
   clientApprovalRecorded: boolean;
   publishedDate: string;
+  // Optional link to the actual live, working product — only set when a
+  // real, reachable URL exists. Omitted (and hidden in the UI) rather than
+  // pointing to a broken or placeholder link.
+  liveUrl?: string;
+  liveUrlLabel?: string;
 }
 
 export interface ProjectMilestone {

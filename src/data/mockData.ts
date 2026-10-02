@@ -20,8 +20,8 @@ import apexAgriCapitalImg from "../assets/case-studies/apex-agri-capital.jpg";
 import miftahAlArabiyyahImg from "../assets/case-studies/miftah-al-arabiyyah.jpg";
 import markazussalafImg from "../assets/case-studies/markazussalaf.jpg";
 import inheritanceOfShadowsImg from "../assets/case-studies/inheritance-of-shadows.jpg";
-import ndhPlatformImg from "../assets/case-studies/ndh-platform.jpg";
-import basicStudiesImg from "../assets/case-studies/basic-studies.jpg";
+import najeebAcademyImg from "../assets/case-studies/najeeb-academy.jpg";
+import schoolDeskImg from "../assets/case-studies/schooldesk.jpg";
 
 export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
   {
@@ -858,59 +858,84 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     id: "cs-005",
-    slug: "ndh-agency-academy-web-platform",
-    title: "NDH Agency & Academy Web Platform",
-    clientName: "Najeeb Digital Hub",
+    slug: "najeeb-academy-ai-skills-platform",
+    title: "Najeeb Academy: AI Skills Learning Platform",
+    clientName: "Najeeb Academy",
     isAnonymized: false,
-    industry: "Internal Platform / SaaS",
+    industry: "EdTech / Online Learning",
     department: "web_app_development",
     location: "Nigeria",
-    heroImage: ndhPlatformImg,
+    heroImage: najeebAcademyImg,
     galleryImages: [],
     summary:
-      "A full-service web portal combining a managed digital talent marketplace with an online academy platform.",
+      "A self-paced AI skills academy with 60+ project-based courses across 6 tracks, each ending in a graded assessment, a real portfolio capstone, and a publicly verifiable certificate.",
     challenge:
-      "NDH needed a single platform combining a managed digital talent marketplace, client project workflows, and an online academy — built for both global and Nigerian clients from day one.",
+      "Most AI-skills content online is video-only tutorials with no real assessment — learners finish a playlist with no proof of what they can actually do, and no portfolio piece to show for it.",
     insight:
-      "A platform serving clients across Nigeria and abroad has to feel native in both markets at once: real multi-currency pricing and a briefing process clear enough that a first-time client and a repeat enterprise client both know exactly what happens next.",
+      "Watching a course doesn't change a career outcome — a course only proves something once it ends in a real capstone build and a certificate that anyone, like an employer or client, can actually verify.",
     strategy:
-      "Built a clean, conversion-focused UI/UX tailored for global and Nigerian client engagement, with multi-currency support and clear project-briefing workflows baked in from the start rather than bolted on later.",
+      "Built the academy as a direct extension of NDH Agency's own delivery workflows rather than generic theory, with a mandatory graded assessment and a shippable capstone project required before any certificate is issued.",
     process:
-      "Designed and built role-based portals for clients, talent, project managers, students, and admins, with an integrated academy verification system and student portal architecture alongside the core delivery workflow.",
+      "Designed and built 60+ self-paced courses across 6 skill tracks (Video, Audio & Media; Design & Brand; Writing & Content; Marketing & Growth; Business & Operations; AI Engineering), each following a Learn → Assess → Build → Certify structure with a 70% graded pass bar and a real capstone project.",
     solution:
-      "A live platform with integrated academy verification system, student portal architecture, payments, and role-based portals for clients, talent, project managers, students, and admins — this very product.",
-    measurableOutcomes: [],
-    techStack: ["React", "TypeScript", "Multi-Currency Payments", "Role-Based Portals"],
+      "A live academy platform offering lifetime access on a one-time local-currency fee, with every completed course issuing a signed certificate carrying a unique code anyone can verify online.",
+    measurableOutcomes: [
+      {
+        metric: "60+",
+        label: "AI Courses Live",
+        evidenceNote: "Across 6 distinct skill tracks",
+      },
+      {
+        metric: "100%",
+        label: "Project-Based",
+        evidenceNote: "Every course ends in a graded capstone build",
+      },
+    ],
+    testimonial: {
+      quote:
+        "The workflow automation course paid for itself in the first month. We automated our order confirmations and lead follow-ups in n8n, and I didn't write a single line of code. My capstone project is now running live in our business.",
+      author: "Ibrahim Musa",
+      title: "Operations Manager",
+      company: "Najeeb Academy Graduate, Kano",
+      verifiedNDH: true,
+    },
+    techStack: [
+      "Course & Assessment Platform",
+      "Certificate Verification",
+      "Multi-Track Curriculum",
+    ],
     featured: false,
     status: "published",
     clientApprovalRecorded: true,
     publishedDate: "2026-09-11",
+    liveUrl: "https://ndhacademy.lovable.app",
+    liveUrlLabel: "ndhacademy.lovable.app (moving to academy.ndh.com.ng)",
   },
   {
     id: "cs-006",
-    slug: "basic-studies-result-reporting-system",
-    title: "Basic Studies: Academic Result & Reporting System",
-    clientName: "Basic Studies",
+    slug: "schooldesk-report-salary-fees-platform",
+    title: "SchoolDesk: Report Sheets, Salary & Fees Platform",
+    clientName: "SchoolDesk",
     isAnonymized: false,
     industry: "Education / School Administration",
     department: "data_business",
     location: "Nigeria",
-    heroImage: basicStudiesImg,
+    heroImage: schoolDeskImg,
     galleryImages: [],
     summary:
-      "A custom terminal-to-report result processing workflow designed to calculate, grade, and generate termly student performance sheets for basic school administration.",
+      "A school administration platform bringing report sheet generation, staff salary payment, and school fees tracking into one connected system.",
     challenge:
-      "Basic school administration relied on manual ledger entry for results, producing grading errors and slow end-of-term reporting that delayed report card distribution.",
+      "Schools were running report-sheet generation, staff salary payment, and fee collection as three separate manual processes, each prone to errors and slow at the end of every term.",
     insight:
-      "Most grading errors come from manual re-entry and re-calculation, not from the underlying data — remove the repeated manual steps and most of the error rate goes with it.",
+      "A school's administrative load doesn't come from any single task — it's the handoffs between grading, payroll, and fee reconciliation that eat the most staff time when each lives in its own spreadsheet.",
     strategy:
-      "NDH replaced the manual ledger step entirely with structured data entry and built-in verification, so grading happens once and report generation happens automatically from the same source data.",
+      "Built SchoolDesk as one connected system rather than three separate tools, so report sheets, salary payments, and fee tracking all pull from the same underlying student and staff records.",
     process:
-      "Replaced manual ledger entry with structured data inputs, with built-in grade verification and performance tracking across multiple subjects.",
+      "Designed and built a web platform covering report sheet generation and grading, staff salary payment processing, and school fees tracking and reconciliation, all drawing from shared school records.",
     solution:
-      "Export-ready layout for rapid end-of-term report card distribution, reducing grading errors and speeding up reporting.",
+      "A live platform giving school administrators one place to generate report sheets, process staff salaries, and track fee payments by term.",
     measurableOutcomes: [],
-    techStack: ["Data Entry Systems", "Automated Grading", "Report Generation"],
+    techStack: ["Report Generation", "Payroll Processing", "Fees Tracking"],
     featured: false,
     status: "published",
     clientApprovalRecorded: true,

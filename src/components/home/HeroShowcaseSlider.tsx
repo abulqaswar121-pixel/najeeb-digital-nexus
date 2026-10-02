@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import apexAgriCapitalImg from "../../assets/case-studies/apex-agri-capital.jpg";
 import miftahAlArabiyyahImg from "../../assets/case-studies/miftah-al-arabiyyah.jpg";
 import markazussalafImg from "../../assets/case-studies/markazussalaf.jpg";
-import ndhPlatformImg from "../../assets/case-studies/ndh-platform.jpg";
+import najeebAcademyImg from "../../assets/case-studies/najeeb-academy.jpg";
 
 interface HeroSlide {
   id: string;
@@ -70,19 +70,19 @@ const HERO_SLIDES: HeroSlide[] = [
     client: "Markazussalaf Institute",
   },
   {
-    id: "ndh-platform",
-    category: "Web Engineering & Platform Design",
+    id: "najeeb-academy",
+    category: "EdTech / Online Learning",
     badgeColor: "bg-purple-500/20 text-purple-300 border-purple-400/40",
-    title: "One Platform Combining a Talent Marketplace",
-    highlightText: "With an Online Academy.",
+    title: "60+ Project-Based AI Courses, Each Ending in",
+    highlightText: "a Verifiable Certificate.",
     subtitle:
-      "A conversion-focused, multi-currency platform with role-based portals for clients, talent, project managers, students, and admins — this very product.",
-    statValue: "5 Portals",
-    statLabel: "Role-Based Access",
-    statSubtext: "Clients · Talent · PMs · Students · Admins",
-    image: ndhPlatformImg,
-    tags: ["React", "TypeScript", "Multi-Currency Payments"],
-    client: "Najeeb Digital Hub",
+      "A self-paced AI skills academy across 6 tracks, every course following Learn → Assess → Build → Certify with a graded assessment and a real capstone project.",
+    statValue: "60+",
+    statLabel: "Courses Across 6 Tracks",
+    statSubtext: "Every course ends in a graded, portfolio-ready build",
+    image: najeebAcademyImg,
+    tags: ["Course Platform", "Certificate Verification"],
+    client: "Najeeb Academy",
   },
 ];
 

@@ -232,6 +232,20 @@ export const CaseStudyPreview: React.FC<CaseStudyPreviewProps> = ({ onOpenBriefW
                 </div>
               </div>
 
+              {cs.liveUrl && (
+                <div className="pt-4 border-t border-slate-800">
+                  <a
+                    href={cs.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3 rounded-xl bg-slate-950 border border-slate-700 hover:border-emerald-500/70 text-emerald-400 font-bold text-xs shadow-lg flex items-center justify-center gap-2 transition-colors"
+                  >
+                    <span>Visit Live Project — {cs.liveUrlLabel ?? cs.liveUrl}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              )}
+
               <div className="pt-4 border-t border-slate-800">
                 <button
                   onClick={onOpenBriefWizard}
