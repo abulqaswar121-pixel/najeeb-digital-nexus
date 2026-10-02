@@ -23,7 +23,7 @@ interface ServicesPreviewProps {
 }
 
 export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWizard }) => {
-  const { currency, getRegionalPricing, detectedCountry } = useCurrencyLanguage();
+  const { currency, getRegionalPricing } = useCurrencyLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>("all");
   const [activeModalDept, setActiveModalDept] = useState<ServiceDepartmentInfo | null>(null);
@@ -62,20 +62,18 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWiz
             Comprehensive Digital Capabilities. Zero Freelance Chaos.
           </h1>
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            From budget-friendly student MVPs and fast websites to enterprise FinTech
+            From budget-friendly starter MVPs and fast websites to enterprise FinTech
             infrastructure. Every project is assigned a dedicated Project Manager with guaranteed
             milestones and IP escrow.
           </p>
 
-          {/* Auto-Detection Country Badge */}
+          {/* Currency is auto-detected from your browser locale; override anytime via the
+              currency switcher in the nav — no need to call out the detected country here. */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-slate-900 border border-slate-700/80 text-xs text-slate-200">
             <Globe className="w-4 h-4 text-emerald-400" />
             <span>
-              Auto-detected region:{" "}
-              <strong className="text-white">
-                {detectedCountry} ({currency})
-              </strong>{" "}
-              • Prices calibrated to local purchasing power
+              Prices shown in <strong className="text-white">{currency}</strong> • detected
+              automatically, changeable anytime
             </span>
           </div>
         </div>

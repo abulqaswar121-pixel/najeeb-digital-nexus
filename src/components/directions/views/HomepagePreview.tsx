@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ServiceDepartment, ServiceDepartmentInfo } from "../../../types/ndh";
 import { SERVICE_DEPARTMENTS, CASE_STUDIES } from "../../../data/mockData";
 import { useCurrencyLanguage } from "../../../lib/currencyLanguageStore";
@@ -6,32 +6,12 @@ import { HeroShowcaseSlider } from "../../home/HeroShowcaseSlider";
 import { ServiceDetailModal } from "../modals/ServiceDetailModal";
 import {
   ShieldCheck,
-  CheckCircle2,
-  Clock,
   ArrowRight,
-  Zap,
-  Lock,
   Layers,
-  Globe2,
-  FileText,
-  Check,
   TrendingUp,
   Sliders,
-  DollarSign,
   Building,
-  Terminal,
-  Activity,
-  Code2,
-  Cpu,
-  Smartphone,
-  Palette,
-  Server,
-  Database,
-  ArrowUpRight,
-  Play,
-  Star,
-  UserCheck,
-  MessageSquare,
+  Quote,
   Globe,
 } from "lucide-react";
 
@@ -53,15 +33,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
     "growth",
   );
   const [activeCaseIdx, setActiveCaseIdx] = useState<number>(0);
-  const [livePulse, setLivePulse] = useState<number>(240);
   const [selectedModalDept, setSelectedModalDept] = useState<ServiceDepartmentInfo | null>(null);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLivePulse(Math.floor(230 + Math.random() * 20));
-    }, 2500);
-    return () => clearInterval(interval);
-  }, []);
 
   const regionalResult = getRegionalPricing(calculatorDept, calculatorTier);
   const currentCase = CASE_STUDIES[activeCaseIdx] || CASE_STUDIES[0]!;
@@ -72,27 +44,20 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
       <div className="bg-[#0B0F1D] border-b border-blue-900/40 py-2.5 overflow-hidden text-xs">
         <div className="animate-marquee flex items-center gap-12 whitespace-nowrap text-slate-300 font-mono text-[11px]">
           <span className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span className="text-emerald-400 font-bold">LIVE TELEMETRY:</span>
-            <span>16 Service Departments Operational • 100+ Vetted Engineers &amp; Designers</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span className="text-emerald-400 font-bold">NDH:</span>
+            <span>16 Service Departments • Every Project PM-Reviewed Before Handover</span>
           </span>
           <span className="text-slate-500">•</span>
           <span className="flex items-center gap-1.5 text-blue-300">
             <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-            <span>
-              Dedicated PM Layer Active (100% Client-Talent Isolation &amp; Margin Protection)
-            </span>
-          </span>
-          <span className="text-slate-500">•</span>
-          <span className="flex items-center gap-1.5 text-indigo-300">
-            <Clock className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Average API Edge Latency: {livePulse}ms</span>
+            <span>Dedicated Project Manager On Every Engagement</span>
           </span>
           <span className="text-slate-500">•</span>
           <span className="flex items-center gap-1.5 text-emerald-300">
             <Globe className="w-3.5 h-3.5 text-emerald-400" />
             <span>
-              Localized in {detectedCountry} ({currency}) • Sub-15min PM Response SLA
+              Pricing shown automatically in {currencies[currency]?.name} ({currency})
             </span>
           </span>
         </div>
@@ -122,12 +87,14 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               {t("hero_desc")}
             </p>
 
-            {/* Quick Country/Currency Affirmation Pill */}
+            {/* Currency auto-detected from your browser/timezone; override anytime via the
+                currency switcher in the nav. No need to call out the detected country here —
+                pricing throughout the site already renders in the right currency automatically. */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
               <Globe className="w-3.5 h-3.5 text-emerald-400" />
               <span>
-                Viewing in <strong className="text-white">{detectedCountry}</strong> • Starter
-                packages tailored for students, solopreneurs &amp; enterprises
+                Prices shown in <strong className="text-white">{currency}</strong> • Starter
+                packages for solopreneurs &amp; enterprises
               </span>
             </div>
 
@@ -165,7 +132,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 {t("hero_stat_1_val")}
               </div>
               <div className="text-xs font-bold text-white mt-1">{t("hero_stat_1_lbl")}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">Across 100+ projects</div>
+              <div className="text-[11px] text-slate-400 mt-0.5">Each with a real named client</div>
             </div>
 
             <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
@@ -173,7 +140,9 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 {t("hero_stat_2_val")}
               </div>
               <div className="text-xs font-bold text-white mt-1">{t("hero_stat_2_lbl")}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">Strict contractual deadlines</div>
+              <div className="text-[11px] text-slate-400 mt-0.5">
+                No deliverable ships unchecked
+              </div>
             </div>
 
             <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
@@ -188,47 +157,37 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
 
             <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
               <div className="flex items-center gap-1.5 text-amber-400">
-                <Star className="w-5 h-5 fill-amber-400" />
+                <Quote className="w-5 h-5" />
                 <span className="text-2xl sm:text-3xl font-black font-mono">
                   {t("hero_stat_4_val")}
                 </span>
               </div>
               <div className="text-xs font-bold text-white mt-1">{t("hero_stat_4_lbl")}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">From 120+ executive reviews</div>
+              <div className="text-[11px] text-slate-400 mt-0.5">Named clients, real quotes</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. INFINITE CLIENT & PARTNERSHIP LOGO MARQUEE */}
+      {/* 3. REAL CLIENTS MARQUEE — names of actual, verifiable NDH case-study
+          clients only (see "Verified Client Success Stories" below for the
+          full case studies). No claimed partnerships with third-party
+          payment/infrastructure providers. */}
       <section className="py-8 bg-[#090D1A] border-y border-slate-800/80 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 mb-4 text-center">
           <span className="text-[11px] font-mono uppercase tracking-widest text-slate-400">
-            Powering Digital Growth for African &amp; International Enterprises
+            Real Clients We&apos;ve Delivered For
           </span>
         </div>
         <div className="animate-marquee flex items-center gap-16 whitespace-nowrap text-slate-300 font-bold text-sm">
-          <span className="hover:text-white transition-colors cursor-pointer flex items-center gap-2">
-            <Building className="w-4 h-4 text-blue-400" /> KoboPay Global
-          </span>
-          <span className="hover:text-white transition-colors cursor-pointer flex items-center gap-2">
-            <Activity className="w-4 h-4 text-emerald-400" /> AfriHealth Systems
-          </span>
-          <span className="hover:text-white transition-colors cursor-pointer flex items-center gap-2">
-            <Lock className="w-4 h-4 text-indigo-400" /> Sovereign Asset Escrow
-          </span>
-          <span className="hover:text-white transition-colors cursor-pointer flex items-center gap-2">
-            <Zap className="w-4 h-4 text-yellow-400" /> Paystack Merchant Rails
-          </span>
-          <span className="hover:text-white transition-colors cursor-pointer flex items-center gap-2">
-            <Globe2 className="w-4 h-4 text-cyan-400" /> Flutterwave Treasury Integration
-          </span>
-          <span className="hover:text-white transition-colors cursor-pointer flex items-center gap-2">
-            <Cpu className="w-4 h-4 text-purple-400" /> Moniepoint POS Infrastructure
-          </span>
-          <span className="hover:text-white transition-colors cursor-pointer flex items-center gap-2">
-            <Server className="w-4 h-4 text-emerald-400" /> Cloudflare West Africa Edge
-          </span>
+          {CASE_STUDIES.map((c) => (
+            <span
+              key={c.id}
+              className="hover:text-white transition-colors cursor-pointer flex items-center gap-2"
+            >
+              <Building className="w-4 h-4 text-blue-400" /> {c.clientName}
+            </span>
+          ))}
         </div>
       </section>
 
@@ -371,13 +330,11 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               <p className="text-sm text-slate-300 max-w-xl mx-auto">{t("estimator_desc")}</p>
               <div className="inline-flex items-center gap-2 text-xs text-slate-400 font-mono">
                 <span>
-                  Country Target: <strong className="text-emerald-400">{detectedCountry}</strong>
-                </span>
-                <span>
-                  • Currency:{" "}
+                  Showing prices in{" "}
                   <strong className="text-blue-400">
                     {currencies[currency]?.name} ({currency})
-                  </strong>
+                  </strong>{" "}
+                  — detected automatically, change anytime from the currency switcher above.
                 </span>
               </div>
             </div>
@@ -413,7 +370,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 {[
                   {
                     id: "starter",
-                    title: "Starter MVP / Student",
+                    title: "Starter MVP",
                     desc: "Landing page, rapid launch & essential features",
                   },
                   {
@@ -517,12 +474,16 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 <span className="px-3 py-1 rounded-md bg-blue-950 text-blue-300 border border-blue-800 text-xs font-bold">
                   {currentCase.industry}
                 </span>
-                <span className="text-xs text-slate-400 font-mono">
-                  Completed {currentCase.year}
-                </span>
-                <span className="text-xs text-emerald-400 font-mono">
-                  • {currentCase.projectDuration}
-                </span>
+                {currentCase.year && (
+                  <span className="text-xs text-slate-400 font-mono">
+                    Completed {currentCase.year}
+                  </span>
+                )}
+                {currentCase.projectDuration && (
+                  <span className="text-xs text-emerald-400 font-mono">
+                    • {currentCase.projectDuration}
+                  </span>
+                )}
               </div>
 
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
@@ -533,19 +494,21 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 {currentCase.summary ?? currentCase.solution}
               </p>
 
-              {/* Verified Metrics Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                {(currentCase.measurableOutcomes || []).slice(0, 4).map((metric, i) => (
-                  <div key={i} className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
-                    <div className="text-lg font-black font-mono text-emerald-400">
-                      {metric.metric}
+              {/* Verified Metrics Grid (only rendered when real, disclosed metrics exist) */}
+              {currentCase.measurableOutcomes.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                  {currentCase.measurableOutcomes.slice(0, 4).map((metric, i) => (
+                    <div key={i} className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
+                      <div className="text-lg font-black font-mono text-emerald-400">
+                        {metric.metric}
+                      </div>
+                      <div className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
+                        {metric.label}
+                      </div>
                     </div>
-                    <div className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
-                      {metric.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
 
               <div className="pt-2 flex items-center gap-4">
                 <button
@@ -573,8 +536,12 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-black/80 backdrop-blur-md border border-white/10 text-xs text-slate-300 flex items-center justify-between">
-                  <span>Delivered by NDH Squad</span>
-                  <span className="font-mono text-emerald-400 font-bold">QA Score: 4.95 / 5.0</span>
+                  <span>Delivered by NDH</span>
+                  {currentCase.clientApprovalRecorded && (
+                    <span className="font-mono text-emerald-400 font-bold flex items-center gap-1">
+                      <ShieldCheck className="w-3.5 h-3.5" /> Verified Project
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

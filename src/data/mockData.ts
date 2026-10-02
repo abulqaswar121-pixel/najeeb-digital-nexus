@@ -12,6 +12,17 @@ import {
   RevenueSplitBreakdown,
 } from "../types/ndh";
 
+// Hero images for the 6 real, verifiable case studies below. These are
+// generic illustrative photography (AI-generated or otherwise non-literal),
+// not actual client screenshots — no client supplied production assets for
+// these projects, so nothing here claims to be a real screenshot.
+import apexAgriCapitalImg from "../assets/case-studies/apex-agri-capital.jpg";
+import miftahAlArabiyyahImg from "../assets/case-studies/miftah-al-arabiyyah.jpg";
+import markazussalafImg from "../assets/case-studies/markazussalaf.jpg";
+import inheritanceOfShadowsImg from "../assets/case-studies/inheritance-of-shadows.jpg";
+import ndhPlatformImg from "../assets/case-studies/ndh-platform.jpg";
+import basicStudiesImg from "../assets/case-studies/basic-studies.jpg";
+
 export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
   {
     id: "brand_strategy",
@@ -703,336 +714,207 @@ export function calculateRevenueSplit(
 export const CASE_STUDIES: CaseStudy[] = [
   {
     id: "cs-001",
-    slug: "kobopay-cross-border-fintech",
-    title: "KoboPay: Cross-Border Diaspora Banking & Instant Settlement Engine",
-    clientName: "KoboPay Global Inc.",
+    slug: "apex-agri-capital-shared-farm-ledger",
+    title: "Apex Agri-Capital: Shared Farm Ledger",
+    clientName: "Apex Agri-Capital",
     isAnonymized: false,
-    industry: "Fintech / Remittances",
+    industry: "Agriculture / Investment Cooperative",
     department: "web_app_development",
-    year: "2026",
-    location: "London & Lagos",
-    projectDuration: "12 Weeks Sprint",
-    heroImage:
-      "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&auto=format&fit=crop&q=80",
-    galleryImages: [
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80",
-    ],
+    location: "Nigeria",
+    heroImage: apexAgriCapitalImg,
+    galleryImages: [],
+    summary:
+      "A role-based web application built for a growing agriculture investment cooperative (catfish, poultry, and goat farming), designed to track contributions, expenses, and member equity as the group scales toward 100 members.",
     challenge:
-      "KoboPay was suffering from an 18.4% drop-off at KYC verification and sluggish 4.2-second transaction confirmation times across UK-to-Nigeria transfer corridors, leading to lost customer trust and mounting support tickets.",
+      "A growing agriculture investment cooperative needed transparent tracking of contributions, expenses, and member equity across catfish, poultry, and goat farming operations. Manual, informal tracking made it hard for a founding group to onboard new investing members with confidence.",
     insight:
-      "Diaspora remitters prioritize absolute confirmation speed and transparent FX rates over decorative features. By decoupling compliance checks into a non-blocking asynchronous pipeline and caching FX rates at edge nodes, perceived latency could be reduced to under 300ms.",
+      "Trust in a member-funded cooperative depends on every contributor being able to see, at any time, exactly what role they play and exactly where the money has gone — without needing to see information meant for a different role.",
     strategy:
-      "NDH Agency assembled an elite squad comprising a Lead FinTech UX Architect, a Distributed Systems Principal, and an AI Compliance Specialist. We architected a unified React 19 web app and high-speed API microservices gateway backed by Cloudflare Workers and PostgreSQL.",
+      "Rather than one generic dashboard for everyone, NDH designed three distinct, purpose-built views so each member only sees what's relevant to them, reducing both confusion and the risk of oversharing sensitive operational detail.",
     process:
-      "Sprint 1-3: UX overhaul & KYC biometric optimization. Sprint 4-8: Cloudflare edge worker routing & settlement queue architecture. Sprint 9-12: End-to-end pen-testing, dual-gateway failover, and dark deployment.",
+      "Built a role-based web application where Admin, Operator (day-to-day farm management), and Contributor (funding members) each see only what is relevant to their role.",
     solution:
-      "Delivered a military-grade, PCI-DSS compliant web application with instant FX lock-in, automated Paystack/NIBSS routing, real-time push settlement alerts, and an accessible, high-contrast dashboard.",
-    measurableOutcomes: [
-      {
-        metric: "74%",
-        label: "Reduction in Transaction Drop-Off",
-        evidenceNote: "Verified via PostHog telemetry across 140,000 monthly active users.",
-      },
-      {
-        metric: "280ms",
-        label: "P95 Settlement Confirmation Time",
-        evidenceNote: "Down from 4.2 seconds prior to NDH re-architecture.",
-      },
-      {
-        metric: "$42M+",
-        label: "Processed Volume in Q1 2026",
-        evidenceNote: "Audited financial reconciliation report verified by client CFO.",
-      },
-      {
-        metric: "99.99%",
-        label: "Infrastructure SLA Uptime",
-        evidenceNote: "Zero unscheduled downtime recorded over 6 consecutive months.",
-      },
-    ],
+      "Contributions, expenses, and current status are tracked transparently for all members, with a structure built to scale from a small founding group toward a much larger investor base.",
+    measurableOutcomes: [],
     testimonial: {
       quote:
-        "NDH Agency operates unlike any agency we have ever contracted. Their project management discipline, zero-fluff communication, and elite engineering talent felt like having our own world-class in-house product team.",
-      author: "Dr. Folake Adeleke",
-      title: "Chief Product Officer",
-      company: "KoboPay Global Inc.",
+        "The Shared Farm Ledger gave our co-operative full transparency over every Naira contributed and spent. Having clear role-based views made member onboarding effortless.",
+      author: "Najeeb Ahmad",
+      title: "Co-Founding Partner",
+      company: "Apex Agri-Capital",
       verifiedNDH: true,
     },
-    techStack: [
-      "React 19",
-      "TypeScript",
-      "TanStack Router",
-      "Cloudflare Workers",
-      "PostgreSQL",
-      "Paystack API",
-    ],
+    techStack: ["Web Application", "Role-Based Access Control"],
     featured: true,
     status: "published",
     clientApprovalRecorded: true,
-    publishedDate: "2026-02-28",
+    publishedDate: "2026-09-11",
   },
   {
     id: "cs-002",
-    slug: "helios-agritech-supply-chain",
-    title: "Helios AgriTech: Precision Climate Supply Chain & AI Yield Forecasts",
-    clientName: "Helios AgriTech Ltd.",
+    slug: "miftah-al-arabiyyah-arabic-curriculum",
+    title: "Miftah al-Arabiyyah: Arabic Curriculum Series",
+    clientName: "Miftah al-Arabiyyah Project",
     isAnonymized: false,
-    industry: "AgriTech & Climate Supply Chain",
-    department: "ai_automation",
-    year: "2026",
-    location: "Abuja & Kano",
-    projectDuration: "8 Weeks Sprint",
-    heroImage:
-      "https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=1200&auto=format&fit=crop&q=80",
-    galleryImages: [
-      "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&auto=format&fit=crop&q=80",
-    ],
+    industry: "Education / Curriculum Development",
+    department: "content_copywriting",
+    location: "Nigeria",
+    heroImage: miftahAlArabiyyahImg,
+    galleryImages: [],
+    summary:
+      "An 8-book Arabic-language curriculum series for Nigerian non-native Arabic speakers, spanning Nursery 1-3, Basic 1-5, and JSS 1-3, written and directed from concept through production.",
     challenge:
-      "Over 25,000 smallholder grain farmers across Northern Nigeria faced severe post-harvest logistics bottlenecks, leading to 32% food spoilage and delayed commodity payouts.",
+      "Nigerian non-native Arabic speakers lacked a structured, level-by-level Arabic curriculum covering Nursery through JSS. Existing materials weren't built for a staged, age-appropriate learning path.",
     insight:
-      "Field officers and grain aggregators required offline-first data synchronization and automated SMS-based triage that functions seamlessly on low-bandwidth 2G/3G networks.",
+      "A curriculum only works if every level is checked against the one before and after it — without a formal review pass across the full series, small inconsistencies compound into a confusing learning path.",
     strategy:
-      "NDH deployed an automated AI data pipeline using lightweight WhatsApp/SMS bots connected to an automated n8n aggregation cluster and a central operations command center for Helios dispatchers.",
+      "NDH took full ownership of curriculum authorship across all 8 levels rather than writing them in isolation, then layered a dedicated teacher review process over the entire series before anything was finalized.",
     process:
-      "Sprint 1-2: Field officer workflow mapping and USSD/SMS fallback prototyping. Sprint 3-6: Automated AI routing and cold-chain truck dispatch algorithms. Sprint 7-8: Pilot rollout in Kano and Kaduna.",
+      "Full curriculum authorship and structuring across all 8 levels, with a formal teacher review process across the entire series to catch and correct content issues before release. Coordinated multi-format production including original Arabic-style audio resources matched to unit vocabulary.",
     solution:
-      "Built an intelligent supply chain command center with automated grain grade assessment, dynamic route optimization, and instant farmer payout disbursement upon weigh-bridge confirmation.",
-    measurableOutcomes: [
-      {
-        metric: "82%",
-        label: "Reduction in Post-Harvest Transit Delay",
-        evidenceNote: "Grain pickup turnaround reduced from 72 hours to 13 hours.",
-      },
-      {
-        metric: "25,400+",
-        label: "Active Smallholder Farmers Onboarded",
-        evidenceNote: "Verified across Kano, Kaduna, and Niger state cooperatives.",
-      },
-      {
-        metric: "₦1.8B",
-        label: "Automated Payouts Reconciled",
-        evidenceNote: "Zero payout reconciliation errors over the 2025/2026 harvest cycle.",
-      },
-    ],
+      "Delivered a complete, reviewed 8-book series (Nursery 1-3, Basic 1-5, JSS 1-3) with matched audio resources, written and directed from concept through production.",
+    measurableOutcomes: [],
     testimonial: {
       quote:
-        "NDH Agency solved a real operational headache that had plagued our supply chain for two seasons. Their ability to deliver high-tech solutions engineered for real West African ground realities is unmatched.",
-      author: "Ibrahim Sanusi",
-      title: "Head of Operations & Digital",
-      company: "Helios AgriTech Ltd.",
+        "NDH delivered top-tier curriculum structure and production coordination across an 8-book series. The attention to educational accuracy and pedagogical detail was outstanding.",
+      author: "Muhsin Musa",
+      title: "Lead Review Committee Member",
+      company: "Miftah al-Arabiyyah Project",
       verifiedNDH: true,
     },
-    techStack: ["Python", "n8n Enterprise", "PostgreSQL", "Twilio SMS API", "Tailwind CSS"],
+    techStack: ["Curriculum Design", "Editorial Review", "Audio Production"],
     featured: true,
     status: "published",
     clientApprovalRecorded: true,
-    publishedDate: "2026-03-12",
+    publishedDate: "2026-09-11",
   },
   {
     id: "cs-003",
-    slug: "diasporadirect-luxury-real-estate",
-    title: "DiasporaDirect: Sovereign Real Estate Tokenization & Escrow Portal",
-    clientName: "DiasporaDirect LLC",
+    slug: "markazussalaf-academic-operations-engine",
+    title: "Markazussalaf: Academic Operations Engine",
+    clientName: "Markazussalaf Institute",
     isAnonymized: false,
-    industry: "Real Estate / Luxury Wealth",
-    department: "brand_strategy",
-    year: "2025",
-    location: "New York & Toronto",
-    projectDuration: "10 Weeks Sprint",
-    heroImage:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&auto=format&fit=crop&q=80",
-    galleryImages: [
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&auto=format&fit=crop&q=80",
-    ],
+    industry: "Education / Islamic Studies",
+    department: "data_business",
+    location: "Nigeria",
+    heroImage: markazussalafImg,
+    galleryImages: [],
+    summary:
+      "A set of academic operations tools built for an Islamic school's Qur'an memorization program, replacing ad hoc tracking with structured, repeatable documents.",
     challenge:
-      "High-net-worth Africans in the diaspora lacked a trusted, verified channel to acquire luxury residential properties and commercial assets in Lagos and Abuja without fear of title disputes or contractor fraud.",
+      "An Islamic school's Qur'an memorization program relied on ad hoc tracking that produced inconsistent records and slow reporting, making it hard to see each learner's real progress across terms.",
     insight:
-      "Trust in cross-border real estate is driven by institutional transparency: milestone-locked legal escrow, verified drone video telemetry, and title deed blockchain certification.",
+      "Reporting is only as fast as the structure behind it — without a shared syllabus and standard per-teacher target sheets, every register ends up tracked differently, and collating them takes days.",
     strategy:
-      "NDH created a brand identity and high-end digital investor portal that positions DiasporaDirect as the sovereign standard in African real estate asset management.",
+      "NDH replaced informal, per-teacher tracking with one shared 4-year master structure, so every teacher's register and every learner's record follows the same format and can be rolled up automatically.",
     process:
-      "Brand positioning & editorial typography styling, investor UX wireframing, legal escrow integration, interactive 3D property visualizer development, and launch campaign.",
+      "Created a 4-year master syllabus covering the full program structure, term-by-term teacher target sheets, and individual learner progress cards.",
     solution:
-      "Delivered a bespoke web platform featuring live construction progress streams, bank-grade legal document vaults, and automated milestone-based contractor payouts.",
-    measurableOutcomes: [
-      {
-        metric: "$18.5M",
-        label: "Direct Property Inquiries in First 60 Days",
-        evidenceNote: "High-intent accredited buyer inquiries from US, UK, and Canada.",
-      },
-      {
-        metric: "100%",
-        label: "Title Deed Verification Rate",
-        evidenceNote: "Zero legal disputes across 48 transacted luxury residential units.",
-      },
-      {
-        metric: "4.9 / 5",
-        label: "Diaspora Investor Trust Score",
-        evidenceNote: "Independently surveyed by Trustpilot and client feedback.",
-      },
-    ],
+      "Automated generation of student memorization report pages across eight separate teacher registers — reports that took days are now accurate and automated.",
+    measurableOutcomes: [],
     testimonial: {
       quote:
-        "NDH Agency gave our brand an international posture that commands instant respect in London and New York boardroom meetings. The execution quality was breathtaking.",
-      author: "Marcus Sterling",
-      title: "Managing Director",
-      company: "DiasporaDirect LLC",
+        "The custom academic tracking systems completely transformed how our teachers handle memorization records. Reports that used to take days of manual collation are now accurate and automated.",
+      author: "Dr Ahmad Muhammad Tijjani",
+      title: "Academic Director",
+      company: "Markazussalaf Institute",
       verifiedNDH: true,
     },
-    techStack: ["Figma Tokens", "Next.js", "Tailwind CSS", "Stripe Treasury", "AWS S3 Vault"],
+    techStack: ["Document Systems", "Academic Reporting"],
     featured: true,
     status: "published",
     clientApprovalRecorded: true,
-    publishedDate: "2025-12-18",
+    publishedDate: "2026-09-11",
   },
   {
     id: "cs-004",
-    slug: "apex-logistics-africa",
-    title: "Apex Logistics: Autonomous Dispatch & Freight Tracking System",
-    clientName: "Confidential Pan-African Freight Carrier",
-    isAnonymized: true,
-    industry: "Logistics & Supply Chain",
-    department: "web_app_development",
-    year: "2026",
-    location: "Accra, Lagos & Abidjan",
-    projectDuration: "14 Weeks Sprint",
-    heroImage:
-      "https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=1200&auto=format&fit=crop&q=80",
-    galleryImages: [
-      "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=800&auto=format&fit=crop&q=80",
-    ],
+    slug: "the-inheritance-of-shadows-story-series",
+    title: "The Inheritance of Shadows: Digital Story Series",
+    clientName: "Digital Story Series",
+    isAnonymized: false,
+    industry: "Digital Media / Publishing",
+    department: "content_copywriting",
+    location: "Nigeria",
+    heroImage: inheritanceOfShadowsImg,
+    galleryImages: [],
+    summary:
+      "A multi-episode digital mystery story series designed, written, and published digitally, complete with visual branding and narrative rollout.",
     challenge:
-      "Cross-border customs delays between ECOWAS corridors were causing up to 6 days of fleet idle time and non-transparent cargo location blindspots.",
+      "A digital story series needed narrative structure, episode pacing, and a publishing format engineered from scratch — there was no existing pipeline from a raw concept to a published, readable series.",
     insight:
-      "Consolidating border customs digital pre-clearance with GPS telematics gives freight dispatchers predictive border wait times.",
+      "A serialized story lives or dies on pacing and presentation as much as plot — readers need a consistent visual identity and a believable episode rhythm to keep coming back.",
     strategy:
-      "Engineered a centralized multi-country logistics portal with offline-capable driver mobile web apps and real-time fleet map visualizations.",
+      "NDH took the project end-to-end rather than handing off a script: narrative design, visual identity, and publishing were treated as one continuous pipeline instead of separate handoffs.",
     process:
-      "Architecture discovery, customs API integrations, driver field UX testing, high-throughput geospatial database tuning, pilot deployment.",
+      "Designed the full narrative structure and episode pacing, created custom digital book covers and promotional visual graphics for launch, and managed the content pipeline from writing to digital reader deployment.",
     solution:
-      "Delivered an enterprise logistics suite with sub-second driver telematics, predictive customs wait times, and automatic proof-of-delivery signatures.",
-    measurableOutcomes: [
-      {
-        metric: "43%",
-        label: "Reduction in Cross-Border Fleet Idle Time",
-        evidenceNote: "Fleet turnaround reduced from 6.2 days to 3.5 days across 3 border posts.",
-      },
-      {
-        metric: "1,200+",
-        label: "Active Heavy Freight Trucks Monitored",
-        evidenceNote: "Live GPS telemetry across Ghana, Togo, Benin, and Nigeria.",
-      },
-    ],
-    techStack: ["React", "TypeScript", "Mapbox GL", "Node.js", "Redis", "PostgreSQL PostGIS"],
+      "End-to-end content pipeline management from writing to digital reader deployment, with the series live and publishing.",
+    measurableOutcomes: [],
+    techStack: ["Narrative Design", "Digital Publishing", "Visual Branding"],
     featured: false,
     status: "published",
     clientApprovalRecorded: true,
-    publishedDate: "2026-01-20",
+    publishedDate: "2026-09-11",
   },
   {
     id: "cs-005",
-    slug: "zenith-health-telemedicine",
-    title: "Zenith Care: Sovereign Health Telemedicine & Prescription Engine",
-    clientName: "Sovereign Health Alliance",
-    isAnonymized: true,
-    industry: "Healthcare & Public Sector",
-    department: "ui_ux_design",
-    year: "2025",
-    location: "Lagos & Abuja",
-    projectDuration: "9 Weeks Sprint",
-    heroImage:
-      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&auto=format&fit=crop&q=80",
-    galleryImages: [
-      "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&auto=format&fit=crop&q=80",
-    ],
+    slug: "ndh-agency-academy-web-platform",
+    title: "NDH Agency & Academy Web Platform",
+    clientName: "Najeeb Digital Hub",
+    isAnonymized: false,
+    industry: "Internal Platform / SaaS",
+    department: "web_app_development",
+    location: "Nigeria",
+    heroImage: ndhPlatformImg,
+    galleryImages: [],
+    summary:
+      "A full-service web portal combining a managed digital talent marketplace with an online academy platform.",
     challenge:
-      "Patients faced 3+ hour outpatient queues at tertiary hospitals while rural primary healthcare clinics lacked access to specialist medical consultations.",
+      "NDH needed a single platform combining a managed digital talent marketplace, client project workflows, and an online academy — built for both global and Nigerian clients from day one.",
     insight:
-      "A low-bandwidth, WebRTC-enabled triage platform capable of functioning over unstable mobile networks with local language audio prompts.",
+      "A platform serving clients across Nigeria and abroad has to feel native in both markets at once: real multi-currency pricing and a briefing process clear enough that a first-time client and a repeat enterprise client both know exactly what happens next.",
     strategy:
-      "Designed an accessible, human-centric clinical consultation flow that connects licensed physicians with patient records in under 3 taps.",
+      "Built a clean, conversion-focused UI/UX tailored for global and Nigerian client engagement, with multi-currency support and clear project-briefing workflows baked in from the start rather than bolted on later.",
     process:
-      "Clinical workflow shadowing, patient accessibility testing in Hausa, Yoruba, and Igbo, HIPAA/NDPR compliance audit, interactive prototyping.",
+      "Designed and built role-based portals for clients, talent, project managers, students, and admins, with an integrated academy verification system and student portal architecture alongside the core delivery workflow.",
     solution:
-      "Delivered an accessible telemedicine system with encrypted video consultations, digital prescription verification, and localized pharmacy dispatch.",
-    measurableOutcomes: [
-      {
-        metric: "85,000+",
-        label: "Completed Remote Consultations",
-        evidenceNote: "Validated across 12 state-level primary health networks.",
-      },
-      {
-        metric: "14 min",
-        label: "Average Time-to-Doctor Consultation",
-        evidenceNote: "Down from 180+ minutes in traditional physical clinics.",
-      },
-    ],
-    techStack: ["Figma System Tokens", "WebRTC", "React", "Tailwind CSS", "FastAPI"],
+      "A live platform with integrated academy verification system, student portal architecture, payments, and role-based portals for clients, talent, project managers, students, and admins — this very product.",
+    measurableOutcomes: [],
+    techStack: ["React", "TypeScript", "Multi-Currency Payments", "Role-Based Portals"],
     featured: false,
     status: "published",
     clientApprovalRecorded: true,
-    publishedDate: "2025-11-04",
+    publishedDate: "2026-09-11",
   },
   {
     id: "cs-006",
-    slug: "zuri-luxury-retail-ecommerce",
-    title: "Zuri Pan-African Luxury: High-Velocity Global Fashion Commerce",
-    clientName: "Zuri Couture International",
+    slug: "basic-studies-result-reporting-system",
+    title: "Basic Studies: Academic Result & Reporting System",
+    clientName: "Basic Studies",
     isAnonymized: false,
-    industry: "Luxury Fashion & E-commerce",
-    department: "ecommerce",
-    year: "2026",
-    location: "Lagos, Paris & Dubai",
-    projectDuration: "6 Weeks Sprint",
-    heroImage:
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&auto=format&fit=crop&q=80",
-    galleryImages: [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&auto=format&fit=crop&q=80",
-    ],
+    industry: "Education / School Administration",
+    department: "data_business",
+    location: "Nigeria",
+    heroImage: basicStudiesImg,
+    galleryImages: [],
+    summary:
+      "A custom terminal-to-report result processing workflow designed to calculate, grade, and generate termly student performance sheets for basic school administration.",
     challenge:
-      "Zuri Couture was expanding to luxury retail markets in London and Paris but their legacy monolithic store had high page load latency (5.8s) and lacked multi-currency automated duties calculation.",
+      "Basic school administration relied on manual ledger entry for results, producing grading errors and slow end-of-term reporting that delayed report card distribution.",
     insight:
-      "Luxury fashion buyers abandon carts when currency conversion or import duties are calculated at late checkout stages.",
+      "Most grading errors come from manual re-entry and re-calculation, not from the underlying data — remove the repeated manual steps and most of the error rate goes with it.",
     strategy:
-      "Rebuilt the storefront on headless Shopify Plus with dynamic edge geolocation, multi-currency pricing, and integrated DHL express automated customs pre-clearance.",
+      "NDH replaced the manual ledger step entirely with structured data entry and built-in verification, so grading happens once and report generation happens automatically from the same source data.",
     process:
-      "Luxury visual design sprint, headless Shopify Plus architecture, Paystack + Stripe dual currency gateway configuration, performance optimization.",
+      "Replaced manual ledger entry with structured data inputs, with built-in grade verification and performance tracking across multiple subjects.",
     solution:
-      "A sub-second luxury storefront with interactive 3D garment viewing, localized currency pricing in 18 countries, and seamless one-click checkout.",
-    measurableOutcomes: [
-      {
-        metric: "+142%",
-        label: "Increase in International Conversion Rate",
-        evidenceNote: "Measured across European and Middle Eastern traffic cohorts.",
-      },
-      {
-        metric: "0.8s",
-        label: "Global First Contentful Paint (FCP)",
-        evidenceNote: "Google PageSpeed score of 98/100 on mobile devices.",
-      },
-    ],
-    testimonial: {
-      quote:
-        "NDH Agency delivered our dream luxury platform ahead of Paris Fashion Week. Their understanding of global luxury aesthetics and technical performance is unmatched.",
-      author: "Amaka Zuri",
-      title: "Founder & Creative Director",
-      company: "Zuri Couture International",
-      verifiedNDH: true,
-    },
-    techStack: [
-      "Shopify Plus Headless",
-      "Next.js Commerce",
-      "Tailwind CSS",
-      "Stripe Multi-Currency",
-      "DHL Express API",
-    ],
+      "Export-ready layout for rapid end-of-term report card distribution, reducing grading errors and speeding up reporting.",
+    measurableOutcomes: [],
+    techStack: ["Data Entry Systems", "Automated Grading", "Report Generation"],
     featured: false,
     status: "published",
     clientApprovalRecorded: true,
-    publishedDate: "2026-02-14",
+    publishedDate: "2026-09-11",
   },
 ];
 

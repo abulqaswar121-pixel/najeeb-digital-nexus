@@ -28,7 +28,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
   onClose,
   onOpenBriefWizard,
 }) => {
-  const { currency, getRegionalPricing, detectedCountry } = useCurrencyLanguage();
+  const { currency, getRegionalPricing } = useCurrencyLanguage();
 
   useModalA11y(isOpen, onClose);
 
@@ -86,7 +86,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="text-xs font-bold uppercase tracking-wider text-slate-300">
-                Transparent Localized Pricing ({detectedCountry} • {currency})
+                Transparent Pricing ({currency})
               </div>
               <span className="text-[11px] text-emerald-400 font-mono">
                 No hidden charges • 100% Escrow Protected
@@ -98,7 +98,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-white">Starter MVP</span>
                   <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 text-[10px] font-mono font-bold">
-                    Students &amp; Starters
+                    Starter Plan
                   </span>
                 </div>
                 <div className="text-2xl font-black font-mono text-emerald-400">

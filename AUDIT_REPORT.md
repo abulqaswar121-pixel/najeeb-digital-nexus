@@ -555,8 +555,9 @@ recorded here rather than silently skipped:
   reverse proxy vs. two separate services vs. serverless) before this goes
   live anywhere.
 - A few lower-priority LOW items from the original list weren't touched this
-  pass (footer social icons, blog thought-leadership copy tone) — happy to
-  clean those up too if you want.
+  pass (blog thought-leadership copy tone) — happy to clean those up too if
+  you want. (Footer social icons were added in the real-contact-details pass
+  below.)
 - **Client ↔ PM chat is still not a persisted real-time channel.** The
   Client Portal's "PM Direct Chat" tab for the demo workspace is explicitly
   labeled as a sample conversation now (see above); for real clients it
@@ -564,3 +565,138 @@ recorded here rather than silently skipped:
   follow-up instead of pretending a conversation happened. A real persisted
   messaging thread (stored server-side, visible from both the Client Portal
   and PM Portal) would be a reasonable next feature if you want it built.
+
+---
+
+## Real contact details, real case studies, and homepage honesty pass (2026-10-02)
+
+Source of the real content: the user's own live, deployed agency site
+(`ndh.com.ng`, source at `github.com/abulqaswar121-pixel/ndh-com-ea34ebce`),
+agency-only (Academy content explicitly excluded). Full research trail is in
+`REAL_DATA_MIGRATION_PLAN.md`. Everything below was implemented after the
+user reviewed that plan and gave explicit go-ahead with specific corrections.
+
+### Real contact details replace fabricated ones
+
+- **Address**: the fake 3-office grid ("NDH Tower, 14B Karimu Kotun St,
+  Victoria Island, Lagos"; "Nexus Suite 402, Transcorp Hilton Boulevard,
+  Maitama, Abuja"; "Level 18, 40 Bank Street, Canary Wharf, London") is gone
+  from `AppFooter.tsx`, `ContactView.tsx`, `AboutView.tsx`, and the
+  `schema.org` JSON-LD in `src/routes/__root.tsx`. Replaced with the user's
+  real address (Marmaron Nufawa, Western Bye Pass, Sokoto, Nigeria) framed
+  honestly as "Nigeria · Worldwide, remote-first, no branch offices" —
+  matching how the real ndh.com.ng site presents itself (it also lists no
+  physical branch offices).
+- **Phone/WhatsApp**: real number `+234 902 993 2794` (wa.me link) replaces
+  the fake `+234 1 800 634 634` and the fake per-city numbers.
+- **Email**: real `hello@ndh.com.ng` plus the user's own
+  `abunnajeeh7@gmail.com` replace the fake `partnerships@agency.ndh.com.ng`
+  / `lagos@agency.ndh.com.ng` / `abuja@agency.ndh.com.ng` /
+  `london@agency.ndh.com.ng` addresses, everywhere including the JSON-LD.
+- **Social links**: real Facebook and Instagram links added to the footer,
+  Contact page, and JSON-LD `sameAs` (previously the footer had no social
+  links at all, and the JSON-LD pointed to fake/unconfirmed LinkedIn,
+  Twitter, and GitHub profiles).
+
+### Real case studies replace fabricated ones
+
+All 6 entries in `CASE_STUDIES` (`src/data/mockData.ts`) — previously
+fictional companies (KoboPay Global Inc., Helios AgriTech, DiasporaDirect
+LLC, a "confidential" freight carrier, Zenith Care, Zuri Couture) with
+invented financial metrics ($42M+ processed, $18.5M inquiries, etc.) and
+testimonials from people who don't exist — are now the 6 real, verifiable
+projects from ndh.com.ng: Apex Agri-Capital (Shared Farm Ledger), Miftah
+al-Arabiyyah (Arabic Curriculum Series), Markazussalaf Institute (Academic
+Operations Engine), a digital story series ("The Inheritance of Shadows"),
+NDH's own Agency & Academy Web Platform, and Basic Studies (Result &
+Reporting System). Three carry real, named-client testimonials pulled
+verbatim from the live site (Dr Ahmad Muhammad Tijjani / Markazussalaf;
+Najeeb Ahmad / Apex Agri-Capital; Muhsin Musa / Miftah al-Arabiyyah). No
+invented dollar/percentage metrics were carried over or substituted — the
+`CaseStudy` type's `year`/`projectDuration` fields were made optional and
+the two consuming views (`CaseStudyPreview.tsx`, `HomepagePreview.tsx`) now
+hide those chips, the metrics-grid overlay, and the "Team Composition"
+line entirely when the real data doesn't include them, rather than show a
+blank/undefined value or a derived fake number. Hero images are new,
+AI-generated, generic illustrative photography (not real client
+screenshots — none were available) with alt text that doesn't claim to be
+literal product screenshots.
+
+A second, separate hardcoded fake carousel was found and fixed during this
+pass: `src/components/home/HeroShowcaseSlider.tsx` (the auto-rotating
+banner directly under the homepage hero) had its own 4 fabricated
+"case studies" — KoboPay Global Inc., AfriHealth Telemedicine, Sovereign
+Asset Escrow, AgriTech Intelligence Hub — with invented stats ("2.4M
+active accounts", "$42M in luxury real estate sold", "150k+ clinical
+consultations", etc.), entirely independent of the `CASE_STUDIES` array.
+Replaced with 4 of the same real, verified projects above, using honest
+qualitative highlights (e.g. "3 Roles: Admin · Operator · Contributor",
+"8 Levels: Full Series Delivered") instead of invented numbers.
+
+### Other homepage honesty fixes found while auditing (not explicitly
+requested, fixed as the same class of issue)
+
+- **Fake "live telemetry" ticker**: the top homepage ticker literally
+  generated a random fake "API Edge Latency" number every 2.5 seconds via
+  `Math.random()` and presented it as live operational data, alongside an
+  unverifiable "100+ Vetted Engineers & Designers" headcount and "Sub-15min
+  PM Response SLA" claim. Removed the random-number generator entirely and
+  replaced the ticker with factual, verifiable statements (service
+  department count, "every project PM-reviewed", automatic currency
+  detection).
+- **Fabricated hero stats**: "$180M+ Client Value Generated", "99.8%
+  On-Time Delivery", "100+ Successful Products Launched", "4.98/5 Client
+  Satisfaction" (and translated equivalents in all 6 supported languages)
+  replaced with honest, defensible counts grounded in what's actually on
+  the site: 6 real case studies, "100% PM-Reviewed Before Handover" (a
+  process claim, not a fabricated score), 16 service departments, and 3
+  verified client testimonials.
+- **Fake partner/client logo marquee**: a scrolling marquee claimed
+  ongoing relationships with real third-party companies (Paystack,
+  Flutterwave, Cloudflare, Moniepoint) alongside fictional ones (KoboPay
+  Global, AfriHealth Systems, Sovereign Asset Escrow) under the banner
+  "Powering Digital Growth for African & International Enterprises."
+  Replaced with the real client names from the 6 real case studies under
+  an honest "Real Clients We've Delivered For" label.
+- **Hardcoded fake "QA Score: 4.95 / 5.0"**: shown identically under every
+  case study regardless of which one was selected. Replaced with a
+  "Verified Project" badge tied to the case study's actual
+  `clientApprovalRecorded` flag.
+- **"Starter MVP / Student" plan naming**: the Starter tier was labeled
+  "Starter MVP / Student" / "Students & Starters" in the homepage
+  estimator, the service detail modal, the Services page intro copy
+  ("budget-friendly student MVPs"), and the footer ("Rapid No-Code MVPs
+  (Students & Startups)"). All renamed to plain "Starter MVP" / "Starter
+  Plan" / "Starters & Startups" per explicit instruction.
+- **Overt "target country" currency announcements**: the homepage hero
+  pill, the pricing estimator, the Services page banner, and the Service
+  Detail modal all explicitly announced "Viewing in Nigeria" / "Country
+  Target: Nigeria" / "Auto-detected region: Nigeria." Currency
+  auto-detection (`detectUserCountryAndCurrency()` in
+  `currencyLanguageStore.ts`, based on browser timezone/locale, already
+  implemented and unchanged) now works quietly in the background — the UI
+  just shows the resulting currency (with a manual override already
+  available via the nav currency switcher) instead of calling out the
+  detected country by name.
+
+### Verification
+
+`tsc --noEmit` clean, `eslint .` 0 errors (pre-existing unrelated
+`react-refresh` warnings only), full test suite 27/27 passing, `vite build`
+succeeds, and the dev server was used to confirm no fake company/address
+strings remain on the homepage, case studies, contact, or about pages.
+
+### Explicitly deferred (flagged to the user, not touched this pass)
+
+- `AboutView.tsx` still has a fully fabricated "Executive Leadership" team
+  (4 invented people with stock Unsplash headshots and fictional
+  backgrounds, e.g. "Ex-McKinsey Digital"). This wasn't part of this
+  round's explicit instructions; flagged for a future pass.
+- 4 additional testimonials on the live ndh.com.ng site (Sarah Jenkins,
+  Chidi Okafor, Zainab Malik, Fatoumata Diallo) aren't tied to a named,
+  verifiable case study the way the 3 ported ones are, and weren't added —
+  the user asked to rely on the case-study-embedded testimonials only.
+- Per-department `activeTalentsCount`/`averageTurnaroundDays` figures in
+  `SERVICE_DEPARTMENTS` (e.g. "28 Active Talents") are likely optimistic
+  placeholder figures too, but are a separate, more systemic internal
+  catalog concern not explicitly raised this round.

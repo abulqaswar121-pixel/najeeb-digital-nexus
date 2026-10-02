@@ -72,8 +72,14 @@ export const CaseStudyPreview: React.FC<CaseStudyPreviewProps> = ({ onOpenBriefW
             <span className="px-3 py-1 rounded-md bg-blue-950 text-blue-300 border border-blue-800 text-xs font-semibold">
               {cs.industry}
             </span>
-            <span className="text-xs text-slate-400 font-mono">Duration: {cs.projectDuration}</span>
-            <span className="text-xs text-slate-400 font-mono">• Completed {cs.year}</span>
+            {cs.projectDuration && (
+              <span className="text-xs text-slate-400 font-mono">
+                Duration: {cs.projectDuration}
+              </span>
+            )}
+            {cs.year && (
+              <span className="text-xs text-slate-400 font-mono">• Completed {cs.year}</span>
+            )}
             {cs.clientApprovalRecorded && (
               <span className="flex items-center gap-1.5 text-xs text-emerald-400 font-mono bg-emerald-950/80 px-2.5 py-0.5 rounded border border-emerald-800/80">
                 <ShieldCheck className="w-3.5 h-3.5" />
@@ -106,21 +112,25 @@ export const CaseStudyPreview: React.FC<CaseStudyPreviewProps> = ({ onOpenBriefW
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
 
-          {/* Metric Telemetry Cards Overlay */}
-          <div className="absolute bottom-6 left-6 right-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {cs.measurableOutcomes.map((metric, i) => (
-              <div
-                key={i}
-                className="p-4 rounded-2xl bg-slate-950/85 backdrop-blur-md border border-slate-700/80 text-white space-y-1 shadow-lg"
-              >
-                <div className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-400">
-                  {metric.metric}
+          {/* Metric Telemetry Cards Overlay (only shown when real, disclosed metrics exist) */}
+          {cs.measurableOutcomes.length > 0 && (
+            <div className="absolute bottom-6 left-6 right-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {cs.measurableOutcomes.map((metric, i) => (
+                <div
+                  key={i}
+                  className="p-4 rounded-2xl bg-slate-950/85 backdrop-blur-md border border-slate-700/80 text-white space-y-1 shadow-lg"
+                >
+                  <div className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-400">
+                    {metric.metric}
+                  </div>
+                  <div className="text-xs font-bold text-white leading-tight">{metric.label}</div>
+                  <div className="text-[11px] text-slate-300 line-clamp-1">
+                    {metric.evidenceNote}
+                  </div>
                 </div>
-                <div className="text-xs font-bold text-white leading-tight">{metric.label}</div>
-                <div className="text-[11px] text-slate-300 line-clamp-1">{metric.evidenceNote}</div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Structured Case Study Narrative */}
@@ -183,23 +193,27 @@ export const CaseStudyPreview: React.FC<CaseStudyPreviewProps> = ({ onOpenBriefW
                   </div>
                 </div>
 
-                <div>
-                  <div className="text-slate-400 uppercase font-semibold text-[10px]">
-                    Team Composition
+                {cs.teamSize !== undefined && (
+                  <div>
+                    <div className="text-slate-400 uppercase font-semibold text-[10px]">
+                      Team Composition
+                    </div>
+                    <div className="text-white font-bold mt-0.5">
+                      {cs.teamSize} Vetted Specialists
+                    </div>
                   </div>
-                  <div className="text-white font-bold mt-0.5">
-                    {cs.teamSize ?? cs.techStack.length} Vetted Specialists
-                  </div>
-                </div>
+                )}
 
-                <div>
-                  <div className="text-slate-400 uppercase font-semibold text-[10px]">
-                    Delivery Cycle
+                {cs.projectDuration && (
+                  <div>
+                    <div className="text-slate-400 uppercase font-semibold text-[10px]">
+                      Delivery Cycle
+                    </div>
+                    <div className="text-emerald-400 font-mono font-bold mt-0.5">
+                      {cs.projectDuration}
+                    </div>
                   </div>
-                  <div className="text-emerald-400 font-mono font-bold mt-0.5">
-                    {cs.projectDuration}
-                  </div>
-                </div>
+                )}
               </div>
 
               <div className="pt-4 border-t border-slate-800 space-y-2">

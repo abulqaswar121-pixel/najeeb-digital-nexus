@@ -8,7 +8,8 @@ export const Route = createFileRoute("/case-studies")({
       { title: "Case Studies | NDH Agency" },
       {
         name: "description",
-        content: "Illustrative engagement case studies across fintech, logistics, and e-commerce.",
+        content:
+          "Real, verifiable NDH client case studies across agriculture investment tech, curriculum development, education administration, and digital publishing.",
       },
     ],
   }),

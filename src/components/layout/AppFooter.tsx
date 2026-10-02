@@ -35,7 +35,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
   onOpenPaymentModal,
 }) => {
   const { user } = useAuth();
-  const { currency, detectedCountry } = useCurrencyLanguage();
+  const { currency } = useCurrencyLanguage();
   const [academyNotifyRequested, setAcademyNotifyRequested] = React.useState(false);
 
   const handleClientPortalClick = () => {
@@ -102,17 +102,50 @@ export const AppFooter: React.FC<AppFooterProps> = ({
             <div className="space-y-2 text-slate-300 text-xs pt-1">
               <div className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-                <span>14B Karimu Kotun St, Victoria Island, Lagos</span>
+                <span>Marmaron Nufawa, Western Bye Pass, Sokoto, Nigeria</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                <a href="https://wa.me/2349029932794" className="hover:text-white">
+                  +234 902 993 2794 (WhatsApp)
+                </a>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-                <span>partnerships@agency.ndh.com.ng</span>
+                <a href="mailto:hello@ndh.com.ng" className="hover:text-white">
+                  hello@ndh.com.ng
+                </a>
               </div>
               <div className="flex items-center gap-2">
+                <Mail className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                <a href="mailto:abunnajeeh7@gmail.com" className="hover:text-white">
+                  abunnajeeh7@gmail.com
+                </a>
+              </div>
+              <div className="flex items-center gap-3 pt-1">
+                <a
+                  href="https://www.facebook.com/share/1Be6HN8zjS/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white"
+                  aria-label="NDH on Facebook"
+                >
+                  Facebook
+                </a>
+                <span className="text-slate-700">•</span>
+                <a
+                  href="https://www.instagram.com/njb_digital_hub"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white"
+                  aria-label="NDH on Instagram"
+                >
+                  Instagram
+                </a>
+              </div>
+              <div className="flex items-center gap-2 pt-1">
                 <Globe className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>
-                  Active Region: {detectedCountry} ({currency})
-                </span>
+                <span>Nigeria · Worldwide — prices shown in {currency}</span>
               </div>
             </div>
 
@@ -194,7 +227,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
                   onClick={() => onSelectView("services")}
                   className="hover:text-blue-400 text-left transition-colors"
                 >
-                  Rapid No-Code MVPs (Students &amp; Startups)
+                  Rapid No-Code MVPs (Starters &amp; Startups)
                 </button>
               </li>
               <li className="pt-1">
@@ -338,8 +371,9 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </button>
             </div>
             <div className="text-[10px] text-slate-500">
-              Product preview build — office locations, phone numbers, client names, and photos
-              shown throughout this site are illustrative sample data, not live contact details.
+              Contact details above (address, WhatsApp, email, social links) are real. Case study
+              photography is illustrative, not literal client screenshots. Any demo/sample
+              organization accounts elsewhere on this site are clearly labeled as such.
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-6">

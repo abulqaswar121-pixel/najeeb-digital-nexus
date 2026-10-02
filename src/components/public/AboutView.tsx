@@ -182,52 +182,40 @@ export const AboutView: React.FC<AboutViewProps> = ({ onSelectView, onOpenBriefW
           </div>
         </div>
 
-        {/* Global Hubs */}
+        {/* Where We Work */}
         <div className="p-8 rounded-3xl bg-slate-900/90 border border-slate-800 space-y-6 shadow-2xl">
           <div className="space-y-2">
             <span className="text-xs font-mono uppercase tracking-wider text-blue-400 font-bold">
-              Global Presence
+              Where We Work
             </span>
-            <h2 className="text-2xl font-bold text-white">Physical Operational Hubs</h2>
+            <h2 className="text-2xl font-bold text-white">Nigeria · Worldwide</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-blue-400" />
-                <h4 className="font-bold text-white text-sm">Lagos, Nigeria (HQ)</h4>
+                <h4 className="font-bold text-white text-sm">Sokoto, Nigeria</h4>
               </div>
               <p className="text-xs text-slate-300">
-                NDH Tower, 14B Karimu Kotun St, Victoria Island
+                Marmaron Nufawa, Western Bye Pass, Sokoto, Nigeria
               </p>
               <div className="text-[11px] text-emerald-400 font-mono">
-                Primary Engineering Hub & Bureau Core
+                Based in Nigeria, working with clients worldwide
               </div>
             </div>
 
             <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-blue-400" />
-                <h4 className="font-bold text-white text-sm">Abuja, Nigeria</h4>
+                <Globe className="w-4 h-4 text-blue-400" />
+                <h4 className="font-bold text-white text-sm">Worldwide, Remote-First</h4>
               </div>
               <p className="text-xs text-slate-300">
-                Nexus Suite 402, Transcorp Hilton Boulevard, Maitama
+                No branch offices — every engagement is run remotely by a dedicated project manager,
+                reachable by WhatsApp and email.
               </p>
               <div className="text-[11px] text-blue-400 font-mono">
-                Public Sector & Sovereign Data Division
-              </div>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-blue-400" />
-                <h4 className="font-bold text-white text-sm">London, United Kingdom</h4>
-              </div>
-              <p className="text-xs text-slate-300">
-                Level 18, 40 Bank Street, Canary Wharf, London E14 5NR
-              </p>
-              <div className="text-[11px] text-indigo-400 font-mono">
-                Diaspora Partnerships & Global Client Relations
+                WhatsApp: +234 902 993 2794 · hello@ndh.com.ng
               </div>
             </div>
           </div>

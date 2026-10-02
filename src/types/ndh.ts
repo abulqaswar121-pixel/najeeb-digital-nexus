@@ -180,9 +180,12 @@ export interface CaseStudy {
   isAnonymized: boolean;
   industry: string;
   department: ServiceDepartment;
-  year: string;
+  // Real, verifiable case studies often don't have a disclosed completion
+  // year/duration — rather than invent a false date, these are optional and
+  // simply omitted (and hidden in the UI) when not independently known.
+  year?: string;
   location: string;
-  projectDuration: string;
+  projectDuration?: string;
   summary?: string;
   leadPM?: string;
   teamSize?: number;

@@ -1,20 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Sparkles,
-  ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
-  Activity,
-  Layers,
-  Zap,
-  TrendingUp,
-  Cpu,
-  Smartphone,
-  Lock,
-} from "lucide-react";
-import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import apexAgriCapitalImg from "../../assets/case-studies/apex-agri-capital.jpg";
+import miftahAlArabiyyahImg from "../../assets/case-studies/miftah-al-arabiyyah.jpg";
+import markazussalafImg from "../../assets/case-studies/markazussalaf.jpg";
+import ndhPlatformImg from "../../assets/case-studies/ndh-platform.jpg";
 
 interface HeroSlide {
   id: string;
@@ -31,70 +20,69 @@ interface HeroSlide {
   client: string;
 }
 
+// Real, verifiable NDH case studies only (same 6 shown in full on /case-studies).
+// No fabricated metrics — statValue/statLabel/statSubtext below describe what was
+// actually built, not invented performance numbers.
 const HERO_SLIDES: HeroSlide[] = [
   {
-    id: "fintech-core",
-    category: "FinTech & Core Banking",
+    id: "apex-agri-capital",
+    category: "Web App Development",
     badgeColor: "bg-blue-500/20 text-blue-300 border-blue-400/40",
-    title: "High-Speed Payment Platforms Built for",
-    highlightText: "Millions of Daily Users.",
+    title: "A Transparent Shared Ledger Built for a Growing",
+    highlightText: "Agriculture Investment Cooperative.",
     subtitle:
-      "We engineer bank-grade web and mobile applications with sub-300ms transaction speeds and multi-currency billing.",
-    statValue: "< 240ms",
-    statLabel: "Transaction Speed",
-    statSubtext: "2.4M active accounts processed across Africa & UK",
-    image:
-      "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&auto=format&fit=crop&q=80",
-    tags: ["React 19", "Go Microservices", "Paystack", "Cloudflare Edge"],
-    client: "KoboPay Global Inc.",
+      "A role-based web application tracking contributions, expenses, and member equity across catfish, poultry, and goat farming operations.",
+    statValue: "3 Roles",
+    statLabel: "Admin · Operator · Contributor",
+    statSubtext: "Built to scale from a founding group toward 100 members",
+    image: apexAgriCapitalImg,
+    tags: ["Web Application", "Role-Based Access"],
+    client: "Apex Agri-Capital",
   },
   {
-    id: "mobile-apps",
-    category: "Cross-Platform Mobile Apps",
+    id: "miftah-al-arabiyyah",
+    category: "Content & Curriculum Development",
     badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-400/40",
-    title: "Intuitive iOS & Android Apps with",
-    highlightText: "Offline-First Speed.",
+    title: "An 8-Book Arabic Curriculum Series, Written and",
+    highlightText: "Directed From Concept to Production.",
     subtitle:
-      "Sleek, fluid mobile applications that work even in low-bandwidth areas with instant local sync.",
-    statValue: "99.98%",
-    statLabel: "Uptime & Reliability",
-    statSubtext: "4.9★ App Store rating with 150k+ clinical consultations",
-    image:
-      "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&auto=format&fit=crop&q=80",
-    tags: ["Flutter", "iOS Swift", "Android Kotlin", "Supabase"],
-    client: "AfriHealth Telemedicine",
+      "Full curriculum authorship for Nigerian non-native Arabic speakers, spanning Nursery 1-3, Basic 1-5, and JSS 1-3, with formal teacher review across every level.",
+    statValue: "8 Levels",
+    statLabel: "Full Series Delivered",
+    statSubtext: "Matched audio resources produced for every unit",
+    image: miftahAlArabiyyahImg,
+    tags: ["Curriculum Design", "Editorial Review", "Audio Production"],
+    client: "Miftah al-Arabiyyah Project",
   },
   {
-    id: "luxury-commerce",
-    category: "E-Commerce & Brand Systems",
+    id: "markazussalaf",
+    category: "Business Support / Document Systems",
     badgeColor: "bg-amber-500/20 text-amber-300 border-amber-400/40",
-    title: "High-Conversion Digital Stores for",
-    highlightText: "Global Luxury Brands.",
+    title: "Automated Academic Reporting for a",
+    highlightText: "Qur'an Memorization Program.",
     subtitle:
-      "Bespoke design systems, interactive 3D product previews, and frictionless checkout that boost sales by 185%.",
-    statValue: "+185%",
-    statLabel: "Conversion Increase",
-    statSubtext: "Over $42M in fractional luxury real estate assets sold",
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80",
-    tags: ["Next.js Commerce", "Tailwind", "Stripe", "3D WebGL"],
-    client: "Sovereign Asset Escrow",
+      "A 4-year master syllabus, term-by-term teacher target sheets, and learner progress cards that replaced ad hoc, inconsistent tracking.",
+    statValue: "8 Registers",
+    statLabel: "Automated Reporting",
+    statSubtext: "Reports that took days of manual collation, automated",
+    image: markazussalafImg,
+    tags: ["Document Systems", "Academic Reporting"],
+    client: "Markazussalaf Institute",
   },
   {
-    id: "ai-automation",
-    category: "AI & Workflow Automation",
+    id: "ndh-platform",
+    category: "Web Engineering & Platform Design",
     badgeColor: "bg-purple-500/20 text-purple-300 border-purple-400/40",
-    title: "Autonomous AI Agents that",
-    highlightText: "10x Your Team Velocity.",
+    title: "One Platform Combining a Talent Marketplace",
+    highlightText: "With an Online Academy.",
     subtitle:
-      "Custom generative AI agents, intelligent customer service bots, and automated data pipelines deployed in 14 days.",
-    statValue: "10x Faster",
-    statLabel: "Operations Output",
-    statSubtext: "Saved 350+ manual hours per month per client squad",
-    image:
-      "https://images.unsplash.com/photo-1677442136019-21780efad99a?w=1200&auto=format&fit=crop&q=80",
-    tags: ["Python", "OpenAI Agents", "n8n Workflows", "Vector DB"],
-    client: "AgriTech Intelligence Hub",
+      "A conversion-focused, multi-currency platform with role-based portals for clients, talent, project managers, students, and admins — this very product.",
+    statValue: "5 Portals",
+    statLabel: "Role-Based Access",
+    statSubtext: "Clients · Talent · PMs · Students · Admins",
+    image: ndhPlatformImg,
+    tags: ["React", "TypeScript", "Multi-Currency Payments"],
+    client: "Najeeb Digital Hub",
   },
 ];
 
@@ -109,7 +97,6 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
-  const { t } = useCurrencyLanguage();
 
   const currentSlide = HERO_SLIDES[currentSlideIndex]!;
 
@@ -211,7 +198,7 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-white font-bold">{currentSlide.client}</span>
               </div>
-              <span className="text-[11px] text-blue-300 font-mono">Verified Production</span>
+              <span className="text-[11px] text-blue-300 font-mono">Verified Project</span>
             </div>
           </div>
         </div>

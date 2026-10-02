@@ -62,8 +62,8 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
           </h1>
 
           <p className="text-base text-slate-300 leading-relaxed">
-            Connect directly with our Principal Project Managers and Department Leads in Lagos,
-            Abuja, or London.
+            Based in Nigeria, working with clients worldwide. Reach us directly on WhatsApp or email
+            and a project manager will respond.
           </p>
         </div>
 
@@ -188,48 +188,82 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
             </div>
           </div>
 
-          {/* Hubs & Office Telemetry */}
+          {/* Contact Details */}
           <div className="lg:col-span-5 space-y-6">
             <div className="p-8 rounded-3xl bg-slate-900/90 border border-slate-800 space-y-6 shadow-xl">
-              <h3 className="text-lg font-bold text-white">Direct Operational Hubs</h3>
+              <h3 className="text-lg font-bold text-white">Get in Touch</h3>
 
               <div className="space-y-4 text-xs">
                 <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
                   <div className="flex items-center gap-2 font-bold text-white">
                     <MapPin className="w-4 h-4 text-blue-400" />
-                    <span>Lagos Operational Bureau (HQ)</span>
+                    <span>Nigeria · Worldwide</span>
                   </div>
                   <p className="text-slate-300">
-                    NDH Tower, 14B Karimu Kotun St, Victoria Island, Lagos, Nigeria
+                    Marmaron Nufawa, Western Bye Pass, Sokoto, Nigeria
                   </p>
-                  <div className="text-[11px] text-slate-400 pt-1 font-mono">
-                    Tel: +234 1 800 634 634 • lagos@agency.ndh.com.ng
-                  </div>
+                  <p className="text-slate-400 text-[11px] pt-1">
+                    Based in Nigeria, working with clients worldwide — remote-first, no branch
+                    offices.
+                  </p>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
+                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
                   <div className="flex items-center gap-2 font-bold text-white">
-                    <MapPin className="w-4 h-4 text-blue-400" />
-                    <span>Abuja Public Sector Division</span>
+                    <Phone className="w-4 h-4 text-emerald-400" />
+                    <span>WhatsApp / Phone</span>
                   </div>
-                  <p className="text-slate-300">
-                    Nexus Suite 402, Transcorp Hilton Boulevard, Maitama, Abuja
-                  </p>
-                  <div className="text-[11px] text-slate-400 pt-1 font-mono">
-                    abuja@agency.ndh.com.ng
-                  </div>
+                  <a
+                    href="https://wa.me/2349029932794"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-emerald-400 font-mono hover:text-emerald-300"
+                  >
+                    +234 902 993 2794
+                  </a>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
+                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
                   <div className="flex items-center gap-2 font-bold text-white">
-                    <MapPin className="w-4 h-4 text-blue-400" />
-                    <span>London Global Partnerships</span>
+                    <Mail className="w-4 h-4 text-blue-400" />
+                    <span>Email</span>
                   </div>
-                  <p className="text-slate-300">
-                    Level 18, 40 Bank Street, Canary Wharf, London E14 5NR
-                  </p>
-                  <div className="text-[11px] text-slate-400 pt-1 font-mono">
-                    london@agency.ndh.com.ng
+                  <a
+                    href="mailto:hello@ndh.com.ng"
+                    className="text-blue-300 font-mono block hover:text-blue-200"
+                  >
+                    hello@ndh.com.ng
+                  </a>
+                  <a
+                    href="mailto:abunnajeeh7@gmail.com"
+                    className="text-blue-300 font-mono block hover:text-blue-200"
+                  >
+                    abunnajeeh7@gmail.com
+                  </a>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+                  <div className="flex items-center gap-2 font-bold text-white">
+                    <Building className="w-4 h-4 text-indigo-400" />
+                    <span>Social</span>
+                  </div>
+                  <div className="flex items-center gap-4 font-mono">
+                    <a
+                      href="https://www.facebook.com/share/1Be6HN8zjS/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-300 hover:text-indigo-200"
+                    >
+                      Facebook
+                    </a>
+                    <a
+                      href="https://www.instagram.com/njb_digital_hub"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-300 hover:text-indigo-200"
+                    >
+                      Instagram
+                    </a>
                   </div>
                 </div>
               </div>
