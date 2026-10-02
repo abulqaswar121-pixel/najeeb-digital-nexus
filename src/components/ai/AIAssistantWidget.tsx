@@ -293,7 +293,7 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
             </div>
           </div>
 
-          {/* Sub-tabs: Chat, FX Calculator, Brief Checker */}
+          {/* Sub-tabs: Chat, Brief Evaluator, Service Finder */}
           <div className="px-3 py-1.5 bg-[#080C14] border-b border-blue-950 flex items-center justify-between text-[11px] shrink-0">
             <button
               onClick={() => setActiveTab("chat")}
