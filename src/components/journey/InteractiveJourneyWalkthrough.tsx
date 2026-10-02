@@ -46,7 +46,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
     {
       step: 2,
       title: "2. Admin Qualifies Lead & Routes to PM Lead",
-      actor: "Operations Admin (Fatima Bello)",
+      actor: "Operations Admin",
       roleBadge: "Ops Admin",
       isCompleted: state.leadQualified,
       description: "Lead score calculated at 96/100. Triage bot routes brief to the NDH PM Team.",
