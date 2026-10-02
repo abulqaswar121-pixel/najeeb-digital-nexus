@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
+import crypto from "node:crypto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { env } from "./env.js";
@@ -14,6 +15,17 @@ export async function hashPassword(plain: string): Promise<string> {
 
 export async function verifyPassword(plain: string, hash: string): Promise<boolean> {
   return bcrypt.compare(plain, hash);
+}
+
+// Generates a real, cryptographically random one-time password for accounts
+// created by an admin action (staff invite, talent-application approval)
+// rather than by self-registration. There is no outbound email service wired
+// up in this build, so the caller is expected to display this value to the
+// admin exactly once so they can relay it to the new accountholder directly
+// -- that is the honest alternative to silently claiming "an invite email
+// was sent" when no such email infrastructure exists.
+export function generateTemporaryPassword(): string {
+  return crypto.randomBytes(9).toString("base64url"); // 12 URL-safe characters
 }
 
 export function signSession(userId: string): string {

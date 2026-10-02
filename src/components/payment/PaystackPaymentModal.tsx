@@ -62,8 +62,8 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
   const [paymentMethod, setPaymentMethod] = useState<"paystack" | "flutterwave" | "stripe">(
     "paystack",
   );
-  const [customerName, setCustomerName] = useState(user?.fullName || "Dr. Folake Adeleke");
-  const [customerEmail, setCustomerEmail] = useState(user?.email || "folake@kobopay.com");
+  const [customerName, setCustomerName] = useState(user?.fullName || "");
+  const [customerEmail, setCustomerEmail] = useState(user?.email || "");
   const [amount, setAmount] = useState<number>(defaultAmount);
   const [applyWelcomeDiscount, setApplyWelcomeDiscount] = useState<boolean>(true);
   const [paystackPublicKey, setPaystackPublicKey] = useState(
@@ -341,6 +341,7 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
                   <input
                     type="text"
                     required
+                    placeholder="e.g. Jane Doe"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
@@ -351,6 +352,7 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
                   <input
                     type="email"
                     required
+                    placeholder="you@company.com"
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"

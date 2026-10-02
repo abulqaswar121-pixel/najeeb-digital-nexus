@@ -2,12 +2,6 @@ import { useState, useEffect } from "react";
 import { UserSession } from "../types/ndh";
 import { api, ApiError } from "./apiClient";
 
-// Shared sandbox password shown in the UI so visitors can try any demo role.
-// The server verifies it with real bcrypt hashing (see server/collections.ts
-// and server/auth.ts) -- this constant is just for the "autofill demo
-// credentials" convenience buttons in AuthModal, it is not itself a secret.
-export const DEMO_ACCOUNT_PASSWORD = "NDHDemo2026!";
-
 let currentUser: UserSession | null = null;
 let sessionLoaded = false; // true once the initial GET /api/auth/me resolves
 let authModalOpen = false;

@@ -13,6 +13,7 @@ import { announcementRouter } from "./routes/announcement.js";
 import { payoutsRouter } from "./routes/payouts.js";
 import { projectsRouter } from "./routes/projects.js";
 import { paymentsRouter } from "./routes/payments.js";
+import { adminRouter } from "./routes/admin.js";
 
 export function createApp() {
   const app = express();
@@ -46,6 +47,7 @@ export function createApp() {
   app.use("/api/payouts", payoutsRouter);
   app.use("/api/projects", projectsRouter);
   app.use("/api/payments", paymentsRouter);
+  app.use("/api/admin", adminRouter);
 
   app.use(
     (err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {

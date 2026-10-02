@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuth, DEMO_ACCOUNT_PASSWORD } from "../../lib/authStore";
+import { useAuth } from "../../lib/authStore";
 import { useModalA11y } from "../../hooks/use-modal-a11y";
 import { BrandLogo } from "../brand/BrandLogo";
 import {
@@ -12,17 +12,8 @@ import {
   ArrowRight,
   ShieldCheck,
   CheckCircle2,
-  Sparkles,
   Gift,
-  FlaskConical,
 } from "lucide-react";
-
-const DEMO_ACCOUNTS: { label: string; email: string; roleTitle: string }[] = [
-  { label: "Client", email: "folake@kobopay.com", roleTitle: "Client Owner" },
-  { label: "Project Manager", email: "tariq.pm@agency.ndh.com.ng", roleTitle: "Principal PM" },
-  { label: "Talent", email: "alpha.dev@network.ndh.com.ng", roleTitle: "Elite Talent" },
-  { label: "Super Admin", email: "najeeb@ndh.com.ng", roleTitle: "Managing Director" },
-];
 
 interface AuthModalProps {
   onNavigatePortal: (portal: string) => void;
@@ -190,34 +181,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
         {/* LOGIN FORM */}
         {activeTab === "login" ? (
           <form onSubmit={handleLoginSubmit} className="space-y-4 text-xs">
-            <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-800/50 space-y-2">
-              <div className="flex items-center gap-1.5 text-[11px] font-bold text-indigo-300">
-                <FlaskConical className="w-3.5 h-3.5" />
-                <span>Preview Environment — Try a Demo Role</span>
-              </div>
-              <p className="text-[10px] text-slate-400 leading-relaxed">
-                This is a sandbox build, not a live account system. Pick a role to auto-fill its
-                demo credentials below, then hit Sign In.
-              </p>
-              <div className="grid grid-cols-2 gap-1.5">
-                {DEMO_ACCOUNTS.map((acc) => (
-                  <button
-                    type="button"
-                    key={acc.email}
-                    onClick={() => {
-                      setEmail(acc.email);
-                      setPassword(DEMO_ACCOUNT_PASSWORD);
-                      setErrorMessage("");
-                    }}
-                    className="px-2 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-indigo-500 text-left text-[10px] font-semibold text-slate-200 transition-colors"
-                  >
-                    <div>{acc.label}</div>
-                    <div className="text-[9px] text-slate-500 font-normal truncate">
-                      {acc.roleTitle}
-                    </div>
-                  </button>
-                ))}
-              </div>
+            <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-[10px] text-slate-400 leading-relaxed">
+              New client?{" "}
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab("register");
+                  setErrorMessage("");
+                }}
+                className="font-bold text-blue-400 hover:underline"
+              >
+                Create a client account
+              </button>{" "}
+              above. Project Manager, Talent, and Admin access is by invitation or vetted
+              application only — if you&apos;re expecting access, use the credentials you were
+              given.
             </div>
 
             <div className="space-y-1.5">
@@ -227,7 +205,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
                 <input
                   type="email"
                   required
-                  placeholder="e.g. folake@kobopay.com"
+                  placeholder="you@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
@@ -242,7 +220,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
                   type="button"
                   onClick={() =>
                     setErrorMessage(
-                      "Password reset isn\u2019t available in this preview sandbox. Use one of the demo accounts above, or create a new client account.",
+                      "Self-service password reset isn\u2019t available yet. Contact your project manager or admin to have your password reset.",
                     )
                   }
                   className="text-[10px] text-blue-400 hover:underline"
@@ -378,7 +356,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
         <div className="flex items-center justify-center gap-2 text-[11px] text-slate-400 pt-1 text-center">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
           <span>
-            Sandbox session — demo data stays in this browser only, no real payments are processed.
+            Your account and password are stored for real on the server (bcrypt-hashed, never sent
+            back in plain text). Payments only process for real once live payment-gateway keys are
+            configured — see the payment screen for current status.
           </span>
         </div>
       </div>

@@ -90,7 +90,13 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
   // submitted during the current session instead of only what existed when
   // this component first mounted)
   const talentApps = useTalentApplications();
-  const [approvedAppId, setApprovedAppId] = useState<string | null>(null);
+  const [approvingAppId, setApprovingAppId] = useState<string | null>(null);
+  const [approvalResult, setApprovalResult] = useState<{
+    appId: string;
+    email: string;
+    temporaryPassword: string;
+  } | null>(null);
+  const [approvalError, setApprovalError] = useState<string | null>(null);
 
   // Live public lead-generation funnel: real "Start Your Project" briefs and
   // Contact-page consultation requests. Previously nothing in Admin ever
@@ -143,7 +149,12 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
   const [newPmName, setNewPmName] = useState("");
   const [newPmEmail, setNewPmEmail] = useState("");
   const [newPmDept, setNewPmDept] = useState("web_app_development");
-  const [pmInviteSent, setPmInviteSent] = useState(false);
+  const [pmInviteResult, setPmInviteResult] = useState<{
+    email: string;
+    temporaryPassword: string;
+  } | null>(null);
+  const [pmInviteError, setPmInviteError] = useState<string | null>(null);
+  const [isInvitingPm, setIsInvitingPm] = useState(false);
 
   const handleSaveCMS = async () => {
     await dbService.updateAnnouncement({ title: announcementText, active: announcementActive });
@@ -151,8 +162,37 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
     setTimeout(() => setCmsSaveSuccess(false), 3000);
   };
 
-  const handleApproveTalent = (appId: string) => {
-    setApprovedAppId(appId);
+  // Really creates a login + internal talent profile on the server (see
+  // server/routes/talentApplications.ts) and surfaces the one-time temporary
+  // password so it can actually be relayed to the candidate -- this used to
+  // just flip a local boolean with nothing created behind it.
+  const handleApproveTalent = async (appId: string) => {
+    setApprovingAppId(appId);
+    setApprovalError(null);
+    try {
+      const result = await dbService.approveTalentApplication(appId);
+      setApprovalResult({
+        appId,
+        email: result.user.email,
+        temporaryPassword: result.temporaryPassword,
+      });
+    } catch (e) {
+      setApprovalError(e instanceof Error ? e.message : "Could not approve this application.");
+    } finally {
+      setApprovingAppId(null);
+    }
+  };
+
+  const handleRejectTalent = async (appId: string) => {
+    setApprovingAppId(appId);
+    setApprovalError(null);
+    try {
+      await dbService.rejectTalentApplication(appId);
+    } catch (e) {
+      setApprovalError(e instanceof Error ? e.message : "Could not reject this application.");
+    } finally {
+      setApprovingAppId(null);
+    }
   };
 
   const handleToggleDualRole = (talentId: string) => {
@@ -185,16 +225,30 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
     }
   };
 
-  const handleInvitePM = (e: React.FormEvent) => {
+  // Really creates a login for the new PM on the server (see
+  // server/routes/admin.ts) and surfaces the one-time temporary password.
+  // There is no outbound email service in this build, so this is the honest
+  // replacement for the previous fake "Invite Sent!" state that created
+  // nothing at all.
+  const handleInvitePM = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newPmName || !newPmEmail) return;
-    setPmInviteSent(true);
-    setTimeout(() => {
-      setPmInviteSent(false);
-      setShowInvitePmModal(false);
+    setIsInvitingPm(true);
+    setPmInviteError(null);
+    try {
+      const result = await dbService.inviteStaffMember({
+        fullName: newPmName,
+        email: newPmEmail,
+        role: "project_manager",
+      });
+      setPmInviteResult({ email: result.user.email, temporaryPassword: result.temporaryPassword });
       setNewPmName("");
       setNewPmEmail("");
-    }, 2000);
+    } catch (err) {
+      setPmInviteError(err instanceof Error ? err.message : "Could not create this account.");
+    } finally {
+      setIsInvitingPm(false);
+    }
   };
 
   const splitResult = calculateRevenueSplit(sampleBudget, Math.round(sampleBudget / 1500));
@@ -1051,9 +1105,50 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                 </span>
               </div>
 
+              {approvalError && (
+                <div className="p-3 rounded-xl bg-red-950/80 border border-red-800/80 text-red-300 text-xs font-medium">
+                  {approvalError}
+                </div>
+              )}
+
+              {approvalResult && (
+                <div className="p-4 rounded-2xl bg-emerald-950/60 border border-emerald-700/60 space-y-2 text-xs">
+                  <div className="flex items-center gap-2 font-bold text-emerald-300">
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>Real workspace credentials created</span>
+                  </div>
+                  <p className="text-slate-300">
+                    A real login was created for <strong>{approvalResult.email}</strong>. There is
+                    no automatic email delivery in this build — copy this one-time temporary
+                    password and send it to the candidate yourself. It will not be shown again.
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <code className="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-emerald-300 font-mono text-[11px]">
+                      {approvalResult.temporaryPassword}
+                    </code>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        void navigator.clipboard?.writeText(approvalResult.temporaryPassword);
+                      }}
+                      className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-[10px]"
+                    >
+                      Copy
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setApprovalResult(null)}
+                      className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-[10px]"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {talentApps.length === 0 ? (
                 <div className="p-8 text-center rounded-2xl bg-slate-900 border border-slate-800 text-slate-400 text-xs">
-                  No pending talent applications right now.
+                  No talent applications yet.
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -1072,6 +1167,18 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                             <span className="text-slate-400 font-mono text-[11px]">
                               • {app.country}
                             </span>
+                            {app.status !== "pending_review" &&
+                              app.status !== "technical_interview" && (
+                                <span
+                                  className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
+                                    app.status === "accepted"
+                                      ? "bg-emerald-500/20 text-emerald-300"
+                                      : "bg-red-500/20 text-red-300"
+                                  }`}
+                                >
+                                  {app.status === "accepted" ? "Approved" : "Rejected"}
+                                </span>
+                              )}
                           </div>
                           <div className="text-slate-400 mt-0.5">
                             Email: <strong className="text-slate-200">{app.email}</strong> • Phone:{" "}
@@ -1104,21 +1211,27 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                           <strong className="text-emerald-400">{app.hourlyRateExpectation}</strong>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => handleApproveTalent(app.id)}
-                            disabled={approvedAppId === app.id}
-                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                              approvedAppId === app.id
-                                ? "bg-emerald-600 text-white cursor-default"
-                                : "bg-emerald-600 hover:bg-emerald-500 text-white shadow-md shadow-emerald-600/30"
-                            }`}
-                          >
-                            {approvedAppId === app.id
-                              ? "Approved & Credentials Issued ✓"
-                              : "Approve & Issue Talent Workspace"}
-                          </button>
-                        </div>
+                        {(app.status === "pending_review" ||
+                          app.status === "technical_interview") && (
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => handleRejectTalent(app.id)}
+                              disabled={approvingAppId === app.id}
+                              className="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-red-900/60 text-slate-200 disabled:opacity-60 transition-all"
+                            >
+                              Reject
+                            </button>
+                            <button
+                              onClick={() => handleApproveTalent(app.id)}
+                              disabled={approvingAppId === app.id}
+                              className="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-md shadow-emerald-600/30 disabled:opacity-60 transition-all"
+                            >
+                              {approvingAppId === app.id
+                                ? "Creating Workspace..."
+                                : "Approve & Issue Talent Workspace"}
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -1317,7 +1430,11 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
         >
           <div className="w-full max-w-md rounded-3xl bg-[#0F172A] border border-blue-500/40 p-6 sm:p-8 shadow-2xl relative space-y-5">
             <button
-              onClick={() => setShowInvitePmModal(false)}
+              onClick={() => {
+                setShowInvitePmModal(false);
+                setPmInviteResult(null);
+                setPmInviteError(null);
+              }}
               className="absolute top-4 right-4 text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-800 transition-colors"
             >
               <X className="w-5 h-5" />
@@ -1326,14 +1443,42 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
             <div className="space-y-1">
               <h3 className="text-xl font-bold text-white">Invite Project Manager</h3>
               <p className="text-xs text-slate-400">
-                Grant lead PM operational credentials for squad orchestration and brief triage.
+                Creates a real login for this PM on the server. There is no outbound email service
+                in this build, so you&apos;ll need to relay the one-time temporary password
+                yourself.
               </p>
             </div>
 
-            {pmInviteSent ? (
-              <div className="p-4 rounded-xl bg-emerald-950/80 border border-emerald-800 text-emerald-300 text-xs font-semibold flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                <span>Invitation &amp; Credentials sent to {newPmEmail}!</span>
+            {pmInviteError && (
+              <div className="p-3 rounded-xl bg-red-950/80 border border-red-800/80 text-red-300 text-xs font-medium">
+                {pmInviteError}
+              </div>
+            )}
+
+            {pmInviteResult ? (
+              <div className="p-4 rounded-xl bg-emerald-950/80 border border-emerald-800 text-emerald-300 text-xs font-semibold space-y-3">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Real account created for {pmInviteResult.email}!</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <code className="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-emerald-300 font-mono text-[11px]">
+                    {pmInviteResult.temporaryPassword}
+                  </code>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      void navigator.clipboard?.writeText(pmInviteResult.temporaryPassword);
+                    }}
+                    className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-[10px]"
+                  >
+                    Copy
+                  </button>
+                </div>
+                <p className="text-[10px] text-emerald-200/80 font-normal leading-relaxed">
+                  This temporary password is shown once and will not be shown again. Send it to the
+                  new PM through a secure channel of your choosing.
+                </p>
               </div>
             ) : (
               <form onSubmit={handleInvitePM} className="space-y-4 text-xs">
@@ -1379,10 +1524,15 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                 <div className="pt-2">
                   <button
                     type="submit"
-                    className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2"
+                    disabled={isInvitingPm}
+                    className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2"
                   >
                     <Send className="w-3.5 h-3.5" />
-                    <span>Issue PM Credentials &amp; Workspace Access</span>
+                    <span>
+                      {isInvitingPm
+                        ? "Creating Account..."
+                        : "Issue PM Credentials & Workspace Access"}
+                    </span>
                   </button>
                 </div>
               </form>

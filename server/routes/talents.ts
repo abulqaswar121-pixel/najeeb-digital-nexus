@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { requireAuth, requireRole } from "../auth.js";
-import { talents, toPublicTalent, TALENT_USER_LINKS } from "../collections.js";
+import { talents, toPublicTalent, talentUserLinks } from "../collections.js";
 
 export const talentsRouter = Router();
 
@@ -25,7 +25,9 @@ talentsRouter.get("/me", requireAuth, (req, res) => {
     res.status(403).json({ error: "Only talent accounts have a talent profile." });
     return;
   }
-  const talentId = Object.entries(TALENT_USER_LINKS).find(([, userId]) => userId === user.id)?.[0];
+  const talentId = Object.entries(talentUserLinks.get()).find(
+    ([, userId]) => userId === user.id,
+  )?.[0];
   const profile = talentId ? talents.find((t) => t.id === talentId) : undefined;
   if (!profile) {
     res.status(404).json({ error: "No talent profile linked to this account yet." });

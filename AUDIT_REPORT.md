@@ -414,6 +414,49 @@ layer (`src/lib/viewRouting.ts`) maps the old view-name vocabulary onto real
 URLs, so none of the ~15 page/portal components needed to be rewritten, only
 the root routing wiring.
 
+## Post-launch fix: removed the "pick a demo role" login shortcut, made staff/talent account creation real
+
+After the routing migration shipped, a reasonable objection came up: the Sign
+In modal still had a "Preview Environment — Try a Demo Role" panel with four
+buttons that auto-filled login credentials for Client/PM/Talent/Super Admin.
+Even though the backend behind it was real (bcrypt + sessions), *advertising*
+preset logins on the public sign-in screen undercut the "real account system"
+story. Two more fake-looking-but-real-sounding admin actions were found and
+fixed at the same time, since they're the same underlying problem (an admin
+action that looked like it created an account but didn't):
+
+- **Login screen.** The demo-role picker is gone. Clients self-register for
+  real via the existing "Create Account" tab (already backed by
+  `POST /api/auth/register`); Project Manager, Talent, and Admin access is
+  explained as invite/application-only, not a public self-serve button.
+- **"Approve & Issue Talent Workspace" (Admin → Talent Applications) now
+  really creates an account.** Previously this just flipped a local
+  `useState` boolean with nothing behind it. It now calls
+  `POST /api/talent-applications/:id/approve`, which creates a real
+  bcrypt-hashed login, a real internal talent profile, links the two, and
+  returns a real one-time temporary password for the admin to relay to the
+  candidate (there's no outbound email service in this build, so that hand-off
+  is manual and openly labeled as such). A matching reject action
+  (`POST /:id/reject`) was added too — there previously wasn't one at all.
+- **"Invite New PM Lead" (Admin) now really creates an account.** Previously
+  this was a 2-second `setTimeout` that showed "Invitation Sent!" and created
+  nothing. It now calls `POST /api/admin/invite-staff`, which creates a real
+  login for the named person with a real one-time temporary password, shown
+  once to the inviting admin the same way a cloud provider shows a new IAM
+  access key exactly once. Deliberately restricted to inviting operational
+  staff roles (PM, ops/finance/content/talent/support admin) — granting
+  Super Admin is intentionally not a button anywhere in the product.
+- The seeded bootstrap accounts (`najeeb@ndh.com.ng` and four others) still
+  exist in the database so there's at least one way to log in on a fresh
+  install, but are no longer surfaced anywhere in the UI as a public feature.
+
+Covered by new tests: `server/__tests__/accountCreation.test.ts` (6 tests —
+approval creates a login whose temporary password actually authenticates,
+double-approval/rejection are rejected, non-reviewer roles are forbidden,
+staff invite rejects duplicate emails and rejects self-escalation to
+`super_admin`). Full suite after this change: 23/23 passing, `tsc --noEmit`
+clean (frontend + server), `eslint` 0 errors, `vite build` succeeds.
+
 ## Still outstanding / explicitly out of scope
 
 Nothing from the original audit list remains open. The following were

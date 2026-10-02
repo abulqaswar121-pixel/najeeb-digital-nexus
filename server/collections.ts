@@ -111,11 +111,13 @@ export const SEED_ACCOUNTS: SeedAccount[] = [
 // TALENTS
 // ============================================================================
 
-// Links a seeded talent record to the demo user account that can log in and
-// see their own full (internal) profile via GET /api/talents/me.
-export const TALENT_USER_LINKS: Record<string, string> = {
+// Links a talent record to the user account that can log in and see their
+// own full (internal) profile via GET /api/talents/me. Persisted (not a
+// plain in-memory const) because approving a talent application now creates
+// new links at runtime, not just at seed time.
+export const talentUserLinks = new SingletonRecord<Record<string, string>>("talentUserLinks", {
   "tal-001": "user-talent-alpha",
-};
+});
 
 export interface PublicTalentProfile {
   id: string;
@@ -727,6 +729,13 @@ export interface TalentApplicationRecord {
   bioNotes: string;
   status: "pending_review" | "technical_interview" | "accepted" | "rejected";
   submittedAt: string;
+  reviewedAt?: string;
+  reviewedByUserId?: string;
+  rejectionReason?: string;
+  // Set once approval actually creates a real login + talent profile, so the
+  // admin UI can show what was created instead of just a status flag.
+  approvedUserId?: string;
+  approvedTalentId?: string;
 }
 
 export interface TransactionRecord {

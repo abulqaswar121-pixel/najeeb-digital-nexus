@@ -1,4 +1,4 @@
-import { ServiceDepartment, TalentProfile } from "../types/ndh";
+import { ServiceDepartment, TalentProfile, UserSession, UserRole } from "../types/ndh";
 import { api } from "./apiClient";
 import { useEffect, useState, useCallback } from "react";
 
@@ -274,6 +274,50 @@ export const dbService = {
     }>("/talent-applications", data);
     notify();
     return talentApplication;
+  },
+
+  // Really creates a login + internal talent profile on the server and
+  // returns the one-time temporary password generated for it (there is no
+  // outbound email service wired up, so the admin relays this directly to
+  // the candidate). Replaces the previous local-only "Approved ✓" state that
+  // created nothing.
+  async approveTalentApplication(id: string): Promise<{
+    user: UserSession;
+    talentProfile: TalentProfile;
+    temporaryPassword: string;
+  }> {
+    const result = await api.post<{
+      user: UserSession;
+      talentProfile: TalentProfile;
+      temporaryPassword: string;
+    }>(`/talent-applications/${id}/approve`);
+    notify();
+    return result;
+  },
+
+  async rejectTalentApplication(id: string, reason?: string): Promise<DatabaseTalentApplication> {
+    const { talentApplication } = await api.post<{ talentApplication: DatabaseTalentApplication }>(
+      `/talent-applications/${id}/reject`,
+      reason ? { reason } : {},
+    );
+    notify();
+    return talentApplication;
+  },
+
+  // Really creates a login for a new internal staff member (PM, ops admin,
+  // etc.) and returns its one-time temporary password, for the same reason
+  // as above. Replaces the previous "Invite Sent!" UI that created nothing.
+  async inviteStaffMember(data: {
+    fullName: string;
+    email: string;
+    role?: UserRole;
+  }): Promise<{ user: UserSession; temporaryPassword: string }> {
+    const result = await api.post<{ user: UserSession; temporaryPassword: string }>(
+      "/admin/invite-staff",
+      data,
+    );
+    notify();
+    return result;
   },
 
   async recordTransaction(data: {
