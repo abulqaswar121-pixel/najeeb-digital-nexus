@@ -57,6 +57,7 @@ export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
   // leads below, so genuine prospect submissions never reached a PM.
   const liveBriefs = useBriefs();
   const liveConsultRequests = useConsultationRequests();
+  const [claimingBriefId, setClaimingBriefId] = useState<string | null>(null);
 
   return (
     <div className="bg-[#070A14] text-[#F1F5F9] min-h-screen font-sans flex flex-col">
@@ -372,11 +373,44 @@ export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
 
                         <div className="flex items-center justify-between pt-3 border-t border-slate-800">
                           <span className="text-slate-400">
-                            Auto-assigned PM: {brief.assignedPM}
+                            Assigned PM:{" "}
+                            <strong
+                              className={
+                                brief.assignedPM === "Unassigned"
+                                  ? "text-amber-400"
+                                  : "text-emerald-400"
+                              }
+                            >
+                              {brief.assignedPM}
+                            </strong>
                           </span>
-                          <button className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold flex items-center gap-1.5 shadow-md">
+                          <button
+                            onClick={async () => {
+                              setClaimingBriefId(brief.id);
+                              try {
+                                await dbService.assignBrief(brief.id);
+                              } catch {
+                                // Transient network/role error -- the button
+                                // simply stays clickable so the PM can retry.
+                              } finally {
+                                setClaimingBriefId(null);
+                              }
+                            }}
+                            disabled={
+                              brief.assignedPM !== "Unassigned" || claimingBriefId === brief.id
+                            }
+                            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold flex items-center gap-1.5 shadow-md transition-colors"
+                          >
                             <Sparkles className="w-3.5 h-3.5" />
-                            <span>Draft Formal Proposal & Milestone Schedule</span>
+                            <span>
+                              {brief.assignedPM !== "Unassigned"
+                                ? brief.assignedPM === user?.fullName
+                                  ? "Claimed by You"
+                                  : `Claimed by ${brief.assignedPM}`
+                                : claimingBriefId === brief.id
+                                  ? "Claiming..."
+                                  : "Claim This Brief & Start Proposal"}
+                            </span>
                           </button>
                         </div>
                       </div>

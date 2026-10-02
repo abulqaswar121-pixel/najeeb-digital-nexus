@@ -457,6 +457,78 @@ staff invite rejects duplicate emails and rejects self-escalation to
 `super_admin`). Full suite after this change: 23/23 passing, `tsc --noEmit`
 clean (frontend + server), `eslint` 0 errors, `vite build` succeeds.
 
+## Post-launch fix: the Client Portal showed every logged-in client the same hardcoded sample company's data
+
+A user registered a brand-new real client account through the real sign-up
+flow (`POST /api/auth/register`) and landed in the Client Portal — which
+showed them "KoboPay Global Inc.", a fake $28,500 "Sprint 2 of 4" active
+project, a fake 100%-escrow-protected deposit, a fake 4.95/5.0 internal QA
+score, a fake PM assignment ("Tariq Al-Najeeb"), a fake ₦250,000 referral
+balance, and a fake unread PM chat — with their own real name wedged only
+into the "Authorized User" line. This was the exact same disease as the
+earlier fake-account-creation findings (UI presenting fabricated state as the
+logged-in user's own account), just in client-facing portal data instead of
+admin buttons.
+
+**Root cause, confirmed by reading the code.** `ClientPortal.tsx` hardcoded
+`selectedOrgId = useState("org-kobopay")` as its *only* value (there was no
+way to change it tied to the actual account) and read every section —
+org/project, escrow totals, QA score, PM name, chat transcript, welcome
+credit ledger, referral balance, referred-orgs activity feed, NDA status —
+from static arrays in `src/data/mockData.ts`, or from inline hardcoded JSX
+strings. None of it was ever connected to who was actually logged in. The one
+seeded demo client account (`folake@kobopay.com`, `organizationId:
+"org-kobopay"`) happens to be the account that sample data was modeled on,
+but the portal showed it to *every* client account, real or seeded, because
+nothing ever branched on identity.
+
+**Fix.** `ClientPortal.tsx` now checks `user.isDemoAccount &&
+user.organizationId === "org-kobopay"` (true only for the one seeded Folake
+account) to decide which of two modes to render:
+
+- **Demo workspace** (only Folake): same illustrative KoboPay sample content
+  as before, now with a persistent "You're viewing the illustrative sample
+  demo workspace" banner and `SAMPLE` badges so it can no longer be mistaken
+  for a real account's real data. The org switcher dropdown (which let *any*
+  logged-in client arbitrarily pick between the three sample
+  orgs — kobopay/helios/diaspora, none of which the real orgs even belong
+  to) was removed entirely.
+- **Every real client** (the default for every self-registered account):
+  genuine per-account state. New backend endpoints were added so this is
+  real, not just "hide the fake numbers":
+  - `GET /api/briefs/mine` — a client's own submitted briefs only (matched by
+    account id or email), never anyone else's.
+  - `GET /api/referrals/mine` (already existed) is now actually used
+    client-side via a new `useMyReferrals()` hook.
+  - `GET /api/transactions/me` (already existed) is now actually used
+    client-side via a new `useMyTransactions()` hook.
+  - Welcome-credit balance, referral code, referral credits, and loyalty tier
+    all now read from the real fields already set at registration
+    (`user.welcomeCreditBalanceNGN`, `user.referralCredits`,
+    `user.loyaltyTier`, etc.) instead of hardcoded numbers that happened to
+    match only Folake's seed data.
+  - A brand-new client with no briefs yet sees an honest "you don't have an
+    active project yet" onboarding card with Submit-Brief / Drop-Custom-Task
+    CTAs, instead of someone else's company.
+- **Brief PM assignment was also fake and is now real.** Every brief
+  submitted (by anyone, including the public "Start Your Project" wizard)
+  was previously auto-stamped `assignedPM: "Tariq Al-Najeeb (Principal PM)"`
+  regardless of whether any human had looked at it. Briefs now start
+  genuinely `"Unassigned"`. A new `PATCH /api/briefs/:id/assign` endpoint
+  (PM/Admin only) lets a PM actually claim a brief, which is now wired to a
+  real "Claim This Brief & Start Proposal" button in the PM Portal (the old
+  button had no `onClick` at all). The client's "PM:" line, in the header and
+  footer and in the PM-chat tab, now reflects the real assignment instead of
+  a hardcoded name.
+
+Covered by new tests: `server/__tests__/clientPortalData.test.ts` (4 tests —
+a brand-new client sees zero briefs until they submit one, and the new brief
+is genuinely unassigned; one client can never see another client's briefs via
+`/briefs/mine`; a PM claiming a brief really replaces the placeholder name;
+the seeded demo client's referral records are scoped to her and a new client
+has none). Full suite after this change: 27/27 passing, `tsc --noEmit` clean
+(frontend + server), `eslint` 0 new errors, `vite build` succeeds.
+
 ## Still outstanding / explicitly out of scope
 
 Nothing from the original audit list remains open. The following were
@@ -485,3 +557,10 @@ recorded here rather than silently skipped:
 - A few lower-priority LOW items from the original list weren't touched this
   pass (footer social icons, blog thought-leadership copy tone) — happy to
   clean those up too if you want.
+- **Client ↔ PM chat is still not a persisted real-time channel.** The
+  Client Portal's "PM Direct Chat" tab for the demo workspace is explicitly
+  labeled as a sample conversation now (see above); for real clients it
+  honestly says no chat exists yet and points to the PM's eventual email
+  follow-up instead of pretending a conversation happened. A real persisted
+  messaging thread (stored server-side, visible from both the Client Portal
+  and PM Portal) would be a reasonable next feature if you want it built.

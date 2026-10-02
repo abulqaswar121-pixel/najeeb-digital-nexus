@@ -160,6 +160,14 @@ export function useBriefs(): DatabaseProjectBrief[] {
   return useApiList<DatabaseProjectBrief>("/briefs");
 }
 
+// Client-facing: only the logged-in client's own submitted briefs, never
+// anyone else's project data. This is what ClientPortal.tsx uses so a new
+// client sees their own (possibly empty) project state instead of a
+// hardcoded sample company's data.
+export function useMyBriefs(): DatabaseProjectBrief[] {
+  return useApiList<DatabaseProjectBrief>("/briefs/mine");
+}
+
 export function useConsultationRequests(): DatabaseConsultationRequest[] {
   return useApiList<DatabaseConsultationRequest>("/consultation-requests");
 }
@@ -174,6 +182,16 @@ export function useTransactions(): DatabasePaymentTransaction[] {
 
 export function useReferrals(): ClientReferralRecordLite[] {
   return useApiList<ClientReferralRecordLite>("/referrals");
+}
+
+// Client-facing: only referrals the logged-in user personally generated.
+export function useMyReferrals(): ClientReferralRecordLite[] {
+  return useApiList<ClientReferralRecordLite>("/referrals/mine");
+}
+
+// Client-facing: only the logged-in user's own payment/escrow history.
+export function useMyTransactions(): DatabasePaymentTransaction[] {
+  return useApiList<DatabasePaymentTransaction>("/transactions/me");
 }
 
 // PM/Admin-only: full internal talent records (real names, rates, bank
@@ -252,6 +270,15 @@ export const dbService = {
     data: Omit<DatabaseProjectBrief, "id" | "status" | "assignedPM" | "createdAt">,
   ): Promise<DatabaseProjectBrief> {
     const { brief } = await api.post<{ brief: DatabaseProjectBrief }>("/briefs", data);
+    notify();
+    return brief;
+  },
+
+  // A PM genuinely claiming a brief (replacing the old hardcoded
+  // "Auto-assigned PM: Tariq Al-Najeeb" that was stamped on every brief
+  // regardless of whether any human PM had looked at it).
+  async assignBrief(id: string): Promise<DatabaseProjectBrief> {
+    const { brief } = await api.patch<{ brief: DatabaseProjectBrief }>(`/briefs/${id}/assign`);
     notify();
     return brief;
   },
