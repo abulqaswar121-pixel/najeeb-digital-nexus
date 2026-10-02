@@ -21,6 +21,55 @@ interface HomepagePreviewProps {
   onSelectScreen: (screen: string) => void;
 }
 
+// Short "what you actually get" focus phrase per department, used to make
+// the tier descriptions below genuinely vary by selected service instead of
+// showing the same generic 4 lines no matter which of the 16 departments is
+// picked.
+const TIER_FOCUS: Record<ServiceDepartment, string> = {
+  brand_strategy: "logo & visual identity kit",
+  ui_ux_design: "UI wireframes & prototypes",
+  web_app_development: "landing page",
+  mobile_app_development: "cross-platform mobile app",
+  ai_automation: "AI agent / automation workflow",
+  ecommerce: "online store",
+  fintech_payments: "payment gateway integration",
+  cloud_devops: "cloud infrastructure setup",
+  cybersecurity_compliance: "security & compliance audit",
+  digital_marketing: "ad campaign funnel",
+  seo_growth: "SEO audit & ranking plan",
+  content_copywriting: "sales copy & content set",
+  social_media: "social content calendar",
+  video_media: "promo / explainer video",
+  data_business: "BI dashboard & research",
+  nocode_rapid_mvp: "no-code MVP",
+};
+
+function getTierOptions(dept: ServiceDepartment) {
+  const focus = TIER_FOCUS[dept] || "project";
+  return [
+    {
+      id: "starter",
+      title: "Starter MVP",
+      desc: `${focus.charAt(0).toUpperCase()}${focus.slice(1)}, rapid launch & essential features`,
+    },
+    {
+      id: "growth",
+      title: "Growth Build (Most Popular)",
+      desc: `Full custom ${focus}, backend & complete QA`,
+    },
+    {
+      id: "enterprise",
+      title: "Enterprise Dedicated",
+      desc: `High concurrency ${focus}, 24/7 SLA & security audit`,
+    },
+    {
+      id: "custom",
+      title: "Custom Scope",
+      desc: "Bigger, smaller, or different — let's talk & quote it",
+    },
+  ] as const;
+}
+
 export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
   onOpenBriefWizard,
   onSelectScreen,
@@ -70,7 +119,18 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
       </div>
 
       {/* 2. HERO SECTION */}
-      <section className="relative pt-12 pb-20 overflow-hidden bg-gradient-to-b from-[#0B0F1E] via-[#070A14] to-[#070A14]">
+      <section className="relative pt-12 pb-20 overflow-hidden bg-[#070A14]">
+        {/* Hero Background Image + Readability Overlay */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/hero-background.jpg"
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover opacity-60"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F1E]/90 via-[#070A14]/85 to-[#070A14]" />
+        </div>
+
         {/* Glow Spheres */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-blue-600/15 blur-[120px] pointer-events-none rounded-full" />
         <div className="absolute top-20 right-10 w-[400px] h-[300px] bg-indigo-600/10 blur-[100px] pointer-events-none rounded-full" />
@@ -139,7 +199,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               </div>
               <div className="text-xs font-bold text-white mt-1">{t("hero_stat_1_lbl")}</div>
               <div className="text-[11px] text-slate-400 mt-0.5">
-                Zero anonymous or confidential case studies
+                Every submitted brief gets a real reply, not an autoresponder
               </div>
             </div>
 
@@ -188,12 +248,18 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           </span>
         </div>
         <div className="animate-marquee flex items-center gap-16 whitespace-nowrap text-slate-300 font-bold text-sm">
-          {caseStudiesData.map((c) => (
+          {[
+            ...caseStudiesData.map((c) => c.clientName),
+            // Additional real clients without a published case study yet.
+            "Markazussalaf",
+            "Taskzone",
+            "Suregrade",
+          ].map((name) => (
             <span
-              key={c.id}
+              key={name}
               className="hover:text-white transition-colors cursor-pointer flex items-center gap-2"
             >
-              <Building className="w-4 h-4 text-blue-400" /> {c.clientName}
+              <Building className="w-4 h-4 text-blue-400" /> {name}
             </span>
           ))}
         </div>
@@ -366,28 +432,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 2. Project Tier &amp; Requirements:
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {[
-                  {
-                    id: "starter",
-                    title: "Starter MVP",
-                    desc: "Landing page, rapid launch & essential features",
-                  },
-                  {
-                    id: "growth",
-                    title: "Growth Build (Most Popular)",
-                    desc: "Full custom design, backend & complete QA",
-                  },
-                  {
-                    id: "enterprise",
-                    title: "Enterprise Dedicated",
-                    desc: "High concurrency, 24/7 SLA & security audit",
-                  },
-                  {
-                    id: "custom",
-                    title: "Custom Scope",
-                    desc: "Bigger, smaller, or different — let's talk & quote it",
-                  },
-                ].map((t) => (
+                {getTierOptions(calculatorDept).map((t) => (
                   <button
                     key={t.id}
                     onClick={() =>

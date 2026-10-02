@@ -49,13 +49,12 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
       actor: "Operations Admin (Fatima Bello)",
       roleBadge: "Ops Admin",
       isCompleted: state.leadQualified,
-      description:
-        "Lead score calculated at 96/100. Triage bot routes brief to Principal Project Manager Tariq Al-Najeeb.",
+      description: "Lead score calculated at 96/100. Triage bot routes brief to the NDH PM Team.",
     },
     {
       step: 3,
       title: "3. PM Generates Formal Proposal & Milestones",
-      actor: "Project Manager (Tariq Al-Najeeb)",
+      actor: "Project Manager",
       roleBadge: "Project Manager",
       isCompleted: state.proposalDrafted,
       description:
@@ -73,7 +72,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
     {
       step: 5,
       title: "5. PM Creates Sprints & Invites Talent Privately",
-      actor: "Project Manager (Tariq Al-Najeeb)",
+      actor: "Project Manager",
       roleBadge: "Project Manager",
       isCompleted: state.projectCreated,
       description:
@@ -109,7 +108,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
     {
       step: 9,
       title: "9. PM Signs Off QA Gate & Publishes Deliverable",
-      actor: "Project Manager (Tariq Al-Najeeb)",
+      actor: "Project Manager",
       roleBadge: "Project Manager",
       isCompleted: state.pmQaApproved,
       description:
@@ -131,7 +130,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
       roleBadge: "Finance Admin",
       isCompleted: state.payoutDisbursed,
       description:
-        "Amina Yusuf (Finance Admin) logs Maker approval; Najeeb Al-Hassan (MD) logs Checker approval. ₦36,900,000 disbursed via NIBSS bank settlement.",
+        "Finance Admin logs Maker approval; Managing Director logs Checker approval. ₦36,900,000 disbursed via NIBSS bank settlement.",
     },
     {
       step: 12,
@@ -351,7 +350,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                       NDPR/HIPAA compliance heuristics.
                     </p>
                     <div className="p-3 rounded-lg bg-blue-950/40 border border-blue-800/40 text-blue-300">
-                      <strong>Assigned Lead PM:</strong> Tariq Al-Najeeb (Principal Project Manager)
+                      <strong>Assigned Lead PM:</strong> NDH PM Team
                     </div>
                   </div>
 
@@ -361,7 +360,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                     }}
                     className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition-all"
                   >
-                    <span>Execute Step 2: Qualify Lead & Assign PM Tariq Al-Najeeb</span>
+                    <span>Execute Step 2: Qualify Lead & Assign PM</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -533,8 +532,8 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                       SLA Due Date: 14 Days
                     </p>
                     <div className="p-2.5 rounded bg-slate-950 border border-slate-800 text-[11px] text-slate-400">
-                      Communication Channel: Strictly with PM Tariq Al-Najeeb. Direct external
-                      contact forbidden.
+                      Communication Channel: Strictly with your assigned PM. Direct external contact
+                      forbidden.
                     </div>
                   </div>
 
@@ -645,7 +644,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                       </span>
                     </div>
                     <p className="text-slate-300">
-                      Tariq Al-Najeeb (PM) verified edge performance, test coverage, and security
+                      Your assigned PM verified edge performance, test coverage, and security
                       sandboxing.
                     </p>
                     <div className="p-3 rounded-lg bg-blue-950/40 border border-blue-800/40 text-blue-300">
@@ -727,15 +726,11 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                     <div className="grid grid-cols-2 gap-3 text-[11px]">
                       <div className="p-2.5 rounded bg-slate-950 border border-slate-800">
                         <span className="text-slate-500 block">Maker Signature:</span>
-                        <span className="font-semibold text-emerald-400">
-                          Amina Yusuf (Finance Admin) ✓
-                        </span>
+                        <span className="font-semibold text-emerald-400">Finance Admin ✓</span>
                       </div>
                       <div className="p-2.5 rounded bg-slate-950 border border-slate-800">
                         <span className="text-slate-500 block">Checker Signature:</span>
-                        <span className="font-semibold text-emerald-400">
-                          Najeeb Al-Hassan (Managing Director) ✓
-                        </span>
+                        <span className="font-semibold text-emerald-400">Managing Director ✓</span>
                       </div>
                     </div>
                     <p className="text-slate-300 font-mono text-[11px]">
@@ -839,7 +834,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                       onClick={() => updateState({ academyCrossLinkVisited: true })}
                       className="w-full sm:flex-1 py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition-all"
                     >
-                      <span>Simulate Visiting NDH Academy (Launching Soon)</span>
+                      <span>Simulate Visiting NDH Academy (academy.ndh.com.ng)</span>
                       <ExternalLink className="w-4 h-4" />
                     </button>
 

@@ -26,6 +26,11 @@ interface AppFooterProps {
   onOpenBriefWizard: () => void;
   onOpenTalentModal?: () => void;
   onOpenPaymentModal?: () => void;
+  // The NDH Academy cross-link banner below is only meant to appear on the
+  // homepage (it has its own dedicated, in-place instance on the Talent
+  // Network page) -- showing it in every page's footer previously meant it
+  // appeared literally everywhere, which wasn't the intent.
+  isHomepage?: boolean;
 }
 
 export const AppFooter: React.FC<AppFooterProps> = ({
@@ -33,10 +38,10 @@ export const AppFooter: React.FC<AppFooterProps> = ({
   onOpenBriefWizard,
   onOpenTalentModal,
   onOpenPaymentModal,
+  isHomepage,
 }) => {
   const { user } = useAuth();
   const { currency } = useCurrencyLanguage();
-  const [academyNotifyRequested, setAcademyNotifyRequested] = React.useState(false);
 
   const handleClientPortalClick = () => {
     if (user) {
@@ -50,51 +55,49 @@ export const AppFooter: React.FC<AppFooterProps> = ({
   return (
     <footer className="bg-[#05070D] border-t border-slate-800/80 py-16 text-xs font-sans text-slate-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Discrete NDH Academy Cross-Link Banner */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950/60 to-slate-900 border border-slate-700/80 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
-          <div className="flex items-start sm:items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0 shadow-inner">
-              <Award className="w-6 h-6 text-blue-400" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-white">
-                  Looking for Tech Education &amp; Training? NDH Academy is on the way.
-                </span>
-                <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 font-mono font-medium">
-                  Launching Soon
-                </span>
+        {/* Discrete NDH Academy Cross-Link Banner — homepage only; the Talent
+            Network page carries its own in-place instance of this same
+            cross-link. */}
+        {isHomepage && (
+          <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950/60 to-slate-900 border border-slate-700/80 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+            <div className="flex items-start sm:items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0 shadow-inner">
+                <Award className="w-6 h-6 text-blue-400" />
               </div>
-              <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
-                NDH Academy will train African developers, product designers, and AI engineers as an
-                independent platform with its own curriculum. It isn&apos;t live yet, so
-                there&apos;s no site to visit — join the waitlist and we&apos;ll let you know the
-                moment it opens.
-              </p>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold text-white">
+                    Looking for Tech Education &amp; Training? NDH Academy is live.
+                  </span>
+                  <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-mono font-medium">
+                    Now Live
+                  </span>
+                </div>
+                <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
+                  NDH Academy trains African developers, product designers, and AI engineers on an
+                  independent platform with its own curriculum, separate from agency client
+                  accounts.
+                </p>
+              </div>
             </div>
-          </div>
 
-          {academyNotifyRequested ? (
-            <div className="px-6 py-3 rounded-xl bg-emerald-950/60 border border-emerald-700/60 text-emerald-300 font-bold text-xs flex items-center gap-2 shrink-0">
-              <span>You&apos;re on the list — we&apos;ll notify you at launch.</span>
-            </div>
-          ) : (
-            <button
-              type="button"
-              onClick={() => setAcademyNotifyRequested(true)}
+            <a
+              href="https://academy.ndh.com.ng"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-2 shrink-0 shadow-lg shadow-blue-600/30 transition-all hover:scale-105"
             >
-              <span>Notify Me at Launch</span>
+              <span>Visit academy.ndh.com.ng</span>
               <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          )}
-        </div>
+            </a>
+          </div>
+        )}
 
         {/* 4-Column Directory Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pt-4 border-t border-slate-850">
           {/* Col 1: Brand & Parent Hub */}
           <div className="space-y-4">
-            <BrandLogo size="md" showSubtitle={true} />
+            <BrandLogo size="md" />
             <p className="text-xs text-slate-300 leading-relaxed">
               We design and build world-class digital systems, mobile apps, and brand strategies
               that help modern businesses scale with certainty.
@@ -321,15 +324,6 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onSelectView("about")}
-                  className="hover:text-blue-400 text-left transition-colors flex items-center gap-1.5"
-                >
-                  <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-                  <span>Standard Enterprise NDA</span>
-                </button>
-              </li>
-              <li>
-                <button
                   onClick={() => onSelectView("contact")}
                   className="hover:text-blue-400 text-left transition-colors flex items-center gap-1.5"
                 >
@@ -370,10 +364,28 @@ export const AppFooter: React.FC<AppFooterProps> = ({
                 Refund Policy
               </button>
             </div>
-            <div className="text-[10px] text-slate-500">
-              Contact details above (address, WhatsApp, email, social links) are real. Case study
-              photography is illustrative, not literal client screenshots. Any demo/sample
-              organization accounts elsewhere on this site are clearly labeled as such.
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] pt-1">
+              <span className="text-slate-600">Staff &amp; Partner Access:</span>
+              <button
+                onClick={() => openAuthModal("login", "admin")}
+                className="hover:text-blue-400 underline underline-offset-2"
+              >
+                Admin
+              </button>
+              <span className="text-slate-700">•</span>
+              <button
+                onClick={() => openAuthModal("login", "pm")}
+                className="hover:text-blue-400 underline underline-offset-2"
+              >
+                Project Manager
+              </button>
+              <span className="text-slate-700">•</span>
+              <button
+                onClick={() => openAuthModal("login", "talent")}
+                className="hover:text-blue-400 underline underline-offset-2"
+              >
+                Talent
+              </button>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-6">

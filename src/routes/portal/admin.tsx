@@ -20,7 +20,6 @@ export const Route = createFileRoute("/portal/admin")({
 });
 
 function AdminPortalContent() {
-  const { onSelectView } = useAppShell();
   const { isSessionLoading } = usePortalGuard([
     "super_admin",
     "ops_admin",
@@ -35,7 +34,7 @@ function AdminPortalContent() {
 
   return (
     <Suspense fallback={<PortalLoadingFallback />}>
-      <AdminPortal onBackToAgency={() => onSelectView("homepage")} />
+      <AdminPortal />
     </Suspense>
   );
 }

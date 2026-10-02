@@ -4,6 +4,7 @@ import { ACTIVE_PROJECTS, CLIENT_ORGANIZATIONS, FINANCIAL_INVOICES } from "../..
 import { dbService, useMyBriefs, useMyReferrals, useMyTransactions } from "../../lib/databaseStore";
 import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 import { PaystackPaymentModal } from "../payment/PaystackPaymentModal";
+import { PortalNavDropdown } from "./PortalNavDropdown";
 import {
   Building2,
   CheckCircle2,
@@ -47,13 +48,9 @@ function isSampleDemoWorkspace(user: ReturnType<typeof useAuth>["user"]): boolea
 
 interface ClientPortalProps {
   onOpenBriefWizard: () => void;
-  onBackToAgency?: () => void;
 }
 
-export const ClientPortal: React.FC<ClientPortalProps> = ({
-  onOpenBriefWizard,
-  onBackToAgency,
-}) => {
+export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard }) => {
   const { user } = useAuth();
   const { currency } = useCurrencyLanguage();
   const isDemoWorkspace = isSampleDemoWorkspace(user);
@@ -191,20 +188,50 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({
     }
   };
 
+  const clientNavTabs = [
+    { id: "overview", label: "Sprint Overview", icon: <FileText className="w-4 h-4" /> },
+    {
+      id: "milestones",
+      label: "Deliverables & Approvals",
+      icon: <CheckCircle2 className="w-4 h-4" />,
+      ...(isDemoWorkspace ? { badge: "Action Due" } : {}),
+    },
+    {
+      id: "invoices",
+      label: "Invoices & Escrow",
+      icon: <CreditCard className="w-4 h-4" />,
+    },
+    {
+      id: "messages",
+      label: "PM Direct Chat",
+      icon: <MessageSquare className="w-4 h-4" />,
+      ...(isDemoWorkspace ? { badge: "1 Unread" } : {}),
+    },
+    {
+      id: "custom_task",
+      label: "Drop Custom Budget Task",
+      icon: <Zap className="w-4 h-4" />,
+    },
+    {
+      id: "rewards",
+      label: "Ranks, Offers & Referrals",
+      icon: <Gift className="w-4 h-4" />,
+      ...((user?.referralCredits ?? 0) > 0
+        ? { badge: `₦${Math.round((user!.referralCredits ?? 0) / 1000)}k Credits` }
+        : {}),
+    },
+    {
+      id: "contracts",
+      label: "NDA & Legal Contracts",
+      icon: <ShieldCheck className="w-4 h-4" />,
+    },
+  ];
+
   return (
     <div className="bg-[#070A14] text-[#F1F5F9] min-h-screen font-sans flex flex-col">
       {/* Standalone Client Workspace Top Bar */}
       <header className="sticky top-0 z-40 bg-[#0B0F1D]/95 backdrop-blur-xl border-b border-slate-800 px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          {onBackToAgency && (
-            <button
-              onClick={onBackToAgency}
-              className="px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500 text-xs font-bold transition-all flex items-center gap-1.5"
-            >
-              <span>← Back to Agency Website</span>
-            </button>
-          )}
-          <div className="h-4 w-px bg-slate-800 hidden sm:block" />
           <div className="flex items-center gap-2">
             <span className="font-bold text-white text-sm sm:text-base">Client Workspace</span>
             <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
@@ -224,10 +251,11 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({
             )}
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs">
-            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-slate-300 font-semibold hidden sm:inline">{displayUserName}</span>
-          </div>
+          <PortalNavDropdown
+            tabs={clientNavTabs}
+            activeTab={activeTab}
+            onSelect={(id) => setActiveTab(id as typeof activeTab)}
+          />
         </div>
       </header>
 
@@ -303,72 +331,6 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({
                 <span>Submit Full Brief</span>
               </button>
             </div>
-          </div>
-
-          {/* Navigation Tabs */}
-          <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto no-scrollbar text-xs">
-            {[
-              { id: "overview", label: "Sprint Overview", icon: <FileText className="w-4 h-4" /> },
-              {
-                id: "milestones",
-                label: "Deliverables & Approvals",
-                icon: <CheckCircle2 className="w-4 h-4" />,
-                ...(isDemoWorkspace ? { badge: "Action Due" } : {}),
-              },
-              {
-                id: "invoices",
-                label: "Invoices & Escrow",
-                icon: <CreditCard className="w-4 h-4" />,
-              },
-              {
-                id: "messages",
-                label: "PM Direct Chat",
-                icon: <MessageSquare className="w-4 h-4" />,
-                ...(isDemoWorkspace ? { badge: "1 Unread" } : {}),
-              },
-              {
-                id: "custom_task",
-                label: "Drop Custom Budget Task",
-                icon: <Zap className="w-4 h-4" />,
-              },
-              {
-                id: "rewards",
-                label: "Ranks, Offers & Referrals",
-                icon: <Gift className="w-4 h-4" />,
-                ...((user?.referralCredits ?? 0) > 0
-                  ? { badge: `₦${Math.round((user!.referralCredits ?? 0) / 1000)}k Credits` }
-                  : {}),
-              },
-              {
-                id: "contracts",
-                label: "NDA & Legal Contracts",
-                icon: <ShieldCheck className="w-4 h-4" />,
-              },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as Parameters<typeof setActiveTab>[0])}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all whitespace-nowrap ${
-                  activeTab === tab.id
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
-                    : "text-slate-400 hover:text-white hover:bg-slate-900"
-                }`}
-              >
-                {tab.icon}
-                <span>{tab.label}</span>
-                {tab.badge && (
-                  <span
-                    className={`px-1.5 py-0.2 rounded text-[10px] font-mono ${
-                      activeTab === tab.id
-                        ? "bg-blue-800 text-white"
-                        : "bg-amber-500/10 text-amber-400"
-                    }`}
-                  >
-                    {tab.badge}
-                  </span>
-                )}
-              </button>
-            ))}
           </div>
 
           {/* TAB 1: Overview */}
@@ -1205,15 +1167,6 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({
 
           <div className="flex items-center gap-4 text-[11px] text-slate-400">
             <span>NDA-Protected • Dual-Key Escrow Milestones</span>
-            <span className="text-slate-600 hidden sm:inline">•</span>
-            {onBackToAgency && (
-              <button
-                onClick={onBackToAgency}
-                className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"
-              >
-                Exit to Agency Website →
-              </button>
-            )}
           </div>
         </div>
       </footer>

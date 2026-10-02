@@ -96,6 +96,21 @@ export const SEED_ACCOUNTS: SeedAccount[] = [
     isDemoAccount: true,
     country: "Nigeria",
   },
+  // Real, non-demo super admin login (not a sample/demo account -- this is
+  // the actual agency owner's access, hardcoded per explicit instruction
+  // rather than left to be guessed or self-registered).
+  {
+    id: "user-super-admin-main",
+    fullName: "NDH Super Admin",
+    email: "abunnajeeh7@gmail.com",
+    plainPassword: "Najeeb@126",
+    role: "super_admin",
+    roleTitle: "Super Admin",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80",
+    isDemoAccount: false,
+    country: "Nigeria",
+  },
   {
     // Second, DIFFERENT finance signer -- this account existing is what makes
     // the payout dual-approval control a real maker-checker control instead

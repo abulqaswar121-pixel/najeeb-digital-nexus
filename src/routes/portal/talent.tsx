@@ -27,10 +27,7 @@ function TalentPortalContent() {
 
   return (
     <Suspense fallback={<PortalLoadingFallback />}>
-      <TalentPortal
-        onBackToAgency={() => onSelectView("homepage")}
-        onSwitchToPM={() => onSelectView("pm-dashboard")}
-      />
+      <TalentPortal onSwitchToPM={() => onSelectView("pm-dashboard")} />
     </Suspense>
   );
 }

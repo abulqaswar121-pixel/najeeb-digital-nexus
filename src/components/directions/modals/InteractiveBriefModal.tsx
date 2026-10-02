@@ -28,6 +28,7 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
   const [projectOverview, setProjectOverview] = useState<string>("");
   const [ndaRequested, setNdaRequested] = useState<boolean>(true);
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [submittedAssignedPM, setSubmittedAssignedPM] = useState<string>("Unassigned");
 
   useModalA11y(isOpen, onClose);
 
@@ -47,7 +48,7 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
     setIsSubmitting(true);
 
     try {
-      await dbService.createBrief({
+      const createdBrief = await dbService.createBrief({
         projectName: companyName ? `${companyName} Digital Project` : `${currentDept.name} Project`,
         organizationName: companyName || "Client Organization",
         department: selectedDept,
@@ -59,6 +60,7 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
         ...(contactPhone ? { clientPhone: contactPhone } : {}),
         briefDetails: projectOverview || `Scope: ${pricingEstimate.starterDesc}`,
       });
+      setSubmittedAssignedPM(createdBrief.assignedPM || "Unassigned");
       setSubmitted(true);
     } catch {
       setSubmitError("Could not submit your brief right now. Please try again in a moment.");
@@ -107,12 +109,10 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
             </div>
 
             <div className="space-y-1">
-              <h4 className="text-xl font-bold text-foreground">
-                Brief Successfully Received & Scored
-              </h4>
+              <h4 className="text-xl font-bold text-foreground">Brief Successfully Received</h4>
               <p className="text-xs text-muted-foreground max-w-md mx-auto">
-                Your brief has been logged in the NDH Operations Command center with an AI Quality
-                Score of 96/100.
+                Your brief has been logged in the NDH Operations Command center. A project manager
+                will review it and reach out directly.
               </p>
             </div>
 
@@ -123,7 +123,9 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Assigned PM Lead:</span>
-                <span className="font-semibold text-foreground">{currentDept.leadName}</span>
+                <span className="font-semibold text-foreground">
+                  {submittedAssignedPM === "Unassigned" ? "Not yet assigned" : submittedAssignedPM}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Mutual NDA Status:</span>

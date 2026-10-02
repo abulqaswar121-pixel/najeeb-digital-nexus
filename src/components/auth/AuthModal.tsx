@@ -19,8 +19,47 @@ interface AuthModalProps {
   onNavigatePortal: (portal: string) => void;
 }
 
+const PORTAL_COPY: Record<
+  string,
+  { heading: string; subheading: string; roles: string[]; redirectView: string }
+> = {
+  admin: {
+    heading: "Admin Sign In",
+    subheading: "Operations Command Center access for NDH super admins.",
+    roles: ["super_admin"],
+    redirectView: "admin-command",
+  },
+  pm: {
+    heading: "Project Manager Sign In",
+    subheading: "Sprint triage, QA gates, and talent matching for NDH PMs.",
+    roles: ["project_manager"],
+    redirectView: "pm-dashboard",
+  },
+  talent: {
+    heading: "Talent Sign In",
+    subheading: "Tasks, deliverables, and payouts for vetted NDH talent.",
+    roles: ["talent"],
+    redirectView: "talent-dashboard",
+  },
+  client: {
+    heading: "Sign In to Workspace",
+    subheading: "Access your proposals, active milestones, and PM direct channel",
+    roles: [],
+    redirectView: "client-dashboard",
+  },
+};
+
 export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
-  const { isAuthModalOpen, initialAuthTab, closeAuthModal, login, register, user } = useAuth();
+  const {
+    isAuthModalOpen,
+    initialAuthTab,
+    authPortalContext,
+    closeAuthModal,
+    login,
+    register,
+    user,
+  } = useAuth();
+  const portalCopy = PORTAL_COPY[authPortalContext] || PORTAL_COPY["client"]!;
 
   const [activeTab, setActiveTab] = useState<"login" | "register">(initialAuthTab || "login");
   const [email, setEmail] = useState("");
@@ -50,7 +89,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
     setIsSubmitting(true);
     const result = await login(email, password);
     setIsSubmitting(false);
+
     if (result.success && result.user) {
+      // A dedicated portal entry point (Admin / PM / Talent) only grants
+      // entry to the matching role -- e.g. a client account used on the
+      // Admin sign-in link is rejected here rather than silently logging
+      // them into their own client workspace instead.
+      if (portalCopy.roles.length > 0 && !portalCopy.roles.includes(result.user.role)) {
+        setErrorMessage(
+          `This sign-in is for ${portalCopy.heading.replace(" Sign In", "")} accounts only. Your account doesn't have that access.`,
+        );
+        return;
+      }
+
       setSuccessMessage(`Welcome back, ${result.user.fullName}!`);
       setTimeout(() => {
         closeAuthModal();
@@ -121,49 +172,53 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
         {/* Brand Header */}
         <div className="text-center space-y-2">
           <div className="flex justify-center">
-            <BrandLogo size="md" showSubtitle={false} />
+            <BrandLogo size="md" />
           </div>
           <h2 className="text-xl font-black text-white">
-            {activeTab === "login" ? "Sign In to Workspace" : "Create Client Account"}
+            {activeTab === "login" ? portalCopy.heading : "Create Client Account"}
           </h2>
           <p className="text-xs text-slate-400">
             {activeTab === "login"
-              ? "Access your proposals, active milestones, and PM direct channel"
+              ? portalCopy.subheading
               : "Start your project with milestone escrow protection and dedicated PMs"}
           </p>
         </div>
 
-        {/* Tabs: Sign In vs Create Account */}
-        <div className="grid grid-cols-2 p-1 rounded-2xl bg-slate-950 border border-slate-800 text-xs font-bold">
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab("login");
-              setErrorMessage("");
-            }}
-            className={`py-2 rounded-xl transition-all ${
-              activeTab === "login"
-                ? "bg-blue-600 text-white shadow-md"
-                : "text-slate-400 hover:text-white"
-            }`}
-          >
-            Sign In
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab("register");
-              setErrorMessage("");
-            }}
-            className={`py-2 rounded-xl transition-all ${
-              activeTab === "register"
-                ? "bg-blue-600 text-white shadow-md"
-                : "text-slate-400 hover:text-white"
-            }`}
-          >
-            Create Account
-          </button>
-        </div>
+        {/* Tabs: Sign In vs Create Account — registration is client-only;
+            Admin/PM/Talent accounts are provisioned by an admin, not
+            self-service, so those portal contexts skip straight to sign-in. */}
+        {authPortalContext === "client" && (
+          <div className="grid grid-cols-2 p-1 rounded-2xl bg-slate-950 border border-slate-800 text-xs font-bold">
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab("login");
+                setErrorMessage("");
+              }}
+              className={`py-2 rounded-xl transition-all ${
+                activeTab === "login"
+                  ? "bg-blue-600 text-white shadow-md"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab("register");
+                setErrorMessage("");
+              }}
+              className={`py-2 rounded-xl transition-all ${
+                activeTab === "register"
+                  ? "bg-blue-600 text-white shadow-md"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              Create Account
+            </button>
+          </div>
+        )}
 
         {errorMessage && (
           <div className="p-3 rounded-xl bg-red-950/80 border border-red-800/80 text-red-300 text-xs font-medium">
@@ -181,22 +236,30 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
         {/* LOGIN FORM */}
         {activeTab === "login" ? (
           <form onSubmit={handleLoginSubmit} className="space-y-4 text-xs">
-            <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-[10px] text-slate-400 leading-relaxed">
-              New client?{" "}
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveTab("register");
-                  setErrorMessage("");
-                }}
-                className="font-bold text-blue-400 hover:underline"
-              >
-                Create a client account
-              </button>{" "}
-              above. Project Manager, Talent, and Admin access is by invitation or vetted
-              application only — if you&apos;re expecting access, use the credentials you were
-              given.
-            </div>
+            {authPortalContext === "client" ? (
+              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-[10px] text-slate-400 leading-relaxed">
+                New client?{" "}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveTab("register");
+                    setErrorMessage("");
+                  }}
+                  className="font-bold text-blue-400 hover:underline"
+                >
+                  Create a client account
+                </button>{" "}
+                above. Project Manager, Talent, and Admin access is by invitation or vetted
+                application only — if you&apos;re expecting access, use the credentials you were
+                given.
+              </div>
+            ) : (
+              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-[10px] text-slate-400 leading-relaxed">
+                This access is granted by an NDH admin. If you&apos;re expecting access, use the
+                email and password you were given — contact your admin if you don&apos;t have one
+                yet.
+              </div>
+            )}
 
             <div className="space-y-1.5">
               <label className="font-bold text-slate-300">Email Address</label>

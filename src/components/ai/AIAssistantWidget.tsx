@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { AIChatMessage } from "../../types/ndh";
+import { SERVICE_DEPARTMENTS } from "../../data/mockData";
+import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
+import { ServiceDepartment } from "../../types/ndh";
 import {
   Bot,
   X,
@@ -9,7 +12,7 @@ import {
   Zap,
   ArrowRight,
   HelpCircle,
-  Calculator,
+  Compass,
   Layers,
   Award,
   Lock,
@@ -31,15 +34,16 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
   const [inputMessage, setInputMessage] = useState<string>("");
   const [activeTab, setActiveTab] = useState<"chat" | "calculator" | "brief_checker">("chat");
   const [isTyping, setIsTyping] = useState<boolean>(false);
+  const { currency, getRegionalPricing } = useCurrencyLanguage();
 
-  // Calculator State
-  const [calcAmountUSD, setCalcAmountUSD] = useState<number>(25000);
-  // Indicative market FX only — for converting a custom USD quote the visitor
-  // already has in mind. This is intentionally separate from the discounted
-  // "accessible local pricing" shown on the Services page / pricing
-  // calculator, which uses PPP-adjusted rates for starter packages, not raw FX.
-  const fxRateNGN = 1500; // approx. market USD/NGN rate
-  const fxRateGBP = 0.78; // approx. market USD/GBP rate
+  // Service & SLA Finder state (replaces the old raw FX calculator, which
+  // didn't belong here and duplicated/contradicted the real, locally-adjusted
+  // pricing already shown on the Services page). This instead surfaces real
+  // department turnaround + starter pricing data already used sitewide.
+  const [finderDept, setFinderDept] = useState<ServiceDepartment>(SERVICE_DEPARTMENTS[0]!.id);
+  const finderDeptInfo =
+    SERVICE_DEPARTMENTS.find((d) => d.id === finderDept) || SERVICE_DEPARTMENTS[0]!;
+  const finderStarterPricing = getRegionalPricing(finderDept, "starter");
 
   // Brief Quality Checker State
   const [briefInput, setBriefInput] = useState<string>("");
@@ -55,7 +59,7 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
     {
       id: "msg-1",
       sender: "assistant",
-      text: "Hello! I am NDH Sentinel, the AI Operations Concierge for NDH Agency. How can I assist you today? You can ask about our 16 managed departments, estimate SLAs, convert currencies, or test your brief readiness.",
+      text: "Hello! I am NDH Sentinel, the AI Operations Concierge for NDH Agency. How can I assist you today? You can ask about our 16 managed departments, estimate SLAs, find starter pricing, or test your brief readiness.",
       timestamp: "Just now",
       quickActions: [
         { label: "Recommend Service", action: "recommend_service" },
@@ -127,9 +131,9 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
         q.includes("currency")
       ) {
         botResponse =
-          "Pricing is milestone-based and varies by department and scope tier — from accessible starter packages up to $75,000+ USD for sovereign enterprise architectures. We show exact, locally-adjusted pricing in your selected currency (USD, NGN, GBP, EUR, or AED) rather than a single blanket conversion, so use the pricing calculator below for an exact figure.";
+          "Pricing is milestone-based and varies by department and scope tier — from accessible starter packages up to $75,000+ USD for sovereign enterprise architectures. We show exact, locally-adjusted pricing in your selected currency (USD, NGN, GBP, EUR, or AED) — use the Service Finder below for an exact starter figure by department.";
         actions = [
-          { label: "Currency Calculator", action: "switch_calc" },
+          { label: "Service Finder", action: "switch_calc" },
           { label: "Build Proposal", action: "open_wizard" },
         ];
       } else if (q.includes("brief") || q.includes("score") || q.includes("evaluate")) {
@@ -321,7 +325,7 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                   : "text-slate-400 hover:text-slate-200"
               }`}
             >
-              FX Calculator
+              Service Finder
             </button>
           </div>
 
@@ -461,52 +465,57 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
             </div>
           )}
 
-          {/* TAB 3: FX Multi-Currency Calculator */}
+          {/* TAB 3: Service & SLA Finder — pick any of the 16 departments to see
+              its real turnaround time and starter price in your currency,
+              using the same pricing engine as the rest of the site. */}
           {activeTab === "calculator" && (
             <div className="flex-1 p-4 overflow-y-auto space-y-4 no-scrollbar">
               <div className="space-y-1">
                 <h4 className="font-bold text-white text-sm flex items-center gap-1.5">
-                  <Calculator className="w-4 h-4 text-blue-400" />
-                  <span>Multi-Currency Investment Calculator</span>
+                  <Compass className="w-4 h-4 text-blue-400" />
+                  <span>Service &amp; SLA Finder</span>
                 </h4>
                 <p className="text-[11px] text-slate-400">
-                  Convert a custom USD budget into NGN/GBP at an indicative market rate. Note: this
-                  is a raw currency conversion — it's different from the discounted,
-                  locally-adjusted starter pricing shown on the Services page.
+                  Pick a department to see its real starter pricing (in {currency}) and typical
+                  turnaround time.
                 </p>
               </div>
 
               <div className="space-y-3">
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">
-                    Budget Allocation (USD):
-                  </label>
-                  <input
-                    type="number"
-                    value={calcAmountUSD}
-                    onChange={(e) => setCalcAmountUSD(Number(e.target.value) || 0)}
-                    className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono text-white focus:outline-none focus:border-blue-500"
-                  />
+                  <label className="text-[11px] text-slate-400 block mb-1">Department:</label>
+                  <select
+                    value={finderDept}
+                    onChange={(e) => setFinderDept(e.target.value as ServiceDepartment)}
+                    className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-blue-500"
+                  >
+                    {SERVICE_DEPARTMENTS.map((d) => (
+                      <option key={d.id} value={d.id}>
+                        {d.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
-                    <span className="text-[10px] text-slate-400 block">Nigerian Naira (NGN):</span>
+                    <span className="text-[10px] text-slate-400 block">Starter Price From:</span>
                     <div className="font-mono font-bold text-emerald-400 text-sm">
-                      ₦{(calcAmountUSD * fxRateNGN).toLocaleString()}
+                      {currency} {finderStarterPricing.price.toLocaleString()}
                     </div>
-                    <span className="text-[9px] text-slate-500">Rate: 1 USD = ₦1,500</span>
+                    <span className="text-[9px] text-slate-500">
+                      {finderStarterPricing.starterDesc}
+                    </span>
                   </div>
 
                   <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
-                    <span className="text-[10px] text-slate-400 block">British Pound (GBP):</span>
+                    <span className="text-[10px] text-slate-400 block">Typical Turnaround:</span>
                     <div className="font-mono font-bold text-blue-400 text-sm">
-                      £
-                      {(calcAmountUSD * fxRateGBP).toLocaleString(undefined, {
-                        maximumFractionDigits: 0,
-                      })}
+                      {finderDeptInfo.averageTurnaroundDays} days
                     </div>
-                    <span className="text-[9px] text-slate-500">Rate: 1 USD = £0.78</span>
+                    <span className="text-[9px] text-slate-500">
+                      {finderDeptInfo.activeTalentsCount} active talents
+                    </span>
                   </div>
                 </div>
 
@@ -522,7 +531,7 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                   onClick={onOpenBriefWizard}
                   className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-md shadow-blue-600/30 transition-all flex items-center justify-center gap-1.5"
                 >
-                  <span>Build Proposal at this Budget</span>
+                  <span>Build Proposal for This Department</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>

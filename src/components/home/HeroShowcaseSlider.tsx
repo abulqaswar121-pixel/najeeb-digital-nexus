@@ -87,7 +87,7 @@ const HERO_SLIDES: HeroSlide[] = [
     statSubtext: "35 commodity categories, from oilseeds to dried fruit",
     image: hagueExportImg,
     tags: ["B2B Marketplace", "4-Tier Verification"],
-    client: "Hague Export",
+    client: "Hague Brands",
   },
 ];
 

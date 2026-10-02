@@ -6,6 +6,11 @@ let currentUser: UserSession | null = null;
 let sessionLoaded = false; // true once the initial GET /api/auth/me resolves
 let authModalOpen = false;
 let authModalInitialTab: "login" | "register" = "login";
+// Which dedicated portal entry point the login modal was opened from (item
+// 19: separate Admin / PM / Talent / Client sign-in entry points sharing one
+// underlying auth backend). Defaults to "client" for the generic nav sign-in.
+export type PortalLoginContext = "client" | "admin" | "pm" | "talent";
+let authModalPortalContext: PortalLoginContext = "client";
 
 const listeners = new Set<() => void>();
 const notify = () => listeners.forEach((l) => l());
@@ -72,8 +77,12 @@ export const logoutUser = async () => {
   }
 };
 
-export const openAuthModal = (tab: "login" | "register" = "login") => {
+export const openAuthModal = (
+  tab: "login" | "register" = "login",
+  portalContext: PortalLoginContext = "client",
+) => {
   authModalInitialTab = tab;
+  authModalPortalContext = portalContext;
   authModalOpen = true;
   notify();
 };
@@ -88,6 +97,7 @@ export const useAuth = () => {
   const [isSessionLoading, setIsSessionLoading] = useState<boolean>(!sessionLoaded);
   const [isOpen, setIsOpen] = useState<boolean>(authModalOpen);
   const [initialTab, setInitialTab] = useState<"login" | "register">(authModalInitialTab);
+  const [portalContext, setPortalContext] = useState<PortalLoginContext>(authModalPortalContext);
 
   useEffect(() => {
     const update = () => {
@@ -95,6 +105,7 @@ export const useAuth = () => {
       setIsSessionLoading(!sessionLoaded);
       setIsOpen(authModalOpen);
       setInitialTab(authModalInitialTab);
+      setPortalContext(authModalPortalContext);
     };
     listeners.add(update);
     return () => {
@@ -112,6 +123,7 @@ export const useAuth = () => {
     logout: logoutUser,
     isAuthModalOpen: isOpen,
     initialAuthTab: initialTab,
+    authPortalContext: portalContext,
     openAuthModal,
     closeAuthModal,
   };

@@ -26,13 +26,13 @@ import {
   CheckCircle,
   HelpCircle,
 } from "lucide-react";
+import { PortalNavDropdown } from "./PortalNavDropdown";
 
 interface TalentPortalProps {
-  onBackToAgency?: () => void;
   onSwitchToPM?: () => void;
 }
 
-export const TalentPortal: React.FC<TalentPortalProps> = ({ onBackToAgency, onSwitchToPM }) => {
+export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<
     "tasks" | "ranks" | "deliverables" | "earnings" | "hybrid_pm" | "academy"
@@ -52,7 +52,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onBackToAgency, onSw
     { sender: string; time: string; text: string; isTalent: boolean }[]
   >([
     {
-      sender: "Tariq Al-Najeeb (Your Assigned PM)",
+      sender: "Your Assigned PM",
       time: "09:30 AM",
       text: "Hello Architect-Alpha! Please ensure the Milestone 2 edge bundle is deployed to staging with the updated biometric KYC latency optimizations.",
       isTalent: false,
@@ -87,14 +87,6 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onBackToAgency, onSw
           If this doesn't load, this account may not have a linked talent profile on the server yet
           (only the demo "Architect-Alpha" account is currently linked).
         </p>
-        {onBackToAgency && (
-          <button
-            onClick={onBackToAgency}
-            className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white text-xs font-bold"
-          >
-            ← Back to Agency Website
-          </button>
-        )}
       </div>
     );
   }
@@ -105,20 +97,47 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onBackToAgency, onSw
     talent.isDualRolePM,
   );
 
+  const talentNavTabs = [
+    {
+      id: "tasks",
+      label: "My Sprint Tasks",
+      icon: <FileCode className="w-4 h-4" />,
+      badge: "2 Active",
+    },
+    {
+      id: "ranks",
+      label: "Talent Ranks & Bonus Ladder",
+      icon: <Award className="w-4 h-4" />,
+      badge: "Diamond (1.15x)",
+    },
+    {
+      id: "deliverables",
+      label: "Submit Deliverables & Code",
+      icon: <Upload className="w-4 h-4" />,
+    },
+    {
+      id: "earnings",
+      label: "Payout Ledger & Split Model",
+      icon: <DollarSign className="w-4 h-4" />,
+    },
+    {
+      id: "hybrid_pm",
+      label: "Dual-Role (PM + Talent)",
+      icon: <Zap className="w-4 h-4" />,
+      badge: "Active",
+    },
+    {
+      id: "academy",
+      label: "NDH Academy Bridge",
+      icon: <Sparkles className="w-4 h-4" />,
+    },
+  ];
+
   return (
     <div className="bg-[#070A14] text-[#F1F5F9] min-h-screen font-sans flex flex-col">
       {/* Standalone Talent Workspace Top Bar */}
       <header className="sticky top-0 z-40 bg-[#0B0F1D]/95 backdrop-blur-xl border-b border-slate-800 px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          {onBackToAgency && (
-            <button
-              onClick={onBackToAgency}
-              className="px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500 text-xs font-bold transition-all flex items-center gap-1.5"
-            >
-              <span>← Back to Agency Website</span>
-            </button>
-          )}
-          <div className="h-4 w-px bg-slate-800 hidden sm:block" />
           <div className="flex items-center gap-2">
             <span className="font-bold text-white text-sm sm:text-base">
               Talent Private Workspace
@@ -143,6 +162,12 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onBackToAgency, onSw
             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span>ID: {talent.pseudonym}</span>
           </div>
+
+          <PortalNavDropdown
+            tabs={talentNavTabs}
+            activeTab={activeTab}
+            onSelect={(id) => setActiveTab(id as typeof activeTab)}
+          />
         </div>
       </header>
 
@@ -197,7 +222,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onBackToAgency, onSw
                   </span>
                   <span className="text-slate-600">•</span>
                   <span>
-                    Assigned PM: <strong className="text-blue-400">Tariq Al-Najeeb</strong>
+                    Assigned PM: <strong className="text-blue-400">Your PM</strong>
                   </span>
                   <span className="text-slate-600">•</span>
                   <span>
@@ -267,63 +292,6 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onBackToAgency, onSw
             </span>
           </div>
 
-          {/* Navigation Tabs */}
-          <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto no-scrollbar text-xs">
-            {[
-              {
-                id: "tasks",
-                label: "My Sprint Tasks",
-                icon: <FileCode className="w-4 h-4" />,
-                badge: "2 Active",
-              },
-              {
-                id: "ranks",
-                label: "Talent Ranks & Bonus Ladder",
-                icon: <Award className="w-4 h-4" />,
-                badge: "Diamond (1.15x)",
-              },
-              {
-                id: "deliverables",
-                label: "Submit Deliverables & Code",
-                icon: <Upload className="w-4 h-4" />,
-              },
-              {
-                id: "earnings",
-                label: "Payout Ledger & Split Model",
-                icon: <DollarSign className="w-4 h-4" />,
-              },
-              {
-                id: "hybrid_pm",
-                label: "Dual-Role (PM + Talent)",
-                icon: <Zap className="w-4 h-4" />,
-                badge: "Active",
-              },
-              {
-                id: "academy",
-                label: "NDH Academy Bridge",
-                icon: <Sparkles className="w-4 h-4" />,
-              },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as Parameters<typeof setActiveTab>[0])}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all whitespace-nowrap ${
-                  activeTab === tab.id
-                    ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30 font-bold"
-                    : "text-slate-400 hover:text-white hover:bg-slate-900"
-                }`}
-              >
-                {tab.icon}
-                <span>{tab.label}</span>
-                {tab.badge && (
-                  <span className="px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold">
-                    {tab.badge}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-
           {/* TAB 1: SPRINT TASKS */}
           {activeTab === "tasks" && (
             <div className="space-y-6">
@@ -334,7 +302,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onBackToAgency, onSw
                       Active Milestone Task Allocations
                     </h3>
                     <p className="text-xs text-slate-400 mt-0.5">
-                      Tasks assigned by PM Tariq Al-Najeeb with funded escrow guarantee
+                      Tasks assigned by your PM with funded escrow guarantee
                     </p>
                   </div>
                   <span className="text-xs text-emerald-400 font-mono font-bold bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
@@ -444,7 +412,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onBackToAgency, onSw
                   <div className="flex items-center gap-2">
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                     <h3 className="font-bold text-sm text-white">
-                      Direct Channel: PM Tariq Al-Najeeb
+                      Direct Channel: Your Assigned PM
                     </h3>
                   </div>
                   <span className="text-[11px] font-mono text-slate-400">End-to-End Encrypted</span>
@@ -980,22 +948,13 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onBackToAgency, onSw
             </div>
             <span className="text-slate-600 hidden sm:inline">•</span>
             <span className="text-[11px] text-slate-400">
-              Assigned PM: <strong className="text-slate-200">Tariq Al-Najeeb</strong> • Next
-              Payout: <strong className="text-emerald-400">Oct 15, 2026</strong>
+              Assigned PM: <strong className="text-slate-200">Your PM</strong> • Next Payout:{" "}
+              <strong className="text-emerald-400">Oct 15, 2026</strong>
             </span>
           </div>
 
           <div className="flex items-center gap-4 text-[11px] text-slate-400">
             <span>Automated NIBSS / Wise Direct Deposit</span>
-            <span className="text-slate-600 hidden sm:inline">•</span>
-            {onBackToAgency && (
-              <button
-                onClick={onBackToAgency}
-                className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"
-              >
-                Exit to Agency Website →
-              </button>
-            )}
           </div>
         </div>
       </footer>

@@ -156,6 +156,47 @@ body {
   }
 }
 
+@keyframes announcement-sheen {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes announcement-in {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes announcement-progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-announcement-sheen {
+  animation: announcement-sheen 6s ease-in-out infinite alternate;
+}
+
+.animate-announcement-in {
+  animation: announcement-in 0.4s ease-out;
+}
+
+.animate-announcement-progress {
+  animation: announcement-progress linear forwards;
+}
+
 /* Helper Utilities */
 .animate-marquee {
   display: flex;

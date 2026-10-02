@@ -175,11 +175,13 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
               </div>
 
               <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
-                <div className="text-[11px] text-slate-400">Assigned Department Lead:</div>
+                <div className="text-[11px] text-slate-400">Department Capacity:</div>
                 <div className="font-bold text-white text-xs flex items-center gap-1.5">
                   <User className="w-3.5 h-3.5 text-blue-400" />
-                  <span>{dept.leadName}</span>
-                  <span className="text-slate-400 font-normal">({dept.leadTitle})</span>
+                  <span>{dept.activeTalentsCount} Active Vetted Talents</span>
+                  <span className="text-slate-400 font-normal">
+                    (~{dept.averageTurnaroundDays}-day avg. turnaround)
+                  </span>
                 </div>
               </div>
             </div>

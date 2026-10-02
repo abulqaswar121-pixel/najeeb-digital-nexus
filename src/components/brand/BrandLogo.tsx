@@ -2,15 +2,10 @@ import React from "react";
 
 interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
-  showSubtitle?: boolean;
   className?: string;
 }
 
-export const BrandLogo: React.FC<BrandLogoProps> = ({
-  size = "md",
-  showSubtitle = true,
-  className = "",
-}) => {
+export const BrandLogo: React.FC<BrandLogoProps> = ({ size = "md", className = "" }) => {
   const iconSizes = {
     sm: "w-8 h-8",
     md: "w-10 h-10",
@@ -75,11 +70,6 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
             GLOBAL
           </span>
         </div>
-        {showSubtitle && (
-          <p className="text-[10px] text-slate-400 tracking-wide font-medium -mt-0.5">
-            Part of Najeeb Digital Hub
-          </p>
-        )}
       </div>
     </div>
   );

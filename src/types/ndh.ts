@@ -45,8 +45,6 @@ export interface ServiceDepartmentInfo {
   name: string;
   tagline: string;
   description: string;
-  leadName: string;
-  leadTitle: string;
   activeTalentsCount: number;
   averageTurnaroundDays: number;
   capabilities: string[];

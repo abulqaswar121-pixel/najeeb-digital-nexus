@@ -111,8 +111,8 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
           }}
           className="min-w-0 cursor-pointer"
         >
-          <BrandLogo size="sm" showSubtitle={false} className="min-w-0 sm:hidden" />
-          <BrandLogo size="md" showSubtitle={true} className="hidden sm:flex" />
+          <BrandLogo size="sm" className="min-w-0 sm:hidden" />
+          <BrandLogo size="md" className="hidden sm:flex" />
         </div>
 
         {/* Desktop Navigation Links */}
@@ -337,7 +337,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
             onClick={onOpenBriefWizard}
             className="h-10 px-3 rounded-lg text-xs font-bold bg-blue-600 text-white"
           >
-            Proposal
+            Get a Quote
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

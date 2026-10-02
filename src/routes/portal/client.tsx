@@ -22,7 +22,7 @@ export const Route = createFileRoute("/portal/client")({
 });
 
 function ClientPortalContent() {
-  const { onOpenBriefWizard, onSelectView } = useAppShell();
+  const { onOpenBriefWizard } = useAppShell();
   const { isSessionLoading } = usePortalGuard([
     "client_owner",
     "client_admin",
@@ -35,10 +35,7 @@ function ClientPortalContent() {
 
   return (
     <Suspense fallback={<PortalLoadingFallback />}>
-      <ClientPortal
-        onOpenBriefWizard={onOpenBriefWizard}
-        onBackToAgency={() => onSelectView("homepage")}
-      />
+      <ClientPortal onOpenBriefWizard={onOpenBriefWizard} />
     </Suspense>
   );
 }

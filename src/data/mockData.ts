@@ -34,8 +34,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "World-class positioning, visual systems, and sovereign market identity.",
     description:
       "We craft iconic visual identities, narrative positioning, and comprehensive design systems that command authority across African and global markets.",
-    leadName: "Najeeb Al-Hassan",
-    leadTitle: "Principal Brand Director",
     activeTalentsCount: 14,
     averageTurnaroundDays: 14,
     coverImage:
@@ -65,8 +63,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "High-conversion, accessible, and frictionless digital product experiences.",
     description:
       "From complex fintech dashboards to consumer mobile apps, we design high-converting, accessible user journeys backed by user research and behavioral telemetry.",
-    leadName: "Amara Nwosu",
-    leadTitle: "Head of Product Design",
     activeTalentsCount: 19,
     averageTurnaroundDays: 14,
     coverImage:
@@ -96,8 +92,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "Production-grade full-stack engineering with zero technical debt.",
     description:
       "Engineered with modern TypeScript, React, Next.js, Node.js, and robust cloud infrastructure. High speed, military-grade security, and 99.99% uptime.",
-    leadName: "Tunde Bakare",
-    leadTitle: "VP of Technology & Engineering",
     activeTalentsCount: 28,
     averageTurnaroundDays: 18,
     coverImage:
@@ -127,8 +121,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "Native and cross-platform mobile apps with buttery smooth 60fps performance.",
     description:
       "Cross-platform Flutter and React Native mobile applications engineered with offline-first synchronization, biometric authentication, and push notifications.",
-    leadName: "Ibrahim Danladi",
-    leadTitle: "Principal Mobile Architect",
     activeTalentsCount: 20,
     averageTurnaroundDays: 24,
     coverImage:
@@ -158,8 +150,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "Autonomous agentic workflows and custom enterprise intelligence.",
     description:
       "We integrate LLM orchestration, custom RAG knowledge engines, WhatsApp automated CRM pipelines, and intelligent data parsers to reduce operational friction by up to 80%.",
-    leadName: "Dr. Fatima Bello",
-    leadTitle: "Lead AI & Automation Architect",
     activeTalentsCount: 12,
     averageTurnaroundDays: 10,
     coverImage:
@@ -189,8 +179,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "Scalable commerce architectures with seamless multi-currency checkout.",
     description:
       "High-velocity e-commerce stores, custom Shopify Plus liquid themes, headless storefronts, and seamless local/international payment gateways (Paystack, Stripe, Moniepoint).",
-    leadName: "Emeka Okafor",
-    leadTitle: "Director of Commerce",
     activeTalentsCount: 15,
     averageTurnaroundDays: 14,
     coverImage:
@@ -220,8 +208,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "Bank-grade transaction settlement, escrow engines, and sub-300ms APIs.",
     description:
       "End-to-end FinTech infrastructure, automated split payouts, Paystack/Flutterwave/Stripe webhook engines, virtual account issuance, and NIBSS banking integrations.",
-    leadName: "Kayode Alabi",
-    leadTitle: "Head of FinTech Engineering",
     activeTalentsCount: 16,
     averageTurnaroundDays: 16,
     coverImage:
@@ -251,8 +237,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "High-availability Kubernetes, automated CI/CD, and global edge computing.",
     description:
       "Distributed multi-cloud deployments, Docker container orchestration, automated GitHub Actions pipelines, Cloudflare Workers edge caching, and 99.99% SLA management.",
-    leadName: "Samuel Adeleke",
-    leadTitle: "Principal Cloud Architect",
     activeTalentsCount: 14,
     averageTurnaroundDays: 12,
     coverImage:
@@ -282,8 +266,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "Sovereign protection, NDPR/GDPR compliance, and penetration testing.",
     description:
       "Vulnerability assessments, automated ethical hacking, cryptographic key escrow, SOC 2 Type II audit readiness, and NDPR data protection governance.",
-    leadName: "Dr. Tariq Sanusi",
-    leadTitle: "Chief Security Officer",
     activeTalentsCount: 10,
     averageTurnaroundDays: 10,
     coverImage:
@@ -313,8 +295,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "Precision performance marketing, high CAC efficiency, and measurable ROI.",
     description:
       "Data-driven performance marketing campaigns, search engine optimization (SEO), paid user acquisition, and lifecycle retention funnels tailored for scale.",
-    leadName: "Zainab Danjuma",
-    leadTitle: "Head of Growth Marketing",
     activeTalentsCount: 16,
     averageTurnaroundDays: 10,
     coverImage:
@@ -344,8 +324,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "Dominate high-intent search terms with programmatic & technical SEO.",
     description:
       "Technical site audits, Core Web Vitals optimization, programmatic keyword landing page clusters, high-authority backlink acquisition, and local search dominance.",
-    leadName: "Farouk Bello",
-    leadTitle: "Principal SEO Strategist",
     activeTalentsCount: 12,
     averageTurnaroundDays: 12,
     coverImage:
@@ -375,8 +353,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "Compelling narrative, conversion copy, and thought-leadership editorial.",
     description:
       "High-impact landing page copy, technical whitepapers, executive thought leadership, and SEO content engines crafted by veteran African journalists and tech copywriters.",
-    leadName: "Kemi Adeleke",
-    leadTitle: "Editorial Lead",
     activeTalentsCount: 11,
     averageTurnaroundDays: 7,
     coverImage:
@@ -406,8 +382,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "Audience growth, viral cultural moments, and high engagement communities.",
     description:
       "End-to-end social media architecture, high-frequency creative production, community moderation, and strategic cultural campaigns across LinkedIn, X, TikTok, and Instagram.",
-    leadName: "Chidi Anozie",
-    leadTitle: "Social & Cultural Strategy Lead",
     activeTalentsCount: 10,
     averageTurnaroundDays: 10,
     coverImage:
@@ -437,8 +411,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "Cinema-grade brand films, 3D product renders, and explanatory motion graphics.",
     description:
       "World-class visual storytelling, 3D product showcases, cinematic brand trailers, UI interactive motion reels, and commercial broadcast production.",
-    leadName: "David Oladipo",
-    leadTitle: "Creative Media Director",
     activeTalentsCount: 8,
     averageTurnaroundDays: 14,
     coverImage:
@@ -468,8 +440,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "Strategic African market intelligence, financial modeling, and data pipelines.",
     description:
       "Deep market sizing, pan-African regulatory feasibility studies, executive dashboards, automated BI pipelines, and fractional analytics consulting.",
-    leadName: "Amina Yusuf",
-    leadTitle: "Principal Research Analyst",
     activeTalentsCount: 9,
     averageTurnaroundDays: 12,
     coverImage:
@@ -499,8 +469,6 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     tagline: "Launch stunning web apps and MVPs in 3 to 7 days for students & startups.",
     description:
       "Super-affordable rapid development with Framer, Webflow, Bubble, and Airtable. Perfect for students, solopreneurs, idea validation, and agile founders on a budget.",
-    leadName: "Basit Adeleke",
-    leadTitle: "Rapid MVP & No-Code Lead",
     activeTalentsCount: 14,
     averageTurnaroundDays: 5,
     coverImage:
@@ -973,8 +941,8 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     id: "cs-007",
     slug: "hague-export-b2b-agro-export-marketplace",
-    title: "Hague Export: Verified B2B Agro-Export Marketplace",
-    clientName: "Hague Export",
+    title: "Hague Brands: Verified B2B Agro-Export Marketplace",
+    clientName: "Hague Brands",
     isAnonymized: false,
     industry: "B2B Trade / AgriTech Marketplace",
     department: "web_app_development",
@@ -1029,7 +997,7 @@ export const ACTIVE_PROJECTS: Project[] = [
     organizationName: "KoboPay Global Inc.",
     department: "web_app_development",
     assignedPMId: "pm-01",
-    assignedPMName: "Tariq Al-Najeeb",
+    assignedPMName: "NDH PM Team",
     assignedPMAvatar:
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
     status: "active_sprint",
@@ -1106,7 +1074,7 @@ export const ACTIVE_PROJECTS: Project[] = [
     organizationName: "Helios AgriTech Ltd.",
     department: "ai_automation",
     assignedPMId: "pm-02",
-    assignedPMName: "Zainab Danjuma",
+    assignedPMName: "NDH PM Team",
     assignedPMAvatar:
       "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
     status: "qa_review",
@@ -1166,7 +1134,7 @@ export const ACTIVE_PROJECTS: Project[] = [
     organizationName: "DiasporaDirect Diaspora Services",
     department: "brand_strategy",
     assignedPMId: "pm-01",
-    assignedPMName: "Tariq Al-Najeeb",
+    assignedPMName: "NDH PM Team",
     assignedPMAvatar:
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
     status: "proposal_review",
@@ -1253,7 +1221,7 @@ export const INCOMING_LEADS: Lead[] = [
     score: 88,
     qualificationStage: "qualified",
     assignedPMId: "pm-01",
-    assignedPMName: "Tariq Al-Najeeb",
+    assignedPMName: "NDH PM Team",
     source: "Clutch",
   },
   {
@@ -1272,7 +1240,7 @@ export const INCOMING_LEADS: Lead[] = [
     score: 96,
     qualificationStage: "proposal_drafted",
     assignedPMId: "pm-02",
-    assignedPMName: "Zainab Danjuma",
+    assignedPMName: "NDH PM Team",
     source: "NDH Academy Referral",
   },
 ];
@@ -1347,8 +1315,8 @@ export const TALENT_PAYOUT_BATCHES: TalentPayoutBatch[] = [
     totalAmountNGN: 27675000,
     talentsCount: 8,
     status: "approved",
-    primaryApproverName: "Finance Admin (Amina Yusuf)",
-    secondaryApproverName: "Managing Director (Najeeb Al-Hassan)",
+    primaryApproverName: "Finance Admin",
+    secondaryApproverName: "Managing Director",
     payoutMethod: "Nigerian Bank Settlement (NIBSS)",
     auditHash: "0x8f2a91b34cde7890fe45b0a394c8e7629bcae512",
   },
@@ -1360,7 +1328,7 @@ export const TALENT_PAYOUT_BATCHES: TalentPayoutBatch[] = [
     totalAmountNGN: 36900000,
     talentsCount: 11,
     status: "pending_dual_approval",
-    primaryApproverName: "Finance Admin (Amina Yusuf)",
+    primaryApproverName: "Finance Admin",
     payoutMethod: "Nigerian Bank Settlement (NIBSS)",
     auditHash: "0x3c7e92fa10bb4560ea91d120489cf88301abcd74",
   },
@@ -1370,7 +1338,7 @@ export const SECURITY_AUDIT_LOGS: SecurityAuditLog[] = [
   {
     id: "audit-901",
     timestamp: "2026-09-29T07:45:12Z",
-    actorName: "Amina Yusuf",
+    actorName: "Finance Admin",
     actorRole: "finance_admin",
     action: "Dual-Approval Initiated for Payout Batch NDH-PAY-2026-W40 (₦36,900,000 / $24,600)",
     targetEntity: "FinancePayoutBatch::payout-2026-w40",
@@ -1381,7 +1349,7 @@ export const SECURITY_AUDIT_LOGS: SecurityAuditLog[] = [
   {
     id: "audit-902",
     timestamp: "2026-09-29T06:12:08Z",
-    actorName: "Tariq Al-Najeeb",
+    actorName: "Project Manager",
     actorRole: "project_manager",
     action: "QA Gate Approved: Milestone 2 Deliverable v2.0 (KoboPay Global)",
     targetEntity: "Deliverable::ms-02-v2",
@@ -1404,7 +1372,7 @@ export const SECURITY_AUDIT_LOGS: SecurityAuditLog[] = [
   {
     id: "audit-904",
     timestamp: "2026-09-28T16:05:22Z",
-    actorName: "Najeeb Al-Hassan",
+    actorName: "Super Admin",
     actorRole: "super_admin",
     action: "Case Study Approved & Published: KoboPay Global Cross-Border Case Study",
     targetEntity: "CMSCaseStudy::cs-001",

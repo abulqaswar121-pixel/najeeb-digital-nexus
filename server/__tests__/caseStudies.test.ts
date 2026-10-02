@@ -19,7 +19,7 @@ describe("Case studies API (regression test for the previous static-only, no-adm
     expect(Array.isArray(res.body.caseStudies)).toBe(true);
     expect(res.body.caseStudies.length).toBeGreaterThan(0);
     expect(
-      res.body.caseStudies.some((c: { clientName: string }) => c.clientName === "Hague Export"),
+      res.body.caseStudies.some((c: { clientName: string }) => c.clientName === "Hague Brands"),
     ).toBe(true);
   });
 

@@ -113,14 +113,20 @@ export const TalentNetworkView: React.FC<TalentNetworkViewProps> = ({
             <h3 className="text-2xl font-bold text-white">NDH Academy Certification Bridge</h3>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               While NDH Agency operates exclusively as a managed enterprise bureau, our talent
-              pipeline will be continuously enriched by high-caliber alumni from NDH Academy — a
-              sister training platform that is currently in development and not yet live.
+              pipeline is continuously enriched by high-caliber alumni from NDH Academy — a sister
+              training platform at{" "}
+              <span className="text-emerald-400 font-semibold">academy.ndh.com.ng</span>.
             </p>
           </div>
 
-          <span className="px-6 py-3.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 font-bold text-xs flex items-center gap-2 shrink-0">
-            <span>NDH Academy — Launching Soon</span>
-          </span>
+          <a
+            href="https://academy.ndh.com.ng"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3.5 rounded-xl bg-slate-800 text-emerald-300 border border-emerald-700/50 font-bold text-xs flex items-center gap-2 shrink-0 hover:bg-slate-700 transition-colors"
+          >
+            <span>Visit academy.ndh.com.ng</span>
+          </a>
         </div>
 
         {/* Apply to Join the Talent Network */}

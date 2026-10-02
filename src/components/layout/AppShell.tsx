@@ -93,6 +93,7 @@ export const AppShell: React.FC<AppShellProps> = ({ currentView, children }) => 
           onOpenBriefWizard={() => setIsBriefModalOpen(true)}
           onOpenTalentModal={() => setIsTalentModalOpen(true)}
           onOpenPaymentModal={() => setIsPaymentModalOpen(true)}
+          isHomepage={currentView === "homepage"}
         />
       )}
 

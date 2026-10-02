@@ -1,5 +1,4 @@
 import React from "react";
-import { AlertTriangle } from "lucide-react";
 import { MainNavView } from "../layout/AppNavbar";
 
 interface LegalViewProps {
@@ -13,18 +12,6 @@ export const LegalView: React.FC<LegalViewProps> = ({ page, onSelectView }) => {
   return (
     <div className="bg-[#090D1A] text-slate-100 min-h-screen py-16 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-4xl mx-auto space-y-8">
-        <div className="flex items-start gap-3 p-4 rounded-2xl bg-amber-950/40 border border-amber-800 text-amber-200 text-xs leading-relaxed">
-          <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-          <div>
-            <strong className="block text-amber-100 mb-1">Draft — Pending Legal Review</strong>
-            This is a generic template, not a document drafted or reviewed by a lawyer for NDH
-            Agency specifically. It exists so the site does not collect contact details and process
-            (sandbox) payments with zero stated policy at all. Do not rely on this page as a real
-            legal agreement until it has been reviewed by qualified counsel for your jurisdiction
-            and business.
-          </div>
-        </div>
-
         {page === "privacy" && <PrivacyContent />}
         {page === "terms" && <TermsContent />}
         {page === "refund" && <RefundContent />}

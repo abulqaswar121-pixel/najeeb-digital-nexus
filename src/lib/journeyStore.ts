@@ -93,7 +93,7 @@ export const INITIAL_JOURNEY_STATE: JourneyState = {
   },
 
   leadQualified: false,
-  assignedPM: "Tariq Al-Najeeb (Principal PM)",
+  assignedPM: "NDH PM Team",
 
   proposalDrafted: false,
   proposalAmountUSD: 42000,

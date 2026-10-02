@@ -57,12 +57,9 @@ import {
   Briefcase,
   Terminal,
 } from "lucide-react";
+import { PortalNavDropdown } from "./PortalNavDropdown";
 
-interface AdminPortalProps {
-  onBackToAgency?: () => void;
-}
-
-export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
+export const AdminPortal: React.FC = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<
     | "overview"
@@ -386,20 +383,48 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
 
   const splitResult = calculateRevenueSplit(sampleBudget, Math.round(sampleBudget / 1500));
 
+  const adminNavTabs = [
+    { id: "overview", label: "Platform Telemetry" },
+    {
+      id: "pipeline",
+      label: "Live Lead Pipeline",
+      badge:
+        liveBriefs.length + liveConsultRequests.length > 0
+          ? `${liveBriefs.length + liveConsultRequests.length} New`
+          : undefined,
+    },
+    { id: "split_model", label: "Profit Split & Escrow Governance", badge: "45/15/40" },
+    {
+      id: "talent_ranks",
+      label: "Talent Ranks & Dual-Roles",
+      badge: `${talentsList.length} Talents`,
+    },
+    {
+      id: "referrals",
+      label: "Client Referrals & Escrow Trigger",
+      badge: `${referralsList.length} Codes`,
+    },
+    { id: "cms", label: "A-to-Z Website CMS" },
+    {
+      id: "case_studies",
+      label: "Case Studies & Portfolio",
+      badge: `${caseStudiesList.length} Published`,
+    },
+    { id: "users", label: "Clients & Squads" },
+    {
+      id: "talent_apps",
+      label: "Talent Applications Review",
+      badge: talentApps.length > 0 ? `${talentApps.length} New` : undefined,
+    },
+    { id: "payouts", label: "Bi-Weekly 14-Day Payouts", badge: "Active Cycle" },
+    { id: "audit", label: "Security & Audit Logs" },
+  ];
+
   return (
     <div className="bg-[#070A14] text-[#F1F5F9] min-h-screen font-sans flex flex-col">
       {/* Standalone Admin Command Nexus Top Bar */}
       <header className="sticky top-0 z-40 bg-[#0B0F1D]/95 backdrop-blur-xl border-b border-slate-800 px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          {onBackToAgency && (
-            <button
-              onClick={onBackToAgency}
-              className="px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500 text-xs font-bold transition-all flex items-center gap-1.5"
-            >
-              <span>← Back to Agency Website</span>
-            </button>
-          )}
-          <div className="h-4 w-px bg-slate-800 hidden sm:block" />
           <div className="flex items-center gap-2">
             <span className="font-bold text-white text-sm sm:text-base">Admin Command Nexus</span>
             <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
@@ -411,8 +436,14 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
             <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
-            <span>Root Admin: {user?.fullName || "Najeeb Al-Hassan"}</span>
+            <span>Root Admin: {user?.fullName || "Super Admin"}</span>
           </div>
+
+          <PortalNavDropdown
+            tabs={adminNavTabs}
+            activeTab={activeTab}
+            onSelect={(id) => setActiveTab(id as typeof activeTab)}
+          />
         </div>
       </header>
 
@@ -450,63 +481,6 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
                 <span>Invite New PM Lead</span>
               </button>
             </div>
-          </div>
-
-          {/* Navigation Tabs */}
-          <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto no-scrollbar text-xs">
-            {[
-              { id: "overview", label: "Platform Telemetry" },
-              {
-                id: "pipeline",
-                label: "Live Lead Pipeline",
-                badge:
-                  liveBriefs.length + liveConsultRequests.length > 0
-                    ? `${liveBriefs.length + liveConsultRequests.length} New`
-                    : undefined,
-              },
-              { id: "split_model", label: "Profit Split & Escrow Governance", badge: "45/15/40" },
-              {
-                id: "talent_ranks",
-                label: "Talent Ranks & Dual-Roles",
-                badge: `${talentsList.length} Talents`,
-              },
-              {
-                id: "referrals",
-                label: "Client Referrals & Escrow Trigger",
-                badge: `${referralsList.length} Codes`,
-              },
-              { id: "cms", label: "A-to-Z Website CMS" },
-              {
-                id: "case_studies",
-                label: "Case Studies & Portfolio",
-                badge: `${caseStudiesList.length} Published`,
-              },
-              { id: "users", label: "Clients & Squads" },
-              {
-                id: "talent_apps",
-                label: "Talent Applications Review",
-                badge: talentApps.length > 0 ? `${talentApps.length} New` : undefined,
-              },
-              { id: "payouts", label: "Bi-Weekly 14-Day Payouts", badge: "Active Cycle" },
-              { id: "audit", label: "Security & Audit Logs" },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as Parameters<typeof setActiveTab>[0])}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all whitespace-nowrap ${
-                  activeTab === tab.id
-                    ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30 font-bold"
-                    : "text-slate-400 hover:text-white hover:bg-slate-900"
-                }`}
-              >
-                <span>{tab.label}</span>
-                {tab.badge && (
-                  <span className="px-1.5 py-0.5 rounded-full text-[9px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                    {tab.badge}
-                  </span>
-                )}
-              </button>
-            ))}
           </div>
 
           {/* TAB 1: Platform Telemetry */}
@@ -2058,15 +2032,6 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToAgency }) => {
 
           <div className="flex items-center gap-4 text-[11px] text-slate-400">
             <span>Server Health: 99.99% Uptime</span>
-            <span className="text-slate-600 hidden sm:inline">•</span>
-            {onBackToAgency && (
-              <button
-                onClick={onBackToAgency}
-                className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"
-              >
-                Exit to Agency Website →
-              </button>
-            )}
           </div>
         </div>
       </footer>

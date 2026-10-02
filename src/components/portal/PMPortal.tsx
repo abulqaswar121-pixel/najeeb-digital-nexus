@@ -21,12 +21,9 @@ import {
   AlertCircle,
   TrendingUp,
 } from "lucide-react";
+import { PortalNavDropdown } from "./PortalNavDropdown";
 
-interface PMPortalProps {
-  onBackToAgency?: () => void;
-}
-
-export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
+export const PMPortal: React.FC = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<
     "projects" | "triage" | "talent_matching" | "qa_gates"
@@ -59,20 +56,36 @@ export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
   const liveConsultRequests = useConsultationRequests();
   const [claimingBriefId, setClaimingBriefId] = useState<string | null>(null);
 
+  const pmNavTabs = [
+    {
+      id: "projects",
+      label: "Active Sprints & Margin Health",
+      icon: <Briefcase className="w-4 h-4" />,
+    },
+    {
+      id: "triage",
+      label: "Brief Triage & Scope Builder",
+      icon: <FileCheck className="w-4 h-4" />,
+      badge: "3 Leads",
+    },
+    {
+      id: "talent_matching",
+      label: "Intelligent Talent Allocator",
+      icon: <Users className="w-4 h-4" />,
+    },
+    {
+      id: "qa_gates",
+      label: "QA Approval & Revision Gates",
+      icon: <CheckCircle2 className="w-4 h-4" />,
+      badge: "1 Gate",
+    },
+  ];
+
   return (
     <div className="bg-[#070A14] text-[#F1F5F9] min-h-screen font-sans flex flex-col">
       {/* Standalone PM Operations Top Bar */}
       <header className="sticky top-0 z-40 bg-[#0B0F1D]/95 backdrop-blur-xl border-b border-slate-800 px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          {onBackToAgency && (
-            <button
-              onClick={onBackToAgency}
-              className="px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500 text-xs font-bold transition-all flex items-center gap-1.5"
-            >
-              <span>← Back to Agency Website</span>
-            </button>
-          )}
-          <div className="h-4 w-px bg-slate-800 hidden sm:block" />
           <div className="flex items-center gap-2">
             <span className="font-bold text-white text-sm sm:text-base">
               Project Manager Operations Command
@@ -86,8 +99,14 @@ export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Lead PM: {user?.fullName || "Tariq Al-Najeeb"}</span>
+            <span>Lead PM: {user?.fullName || "PM"}</span>
           </div>
+
+          <PortalNavDropdown
+            tabs={pmNavTabs}
+            activeTab={activeTab}
+            onSelect={(id) => setActiveTab(id as typeof activeTab)}
+          />
         </div>
       </header>
 
@@ -102,7 +121,7 @@ export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
               <div>
                 <div className="flex items-center gap-2">
                   <h1 className="text-xl sm:text-2xl font-bold text-white">
-                    Operations Command: {user?.fullName || "Tariq Al-Najeeb"}
+                    Operations Command: {user?.fullName || "PM"}
                   </h1>
                   <span className="px-2.5 py-0.5 rounded bg-blue-500/10 text-blue-400 font-mono text-[10px] font-bold border border-blue-500/20">
                     Principal Project Manager
@@ -127,52 +146,6 @@ export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* PM Navigation Tabs */}
-          <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto no-scrollbar text-xs">
-            {[
-              {
-                id: "projects",
-                label: "Active Sprints & Margin Health",
-                icon: <Briefcase className="w-4 h-4" />,
-              },
-              {
-                id: "triage",
-                label: "Brief Triage & Scope Builder",
-                icon: <FileCheck className="w-4 h-4" />,
-                badge: "3 Leads",
-              },
-              {
-                id: "talent_matching",
-                label: "Intelligent Talent Allocator",
-                icon: <Users className="w-4 h-4" />,
-              },
-              {
-                id: "qa_gates",
-                label: "QA Approval & Revision Gates",
-                icon: <CheckCircle2 className="w-4 h-4" />,
-                badge: "1 Gate",
-              },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as Parameters<typeof setActiveTab>[0])}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all whitespace-nowrap ${
-                  activeTab === tab.id
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
-                    : "text-slate-400 hover:text-white hover:bg-slate-900"
-                }`}
-              >
-                {tab.icon}
-                <span>{tab.label}</span>
-                {tab.badge && (
-                  <span className="px-1.5 py-0.2 rounded bg-amber-500 text-black font-mono text-[10px] font-bold">
-                    {tab.badge}
-                  </span>
-                )}
-              </button>
-            ))}
           </div>
 
           {/* Tab 1: Active Sprints */}
@@ -503,7 +476,9 @@ export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
                       </div>
 
                       <div className="flex items-center justify-between pt-3 border-t border-slate-800">
-                        <span className="text-slate-400">Auto-assigned PM: Tariq Al-Najeeb</span>
+                        <span className="text-slate-400">
+                          Auto-assigned PM: {user?.fullName || "You"}
+                        </span>
                         <button className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold flex items-center gap-1.5 shadow-md">
                           <Sparkles className="w-3.5 h-3.5" />
                           <span>Draft Formal Proposal & Milestone Schedule</span>
@@ -733,15 +708,6 @@ export const PMPortal: React.FC<PMPortalProps> = ({ onBackToAgency }) => {
 
           <div className="flex items-center gap-4 text-[11px] text-slate-400">
             <span>Sovereign Bureau Isolation Protocol Active</span>
-            <span className="text-slate-600 hidden sm:inline">•</span>
-            {onBackToAgency && (
-              <button
-                onClick={onBackToAgency}
-                className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"
-              >
-                Exit to Agency Website →
-              </button>
-            )}
           </div>
         </div>
       </footer>

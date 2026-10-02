@@ -23,14 +23,13 @@ export const Route = createFileRoute("/portal/pm")({
 });
 
 function PMPortalContent() {
-  const { onSelectView } = useAppShell();
   const { isSessionLoading } = usePortalGuard(["project_manager", "super_admin"]);
 
   if (isSessionLoading) return <PortalLoadingFallback />;
 
   return (
     <Suspense fallback={<PortalLoadingFallback />}>
-      <PMPortal onBackToAgency={() => onSelectView("homepage")} />
+      <PMPortal />
     </Suspense>
   );
 }
