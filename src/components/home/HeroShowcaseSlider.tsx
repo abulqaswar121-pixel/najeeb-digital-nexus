@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import apexAgriCapitalImg from "../../assets/case-studies/apex-agri-capital.jpg";
-import miftahAlArabiyyahImg from "../../assets/case-studies/miftah-al-arabiyyah.jpg";
+import apexAgriCapitalImg from "../../assets/case-studies/apex-agri-capital-custom.webp";
+import miftahAlArabiyyahImg from "../../assets/case-studies/miftah-al-arabiyyah-custom.webp";
 import najeebAcademyImg from "../../assets/case-studies/najeeb-academy.jpg";
 import ndhEstoreImg from "../../assets/case-studies/ndh-estore.jpg";
 

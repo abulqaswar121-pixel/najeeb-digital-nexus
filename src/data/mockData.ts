@@ -16,9 +16,9 @@ import {
 // generic illustrative photography (AI-generated or otherwise non-literal),
 // not actual client screenshots — no client supplied production assets for
 // these projects, so nothing here claims to be a real screenshot.
-import apexAgriCapitalImg from "../assets/case-studies/apex-agri-capital.jpg";
-import miftahAlArabiyyahImg from "../assets/case-studies/miftah-al-arabiyyah.jpg";
-import inheritanceOfShadowsImg from "../assets/case-studies/inheritance-of-shadows.jpg";
+import apexAgriCapitalImg from "../assets/case-studies/apex-agri-capital-custom.webp";
+import miftahAlArabiyyahImg from "../assets/case-studies/miftah-al-arabiyyah-custom.webp";
+import inheritanceOfShadowsImg from "../assets/case-studies/inheritance-of-shadows-custom.webp";
 import najeebAcademyImg from "../assets/case-studies/najeeb-academy.jpg";
 import schoolDeskImg from "../assets/case-studies/schooldesk.jpg";
 import ndhEstoreImg from "../assets/case-studies/ndh-estore.jpg";
@@ -833,32 +833,50 @@ export const CASE_STUDIES: CaseStudy[] = [
     status: "published",
     clientApprovalRecorded: true,
     publishedDate: "2026-09-11",
+    liveUrl: "https://ndhestore.lovable.app",
+    liveUrlLabel: "ndhestore.lovable.app",
   },
   {
     id: "cs-004",
     slug: "the-inheritance-of-shadows-story-series",
     title: "The Inheritance of Shadows: Digital Story Series",
-    clientName: "Digital Story Series",
+    clientName: "StoryMinta",
     isAnonymized: false,
-    industry: "Digital Media / Publishing",
+    industry: "Serial Fiction / Cover Art Direction",
     department: "content_copywriting",
     location: "Nigeria",
     heroImage: inheritanceOfShadowsImg,
     galleryImages: [],
     summary:
-      "A multi-episode digital mystery story series designed, written, and published digitally, complete with visual branding and narrative rollout.",
+      "Rebuilding an abandoned web serial into a structured novel engine — a story bible, a three-season roadmap, and a repeatable episode cover system, published under the StoryMinta imprint.",
     challenge:
-      "A digital story series needed narrative structure, episode pacing, and a publishing format engineered from scratch — there was no existing pipeline from a raw concept to a published, readable series.",
+      "The serial had stalled as an abandoned web story with no structure behind it — no story bible, no mapped episode arc, and no repeatable way to produce cover art for each new release.",
     insight:
-      "A serialized story lives or dies on pacing and presentation as much as plot — readers need a consistent visual identity and a believable episode rhythm to keep coming back.",
+      "A stalled serial usually isn't a writing problem — it's a missing system. Without a story bible and a mapped season arc, every new episode is written from scratch with no throughline, and nothing ships on a predictable rhythm.",
     strategy:
-      "NDH took the project end-to-end rather than handing off a script: narrative design, visual identity, and publishing were treated as one continuous pipeline instead of separate handoffs.",
+      'Rather than writing episodes one at a time, NDH rebuilt the series around a reusable "story engine": a full story bible, a three-season roadmap mapping the arc in advance, and a repeatable cover-art template so every new episode launches with consistent, on-brand visuals.',
     process:
-      "Designed the full narrative structure and episode pacing, created custom digital book covers and promotional visual graphics for launch, and managed the content pipeline from writing to digital reader deployment.",
+      "Built a story bible and a three-season roadmap mapping 36 episodes in advance, generated a bank of 200 story-engine names for recurring characters and plot threads, and designed a repeatable digital cover system used to publish each episode under the StoryMinta imprint.",
     solution:
-      "End-to-end content pipeline management from writing to digital reader deployment, with the series live and publishing.",
-    measurableOutcomes: [],
-    techStack: ["Narrative Design", "Digital Publishing", "Visual Branding"],
+      "A structured novel engine now powers the series: 5 episodes live and publishing, 36 episodes already mapped across three seasons, and a 200-name story-engine bank feeding future plot and character work.",
+    measurableOutcomes: [
+      {
+        metric: "5",
+        label: "Episodes Live",
+        evidenceNote: "Published under the StoryMinta imprint",
+      },
+      {
+        metric: "36",
+        label: "Episodes Mapped",
+        evidenceNote: "Across a three-season roadmap",
+      },
+      {
+        metric: "200",
+        label: "Story Engine Names",
+        evidenceNote: "Reusable character & plot-thread bank",
+      },
+    ],
+    techStack: ["Story Bible Development", "Serial Roadmapping", "Cover Art Direction"],
     featured: false,
     status: "published",
     clientApprovalRecorded: true,

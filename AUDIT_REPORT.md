@@ -760,3 +760,38 @@ products, and to swap hero images on the three being kept.
 Verification: `tsc --noEmit`, `eslint` (0 errors; only the 7 pre-existing
 react-refresh warnings in unrelated ui-library files), `vitest run` (27/27
 passing), and `npm run build` all clean after these changes.
+
+## Custom client images wired in; Estore live URL corrected (2026-10-02)
+
+The three custom images the client had referenced in chat finally landed as
+a full repo snapshot pushed to `main` (via GitHub "Add files via upload"),
+sitting at the repo root (`case-apex-custom.webp`, `case-miftah-custom.png`,
+`case-story-custom.png`). They were extracted from that commit and applied
+to this working branch only — the rest of that stale `main` snapshot
+(which reintroduces old deleted files) was not merged or used.
+
+- Apex Agri-Capital, Miftah al-Arabiyyah, and The Inheritance of Shadows now
+  use the client's own branded cover art as their `heroImage` (both in the
+  case study grid and the homepage `HeroShowcaseSlider`), replacing the
+  AI-generated illustrative images.
+- The two oversized PNGs (2.2 MB and 552 KB) were re-encoded to WebP at
+  quality 90 (visually unchanged, confirmed by side-by-side inspection) —
+  173 KB and 121 KB respectively — for page-weight sanity. The content and
+  visual design were not altered, only the file encoding.
+- The Inheritance of Shadows case study copy was rewritten to match the real
+  framing disclosed on the client's own cover art: it's a rebuild of an
+  *abandoned* web serial into a structured "story engine" (story bible,
+  three-season roadmap, repeatable cover system), published under the
+  **StoryMinta** imprint — not narrative design "from scratch" as the
+  previous copy assumed. Real, client-disclosed stats from that same asset
+  (5 episodes live, 36 episodes mapped, 200 story-engine names) were added
+  as `measurableOutcomes`.
+- The client corrected the Estore live URL to `ndhestore.lovable.app`
+  (previous `ndhstore.lovable.app` was a typo). The corrected URL returns a
+  transient "Internal server error" rather than "Project not found," i.e.
+  it is a real, deployed project — added as the case study's `liveUrl`.
+- SchoolDesk still has no corrected/reachable URL, so it remains without a
+  "Visit Live Project" link.
+
+Verification: `tsc --noEmit`, `eslint` (0 errors, same 7 pre-existing
+unrelated warnings), `vitest run` (27/27), `npm run build` all clean.
