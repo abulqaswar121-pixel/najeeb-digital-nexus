@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Mail,
   Phone,
@@ -9,8 +9,10 @@ import {
   ArrowRight,
   ShieldCheck,
   Building,
-} from 'lucide-react';
-import { MainNavView } from '../layout/AppNavbar';
+} from "lucide-react";
+import { MainNavView } from "../layout/AppNavbar";
+import { dbService } from "../../lib/databaseStore";
+import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 
 interface ContactViewProps {
   onSelectView: (view: MainNavView) => void;
@@ -18,15 +20,33 @@ interface ContactViewProps {
 }
 
 export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBriefWizard }) => {
+  const { t } = useCurrencyLanguage();
   const [consultSubmitted, setConsultSubmitted] = useState<boolean>(false);
-  const [consultName, setConsultName] = useState('');
-  const [consultEmail, setConsultEmail] = useState('');
-  const [consultDate, setConsultDate] = useState('2026-10-02');
-  const [consultTopic, setConsultTopic] = useState('Full-Stack Web/App Re-Architecture');
+  const [consultName, setConsultName] = useState("");
+  const [consultEmail, setConsultEmail] = useState("");
+  const [consultDate, setConsultDate] = useState("2026-10-02");
+  const [consultTopic, setConsultTopic] = useState("Full-Stack Web/App Re-Architecture");
 
-  const handleBookConsult = (e: React.FormEvent) => {
+  const [consultError, setConsultError] = useState<string | null>(null);
+  const [isSubmittingConsult, setIsSubmittingConsult] = useState(false);
+
+  const handleBookConsult = async (e: React.FormEvent) => {
     e.preventDefault();
-    setConsultSubmitted(true);
+    setConsultError(null);
+    setIsSubmittingConsult(true);
+    try {
+      await dbService.createConsultationRequest({
+        fullName: consultName,
+        email: consultEmail,
+        preferredDate: consultDate,
+        focusArea: consultTopic,
+      });
+      setConsultSubmitted(true);
+    } catch {
+      setConsultError("Could not submit your request right now. Please try again shortly.");
+    } finally {
+      setIsSubmittingConsult(false);
+    }
   };
 
   return (
@@ -36,16 +56,14 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
         <div className="space-y-4 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
             <Mail className="w-3.5 h-3.5 text-blue-400" />
-            <span>Engage NDH Agency Operations</span>
+            <span>{t("contact_badge")}</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Initiate a Project or Schedule an Executive Consultation.
+            {t("contact_title")}
           </h1>
 
-          <p className="text-base text-slate-300 leading-relaxed">
-            Connect directly with our Principal Project Managers and Department Leads in Lagos, Abuja, or London.
-          </p>
+          <p className="text-base text-slate-300 leading-relaxed">{t("contact_desc")}</p>
         </div>
 
         {/* 2-Column Grid: Consultation Form / Hubs & Contact Specs */}
@@ -56,17 +74,26 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
               <span className="text-xs font-mono uppercase tracking-wider text-blue-400 font-bold">
                 Direct Discovery
               </span>
-              <h3 className="text-2xl font-bold text-white">Book an Executive Discovery Consultation</h3>
+              <h3 className="text-2xl font-bold text-white">
+                Book an Executive Discovery Consultation
+              </h3>
               <p className="text-xs text-slate-300">
-                A 30-minute technical discovery session with a dedicated Project Manager and Lead Architect.
+                A 30-minute technical discovery session with a dedicated Project Manager and Lead
+                Architect.
               </p>
             </div>
 
             {consultSubmitted ? (
               <div className="p-6 rounded-2xl bg-emerald-950/40 border border-emerald-800 text-emerald-300 space-y-2 text-xs">
-                <h4 className="font-bold text-sm text-white">Consultation Scheduled Successfully!</h4>
+                <h4 className="font-bold text-sm text-white">
+                  Request Received — Logged with Operations
+                </h4>
                 <p className="text-slate-200">
-                  Calendar invite and Google Meet link dispatched to <strong className="text-white">{consultEmail}</strong>. Principal PM Tariq Al-Najeeb has been assigned to your session.
+                  Your discovery session request has been logged for{" "}
+                  <strong className="text-white">{consultEmail}</strong> on your preferred date of{" "}
+                  <strong className="text-white">{consultDate}</strong>. A Principal PM will review
+                  it and follow up by email with a confirmed time and calendar invite within 1
+                  business day.
                 </p>
               </div>
             ) : (
@@ -132,11 +159,15 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
                   </div>
                 </div>
 
+                {consultError && <p className="text-xs text-red-400">{consultError}</p>}
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-transform hover:scale-105 flex items-center justify-center gap-2"
+                  disabled={isSubmittingConsult}
+                  className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-transform hover:scale-105 flex items-center justify-center gap-2"
                 >
-                  <span>Confirm Executive Consultation</span>
+                  <span>
+                    {isSubmittingConsult ? "Submitting..." : "Confirm Executive Consultation"}
+                  </span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </form>
@@ -156,48 +187,82 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
             </div>
           </div>
 
-          {/* Hubs & Office Telemetry */}
+          {/* Contact Details */}
           <div className="lg:col-span-5 space-y-6">
             <div className="p-8 rounded-3xl bg-slate-900/90 border border-slate-800 space-y-6 shadow-xl">
-              <h3 className="text-lg font-bold text-white">Direct Operational Hubs</h3>
+              <h3 className="text-lg font-bold text-white">Get in Touch</h3>
 
               <div className="space-y-4 text-xs">
                 <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
                   <div className="flex items-center gap-2 font-bold text-white">
                     <MapPin className="w-4 h-4 text-blue-400" />
-                    <span>Lagos Operational Bureau (HQ)</span>
+                    <span>Nigeria · Worldwide</span>
                   </div>
                   <p className="text-slate-300">
-                    NDH Tower, 14B Karimu Kotun St, Victoria Island, Lagos, Nigeria
+                    Marmaron Nufawa, Western Bye Pass, Sokoto, Nigeria
                   </p>
-                  <div className="text-[11px] text-slate-400 pt-1 font-mono">
-                    Tel: +234 1 800 634 634 • lagos@agency.ndh.com.ng
-                  </div>
+                  <p className="text-slate-400 text-[11px] pt-1">
+                    Based in Nigeria, working with clients worldwide — remote-first, no branch
+                    offices.
+                  </p>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
+                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
                   <div className="flex items-center gap-2 font-bold text-white">
-                    <MapPin className="w-4 h-4 text-blue-400" />
-                    <span>Abuja Public Sector Division</span>
+                    <Phone className="w-4 h-4 text-emerald-400" />
+                    <span>WhatsApp / Phone</span>
                   </div>
-                  <p className="text-slate-300">
-                    Nexus Suite 402, Transcorp Hilton Boulevard, Maitama, Abuja
-                  </p>
-                  <div className="text-[11px] text-slate-400 pt-1 font-mono">
-                    abuja@agency.ndh.com.ng
-                  </div>
+                  <a
+                    href="https://wa.me/2349029932794"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-emerald-400 font-mono hover:text-emerald-300"
+                  >
+                    +234 902 993 2794
+                  </a>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
+                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
                   <div className="flex items-center gap-2 font-bold text-white">
-                    <MapPin className="w-4 h-4 text-blue-400" />
-                    <span>London Global Partnerships</span>
+                    <Mail className="w-4 h-4 text-blue-400" />
+                    <span>Email</span>
                   </div>
-                  <p className="text-slate-300">
-                    Level 18, 40 Bank Street, Canary Wharf, London E14 5NR
-                  </p>
-                  <div className="text-[11px] text-slate-400 pt-1 font-mono">
-                    london@agency.ndh.com.ng
+                  <a
+                    href="mailto:hello@ndh.com.ng"
+                    className="text-blue-300 font-mono block hover:text-blue-200"
+                  >
+                    hello@ndh.com.ng
+                  </a>
+                  <a
+                    href="mailto:abunnajeeh7@gmail.com"
+                    className="text-blue-300 font-mono block hover:text-blue-200"
+                  >
+                    abunnajeeh7@gmail.com
+                  </a>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+                  <div className="flex items-center gap-2 font-bold text-white">
+                    <Building className="w-4 h-4 text-indigo-400" />
+                    <span>Social</span>
+                  </div>
+                  <div className="flex items-center gap-4 font-mono">
+                    <a
+                      href="https://www.facebook.com/share/1Be6HN8zjS/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-300 hover:text-indigo-200"
+                    >
+                      Facebook
+                    </a>
+                    <a
+                      href="https://www.instagram.com/njb_digital_hub"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-300 hover:text-indigo-200"
+                    >
+                      Instagram
+                    </a>
                   </div>
                 </div>
               </div>

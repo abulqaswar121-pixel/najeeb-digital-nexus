@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
-import { useAuth, openAuthModal } from '../../lib/authStore';
-import { useCurrencyLanguage, SupportedCurrency, SupportedLanguage } from '../../lib/currencyLanguageStore';
-import { BrandLogo } from '../brand/BrandLogo';
+import React, { useState } from "react";
+import { useAuth, openAuthModal } from "../../lib/authStore";
+import {
+  useCurrencyLanguage,
+  SupportedCurrency,
+  SupportedLanguage,
+} from "../../lib/currencyLanguageStore";
+import { BrandLogo } from "../brand/BrandLogo";
 import {
   Layers,
   Sparkles,
@@ -23,23 +27,26 @@ import {
   LogOut,
   User,
   Gift,
-} from 'lucide-react';
+} from "lucide-react";
 
 export type MainNavView =
-  | 'homepage'
-  | 'services'
-  | 'case-study'
-  | 'about'
-  | 'process'
-  | 'talent-network'
-  | 'insights'
-  | 'contact'
-  | 'client-dashboard'
-  | 'pm-dashboard'
-  | 'talent-dashboard'
-  | 'admin-command'
-  | 'journey'
-  | 'mobile-view';
+  | "homepage"
+  | "services"
+  | "case-study"
+  | "about"
+  | "process"
+  | "talent-network"
+  | "insights"
+  | "contact"
+  | "client-dashboard"
+  | "pm-dashboard"
+  | "talent-dashboard"
+  | "admin-command"
+  | "journey"
+  | "mobile-view"
+  | "privacy-policy"
+  | "terms-of-service"
+  | "refund-policy";
 
 interface AppNavbarProps {
   currentView: MainNavView;
@@ -53,7 +60,8 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
   onOpenBriefWizard,
 }) => {
   const { user, isAuthenticated, logout } = useAuth();
-  const { currency, setCurrency, currencies, language, setLanguage, languages, t } = useCurrencyLanguage();
+  const { currency, setCurrency, currencies, language, setLanguage, languages, t } =
+    useCurrencyLanguage();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
@@ -61,35 +69,35 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
 
   const navLinks: { id: MainNavView; label: string }[] = [
-    { id: 'services', label: t('nav_services') },
-    { id: 'case-study', label: t('nav_work') },
-    { id: 'process', label: t('nav_how_it_works') },
-    { id: 'talent-network', label: t('nav_talent') },
-    { id: 'about', label: t('nav_about') },
-    { id: 'insights', label: t('nav_insights') },
-    { id: 'contact', label: t('nav_contact') },
+    { id: "services", label: t("nav_services") },
+    { id: "case-study", label: t("nav_work") },
+    { id: "process", label: t("nav_how_it_works") },
+    { id: "talent-network", label: t("nav_talent") },
+    { id: "about", label: t("nav_about") },
+    { id: "insights", label: t("nav_insights") },
+    { id: "contact", label: t("nav_contact") },
   ];
 
   const handleGoToUserWorkspace = () => {
-    if (user?.role === 'super_admin') {
-      onSelectView('admin-command');
-    } else if (user?.role === 'project_manager') {
-      onSelectView('pm-dashboard');
-    } else if (user?.role === 'talent') {
-      onSelectView('talent-dashboard');
+    if (user?.role === "super_admin") {
+      onSelectView("admin-command");
+    } else if (user?.role === "project_manager") {
+      onSelectView("pm-dashboard");
+    } else if (user?.role === "talent") {
+      onSelectView("talent-dashboard");
     } else {
-      onSelectView('client-dashboard');
+      onSelectView("client-dashboard");
     }
     setUserDropdownOpen(false);
     setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const isPortalView = [
-    'client-dashboard',
-    'pm-dashboard',
-    'talent-dashboard',
-    'admin-command',
+    "client-dashboard",
+    "pm-dashboard",
+    "talent-dashboard",
+    "admin-command",
   ].includes(currentView);
 
   return (
@@ -98,13 +106,13 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
         {/* Brand / Logo */}
         <div
           onClick={() => {
-            onSelectView('homepage');
+            onSelectView("homepage");
             setMobileMenuOpen(false);
           }}
           className="min-w-0 cursor-pointer"
         >
-          <BrandLogo size="sm" showSubtitle={false} className="min-w-0 sm:hidden" />
-          <BrandLogo size="md" showSubtitle={true} className="hidden sm:flex" />
+          <BrandLogo size="sm" className="min-w-0 sm:hidden" />
+          <BrandLogo size="md" className="hidden sm:flex" />
         </div>
 
         {/* Desktop Navigation Links */}
@@ -119,7 +127,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                   setUserDropdownOpen(false);
                 }}
                 className={`transition-colors py-1 relative ${
-                  isActive ? 'text-white font-bold' : 'hover:text-white'
+                  isActive ? "text-white font-bold" : "hover:text-white"
                 }`}
               >
                 {link.label}
@@ -167,8 +175,8 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                         }}
                         className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                           isSelected
-                            ? 'bg-blue-600 text-white font-bold'
-                            : 'hover:bg-slate-800 text-slate-300 hover:text-white'
+                            ? "bg-blue-600 text-white font-bold"
+                            : "hover:bg-slate-800 text-slate-300 hover:text-white"
                         }`}
                       >
                         <div className="flex items-center gap-2">
@@ -196,7 +204,9 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
               aria-label="Change Currency"
             >
               <span>{currencies[currency]?.flag}</span>
-              <span>{currencies[currency]?.symbol} {currency}</span>
+              <span>
+                {currencies[currency]?.symbol} {currency}
+              </span>
               <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
             </button>
 
@@ -218,13 +228,15 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                         }}
                         className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                           isSelected
-                            ? 'bg-blue-600 text-white font-bold'
-                            : 'hover:bg-slate-800 text-slate-300 hover:text-white'
+                            ? "bg-blue-600 text-white font-bold"
+                            : "hover:bg-slate-800 text-slate-300 hover:text-white"
                         }`}
                       >
                         <div className="flex items-center gap-2">
                           <span>{c.flag}</span>
-                          <span>{c.name} ({c.symbol})</span>
+                          <span>
+                            {c.name} ({c.symbol})
+                          </span>
                         </div>
                         {isSelected && <Check className="w-3.5 h-3.5" />}
                       </button>
@@ -251,7 +263,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                   alt={user.fullName}
                   className="w-5 h-5 rounded-full object-cover border border-slate-600"
                 />
-                <span className="max-w-[100px] truncate">{user.fullName.split(' ')[0]}</span>
+                <span className="max-w-[100px] truncate">{user.fullName.split(" ")[0]}</span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
               </button>
 
@@ -260,7 +272,9 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                   <div className="px-3 py-2 border-b border-slate-800">
                     <div className="font-bold text-xs text-white">{user.fullName}</div>
                     <div className="text-[10px] text-slate-400 truncate">{user.email}</div>
-                    <div className="text-[10px] text-emerald-400 font-mono mt-0.5">{user.roleTitle}</div>
+                    <div className="text-[10px] text-emerald-400 font-mono mt-0.5">
+                      {user.roleTitle}
+                    </div>
                   </div>
 
                   <button
@@ -271,10 +285,10 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                     <span>Open My Workspace</span>
                   </button>
 
-                  {user.role === 'client_owner' && (
+                  {user.role === "client_owner" && (
                     <button
                       onClick={() => {
-                        onSelectView('client-dashboard');
+                        onSelectView("client-dashboard");
                         setUserDropdownOpen(false);
                       }}
                       className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-slate-200 hover:bg-slate-800 transition-colors text-left"
@@ -299,7 +313,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
             </div>
           ) : (
             <button
-              onClick={() => openAuthModal('login')}
+              onClick={() => openAuthModal("login")}
               className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-200 text-xs font-bold transition-all"
             >
               <User className="w-3.5 h-3.5 text-blue-400" />
@@ -312,7 +326,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
             onClick={onOpenBriefWizard}
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/30 transition-all hover:scale-105 active:scale-95"
           >
-            <span>{t('nav_request_quote')}</span>
+            <span>{t("nav_request_quote")}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -323,7 +337,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
             onClick={onOpenBriefWizard}
             className="h-10 px-3 rounded-lg text-xs font-bold bg-blue-600 text-white"
           >
-            Proposal
+            Get a Quote
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -375,7 +389,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                openAuthModal('login');
+                openAuthModal("login");
               }}
               className="w-full py-3 rounded-xl bg-slate-900 border border-slate-700 text-white font-bold text-xs flex items-center justify-center gap-2"
             >
@@ -387,7 +401,9 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
           {/* Currency and Language Pickers for Mobile */}
           <div className="grid min-w-0 grid-cols-1 gap-3 min-[380px]:grid-cols-2">
             <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1">Currency</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1">
+                Currency
+              </label>
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value as SupportedCurrency)}
@@ -401,7 +417,9 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
               </select>
             </div>
             <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1">Language</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1">
+                Language
+              </label>
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value as SupportedLanguage)}
@@ -429,8 +447,8 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                 }}
                 className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
                   currentView === link.id
-                    ? 'bg-blue-600 text-white font-bold'
-                    : 'text-slate-300 hover:bg-slate-900 hover:text-white'
+                    ? "bg-blue-600 text-white font-bold"
+                    : "text-slate-300 hover:bg-slate-900 hover:text-white"
                 }`}
               >
                 {link.label}

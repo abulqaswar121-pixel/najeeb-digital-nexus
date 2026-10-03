@@ -1,20 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import {
-  ChevronLeft,
-  ChevronRight,
-  Sparkles,
-  ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
-  Activity,
-  Layers,
-  Zap,
-  TrendingUp,
-  Cpu,
-  Smartphone,
-  Lock,
-} from 'lucide-react';
-import { useCurrencyLanguage } from '../../lib/currencyLanguageStore';
+import React, { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
+
+// Hero images live in `public/case-studies/` as plain static files, same
+// location and URL format used by the full case-study records in
+// mockData.ts and the server-side case-study collection -- one source of
+// truth for these assets, not a separate bundled copy.
+const apexAgriCapitalImg = "/case-studies/apex-agri-capital-custom.webp";
+const miftahAlArabiyyahImg = "/case-studies/miftah-al-arabiyyah-custom.webp";
+const ndhEstoreImg = "/case-studies/ndh-estore.jpg";
+const hagueExportImg = "/case-studies/hague-export.jpg";
 
 interface HeroSlide {
   id: string;
@@ -31,62 +26,69 @@ interface HeroSlide {
   client: string;
 }
 
+// Real, verifiable NDH case studies only (same 6 shown in full on /case-studies).
+// No fabricated metrics — statValue/statLabel/statSubtext below describe what was
+// actually built, not invented performance numbers.
 const HERO_SLIDES: HeroSlide[] = [
   {
-    id: 'fintech-core',
-    category: 'FinTech & Core Banking',
-    badgeColor: 'bg-blue-500/20 text-blue-300 border-blue-400/40',
-    title: 'High-Speed Payment Platforms Built for',
-    highlightText: 'Millions of Daily Users.',
-    subtitle: 'We engineer bank-grade web and mobile applications with sub-300ms transaction speeds and multi-currency billing.',
-    statValue: '< 240ms',
-    statLabel: 'Transaction Speed',
-    statSubtext: '2.4M active accounts processed across Africa & UK',
-    image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&auto=format&fit=crop&q=80',
-    tags: ['React 19', 'Go Microservices', 'Paystack', 'Cloudflare Edge'],
-    client: 'KoboPay Global Inc.',
+    id: "apex-agri-capital",
+    category: "Web App Development",
+    badgeColor: "bg-blue-500/20 text-blue-300 border-blue-400/40",
+    title: "A Transparent Shared Ledger Built for a Growing",
+    highlightText: "Agriculture Investment Cooperative.",
+    subtitle:
+      "A role-based web application tracking contributions, expenses, and member equity across catfish, poultry, and goat farming operations.",
+    statValue: "3 Roles",
+    statLabel: "Admin · Operator · Contributor",
+    statSubtext: "Built to scale from a founding group toward 100 members",
+    image: apexAgriCapitalImg,
+    tags: ["Web Application", "Role-Based Access"],
+    client: "Apex Agri-Capital",
   },
   {
-    id: 'mobile-apps',
-    category: 'Cross-Platform Mobile Apps',
-    badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
-    title: 'Intuitive iOS & Android Apps with',
-    highlightText: 'Offline-First Speed.',
-    subtitle: 'Sleek, fluid mobile applications that work even in low-bandwidth areas with instant local sync.',
-    statValue: '99.98%',
-    statLabel: 'Uptime & Reliability',
-    statSubtext: '4.9★ App Store rating with 150k+ clinical consultations',
-    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&auto=format&fit=crop&q=80',
-    tags: ['Flutter', 'iOS Swift', 'Android Kotlin', 'Supabase'],
-    client: 'AfriHealth Telemedicine',
+    id: "miftah-al-arabiyyah",
+    category: "Content & Curriculum Development",
+    badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-400/40",
+    title: "An 8-Book Arabic Curriculum Series, Written and",
+    highlightText: "Directed From Concept to Production.",
+    subtitle:
+      "Full curriculum authorship for Nigerian non-native Arabic speakers, spanning Nursery 1-3, Basic 1-5, and JSS 1-3, with formal teacher review across every level.",
+    statValue: "8 Levels",
+    statLabel: "Full Series Delivered",
+    statSubtext: "Matched audio resources produced for every unit",
+    image: miftahAlArabiyyahImg,
+    tags: ["Curriculum Design", "Editorial Review", "Audio Production"],
+    client: "Miftah al-Arabiyyah Project",
   },
   {
-    id: 'luxury-commerce',
-    category: 'E-Commerce & Brand Systems',
-    badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/40',
-    title: 'High-Conversion Digital Stores for',
-    highlightText: 'Global Luxury Brands.',
-    subtitle: 'Bespoke design systems, interactive 3D product previews, and frictionless checkout that boost sales by 185%.',
-    statValue: '+185%',
-    statLabel: 'Conversion Increase',
-    statSubtext: 'Over $42M in fractional luxury real estate assets sold',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80',
-    tags: ['Next.js Commerce', 'Tailwind', 'Stripe', '3D WebGL'],
-    client: 'Sovereign Asset Escrow',
+    id: "ndh-estore",
+    category: "E-Commerce / SaaS",
+    badgeColor: "bg-amber-500/20 text-amber-300 border-amber-400/40",
+    title: "A Multi-Vendor Commerce Platform Letting Merchants",
+    highlightText: "Launch an Online Store in Minutes.",
+    subtitle:
+      "A vendor dashboard, dynamic per-vendor storefront, and tiered plans from local Naira-only selling up to multi-currency Global Enterprise accounts.",
+    statValue: "3 Tiers",
+    statLabel: "Starter · Pro · Global Enterprise",
+    statSubtext: "14-day free trial, no card required to publish a store",
+    image: ndhEstoreImg,
+    tags: ["Vendor Dashboard", "Multi-Currency Storefronts"],
+    client: "NDH Estore",
   },
   {
-    id: 'ai-automation',
-    category: 'AI & Workflow Automation',
-    badgeColor: 'bg-purple-500/20 text-purple-300 border-purple-400/40',
-    title: 'Autonomous AI Agents that',
-    highlightText: '10x Your Team Velocity.',
-    subtitle: 'Custom generative AI agents, intelligent customer service bots, and automated data pipelines deployed in 14 days.',
-    statValue: '10x Faster',
-    statLabel: 'Operations Output',
-    statSubtext: 'Saved 350+ manual hours per month per client squad',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?w=1200&auto=format&fit=crop&q=80',
-    tags: ['Python', 'OpenAI Agents', 'n8n Workflows', 'Vector DB'],
-    client: 'AgriTech Intelligence Hub',
+    id: "hague-export",
+    category: "B2B Trade / AgriTech Marketplace",
+    badgeColor: "bg-purple-500/20 text-purple-300 border-purple-400/40",
+    title: "A 4-Tier Verification System Powering a B2B",
+    highlightText: "Agro-Export Marketplace.",
+    subtitle:
+      "A structured RFQ workflow — Search & Verify, Submit RFQ, Negotiate & Contract, Inspect & Ship — connecting verified Nigerian exporters to buyers across 62 destination countries.",
+    statValue: "480+",
+    statLabel: "Verified Exporters, 4 Trust Tiers",
+    statSubtext: "35 commodity categories, from oilseeds to dried fruit",
+    image: hagueExportImg,
+    tags: ["B2B Marketplace", "4-Tier Verification"],
+    client: "Hague Brands",
   },
 ];
 
@@ -99,9 +101,9 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
   onOpenBriefWizard,
   onSelectScreen,
 }) => {
+  const { t } = useCurrencyLanguage();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
-  const { t } = useCurrencyLanguage();
 
   const currentSlide = HERO_SLIDES[currentSlideIndex]!;
 
@@ -132,13 +134,14 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
               {currentSlide.category}
             </span>
             <span className="text-xs text-slate-400 font-mono">
-              Case Study: <strong className="text-white">{currentSlide.client}</strong>
+              {t("label_case_study_prefix")}{" "}
+              <strong className="text-white">{currentSlide.client}</strong>
             </span>
           </div>
 
           {/* Headline */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-[1.15]">
-            {currentSlide.title}{' '}
+            {currentSlide.title}{" "}
             <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent">
               {currentSlide.highlightText}
             </span>
@@ -152,7 +155,7 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
           {/* Technology Pills */}
           <div className="flex flex-wrap items-center gap-2 pt-1">
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1">
-              Tech Stack:
+              {t("label_tech_stack_prefix")}
             </span>
             {currentSlide.tags.map((tag, i) => (
               <span
@@ -180,7 +183,7 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
               onClick={onOpenBriefWizard}
               className="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-transform hover:scale-105 shrink-0 flex items-center gap-2"
             >
-              <span>Scope This Project</span>
+              <span>{t("btn_scope_this_project")}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -193,7 +196,7 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
             <img
               src={currentSlide.image}
               alt={currentSlide.title}
-              className="w-full h-72 sm:h-84 lg:h-96 object-cover transition-all duration-700 group-hover:scale-105 opacity-90"
+              className="w-full h-72 sm:h-80 lg:h-96 object-cover transition-all duration-700 group-hover:scale-105 opacity-90"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
 
@@ -203,7 +206,7 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-white font-bold">{currentSlide.client}</span>
               </div>
-              <span className="text-[11px] text-blue-300 font-mono">Verified Production</span>
+              <span className="text-[11px] text-blue-300 font-mono">Verified Project</span>
             </div>
           </div>
         </div>
@@ -222,11 +225,11 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
               }}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                 currentSlideIndex === idx
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                  ? "bg-blue-600 text-white shadow-md"
+                  : "text-slate-400 hover:text-white hover:bg-slate-900"
               }`}
             >
-              0{idx + 1}. {slide.category.split(' ')[0]}
+              0{idx + 1}. {slide.category.split(" ")[0]}
             </button>
           ))}
         </div>

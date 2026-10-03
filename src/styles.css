@@ -156,6 +156,47 @@ body {
   }
 }
 
+@keyframes announcement-sheen {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes announcement-in {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes announcement-progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-announcement-sheen {
+  animation: announcement-sheen 6s ease-in-out infinite alternate;
+}
+
+.animate-announcement-in {
+  animation: announcement-in 0.4s ease-out;
+}
+
+.animate-announcement-progress {
+  animation: announcement-progress linear forwards;
+}
+
 /* Helper Utilities */
 .animate-marquee {
   display: flex;
@@ -207,4 +248,34 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Accessibility: visible keyboard focus indicator site-wide. Many
+   interactive elements in this app only had a hover state, so keyboard-only
+   users had no reliable way to see what was focused. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #60a5fa; /* blue-400 */
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Accessibility: respect the OS-level "reduce motion" preference. This app
+   uses scale/float/glow/marquee animations extensively across the public
+   marketing pages; users who have asked their OS to reduce motion (often for
+   vestibular disorders) should get a near-static experience instead. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

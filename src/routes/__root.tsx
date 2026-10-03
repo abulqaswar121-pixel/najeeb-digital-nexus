@@ -48,16 +48,15 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <div className="w-12 h-12 rounded-2xl bg-blue-600/20 text-blue-400 flex items-center justify-center mx-auto">
           <span className="text-xl font-bold">NDH</span>
         </div>
-        <h1 className="text-xl font-bold tracking-tight text-white">
-          Session Refresh
-        </h1>
+        <h1 className="text-xl font-bold tracking-tight text-white">Session Refresh</h1>
         <p className="text-xs text-slate-400 leading-relaxed">
-          {error?.message || "An operational session refresh is recommended. Please reload the interface."}
+          {error?.message ||
+            "An operational session refresh is recommended. Please reload the interface."}
         </p>
         <div className="pt-2 flex flex-wrap justify-center gap-3">
           <button
             onClick={() => {
-              if (typeof window !== 'undefined') {
+              if (typeof window !== "undefined") {
                 window.location.reload();
               } else {
                 router.invalidate();
@@ -70,7 +69,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           </button>
           <button
             onClick={() => {
-              if (typeof window !== 'undefined') {
+              if (typeof window !== "undefined") {
                 window.location.href = "/";
               }
             }}
@@ -90,95 +89,99 @@ const SCHEMA_ORG_JSON = JSON.stringify({
     {
       "@type": "Organization",
       "@id": "https://agency.ndh.com.ng/#organization",
-      "name": "NDH Agency",
-      "alternateName": "Najeeb Digital Hub Agency",
-      "url": "https://agency.ndh.com.ng",
-      "logo": "https://agency.ndh.com.ng/logo.png",
-      "sameAs": [
-        "https://linkedin.com/company/najeeb-digital-hub",
-        "https://twitter.com/NDHAgency",
-        "https://github.com/najeeb-digital-hub"
+      name: "NDH Agency",
+      alternateName: "Najeeb Digital Hub Agency",
+      url: "https://agency.ndh.com.ng",
+      logo: "https://agency.ndh.com.ng/logo.png",
+      sameAs: [
+        "https://www.facebook.com/share/1Be6HN8zjS/",
+        "https://www.instagram.com/njb_digital_hub",
       ],
-      "contactPoint": [
+      contactPoint: [
         {
           "@type": "ContactPoint",
-          "telephone": "+234-1-800-634-634",
-          "contactType": "customer service",
-          "email": "partnerships@agency.ndh.com.ng",
-          "areaServed": ["NG", "GB", "US", "GH", "KE", "ZA"],
-          "availableLanguage": ["English", "Yoruba", "Hausa", "Igbo"]
-        }
+          telephone: "+234-902-993-2794",
+          contactType: "customer service",
+          email: "hello@ndh.com.ng",
+          areaServed: ["NG", "GB", "US", "GH", "KE", "ZA"],
+          availableLanguage: ["English", "French", "Arabic"],
+        },
       ],
-      "address": {
+      address: {
         "@type": "PostalAddress",
-        "streetAddress": "NDH Tower, 14B Karimu Kotun Street, Victoria Island",
-        "addressLocality": "Lagos",
-        "addressRegion": "Lagos State",
-        "postalCode": "101241",
-        "addressCountry": "NG"
-      }
+        streetAddress: "Marmaron Nufawa, Western Bye Pass",
+        addressLocality: "Sokoto",
+        addressRegion: "Sokoto State",
+        postalCode: "840001",
+        addressCountry: "NG",
+      },
     },
     {
       "@type": "ProfessionalService",
       "@id": "https://agency.ndh.com.ng/#service",
-      "name": "NDH Agency Managed Digital Services Bureau",
-      "description": "High-velocity web engineering, mobile apps, brand identity, enterprise cloud architecture, and market research across Pan-Africa and global markets.",
-      "url": "https://agency.ndh.com.ng",
-      "provider": {
-        "@id": "https://agency.ndh.com.ng/#organization"
+      name: "NDH Agency Managed Digital Services Bureau",
+      description:
+        "High-velocity web engineering, mobile apps, brand identity, enterprise cloud architecture, and market research across Pan-Africa and global markets.",
+      url: "https://agency.ndh.com.ng",
+      provider: {
+        "@id": "https://agency.ndh.com.ng/#organization",
       },
-      "priceRange": "$$$$",
-      "currenciesAccepted": "USD, NGN, GBP",
-      "paymentAccepted": "Credit Card, Paystack, Flutterwave, Stripe, Wire Transfer",
-      "hasOfferCatalog": {
+      priceRange: "$$$$",
+      currenciesAccepted: "USD, NGN, GBP",
+      paymentAccepted: "Credit Card, Paystack, Flutterwave, Stripe, Wire Transfer",
+      hasOfferCatalog: {
         "@type": "OfferCatalog",
-        "name": "Digital Transformation & Engineering Services",
-        "itemListElement": [
+        name: "Digital Transformation & Engineering Services",
+        itemListElement: [
           {
             "@type": "Offer",
-            "itemOffered": {
+            itemOffered: {
               "@type": "Service",
-              "name": "Enterprise Web & Cloud Engineering",
-              "description": "High-scale Next.js, React, Node.js and distributed cloud systems with sub-300ms latency."
-            }
+              name: "Enterprise Web & Cloud Engineering",
+              description:
+                "High-scale Next.js, React, Node.js and distributed cloud systems with sub-300ms latency.",
+            },
           },
           {
             "@type": "Offer",
-            "itemOffered": {
+            itemOffered: {
               "@type": "Service",
-              "name": "Mobile Application Systems",
-              "description": "Cross-platform Flutter and native iOS/Android mobile applications with offline-first sync."
-            }
+              name: "Mobile Application Systems",
+              description:
+                "Cross-platform Flutter and native iOS/Android mobile applications with offline-first sync.",
+            },
           },
           {
             "@type": "Offer",
-            "itemOffered": {
+            itemOffered: {
               "@type": "Service",
-              "name": "Brand Identity & Design Systems",
-              "description": "Comprehensive design languages, design tokens, and multi-market visual systems."
-            }
+              name: "Brand Identity & Design Systems",
+              description:
+                "Comprehensive design languages, design tokens, and multi-market visual systems.",
+            },
           },
           {
             "@type": "Offer",
-            "itemOffered": {
+            itemOffered: {
               "@type": "Service",
-              "name": "Pan-African & Diaspora Market Research",
-              "description": "Empirical consumer telemetry, regulatory fintech compliance, and macro-economic intelligence."
-            }
-          }
-        ]
-      }
+              name: "Pan-African & Diaspora Market Research",
+              description:
+                "Empirical consumer telemetry, regulatory fintech compliance, and macro-economic intelligence.",
+            },
+          },
+        ],
+      },
     },
     {
       "@type": "WebSite",
       "@id": "https://agency.ndh.com.ng/#website",
-      "url": "https://agency.ndh.com.ng",
-      "name": "NDH Agency | Managed Digital Services Bureau",
-      "publisher": {
-        "@id": "https://agency.ndh.com.ng/#organization"
-      }
-    }
-  ]
+      url: "https://agency.ndh.com.ng",
+      name: "NDH Agency | Managed Digital Services Bureau",
+      publisher: {
+        "@id": "https://agency.ndh.com.ng/#organization",
+      },
+    },
+  ],
 });
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
@@ -189,23 +192,33 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "NDH Agency | Managed Digital Services Bureau & Pan-African Tech Excellence" },
       {
         name: "description",
-        content: "NDH Agency is a premium managed digital services bureau. We engineer enterprise software, mobile apps, brand systems, cloud architectures, and Pan-African market research with strict SLAs, dedicated PM oversight, and guaranteed delivery."
+        content:
+          "NDH Agency is a premium managed digital services bureau. We engineer enterprise software, mobile apps, brand systems, cloud architectures, and Pan-African market research with strict SLAs, dedicated PM oversight, and guaranteed delivery.",
       },
       {
         name: "keywords",
-        content: "NDH Agency, Najeeb Digital Hub, digital agency Nigeria, software development company Lagos, mobile app development Africa, enterprise web engineering, brand identity systems, Paystack integration, fintech software Nigeria, cloud DevOps consulting"
+        content:
+          "NDH Agency, Najeeb Digital Hub, digital agency Nigeria, software development company Lagos, mobile app development Africa, enterprise web engineering, brand identity systems, Paystack integration, fintech software Nigeria, cloud DevOps consulting",
       },
       { name: "author", content: "Najeeb Digital Hub (NDH)" },
-      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
+      {
+        name: "robots",
+        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "NDH Agency" },
       { property: "og:title", content: "NDH Agency | Managed Digital Services Bureau" },
       {
         property: "og:description",
-        content: "Top-tier digital engineering, brand systems, and market research for high-growth enterprises and global startups. Managed bureau model with dedicated PM leadership."
+        content:
+          "Top-tier digital engineering, brand systems, and market research for high-growth enterprises and global startups. Managed bureau model with dedicated PM leadership.",
       },
       { property: "og:url", content: "https://agency.ndh.com.ng" },
-      { property: "og:image", content: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&auto=format&fit=crop&q=80" },
+      {
+        property: "og:image",
+        content:
+          "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&auto=format&fit=crop&q=80",
+      },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { property: "og:locale", content: "en_NG" },
@@ -215,9 +228,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "NDH Agency | Managed Digital Services Bureau" },
       {
         name: "twitter:description",
-        content: "Sovereign digital engineering, brand identity, and Pan-African market research. Dedicated PM layer with zero client-talent friction."
+        content:
+          "Sovereign digital engineering, brand identity, and Pan-African market research. Dedicated PM layer with zero client-talent friction.",
       },
-      { name: "twitter:image", content: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&auto=format&fit=crop&q=80" },
+      {
+        name: "twitter:image",
+        content:
+          "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&auto=format&fit=crop&q=80",
+      },
       { name: "theme-color", content: "#0B0F19" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
@@ -230,6 +248,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/icons/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://images.unsplash.com" },
     ],
     scripts: [

@@ -1,10 +1,18 @@
-import { ServiceDepartment, ClientReferralRecord, TalentRank, TalentRankDetails, RevenueSplitBreakdown } from '../types/ndh';
-import { TALENT_RANK_CONFIGS, calculateRevenueSplit } from '../data/mockData';
+import { ServiceDepartment, TalentProfile, UserSession, UserRole, CaseStudy } from "../types/ndh";
+import { api } from "./apiClient";
+import { useEffect, useState, useCallback } from "react";
+
+// ============================================================================
+// This module used to BE the "database" (an in-memory + localStorage
+// wrapper with zero server involvement). It is now a thin client for the
+// real backend in server/ -- every mutating call goes over the network to a
+// role-gated API endpoint, and the server is the actual source of truth.
+// ============================================================================
 
 export function calculateWelcomeCreditDeduction(
   invoiceAmount: number,
   availableCredit: number,
-  discountPercentage: number = 0.10 // 10%
+  discountPercentage: number = 0.1,
 ): {
   nominalDiscount: number;
   appliedDiscount: number;
@@ -16,12 +24,7 @@ export function calculateWelcomeCreditDeduction(
   const finalPayable = Math.max(0, invoiceAmount - appliedDiscount);
   const remainingCredit = Math.max(0, availableCredit - appliedDiscount);
 
-  return {
-    nominalDiscount,
-    appliedDiscount,
-    finalPayable,
-    remainingCredit,
-  };
+  return { nominalDiscount, appliedDiscount, finalPayable, remainingCredit };
 }
 
 export interface DatabaseProjectBrief {
@@ -29,17 +32,26 @@ export interface DatabaseProjectBrief {
   projectName: string;
   organizationName: string;
   department: ServiceDepartment;
-  scopeTier: 'starter' | 'growth' | 'enterprise';
+  scopeTier: "starter" | "growth" | "enterprise";
   budgetAmount: string;
   currency: string;
   timelineWeeks: string;
   clientEmail: string;
   clientPhone?: string;
   briefDetails: string;
-  status: 'submitted' | 'under_review' | 'pm_assigned' | 'in_progress' | 'completed';
+  status: "submitted" | "under_review" | "pm_assigned" | "in_progress" | "completed";
   assignedPM: string;
   createdAt: string;
-  milestones: { title: string; percentage: number; status: 'pending' | 'in_progress' | 'approved' }[];
+}
+
+export interface DatabaseConsultationRequest {
+  id: string;
+  fullName: string;
+  email: string;
+  preferredDate: string;
+  focusArea: string;
+  status: "requested" | "confirmed" | "completed" | "cancelled";
+  createdAt: string;
 }
 
 export interface DatabaseTalentApplication {
@@ -49,43 +61,29 @@ export interface DatabaseTalentApplication {
   phone: string;
   country: string;
   primaryDepartment: ServiceDepartment;
-  experienceLevel: 'Junior' | 'Intermediate' | 'Senior' | 'Lead' | 'Elite';
+  experienceLevel: "Junior" | "Intermediate" | "Senior" | "Lead" | "Elite";
   portfolioUrl: string;
   githubOrBehance?: string;
   hourlyRateExpectation: string;
   availableHoursPerWeek: number;
   bioNotes: string;
-  status: 'pending_review' | 'technical_interview' | 'accepted' | 'rejected';
+  status: "pending_review" | "technical_interview" | "accepted" | "rejected";
   submittedAt: string;
 }
 
 export interface DatabasePaymentTransaction {
   id: string;
   reference: string;
-  gateway: 'paystack' | 'flutterwave' | 'stripe';
+  gateway: "paystack" | "flutterwave" | "stripe";
   amount: number;
   currency: string;
   customerEmail: string;
   customerName: string;
   purpose: string;
-  status: 'success' | 'pending' | 'failed';
-  channel: 'card' | 'bank_transfer' | 'ussd' | 'apple_pay';
+  status: "success" | "pending" | "failed";
+  channel: "card" | "bank_transfer" | "ussd" | "apple_pay";
   timestamp: string;
-}
-
-export interface DatabaseBlogArticle {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  category: 'Fintech' | 'AI & Engineering' | 'Design Systems' | 'Growth & Marketing' | 'Pan-African Business';
-  author: { name: string; role: string; avatarUrl: string };
-  coverImage: string;
-  publishedAt: string;
-  readTimeMinutes: number;
-  likesCount: number;
-  featured: boolean;
+  verifiedByGateway?: boolean;
 }
 
 export interface DatabaseAnnouncement {
@@ -97,308 +95,386 @@ export interface DatabaseAnnouncement {
   active: boolean;
 }
 
-const INITIAL_REFERRALS: ClientReferralRecord[] = [
-  {
-    id: 'ref-001',
-    referrerUserId: 'user-client-folake',
-    referrerName: 'Dr. Folake Adeleke (KoboPay)',
-    referredUserName: 'Adeola Adeleke (Zenith Logistics)',
-    referredUserEmail: 'adeola@zenithlogistics.ng',
-    registeredAt: '2026-09-15',
-    status: 'milestone_funded',
-    referredProjectTitle: 'Supply Chain Tracking Dashboard & Mobile App',
-    fundedAmountNGN: 2500000,
-    fundedAmountUSD: 1650,
-    discountAppliedNGN: 50000,
-    discountAppliedUSD: 50,
-    cashbackEarnedNGN: 250000,
-    cashbackEarnedUSD: 165,
-    fundedAt: '2026-09-18',
-  },
-  {
-    id: 'ref-002',
-    referrerUserId: 'user-client-folake',
-    referrerName: 'Dr. Folake Adeleke (KoboPay)',
-    referredUserName: 'Emeka Okafor (AfriCart Supermarket)',
-    referredUserEmail: 'emeka@africart.com',
-    registeredAt: '2026-09-27',
-    status: 'pending_payment',
-    referredProjectTitle: 'E-Commerce Mobile Application',
-    discountAppliedNGN: 50000,
-    discountAppliedUSD: 50,
-    cashbackEarnedNGN: 0,
-    cashbackEarnedUSD: 0,
-  },
-  {
-    id: 'ref-003',
-    referrerUserId: 'usr-client-002',
-    referrerName: 'Engr. Dayo Lawal (Solaris Power)',
-    referredUserName: 'Fatima Sanusi (Kano Agro Foods)',
-    referredUserEmail: 'fatima@kanoagro.ng',
-    registeredAt: '2026-09-10',
-    status: 'milestone_funded',
-    referredProjectTitle: 'Agro Inventory ERP & Automated Invoicing',
-    fundedAmountNGN: 1800000,
-    fundedAmountUSD: 1200,
-    discountAppliedNGN: 50000,
-    discountAppliedUSD: 50,
-    cashbackEarnedNGN: 180000,
-    cashbackEarnedUSD: 120,
-    fundedAt: '2026-09-14',
-  },
-];
-
-const INITIAL_BLOGS: DatabaseBlogArticle[] = [
-  {
-    id: 'blog-1',
-    slug: 'scaling-fintech-sub-300ms-settlement-nigeria',
-    title: 'Engineering Sub-300ms Payment Settlement Rails in Nigeria & Pan-Africa',
-    excerpt: 'How NDH engineered resilient webhook retry queues, idempotency keys, and multi-bank fallbacks for high-concurrency payment platforms.',
-    content: `When scaling fintech systems across Lagos, Nairobi, and London, network latency and erratic banking switch drops can degrade conversion rates by up to 34%. 
-
-### 1. Dual-Path Idempotency Keys
-Every transaction token is hashed using SHA-256 and stored in an in-memory Redis cluster before striking PostgreSQL transaction logs. This guarantees that duplicate debit requests during network blips are safely rejected without double-charging the customer.
-
-### 2. Multi-Switch Payment Gateway Fallbacks
-By orchestrating smart routing between Paystack, Flutterwave, and direct NIBSS FastPay settlement rails, NDH architectures achieve 99.98% successful first-try checkout completions.
-
-### 3. Edge-First KYC & Biometric Verification
-Offloading liveness checks to Cloudflare Workers edge nodes reduced client verification drop-offs from 18.4% to less than 2.1%.`,
-    category: 'Fintech',
-    author: {
-      name: 'Tunde Bakare',
-      role: 'VP of Technology & Engineering',
-      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-    },
-    coverImage: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=900&auto=format&fit=crop&q=80',
-    publishedAt: '2026-09-24',
-    readTimeMinutes: 5,
-    likesCount: 142,
-    featured: true,
-  },
-  {
-    id: 'blog-2',
-    slug: 'why-managed-bureaus-beat-freelancer-marketplaces',
-    title: 'Why High-Growth Startups Are Abandoning Freelance Marketplaces for Managed Bureaus',
-    excerpt: 'The hidden cost of freelance coordination chaos, zero QA governance, and IP leakage — and how the dedicated PM bureau model solves it.',
-    content: `Hiring 5 independent freelancers across Fiverr and Upwork frequently turns founders into stressed-out, non-technical project managers.
-
-### The True Cost of Freelancer Coordination
-- **Fragmented Codebases**: No unified git branch strategy or CI/CD pipelines.
-- **Ghosting Risk**: 42% of direct freelance engagements experience mid-sprint abandoned deliveries.
-- **Zero SLA Protection**: No financial escrow or dual-approval sign-off.
-
-### The NDH Bureau Advantage
-NDH places an enterprise Project Manager as a contractual buffer layer. Talents execute pure technical tickets, PMs enforce automated QA gates, and clients receive guaranteed delivery.`,
-    category: 'Pan-African Business',
-    author: {
-      name: 'Najeeb Al-Hassan',
-      role: 'Founder & Principal Brand Director',
-      avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
-    },
-    coverImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&auto=format&fit=crop&q=80',
-    publishedAt: '2026-09-20',
-    readTimeMinutes: 4,
-    likesCount: 98,
-    featured: true,
-  },
-  {
-    id: 'blog-3',
-    slug: 'low-bandwidth-ai-automation-workflows',
-    title: 'Deploying Low-Bandwidth AI & Autonomous Agents for Emerging Markets',
-    excerpt: 'Optimizing token caching, vector quantization, and WhatsApp CRM agents for low-latency operational efficiency.',
-    content: `Generative AI tools often assume Gigabit fiber connections. In emerging markets, building resilient AI workflows requires low-bandwidth thinking.
-
-### Vector Quantization & Semantic Caching
-By implementing semantic caching on repeated customer queries, we reduced API token costs by 72% and lowered latency from 3.2s to 420ms on mobile 3G/4G connections.
-
-### WhatsApp CRM Agents
-Automating Tier-1 customer triage on WhatsApp using self-hosted n8n and localized multilingual models (English, Yoruba, Hausa, Igbo).`,
-    category: 'AI & Engineering',
-    author: {
-      name: 'Dr. Fatima Bello',
-      role: 'Lead AI & Automation Architect',
-      avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
-    },
-    coverImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&auto=format&fit=crop&q=80',
-    publishedAt: '2026-09-15',
-    readTimeMinutes: 6,
-    likesCount: 115,
-    featured: false,
-  },
-];
-
-class NDHDatabaseService {
-  private briefs: DatabaseProjectBrief[] = [];
-  private applications: DatabaseTalentApplication[] = [];
-  private transactions: DatabasePaymentTransaction[] = [];
-  private referrals: ClientReferralRecord[] = INITIAL_REFERRALS;
-  private blogs: DatabaseBlogArticle[] = INITIAL_BLOGS;
-  private announcement: DatabaseAnnouncement = {
-    id: 'ann-01',
-    title: '⚡ Q4 Digital Transformation Special: Free Technical Discovery & PM Consultation for All New Projects',
-    badge: 'SPECIAL OFFER',
-    actionText: 'Claim Free Brief Scope',
-    actionLink: '#estimator',
-    active: true,
-  };
-
-  constructor() {
-    if (typeof window !== 'undefined') {
-      try {
-        const savedBriefs = localStorage.getItem('ndh_db_briefs');
-        if (savedBriefs) this.briefs = JSON.parse(savedBriefs);
-
-        const savedApps = localStorage.getItem('ndh_db_applications');
-        if (savedApps) this.applications = JSON.parse(savedApps);
-
-        const savedTx = localStorage.getItem('ndh_db_transactions');
-        if (savedTx) this.transactions = JSON.parse(savedTx);
-
-        const savedRefs = localStorage.getItem('ndh_db_referrals');
-        if (savedRefs) this.referrals = JSON.parse(savedRefs);
-      } catch (e) {
-        console.warn('Database initialization warning:', e);
-      }
-    }
-  }
-
-  // --- BRIEFS / PROPOSALS ---
-  public createBrief(data: Omit<DatabaseProjectBrief, 'id' | 'status' | 'assignedPM' | 'createdAt' | 'milestones'>): DatabaseProjectBrief {
-    const newBrief: DatabaseProjectBrief = {
-      ...data,
-      id: `brief-${Date.now()}`,
-      status: 'submitted',
-      assignedPM: 'Tariq Al-Najeeb (Principal PM)',
-      createdAt: new Date().toISOString(),
-      milestones: [
-        { title: 'Milestone 1: Discovery & Architecture', percentage: 20, status: 'in_progress' },
-        { title: 'Milestone 2: Core Engineering & Staging', percentage: 60, status: 'pending' },
-        { title: 'Milestone 3: QA, Security & IP Handover', percentage: 20, status: 'pending' },
-      ],
-    };
-    this.briefs.unshift(newBrief);
-    this.persist('ndh_db_briefs', this.briefs);
-    return newBrief;
-  }
-
-  public getBriefs(): DatabaseProjectBrief[] {
-    return this.briefs;
-  }
-
-  // --- TALENT APPLICATIONS ---
-  public submitTalentApplication(data: Omit<DatabaseTalentApplication, 'id' | 'status' | 'submittedAt'>): DatabaseTalentApplication {
-    const newApp: DatabaseTalentApplication = {
-      ...data,
-      id: `app-${Date.now()}`,
-      status: 'pending_review',
-      submittedAt: new Date().toISOString(),
-    };
-    this.applications.unshift(newApp);
-    this.persist('ndh_db_applications', this.applications);
-    return newApp;
-  }
-
-  public getTalentApplications(): DatabaseTalentApplication[] {
-    return this.applications;
-  }
-
-  // --- CLIENT REFERRALS ---
-  public getReferrals(): ClientReferralRecord[] {
-    return this.referrals;
-  }
-
-  public getReferralsByReferrer(referrerUserId: string): ClientReferralRecord[] {
-    return this.referrals.filter((r) => r.referrerUserId === referrerUserId);
-  }
-
-  public createReferral(data: Omit<ClientReferralRecord, 'id' | 'registeredAt' | 'status' | 'cashbackEarnedNGN' | 'cashbackEarnedUSD'>): ClientReferralRecord {
-    const newRef: ClientReferralRecord = {
-      ...data,
-      id: `ref-${Date.now()}`,
-      registeredAt: new Date().toISOString().split('T')[0] || '2026-09-29',
-      status: 'pending_payment',
-      cashbackEarnedNGN: 0,
-      cashbackEarnedUSD: 0,
-    };
-    this.referrals.unshift(newRef);
-    this.persist('ndh_db_referrals', this.referrals);
-    return newRef;
-  }
-
-  /**
-   * Strict Referral Validation: Discount is ONLY unlocked when the referred client makes their first escrow payment.
-   */
-  public triggerReferralMilestoneFunding(referralId: string, paidAmountNGN: number, paidAmountUSD: number): ClientReferralRecord | null {
-    const ref = this.referrals.find((r) => r.id === referralId);
-    if (!ref) return null;
-
-    ref.status = 'milestone_funded';
-    ref.fundedAmountNGN = paidAmountNGN;
-    ref.fundedAmountUSD = paidAmountUSD;
-    // 10% cashback earned by the referrer once funded
-    ref.cashbackEarnedNGN = Math.round(paidAmountNGN * 0.10);
-    ref.cashbackEarnedUSD = Math.round(paidAmountUSD * 0.10);
-    ref.fundedAt = new Date().toISOString().split('T')[0] ?? '2026-09-30';
-
-    this.persist('ndh_db_referrals', this.referrals);
-    return ref;
-  }
-
-  // --- REVENUE SPLIT & PROFIT SHARING CALCULATION ---
-  public getRevenueSplit(amountNGN: number, amountUSD: number, isHybridPMTalent: boolean = false): RevenueSplitBreakdown {
-    return calculateRevenueSplit(amountNGN, amountUSD, isHybridPMTalent);
-  }
-
-  // --- PAYMENTS & GATEWAYS ---
-  public recordTransaction(data: Omit<DatabasePaymentTransaction, 'id' | 'reference' | 'timestamp'>): DatabasePaymentTransaction {
-    const newTx: DatabasePaymentTransaction = {
-      ...data,
-      id: `tx-${Date.now()}`,
-      reference: `NDH-PAY-${Math.floor(100000 + Math.random() * 900000)}`,
-      timestamp: new Date().toISOString(),
-    };
-    this.transactions.unshift(newTx);
-    this.persist('ndh_db_transactions', this.transactions);
-    return newTx;
-  }
-
-  public getTransactions(): DatabasePaymentTransaction[] {
-    return this.transactions;
-  }
-
-  // --- BLOGS ---
-  public getBlogs(): DatabaseBlogArticle[] {
-    return this.blogs;
-  }
-
-  public getBlogBySlug(slug: string): DatabaseBlogArticle | undefined {
-    return this.blogs.find((b) => b.slug === slug);
-  }
-
-  public likeBlog(id: string): void {
-    const blog = this.blogs.find((b) => b.id === id);
-    if (blog) blog.likesCount += 1;
-  }
-
-  // --- ANNOUNCEMENT ---
-  public getAnnouncement(): DatabaseAnnouncement {
-    return this.announcement;
-  }
-
-  public setAnnouncementActive(active: boolean): void {
-    this.announcement.active = active;
-  }
-
-  private persist(key: string, data: any) {
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem(key, JSON.stringify(data));
-      } catch (e) {
-        console.warn('Persistence error:', e);
-      }
-    }
-  }
+export interface ClientReferralRecordLite {
+  id: string;
+  referrerUserId: string;
+  referrerName: string;
+  referredUserName: string;
+  referredUserEmail: string;
+  registeredAt: string;
+  status: "pending_payment" | "milestone_funded" | "credited";
+  referredProjectTitle?: string;
+  fundedAmountNGN?: number;
+  fundedAmountUSD?: number;
+  discountAppliedNGN: number;
+  discountAppliedUSD: number;
+  cashbackEarnedNGN: number;
+  cashbackEarnedUSD: number;
+  fundedAt?: string;
 }
 
-export const dbService = new NDHDatabaseService();
+// ----------------------------------------------------------------------------
+// Lightweight pub/sub + polling so components reflect server-side changes
+// without needing a full WebSocket layer. A mutation anywhere notifies
+// same-tab subscribers instantly; polling catches changes made by other
+// users/tabs/devices. This is an honest "near-real-time", not instant push.
+// ----------------------------------------------------------------------------
+const listeners = new Set<() => void>();
+function notify() {
+  listeners.forEach((l) => l());
+}
+function subscribe(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+const POLL_INTERVAL_MS = 8000;
+
+function useApiList<T>(path: string): T[] {
+  const [items, setItems] = useState<T[]>([]);
+
+  const refetch = useCallback(() => {
+    api
+      .get<Record<string, T[]>>(path)
+      .then((body) => {
+        const values = Object.values(body)[0];
+        setItems(Array.isArray(values) ? values : []);
+      })
+      .catch(() => setItems([]));
+  }, [path]);
+
+  useEffect(() => {
+    refetch();
+    const unsubscribe = subscribe(refetch);
+    const interval = setInterval(refetch, POLL_INTERVAL_MS);
+    return () => {
+      unsubscribe();
+      clearInterval(interval);
+    };
+  }, [refetch]);
+
+  return items;
+}
+
+export function useBriefs(): DatabaseProjectBrief[] {
+  return useApiList<DatabaseProjectBrief>("/briefs");
+}
+
+// Client-facing: only the logged-in client's own submitted briefs, never
+// anyone else's project data. This is what ClientPortal.tsx uses so a new
+// client sees their own (possibly empty) project state instead of a
+// hardcoded sample company's data.
+export function useMyBriefs(): DatabaseProjectBrief[] {
+  return useApiList<DatabaseProjectBrief>("/briefs/mine");
+}
+
+export function useConsultationRequests(): DatabaseConsultationRequest[] {
+  return useApiList<DatabaseConsultationRequest>("/consultation-requests");
+}
+
+export function useTalentApplications(): DatabaseTalentApplication[] {
+  return useApiList<DatabaseTalentApplication>("/talent-applications");
+}
+
+export function useTransactions(): DatabasePaymentTransaction[] {
+  return useApiList<DatabasePaymentTransaction>("/transactions");
+}
+
+export function useReferrals(): ClientReferralRecordLite[] {
+  return useApiList<ClientReferralRecordLite>("/referrals");
+}
+
+// Client-facing: only referrals the logged-in user personally generated.
+export function useMyReferrals(): ClientReferralRecordLite[] {
+  return useApiList<ClientReferralRecordLite>("/referrals/mine");
+}
+
+// Client-facing: only the logged-in user's own payment/escrow history.
+export function useMyTransactions(): DatabasePaymentTransaction[] {
+  return useApiList<DatabasePaymentTransaction>("/transactions/me");
+}
+
+// PM/Admin-only: full internal talent records (real names, rates, bank
+// details). This replaces the previous direct `import { VETTED_TALENTS }`
+// from mockData.ts, which shipped that data in the public client bundle to
+// every anonymous visitor regardless of login state -- the single strongest
+// finding from the architecture audit. That data now never leaves the
+// server except in response to an authenticated, role-checked request.
+export function useInternalTalents(): TalentProfile[] {
+  return useApiList<TalentProfile>("/talents/internal");
+}
+
+// Public-safe talent directory (pseudonym, tier, skills -- no identity or
+// financial fields). Usable from public pages without authentication.
+export interface PublicTalentProfile {
+  id: string;
+  pseudonym: string;
+  department: ServiceDepartment;
+  tier: string;
+  rank: string;
+  location: string;
+  timezone: string;
+  skills: string[];
+  tools: string[];
+  completedProjects: number;
+  onTimeDeliveryRate: number;
+  qualityScore: number;
+  qaPercentageScore: number;
+  activeTasks: number;
+  academyGraduate: boolean;
+  academyBadgeTitle?: string;
+  academyCohort?: string;
+  verificationStatus: string;
+  avatarUrl: string;
+  bio: string;
+}
+
+export function usePublicTalents(): PublicTalentProfile[] {
+  return useApiList<PublicTalentProfile>("/talents");
+}
+
+// A logged-in talent's own full profile.
+export function useMyTalentProfile(): TalentProfile | null {
+  const [profile, setProfile] = useState<TalentProfile | null>(null);
+  useEffect(() => {
+    api
+      .get<{ talent: TalentProfile }>("/talents/me")
+      .then((body) => setProfile(body.talent))
+      .catch(() => setProfile(null));
+  }, []);
+  return profile;
+}
+
+// Public: case studies used to be purely static data bundled straight into
+// the client JS (src/data/mockData.ts), with zero admin path -- editing one
+// meant a code change and a redeploy. They now live in the real backend and
+// are editable from the admin portal; this is what the case-study gallery,
+// homepage spotlight, and hero carousel all read from.
+export function useCaseStudies(): CaseStudy[] {
+  return useApiList<CaseStudy>("/case-studies");
+}
+
+export function useAnnouncement(): DatabaseAnnouncement | null {
+  const [announcement, setAnnouncement] = useState<DatabaseAnnouncement | null>(null);
+  const refetch = useCallback(() => {
+    api
+      .get<{ announcement: DatabaseAnnouncement }>("/announcement")
+      .then((body) => setAnnouncement(body.announcement))
+      .catch(() => setAnnouncement(null));
+  }, []);
+  useEffect(() => {
+    refetch();
+    return subscribe(refetch);
+  }, [refetch]);
+  return announcement;
+}
+
+// ----------------------------------------------------------------------------
+// Mutating calls. All of these hit the real backend; dbService is kept as a
+// single object purely so call sites didn't all need renaming during this
+// migration away from the old localStorage implementation.
+// ----------------------------------------------------------------------------
+export const dbService = {
+  async createBrief(
+    data: Omit<DatabaseProjectBrief, "id" | "status" | "assignedPM" | "createdAt">,
+  ): Promise<DatabaseProjectBrief> {
+    const { brief } = await api.post<{ brief: DatabaseProjectBrief }>("/briefs", data);
+    notify();
+    return brief;
+  },
+
+  // A PM genuinely claiming a brief (replacing the old hardcoded
+  // "Auto-assigned PM: Tariq Al-Najeeb" that was stamped on every brief
+  // regardless of whether any human PM had looked at it).
+  async assignBrief(id: string): Promise<DatabaseProjectBrief> {
+    const { brief } = await api.patch<{ brief: DatabaseProjectBrief }>(`/briefs/${id}/assign`);
+    notify();
+    return brief;
+  },
+
+  async createConsultationRequest(
+    data: Omit<DatabaseConsultationRequest, "id" | "status" | "createdAt">,
+  ): Promise<DatabaseConsultationRequest> {
+    const { consultationRequest } = await api.post<{
+      consultationRequest: DatabaseConsultationRequest;
+    }>("/consultation-requests", data);
+    notify();
+    return consultationRequest;
+  },
+
+  async submitTalentApplication(
+    data: Omit<DatabaseTalentApplication, "id" | "status" | "submittedAt">,
+  ): Promise<DatabaseTalentApplication> {
+    const { talentApplication } = await api.post<{
+      talentApplication: DatabaseTalentApplication;
+    }>("/talent-applications", data);
+    notify();
+    return talentApplication;
+  },
+
+  // Really creates a login + internal talent profile on the server and
+  // returns the one-time temporary password generated for it (there is no
+  // outbound email service wired up, so the admin relays this directly to
+  // the candidate). Replaces the previous local-only "Approved ✓" state that
+  // created nothing.
+  async approveTalentApplication(id: string): Promise<{
+    user: UserSession;
+    talentProfile: TalentProfile;
+    temporaryPassword: string;
+  }> {
+    const result = await api.post<{
+      user: UserSession;
+      talentProfile: TalentProfile;
+      temporaryPassword: string;
+    }>(`/talent-applications/${id}/approve`);
+    notify();
+    return result;
+  },
+
+  async rejectTalentApplication(id: string, reason?: string): Promise<DatabaseTalentApplication> {
+    const { talentApplication } = await api.post<{ talentApplication: DatabaseTalentApplication }>(
+      `/talent-applications/${id}/reject`,
+      reason ? { reason } : {},
+    );
+    notify();
+    return talentApplication;
+  },
+
+  // Really creates a login for a new internal staff member (PM, ops admin,
+  // etc.) and returns its one-time temporary password, for the same reason
+  // as above. Replaces the previous "Invite Sent!" UI that created nothing.
+  async inviteStaffMember(data: {
+    fullName: string;
+    email: string;
+    role?: UserRole;
+  }): Promise<{ user: UserSession; temporaryPassword: string }> {
+    const result = await api.post<{ user: UserSession; temporaryPassword: string }>(
+      "/admin/invite-staff",
+      data,
+    );
+    notify();
+    return result;
+  },
+
+  async recordTransaction(data: {
+    reference: string;
+    gateway: "paystack" | "flutterwave" | "stripe";
+    amount: number;
+    currency: string;
+    customerEmail: string;
+    customerName: string;
+    purpose: string;
+  }): Promise<DatabasePaymentTransaction> {
+    const { transaction } = await api.post<{ transaction: DatabasePaymentTransaction }>(
+      "/payments/verify",
+      data,
+    );
+    notify();
+    return transaction;
+  },
+
+  async fundReferral(
+    referralId: string,
+    paidAmountNGN: number,
+    paidAmountUSD: number,
+  ): Promise<ClientReferralRecordLite> {
+    const { referral } = await api.post<{ referral: ClientReferralRecordLite }>(
+      `/referrals/${referralId}/fund`,
+      { paidAmountNGN, paidAmountUSD },
+    );
+    notify();
+    return referral;
+  },
+
+  async updateAnnouncement(data: { title?: string; active?: boolean }): Promise<void> {
+    await api.put("/announcement", data);
+    notify();
+  },
+
+  async createCaseStudy(data: Partial<CaseStudy>): Promise<CaseStudy> {
+    const { caseStudy } = await api.post<{ caseStudy: CaseStudy }>("/case-studies", data);
+    notify();
+    return caseStudy;
+  },
+
+  async updateCaseStudy(id: string, data: Partial<CaseStudy>): Promise<CaseStudy> {
+    const { caseStudy } = await api.put<{ caseStudy: CaseStudy }>(`/case-studies/${id}`, data);
+    notify();
+    return caseStudy;
+  },
+
+  async deleteCaseStudy(id: string): Promise<void> {
+    await api.delete(`/case-studies/${id}`);
+    notify();
+  },
+
+  async getPayoutBatch(id: string): Promise<PayoutBatch> {
+    const { payoutBatches } = await api.get<{ payoutBatches: PayoutBatch[] }>("/payouts");
+    const batch = payoutBatches.find((b) => b.id === id);
+    if (!batch) throw new Error("Payout batch not found");
+    return batch;
+  },
+
+  async signPayoutBatch(id: string): Promise<PayoutBatch> {
+    const { payoutBatch } = await api.post<{ payoutBatch: PayoutBatch }>(`/payouts/${id}/sign`);
+    notify();
+    return payoutBatch;
+  },
+
+  async disbursePayoutBatch(id: string): Promise<PayoutBatch> {
+    const { payoutBatch } = await api.post<{ payoutBatch: PayoutBatch }>(`/payouts/${id}/disburse`);
+    notify();
+    return payoutBatch;
+  },
+
+  async getMilestoneApproval(
+    projectId: string,
+    milestoneIndex: number,
+  ): Promise<MilestoneApproval> {
+    const { approval } = await api.get<{ approval: MilestoneApproval }>(
+      `/projects/${projectId}/milestones/${milestoneIndex}/approval`,
+    );
+    return approval;
+  },
+
+  async approveQaGate(projectId: string, milestoneIndex: number): Promise<MilestoneApproval> {
+    const { approval } = await api.post<{ approval: MilestoneApproval }>(
+      `/projects/${projectId}/milestones/${milestoneIndex}/qa-approve`,
+    );
+    notify();
+    return approval;
+  },
+
+  async approveMilestoneAsClient(
+    projectId: string,
+    milestoneIndex: number,
+  ): Promise<MilestoneApproval> {
+    const { approval } = await api.post<{ approval: MilestoneApproval }>(
+      `/projects/${projectId}/milestones/${milestoneIndex}/client-approve`,
+    );
+    notify();
+    return approval;
+  },
+};
+
+export interface PayoutBatch {
+  id: string;
+  label: string;
+  totalNGN: number;
+  approvals: { userId: string; userName: string; role: string; signedAt: string }[];
+  disbursed: boolean;
+  disbursedAt?: string;
+}
+
+export interface MilestoneApproval {
+  projectId: string;
+  milestoneIndex: number;
+  qaApproved: boolean;
+  qaApprovedByUserId?: string;
+  qaApprovedByName?: string;
+  qaApprovedAt?: string;
+  milestoneApproved: boolean;
+  milestoneApprovedByUserId?: string;
+  milestoneApprovedByName?: string;
+  milestoneApprovedAt?: string;
+}

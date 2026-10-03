@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { ServiceDepartment, ServiceDepartmentInfo, ServiceCategory } from '../../../types/ndh';
-import { SERVICE_DEPARTMENTS } from '../../../data/mockData';
-import { useCurrencyLanguage } from '../../../lib/currencyLanguageStore';
-import { ServiceDetailModal } from '../modals/ServiceDetailModal';
+import React, { useState } from "react";
+import { ServiceDepartment, ServiceDepartmentInfo, ServiceCategory } from "../../../types/ndh";
+import { SERVICE_DEPARTMENTS } from "../../../data/mockData";
+import { useCurrencyLanguage } from "../../../lib/currencyLanguageStore";
+import { ServiceDetailModal } from "../modals/ServiceDetailModal";
 import {
   CheckCircle2,
   Clock,
@@ -15,7 +15,7 @@ import {
   Globe,
   Zap,
   Filter,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface ServicesPreviewProps {
   direction?: string;
@@ -23,24 +23,24 @@ interface ServicesPreviewProps {
 }
 
 export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWizard }) => {
-  const { currency, getRegionalPricing, detectedCountry } = useCurrencyLanguage();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>('all');
+  const { currency, getRegionalPricing } = useCurrencyLanguage();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>("all");
   const [activeModalDept, setActiveModalDept] = useState<ServiceDepartmentInfo | null>(null);
 
   const categoryTabs: { id: ServiceCategory; label: string }[] = [
-    { id: 'all', label: 'All 16 Services' },
-    { id: 'engineering', label: '💻 Web, Mobile & Cloud' },
-    { id: 'design', label: '🎨 UI/UX & Brand Design' },
-    { id: 'ai', label: '🤖 AI & Automation' },
-    { id: 'marketing', label: '📈 Marketing, SEO & Copy' },
-    { id: 'media', label: '🎬 Video & 3D Media' },
-    { id: 'data', label: '📊 Data & Market Research' },
-    { id: 'mvp', label: '⚡ Rapid No-Code MVP' },
+    { id: "all", label: "All 16 Services" },
+    { id: "engineering", label: "💻 Web, Mobile & Cloud" },
+    { id: "design", label: "🎨 UI/UX & Brand Design" },
+    { id: "ai", label: "🤖 AI & Automation" },
+    { id: "marketing", label: "📈 Marketing, SEO & Copy" },
+    { id: "media", label: "🎬 Video & 3D Media" },
+    { id: "data", label: "📊 Data & Market Research" },
+    { id: "mvp", label: "⚡ Rapid No-Code MVP" },
   ];
 
   const filteredDepts = SERVICE_DEPARTMENTS.filter((dept) => {
-    const matchesCat = selectedCategory === 'all' || dept.category === selectedCategory;
+    const matchesCat = selectedCategory === "all" || dept.category === selectedCategory;
     const matchesSearch =
       dept.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       dept.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -62,14 +62,18 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWiz
             Comprehensive Digital Capabilities. Zero Freelance Chaos.
           </h1>
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            From budget-friendly student MVPs and fast websites to enterprise FinTech infrastructure. Every project is assigned a dedicated Project Manager with guaranteed milestones and IP escrow.
+            From budget-friendly starter MVPs and fast websites to enterprise FinTech
+            infrastructure. Every project is assigned a dedicated Project Manager with guaranteed
+            milestones and IP escrow.
           </p>
 
-          {/* Auto-Detection Country Badge */}
+          {/* Currency is auto-detected from your browser locale; override anytime via the
+              currency switcher in the nav — no need to call out the detected country here. */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-slate-900 border border-slate-700/80 text-xs text-slate-200">
             <Globe className="w-4 h-4 text-emerald-400" />
             <span>
-              Auto-detected region: <strong className="text-white">{detectedCountry} ({currency})</strong> • Prices calibrated to local purchasing power
+              Prices shown in <strong className="text-white">{currency}</strong> • detected
+              automatically, changeable anytime
             </span>
           </div>
         </div>
@@ -105,8 +109,8 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWiz
                 onClick={() => setSelectedCategory(tab.id)}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
                   selectedCategory === tab.id
-                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                    : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
+                    : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
                 }`}
               >
                 {tab.label}
@@ -121,8 +125,8 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWiz
             <p className="text-slate-300 text-sm">No services matched "{searchQuery}".</p>
             <button
               onClick={() => {
-                setSearchQuery('');
-                setSelectedCategory('all');
+                setSearchQuery("");
+                setSelectedCategory("all");
               }}
               className="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold"
             >
@@ -132,7 +136,7 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWiz
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredDepts.map((dept) => {
-              const starterPricing = getRegionalPricing(dept.id, 'starter');
+              const starterPricing = getRegionalPricing(dept.id, "starter");
               return (
                 <div
                   key={dept.id}
@@ -148,7 +152,7 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWiz
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
-                      
+
                       <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-black/80 backdrop-blur-md text-[10px] font-mono font-bold text-blue-300 border border-blue-500/30">
                         {dept.averageTurnaroundDays}d Delivery
                       </div>

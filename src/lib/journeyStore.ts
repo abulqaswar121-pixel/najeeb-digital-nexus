@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export interface JourneyState {
   currentStep: number;
@@ -79,20 +79,21 @@ export interface JourneyState {
 export const INITIAL_JOURNEY_STATE: JourneyState = {
   currentStep: 1,
   leadSubmitted: false,
-  leadId: 'lead-2026-901',
+  leadId: "lead-2026-901",
   leadScore: 96,
   leadData: {
-    companyName: 'Savannah Health Technologies',
-    contactName: 'Dr. Chinedu Eze',
-    contactEmail: 'chinedu@savannahhealth.io',
-    department: 'web_app_development',
-    budget: '$35,000 - $50,000 USD',
-    overview: 'High-speed clinical lab reporting platform with sub-300ms verification and NDPR compliance.',
+    companyName: "Savannah Health Technologies",
+    contactName: "Dr. Chinedu Eze",
+    contactEmail: "chinedu@savannahhealth.io",
+    department: "web_app_development",
+    budget: "$35,000 - $50,000 USD",
+    overview:
+      "High-speed clinical lab reporting platform with sub-300ms verification and NDPR compliance.",
     ndaRequested: true,
   },
 
   leadQualified: false,
-  assignedPM: 'Tariq Al-Najeeb (Principal PM)',
+  assignedPM: "NDH PM Team",
 
   proposalDrafted: false,
   proposalAmountUSD: 42000,
@@ -102,19 +103,23 @@ export const INITIAL_JOURNEY_STATE: JourneyState = {
   clientChangeRequested: false,
   clientAcceptedProposal: false,
   depositPaid: false,
-  depositTransactionRef: 'PSTK-TXN-2026-99482',
+  depositTransactionRef: "PSTK-TXN-2026-99482",
 
   projectCreated: false,
-  projectCode: 'NDH-2026-104',
-  invitedTalentId: 'tal-001',
-  invitedTalentPseudonym: 'Architect-Alpha (Oluwaseun Adedipe)',
+  projectCode: "NDH-2026-104",
+  invitedTalentId: "tal-001",
+  // Pseudonym only -- this walkthrough's own narrative (step 13) claims
+  // "Zero Data Leakage Certified" for talent anonymization, so it should not
+  // itself display a talent's real name next to their pseudonym.
+  invitedTalentPseudonym: "Architect-Alpha",
 
   talentAcceptedInvite: false,
   talentStartedWork: false,
 
   deliverableV1Submitted: false,
   qaRevisionRequested: false,
-  qaNotes: 'Please optimize edge bundle latency and ensure zero client identity leakage in API responses.',
+  qaNotes:
+    "Please optimize edge bundle latency and ensure zero client identity leakage in API responses.",
 
   deliverableV2Submitted: false,
   latencyBenchmarkMs: 275,
@@ -127,7 +132,7 @@ export const INITIAL_JOURNEY_STATE: JourneyState = {
   clientReceiptAvailable: false,
 
   talentEarningsApproved: false,
-  payoutBatchNumber: 'NDH-PAY-2026-W40',
+  payoutBatchNumber: "NDH-PAY-2026-W40",
   makerApproved: false,
   checkerApproved: false,
   payoutDisbursed: false,
@@ -144,8 +149,10 @@ const listeners = new Set<(state: JourneyState) => void>();
 
 export const getJourneyState = (): JourneyState => globalState;
 
-export const setJourneyState = (updater: Partial<JourneyState> | ((prev: JourneyState) => JourneyState)) => {
-  if (typeof updater === 'function') {
+export const setJourneyState = (
+  updater: Partial<JourneyState> | ((prev: JourneyState) => JourneyState),
+) => {
+  if (typeof updater === "function") {
     globalState = updater(globalState);
   } else {
     globalState = { ...globalState, ...updater };

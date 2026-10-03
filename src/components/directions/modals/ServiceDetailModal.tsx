@@ -1,6 +1,7 @@
-import React from 'react';
-import { ServiceDepartmentInfo } from '../../../types/ndh';
-import { useCurrencyLanguage } from '../../../lib/currencyLanguageStore';
+import React from "react";
+import { useModalA11y } from "../../../hooks/use-modal-a11y";
+import { ServiceDepartmentInfo } from "../../../types/ndh";
+import { useCurrencyLanguage } from "../../../lib/currencyLanguageStore";
 import {
   X,
   CheckCircle2,
@@ -12,7 +13,7 @@ import {
   Check,
   User,
   Zap,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface ServiceDetailModalProps {
   dept: ServiceDepartmentInfo | null;
@@ -27,16 +28,23 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
   onClose,
   onOpenBriefWizard,
 }) => {
-  const { currency, getRegionalPricing, detectedCountry } = useCurrencyLanguage();
+  const { currency, getRegionalPricing } = useCurrencyLanguage();
+
+  useModalA11y(isOpen, onClose);
 
   if (!isOpen || !dept) return null;
 
-  const starterPlan = getRegionalPricing(dept.id, 'starter');
-  const growthPlan = getRegionalPricing(dept.id, 'growth');
-  const enterprisePlan = getRegionalPricing(dept.id, 'enterprise');
+  const starterPlan = getRegionalPricing(dept.id, "starter");
+  const growthPlan = getRegionalPricing(dept.id, "growth");
+  const enterprisePlan = getRegionalPricing(dept.id, "enterprise");
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans overflow-y-auto">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Service details"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans overflow-y-auto"
+    >
       <div className="w-full max-w-3xl rounded-3xl bg-[#0F172A] border border-blue-500/40 shadow-2xl relative space-y-6 my-8 overflow-hidden">
         {/* Visual Cover Banner */}
         <div className="relative h-60 w-full overflow-hidden bg-slate-950">
@@ -72,15 +80,13 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
 
         {/* Modal Body */}
         <div className="p-6 sm:p-8 pt-0 space-y-6">
-          <p className="text-sm text-slate-200 leading-relaxed">
-            {dept.description}
-          </p>
+          <p className="text-sm text-slate-200 leading-relaxed">{dept.description}</p>
 
           {/* 3 Accessible Tiers Calibrated to User's Country */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="text-xs font-bold uppercase tracking-wider text-slate-300">
-                Transparent Localized Pricing ({detectedCountry} • {currency})
+                Transparent Pricing ({currency})
               </div>
               <span className="text-[11px] text-emerald-400 font-mono">
                 No hidden charges • 100% Escrow Protected
@@ -92,11 +98,15 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-white">Starter MVP</span>
                   <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 text-[10px] font-mono font-bold">
-                    Students &amp; Starters
+                    Starter Plan
                   </span>
                 </div>
-                <div className="text-2xl font-black font-mono text-emerald-400">{starterPlan.price}</div>
-                <div className="text-[11px] text-slate-400 leading-tight">{starterPlan.starterDesc}</div>
+                <div className="text-2xl font-black font-mono text-emerald-400">
+                  {starterPlan.price}
+                </div>
+                <div className="text-[11px] text-slate-400 leading-tight">
+                  {starterPlan.starterDesc}
+                </div>
               </div>
 
               <div className="p-4 rounded-2xl bg-blue-950/40 border border-blue-600/50 space-y-2 relative shadow-lg">
@@ -106,8 +116,12 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                     Most Popular
                   </span>
                 </div>
-                <div className="text-2xl font-black font-mono text-blue-400">{growthPlan.price}</div>
-                <div className="text-[11px] text-slate-300 leading-tight">Complete Custom Build + QA</div>
+                <div className="text-2xl font-black font-mono text-blue-400">
+                  {growthPlan.price}
+                </div>
+                <div className="text-[11px] text-slate-300 leading-tight">
+                  Complete Custom Build + QA
+                </div>
               </div>
 
               <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
@@ -117,8 +131,12 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                     Dedicated PM
                   </span>
                 </div>
-                <div className="text-2xl font-black font-mono text-indigo-400">{enterprisePlan.price}</div>
-                <div className="text-[11px] text-slate-400 leading-tight">High concurrency &amp; 24/7 SLA</div>
+                <div className="text-2xl font-black font-mono text-indigo-400">
+                  {enterprisePlan.price}
+                </div>
+                <div className="text-[11px] text-slate-400 leading-tight">
+                  High concurrency &amp; 24/7 SLA
+                </div>
               </div>
             </div>
           </div>
@@ -157,11 +175,13 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
               </div>
 
               <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
-                <div className="text-[11px] text-slate-400">Assigned Department Lead:</div>
+                <div className="text-[11px] text-slate-400">Department Capacity:</div>
                 <div className="font-bold text-white text-xs flex items-center gap-1.5">
                   <User className="w-3.5 h-3.5 text-blue-400" />
-                  <span>{dept.leadName}</span>
-                  <span className="text-slate-400 font-normal">({dept.leadTitle})</span>
+                  <span>{dept.activeTalentsCount} Active Vetted Talents</span>
+                  <span className="text-slate-400 font-normal">
+                    (~{dept.averageTurnaroundDays}-day avg. turnaround)
+                  </span>
                 </div>
               </div>
             </div>

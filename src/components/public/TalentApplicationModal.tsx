@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { dbService } from '../../lib/databaseStore';
-import { ServiceDepartment } from '../../types/ndh';
-import { SERVICE_DEPARTMENTS } from '../../data/mockData';
+import React, { useState } from "react";
+import { useModalA11y } from "../../hooks/use-modal-a11y";
+import { dbService } from "../../lib/databaseStore";
+import { ServiceDepartment } from "../../types/ndh";
+import { SERVICE_DEPARTMENTS } from "../../data/mockData";
 import {
   X,
   Award,
@@ -13,7 +14,7 @@ import {
   DollarSign,
   Briefcase,
   ShieldCheck,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface TalentApplicationModalProps {
   isOpen: boolean;
@@ -24,44 +25,63 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [country, setCountry] = useState('Nigeria');
-  const [department, setDepartment] = useState<ServiceDepartment>('web_app_development');
-  const [experienceLevel, setExperienceLevel] = useState<'Junior' | 'Intermediate' | 'Senior' | 'Lead' | 'Elite'>('Senior');
-  const [portfolioUrl, setPortfolioUrl] = useState('');
-  const [githubOrBehance, setGithubOrBehance] = useState('');
-  const [hourlyRate, setHourlyRate] = useState('₦15,000 / hr ($25/hr)');
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState("Nigeria");
+  const [department, setDepartment] = useState<ServiceDepartment>("web_app_development");
+  const [experienceLevel, setExperienceLevel] = useState<
+    "Junior" | "Intermediate" | "Senior" | "Lead" | "Elite"
+  >("Senior");
+  const [portfolioUrl, setPortfolioUrl] = useState("");
+  const [githubOrBehance, setGithubOrBehance] = useState("");
+  const [hourlyRate, setHourlyRate] = useState("₦15,000 / hr ($25/hr)");
   const [hoursPerWeek, setHoursPerWeek] = useState(25);
-  const [bioNotes, setBioNotes] = useState('');
+  const [bioNotes, setBioNotes] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useModalA11y(isOpen, onClose);
+
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fullName || !email || !portfolioUrl) return;
 
-    dbService.submitTalentApplication({
-      fullName,
-      email,
-      phone,
-      country,
-      primaryDepartment: department,
-      experienceLevel,
-      portfolioUrl,
-      githubOrBehance,
-      hourlyRateExpectation: hourlyRate,
-      availableHoursPerWeek: hoursPerWeek,
-      bioNotes,
-    });
-
-    setIsSubmitted(true);
+    setSubmitError(null);
+    setIsSubmitting(true);
+    try {
+      await dbService.submitTalentApplication({
+        fullName,
+        email,
+        phone,
+        country,
+        primaryDepartment: department,
+        experienceLevel,
+        portfolioUrl,
+        ...(githubOrBehance ? { githubOrBehance } : {}),
+        hourlyRateExpectation: hourlyRate,
+        availableHoursPerWeek: hoursPerWeek,
+        bioNotes,
+      });
+      setIsSubmitted(true);
+    } catch {
+      setSubmitError("Could not submit your application right now. Please try again shortly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans overflow-y-auto">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Talent application"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans overflow-y-auto"
+    >
       <div className="w-full max-w-2xl rounded-3xl bg-[#0F172A] border border-blue-500/40 p-6 sm:p-8 shadow-2xl relative space-y-6 my-8">
         <button
           onClick={onClose}
@@ -78,13 +98,21 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
             <div className="space-y-2">
               <h3 className="text-2xl font-extrabold text-white">Application Received!</h3>
               <p className="text-xs text-slate-300 max-w-md mx-auto leading-relaxed">
-                Thank you for applying to the <strong>NDH Vetted Talent Network</strong>. Our talent management squad will review your portfolio and initiate technical vetting within 48 business hours.
+                Thank you for applying to the <strong>NDH Vetted Talent Network</strong>. Our talent
+                management squad will review your portfolio and initiate technical vetting within 48
+                business hours.
               </p>
             </div>
             <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 max-w-sm mx-auto text-xs text-left space-y-1 font-mono text-slate-400">
-              <div>Candidate: <span className="text-white font-bold">{fullName}</span></div>
-              <div>Department: <span className="text-blue-400 font-bold">{department}</span></div>
-              <div>Status: <span className="text-emerald-400 font-bold">Vetting Queue Active ✓</span></div>
+              <div>
+                Candidate: <span className="text-white font-bold">{fullName}</span>
+              </div>
+              <div>
+                Department: <span className="text-blue-400 font-bold">{department}</span>
+              </div>
+              <div>
+                Status: <span className="text-emerald-400 font-bold">Vetting Queue Active ✓</span>
+              </div>
             </div>
             <button
               onClick={() => {
@@ -107,7 +135,8 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
                 Apply to the NDH Talent Squad
               </h2>
               <p className="text-xs text-slate-300">
-                Work on high-impact enterprise projects with guaranteed prompt escrow payments in NGN/USD and dedicated PM protection.
+                Work on high-impact enterprise projects with guaranteed prompt escrow payments in
+                NGN/USD and dedicated PM protection.
               </p>
             </div>
 
@@ -177,7 +206,9 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
                 <label className="font-bold text-slate-300">Seniority Level *</label>
                 <select
                   value={experienceLevel}
-                  onChange={(e) => setExperienceLevel(e.target.value as any)}
+                  onChange={(e) =>
+                    setExperienceLevel(e.target.value as Parameters<typeof setExperienceLevel>[0])
+                  }
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
                 >
                   <option value="Junior">Junior (1-2 yrs)</option>
@@ -230,12 +261,14 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
               </div>
               <button
                 type="submit"
-                className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 flex items-center gap-2 transition-transform hover:scale-105"
+                disabled={isSubmitting}
+                className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-bold text-xs shadow-lg shadow-blue-600/30 flex items-center gap-2 transition-transform hover:scale-105"
               >
-                <span>Submit Application</span>
+                <span>{isSubmitting ? "Submitting..." : "Submit Application"}</span>
                 <Send className="w-3.5 h-3.5" />
               </button>
             </div>
+            {submitError && <p className="text-xs text-red-400 text-right">{submitError}</p>}
           </form>
         )}
       </div>
