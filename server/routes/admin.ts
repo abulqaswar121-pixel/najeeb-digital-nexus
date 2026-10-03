@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from "../http.js";
 import { requireRole, hashPassword, generateTemporaryPassword, toPublicUser } from "../auth.js";
 import { users, type UserRecord } from "../collections.js";
 import type { UserRole } from "../../src/types/ndh.js";

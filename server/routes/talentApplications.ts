@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from "../http.js";
 import { requireRole, hashPassword, generateTemporaryPassword, toPublicUser } from "../auth.js";
 import {
   talentApplications,

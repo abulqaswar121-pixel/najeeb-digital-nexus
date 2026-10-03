@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from "../http.js";
 import { requireAuth } from "../auth.js";
 import { transactions, type TransactionRecord } from "../collections.js";
 import { verifyPaystackTransaction, verifyPaystackWebhookSignature } from "../paystack.js";

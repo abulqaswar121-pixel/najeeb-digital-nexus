@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from "../http.js";
 import { optionalAuth, requireAuth, requireRole } from "../auth.js";
 import { briefs, type BriefRecord } from "../collections.js";
 import type { ServiceDepartment } from "../../src/types/ndh.js";
