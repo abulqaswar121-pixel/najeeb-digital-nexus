@@ -34,7 +34,7 @@ authRouter.post("/login", async (req, res) => {
     return;
   }
 
-  const token = signSession(account.id);
+  const token = await signSession(account.id);
   setSessionCookie(res, token);
   res.json({ user: toPublicUser(account) });
 });
@@ -101,7 +101,7 @@ authRouter.post("/register", async (req, res) => {
   // route only creates the account itself.
   void referralCodeUsed;
 
-  const token = signSession(newUser.id);
+  const token = await signSession(newUser.id);
   setSessionCookie(res, token);
   res.status(201).json({ user: toPublicUser(newUser) });
 });
