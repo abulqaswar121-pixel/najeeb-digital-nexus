@@ -6,10 +6,13 @@ interface BrandLogoProps {
 }
 
 export const BrandLogo: React.FC<BrandLogoProps> = ({ size = "md", className = "" }) => {
+  // Icon box sizes are taller than wide to match the real brand mark's
+  // vertical hexagon silhouette (the previous geometric SVG placeholder was
+  // a perfect square -- this mark isn't).
   const iconSizes = {
-    sm: "w-8 h-8",
-    md: "w-10 h-10",
-    lg: "w-12 h-12",
+    sm: "w-6 h-8",
+    md: "w-8 h-10",
+    lg: "w-10 h-12",
   };
 
   const textSizes = {
@@ -20,42 +23,16 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ size = "md", className = "
 
   return (
     <div className={`flex min-w-0 items-center gap-2.5 select-none group ${className}`}>
-      {/* 3D Geometric Nexus Diamond Emblem */}
+      {/* Real NDH brand mark (supplied by the agency, not AI-generated
+          placeholder geometry) */}
       <div
-        className={`relative ${iconSizes[size]} shrink-0 transition-transform duration-300 group-hover:scale-105`}
+        className={`relative ${iconSizes[size]} shrink-0 transition-transform duration-300 group-hover:scale-105 flex items-center justify-center`}
       >
-        {/* Glowing Ambient Halo */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-600 via-indigo-500 to-cyan-400 rounded-2xl blur-[6px] opacity-75 group-hover:opacity-100 transition-opacity" />
-
-        {/* Crisp Geometric Prism Mark */}
-        <div className="relative w-full h-full rounded-2xl bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0A0E1A] p-0.5 border border-white/20 shadow-xl overflow-hidden flex items-center justify-center">
-          {/* Glass Inner Reflection */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/25 via-transparent to-transparent pointer-events-none" />
-
-          {/* Precision SVG Nexus Emblem */}
-          <svg viewBox="0 0 40 40" className="w-6 h-6 text-white" fill="none">
-            <defs>
-              <linearGradient id="ndhGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#60A5FA" />
-                <stop offset="50%" stopColor="#3B82F6" />
-                <stop offset="100%" stopColor="#1D4ED8" />
-              </linearGradient>
-              <linearGradient id="ndhGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#38BDF8" />
-                <stop offset="100%" stopColor="#6366F1" />
-              </linearGradient>
-            </defs>
-            {/* Left Pillar */}
-            <path d="M10 30V10L17 10V30H10Z" fill="url(#ndhGradient1)" rx="2" />
-            {/* Diagonal Ribbon */}
-            <path d="M15 10L27 30H22L10 10H15Z" fill="url(#ndhGradient2)" opacity="0.9" />
-            {/* Right Pillar */}
-            <path d="M23 30V10L30 10V30H23Z" fill="url(#ndhGradient1)" rx="2" />
-            {/* Precision Nexus Node */}
-            <circle cx="20" cy="20" r="3" fill="#FFFFFF" />
-            <circle cx="20" cy="20" r="1.5" fill="#3B82F6" />
-          </svg>
-        </div>
+        <img
+          src="/images/ndh-logo-mark.png"
+          alt="NDH Agency"
+          className="w-full h-full object-contain drop-shadow-[0_2px_6px_rgba(109,40,217,0.45)]"
+        />
       </div>
 
       {/* Brand Typography */}
