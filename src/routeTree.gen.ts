@@ -22,6 +22,7 @@ import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as TalentNetworkRouteImport } from './routes/talent-network'
 import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
+import { Route as ApiSplatRouteImport } from './routes/api/$'
 import { Route as PortalAdminRouteImport } from './routes/portal/admin'
 import { Route as PortalClientRouteImport } from './routes/portal/client'
 import { Route as PortalPmRouteImport } from './routes/portal/pm'
@@ -92,6 +93,11 @@ const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
   path: '/terms-of-service',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSplatRoute = ApiSplatRouteImport.update({
+  id: '/api/$',
+  path: '/api/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortalAdminRoute = PortalAdminRouteImport.update({
   id: '/portal/admin',
   path: '/portal/admin',
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/talent-network': typeof TalentNetworkRoute
   '/terms-of-service': typeof TermsOfServiceRoute
+  '/api/$': typeof ApiSplatRoute
   '/portal/admin': typeof PortalAdminRoute
   '/portal/client': typeof PortalClientRoute
   '/portal/pm': typeof PortalPmRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/talent-network': typeof TalentNetworkRoute
   '/terms-of-service': typeof TermsOfServiceRoute
+  '/api/$': typeof ApiSplatRoute
   '/portal/admin': typeof PortalAdminRoute
   '/portal/client': typeof PortalClientRoute
   '/portal/pm': typeof PortalPmRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/talent-network': typeof TalentNetworkRoute
   '/terms-of-service': typeof TermsOfServiceRoute
+  '/api/$': typeof ApiSplatRoute
   '/portal/admin': typeof PortalAdminRoute
   '/portal/client': typeof PortalClientRoute
   '/portal/pm': typeof PortalPmRoute
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/talent-network'
     | '/terms-of-service'
+    | '/api/$'
     | '/portal/admin'
     | '/portal/client'
     | '/portal/pm'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/talent-network'
     | '/terms-of-service'
+    | '/api/$'
     | '/portal/admin'
     | '/portal/client'
     | '/portal/pm'
@@ -225,6 +236,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/talent-network'
     | '/terms-of-service'
+    | '/api/$'
     | '/portal/admin'
     | '/portal/client'
     | '/portal/pm'
@@ -245,6 +257,7 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRoute
   TalentNetworkRoute: typeof TalentNetworkRoute
   TermsOfServiceRoute: typeof TermsOfServiceRoute
+  ApiSplatRoute: typeof ApiSplatRoute
   PortalAdminRoute: typeof PortalAdminRoute
   PortalClientRoute: typeof PortalClientRoute
   PortalPmRoute: typeof PortalPmRoute
@@ -344,6 +357,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsOfServiceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/$': {
+      id: '/api/$'
+      path: '/api/$'
+      fullPath: '/api/$'
+      preLoaderRoute: typeof ApiSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portal/admin': {
       id: '/portal/admin'
       path: '/portal/admin'
@@ -389,6 +409,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRoute,
   TalentNetworkRoute: TalentNetworkRoute,
   TermsOfServiceRoute: TermsOfServiceRoute,
+  ApiSplatRoute: ApiSplatRoute,
   PortalAdminRoute: PortalAdminRoute,
   PortalClientRoute: PortalClientRoute,
   PortalPmRoute: PortalPmRoute,
