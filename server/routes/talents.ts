@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from "../http.js";
 import { requireAuth, requireRole } from "../auth.js";
 import { talents, toPublicTalent, talentUserLinks } from "../collections.js";
 

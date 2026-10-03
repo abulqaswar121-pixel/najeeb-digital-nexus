@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from "../http.js";
 import { requireRole } from "../auth.js";
 import { caseStudies } from "../collections.js";
 import type { CaseStudy } from "../../src/types/ndh.js";

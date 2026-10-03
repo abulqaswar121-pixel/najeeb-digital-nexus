@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from "../http.js";
 import { requireRole } from "../auth.js";
 import { projectApprovals, type ProjectApprovalRecord } from "../collections.js";
 

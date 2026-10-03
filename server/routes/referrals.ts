@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from "../http.js";
 import { requireAuth, requireRole } from "../auth.js";
 import { referrals } from "../collections.js";
 import type { ClientReferralRecord } from "../../src/types/ndh.js";
