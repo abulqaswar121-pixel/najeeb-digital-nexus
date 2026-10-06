@@ -30,8 +30,7 @@ export const AcademyCrossPromo: React.FC = () => {
               Upskill with NDH Academy
             </h2>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-400">
-              {academy.tagline} 60 practical courses across 6 schools, with verifiable
-              certificates, on its own platform at{" "}
+              {academy.tagline} It runs on its own platform at{" "}
               <span className="text-slate-200">{academy.domain}</span>.
             </p>
             <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-400">
