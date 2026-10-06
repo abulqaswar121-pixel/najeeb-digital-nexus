@@ -1521,3 +1521,8 @@ h6,
 .gw-band-porcelain .bg-blue-500.text-white {
   color: #ffffff;
 }
+
+.font-mono {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
