@@ -108,7 +108,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-eco-electric opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-eco-electric" />
             </span>
-            <span className="text-[11px] font-semibold uppercase tracking-widest text-slate-400">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 sm:text-[11px] sm:tracking-widest">
               {heroBadge}
             </span>
           </div>
@@ -143,8 +143,11 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           <p className="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-slate-500">
             <Globe className="h-3.5 w-3.5" />
             <span>
-              {t("hero_price_prefix")} <span className="text-slate-300">{currency}</span> ·{" "}
-              {t("hero_price_suffix")}
+              {t("hero_price_prefix")}{" "}
+              <span className="text-slate-300" suppressHydrationWarning>
+                {currency}
+              </span>{" "}
+              · {t("hero_price_suffix")}
             </span>
           </p>
         </div>

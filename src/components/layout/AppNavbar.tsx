@@ -182,7 +182,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
               aria-expanded={currencyDropdownOpen}
             >
               <Globe className="h-4 w-4" />
-              <span className="whitespace-nowrap uppercase">
+              <span className="whitespace-nowrap uppercase" suppressHydrationWarning>
                 {language} · {currency}
               </span>
             </button>

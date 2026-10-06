@@ -71,7 +71,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
         <div className="grid min-w-0 grid-cols-1 gap-10 border-t border-white/10 pt-4 md:grid-cols-2 xl:grid-cols-4">
           {/* Col 1: Brand & Parent Hub */}
           <div className="space-y-4">
-            <BrandLogo size="md" />
+            <BrandLogo size="md" compactBadge />
             <p className="text-xs text-slate-300 leading-relaxed">
               We design and build world-class digital systems, mobile apps, and brand strategies
               that help modern businesses scale with certainty.
@@ -131,14 +131,11 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               {onOpenTalentModal && (
                 <button
                   onClick={onOpenTalentModal}
-                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600/30 to-blue-600/30 border border-emerald-500/40 text-emerald-300 hover:text-white hover:border-emerald-400 text-xs font-bold transition-all flex items-center justify-between"
+                  className="inline-flex items-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-semibold text-slate-200 transition-colors hover:border-eco-electric/40 hover:text-white"
                 >
                   <span className="flex items-center gap-1.5">
                     <UserPlus className="w-3.5 h-3.5" />
                     <span>Apply as Vetted Talent</span>
-                  </span>
-                  <span className="text-[10px] bg-emerald-500/20 px-1.5 py-0.5 rounded font-mono">
-                    Join Squad
                   </span>
                 </button>
               )}
@@ -279,11 +276,8 @@ export const AppFooter: React.FC<AppFooterProps> = ({
                   className="hover:text-blue-400 flex items-center justify-between w-full transition-colors font-medium text-white"
                 >
                   <span className="flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-blue-400" />
+                    <User className="w-3.5 h-3.5 text-eco-electric" />
                     <span>Client Portal</span>
-                  </span>
-                  <span className="text-[10px] text-blue-400 font-mono px-2 py-0.5 rounded bg-blue-950 border border-blue-800">
-                    {user ? "Active" : "Sign In"}
                   </span>
                 </button>
               </li>
