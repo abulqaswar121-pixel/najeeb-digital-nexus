@@ -122,7 +122,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full max-w-full overflow-x-clip border-b border-white/[0.06] bg-eco-dark/80 font-sans backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full max-w-full overflow-x-clip border-b border-white/[0.06] bg-eco-dark/95 font-sans backdrop-blur-md">
       <div className="mx-auto flex h-16 w-full min-w-0 max-w-7xl items-center gap-3 px-4 sm:h-20 sm:px-6">
         {/* Brand */}
         <button
