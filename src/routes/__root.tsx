@@ -51,7 +51,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
         </div>
         <h1 className="text-xl font-bold tracking-tight text-white">Session Refresh</h1>
         <p className="text-xs text-slate-400 leading-relaxed">
-          {error?.message ||
+          {(error instanceof Error ? error.message : "") ||
             "An operational session refresh is recommended. Please reload the interface."}
         </p>
         <div className="pt-2 flex flex-wrap justify-center gap-3">
