@@ -62,17 +62,17 @@ export const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onDismiss })
     <>
       {/* Floating Mini App Install Trigger Pill (bottom-left) */}
       {deferredPrompt && (
-      <div className="fixed bottom-6 left-6 z-40 hidden sm:block">
-        <button
-          onClick={() => setIsOpen(true)}
-          className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-200 text-xs font-semibold shadow-xl backdrop-blur-md transition-all hover:scale-105 group"
-        >
-          <div className="w-5 h-5 rounded-lg bg-blue-600/30 border border-blue-400/40 flex items-center justify-center text-blue-400 group-hover:rotate-12 transition-transform">
-            <Smartphone className="w-3 h-3" />
-          </div>
-          <span>Install App</span>
-        </button>
-      </div>
+        <div className="fixed bottom-6 left-6 z-40 hidden sm:block">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-200 text-xs font-semibold shadow-xl backdrop-blur-md transition-all hover:scale-105 group"
+          >
+            <div className="w-5 h-5 rounded-lg bg-blue-600/30 border border-blue-400/40 flex items-center justify-center text-blue-400 group-hover:rotate-12 transition-transform">
+              <Smartphone className="w-3 h-3" />
+            </div>
+            <span>Install App</span>
+          </button>
+        </div>
       )}
 
       {/* Install Modal */}

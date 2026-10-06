@@ -164,7 +164,10 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
 
         {/* Right-hand tools */}
         <div className="ml-auto hidden shrink-0 items-center gap-4 md:flex">
-          <FamilyMenu links={SITE_LINKS} cta={{ label: t("nav_request_quote"), href: "/contact" }} />
+          <FamilyMenu
+            links={SITE_LINKS}
+            cta={{ label: t("nav_request_quote"), href: "/contact" }}
+          />
 
           {/* Combined language + currency */}
           <div className="relative">
