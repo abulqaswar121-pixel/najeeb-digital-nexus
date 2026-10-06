@@ -115,30 +115,35 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
     "admin-command",
   ].includes(currentView);
 
+  // Desktop shows the four primary destinations; the rest live in the menu
+  // drawer and footer so the bar never crowds or truncates.
+  const primaryLinks = navLinks.filter((l) =>
+    ["services", "case-study", "process", "talent-network"].includes(l.id),
+  );
+
   return (
-    <header className="sticky top-0 z-50 w-full max-w-full overflow-x-clip border-b border-white/10 bg-eco-dark/95 font-sans shadow-2xl backdrop-blur-xl">
-      {/* Flex (not grid) so the brand, desktop nav, right-hand tools and the
-          mobile controls each occupy exactly one row at every breakpoint. The
-          previous 2-column grid had four children, which pushed the tools
-          group onto a second implicit row at >=1280px inside a fixed-height
-          header. `overflow-x-clip` + `min-w-0` on every flexible child is what
-          keeps a 360px viewport from ever scrolling sideways. */}
-      <div className="mx-auto flex h-16 w-full min-w-0 max-w-7xl items-center gap-2 px-3 sm:h-20 sm:gap-3 sm:px-6 lg:px-8">
-        {/* Brand / Logo */}
-        <div
+    <header className="sticky top-0 z-50 w-full max-w-full overflow-x-clip border-b border-white/[0.06] bg-eco-dark/80 font-sans backdrop-blur-md">
+      <div className="mx-auto flex h-16 w-full min-w-0 max-w-7xl items-center gap-3 px-4 sm:h-20 sm:px-6">
+        {/* Brand */}
+        <button
+          type="button"
           onClick={() => {
             onSelectView("homepage");
             setMobileMenuOpen(false);
           }}
-          className="min-w-0 flex-1 cursor-pointer lg:flex-none"
+          className="min-w-0 flex-1 text-left xl:flex-none"
+          aria-label="NDH Agency home"
         >
-          <BrandLogo size="sm" className="min-w-0 sm:hidden" />
-          <BrandLogo size="md" className="hidden min-w-0 sm:flex" />
-        </div>
+          <BrandLogo size="sm" compactBadge className="min-w-0 sm:hidden" />
+          <BrandLogo size="md" compactBadge className="hidden min-w-0 sm:flex" />
+        </button>
 
-        {/* Desktop Navigation Links */}
-        <nav className="ml-4 hidden min-w-0 items-center gap-5 text-sm font-semibold text-slate-300 2xl:flex">
-          {navLinks.map((link) => {
+        {/* Primary navigation */}
+        <nav
+          aria-label="Main"
+          className="ml-10 hidden min-w-0 items-center gap-8 text-sm font-medium xl:flex"
+        >
+          {primaryLinks.map((link) => {
             const isActive = currentView === link.id;
             return (
               <button
@@ -147,78 +152,21 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                   onSelectView(link.id);
                   setUserDropdownOpen(false);
                 }}
-                className={`relative py-1 whitespace-nowrap transition-colors ${
-                  isActive ? "font-bold text-white" : "hover:text-white"
+                className={`whitespace-nowrap transition-colors ${
+                  isActive ? "text-white" : "text-slate-400 hover:text-white"
                 }`}
               >
                 {link.label}
-                {isActive && (
-                  <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-eco-electric" />
-                )}
               </button>
             );
           })}
         </nav>
 
-        {/* Right Actions: Ecosystem + Currency + Language + User Session + CTA */}
-        <div className="ml-auto hidden shrink-0 items-center gap-2 md:flex">
-          {/* 0. Precision Gateway ecosystem switcher */}
-          <FamilyMenu
-            links={SITE_LINKS}
-            cta={{ label: t("nav_request_quote"), href: "/contact" }}
-          />
+        {/* Right-hand tools */}
+        <div className="ml-auto hidden shrink-0 items-center gap-4 md:flex">
+          <FamilyMenu links={SITE_LINKS} cta={{ label: t("nav_request_quote"), href: "/contact" }} />
 
-          {/* 1. Language Selector Dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => {
-                setLangDropdownOpen(!langDropdownOpen);
-                setCurrencyDropdownOpen(false);
-                setUserDropdownOpen(false);
-              }}
-              className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-eco-navy px-3 py-1.5 text-xs font-semibold text-slate-200 transition-all hover:border-eco-cyan/40"
-              aria-label="Change Language"
-            >
-              <span className="uppercase">{language}</span>
-              <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
-            </button>
-
-            {langDropdownOpen && (
-              <div className="absolute right-0 z-50 mt-2 w-48 animate-in fade-in zoom-in-95 rounded-2xl border border-white/10 bg-eco-navy p-2 text-slate-200 shadow-2xl duration-150">
-                <div className="border-b border-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  Select Language
-                </div>
-                <div className="space-y-0.5 py-1">
-                  {(Object.keys(languages) as SupportedLanguage[]).map((code) => {
-                    const l = languages[code]!;
-                    const isSelected = language === code;
-                    return (
-                      <button
-                        key={code}
-                        onClick={() => {
-                          setLanguage(code);
-                          setLangDropdownOpen(false);
-                        }}
-                        className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-colors ${
-                          isSelected
-                            ? "bg-eco-electric/20 font-bold text-eco-electric"
-                            : "text-slate-300 hover:bg-white/5 hover:text-white"
-                        }`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <span>{l.flag}</span>
-                          <span>{l.nativeName}</span>
-                        </div>
-                        {isSelected && <Check className="h-3.5 w-3.5" />}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* 2. Global Currency Selector Dropdown */}
+          {/* Combined language + currency */}
           <div className="relative">
             <button
               onClick={() => {
@@ -226,21 +174,40 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                 setLangDropdownOpen(false);
                 setUserDropdownOpen(false);
               }}
-              className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-eco-navy px-3 py-1.5 text-xs font-bold text-slate-200 transition-all hover:border-eco-cyan/40"
-              aria-label="Change Currency"
+              className="flex items-center gap-1.5 text-sm font-medium text-slate-400 transition-colors hover:text-white"
+              aria-label="Language and currency"
+              aria-expanded={currencyDropdownOpen}
             >
-              <span className="whitespace-nowrap">
-                {currencies[currency]?.symbol} {currency}
+              <Globe className="h-4 w-4" />
+              <span className="whitespace-nowrap uppercase">
+                {language} · {currency}
               </span>
-              <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
             </button>
 
             {currencyDropdownOpen && (
-              <div className="absolute right-0 z-50 mt-2 w-52 animate-in fade-in zoom-in-95 rounded-2xl border border-white/10 bg-eco-navy p-2 text-slate-200 shadow-2xl duration-150">
-                <div className="border-b border-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  Select Global Currency
+              <div className="absolute right-0 z-50 mt-3 w-64 animate-in fade-in zoom-in-95 rounded-2xl border border-white/10 bg-eco-navy p-2 text-slate-200 shadow-2xl duration-150">
+                <div className="px-3 pb-1 pt-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500">
+                  Language
                 </div>
-                <div className="space-y-0.5 py-1">
+                <div className="grid grid-cols-3 gap-1 p-1">
+                  {(Object.keys(languages) as SupportedLanguage[]).map((code) => (
+                    <button
+                      key={code}
+                      onClick={() => setLanguage(code)}
+                      className={`rounded-lg px-2 py-1.5 text-xs font-semibold uppercase transition-colors ${
+                        language === code
+                          ? "bg-eco-electric/15 text-eco-electric"
+                          : "text-slate-300 hover:bg-white/5"
+                      }`}
+                    >
+                      {code}
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-1 border-t border-white/10 px-3 pb-1 pt-3 text-[10px] font-semibold uppercase tracking-widest text-slate-500">
+                  Currency
+                </div>
+                <div className="space-y-0.5 p-1">
                   {(Object.keys(currencies) as SupportedCurrency[]).map((code) => {
                     const c = currencies[code]!;
                     const isSelected = currency === code;
@@ -251,18 +218,15 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                           setCurrency(code);
                           setCurrencyDropdownOpen(false);
                         }}
-                        className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-colors ${
+                        className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs transition-colors ${
                           isSelected
-                            ? "bg-eco-electric/20 font-bold text-eco-electric"
+                            ? "bg-eco-electric/15 font-semibold text-eco-electric"
                             : "text-slate-300 hover:bg-white/5 hover:text-white"
                         }`}
                       >
-                        <div className="flex items-center gap-2">
-                          <span>{c.flag}</span>
-                          <span>
-                            {c.name} ({c.symbol})
-                          </span>
-                        </div>
+                        <span>
+                          {c.symbol} {code} <span className="text-slate-500">· {c.name}</span>
+                        </span>
                         {isSelected && <Check className="h-3.5 w-3.5" />}
                       </button>
                     );
@@ -272,7 +236,8 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
             )}
           </div>
 
-          {/* 3. User Session / Sign In */}
+          <span className="h-4 w-px bg-white/10" aria-hidden="true" />
+
           {user ? (
             <div className="relative">
               <button
@@ -281,57 +246,52 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
                   setLangDropdownOpen(false);
                   setCurrencyDropdownOpen(false);
                 }}
-                className="flex items-center gap-2 rounded-xl border border-white/10 bg-eco-navy px-3 py-1.5 text-xs font-semibold text-slate-200 transition-all hover:border-eco-cyan/40"
+                className="flex items-center gap-2 text-sm font-medium text-slate-300 transition-colors hover:text-white"
               >
                 <img
                   src={user.avatarUrl}
-                  alt={user.fullName}
-                  className="h-5 w-5 rounded-full border border-white/15 object-cover"
+                  alt=""
+                  className="h-6 w-6 rounded-full border border-white/15 object-cover"
                 />
                 <span className="max-w-[100px] truncate">{user.fullName.split(" ")[0]}</span>
-                <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+                <ChevronDown className="h-3.5 w-3.5 text-slate-500" />
               </button>
 
               {userDropdownOpen && (
-                <div className="absolute right-0 z-50 mt-2 w-64 animate-in fade-in zoom-in-95 space-y-1 rounded-2xl border border-white/10 bg-eco-navy p-2 text-slate-200 shadow-2xl duration-150">
+                <div className="absolute right-0 z-50 mt-3 w-64 animate-in fade-in zoom-in-95 space-y-1 rounded-2xl border border-white/10 bg-eco-navy p-2 text-slate-200 shadow-2xl duration-150">
                   <div className="border-b border-white/10 px-3 py-2">
-                    <div className="text-xs font-bold text-white">{user.fullName}</div>
-                    <div className="truncate text-[10px] text-slate-400">{user.email}</div>
-                    <div className="mt-0.5 font-mono text-[10px] text-eco-cyan">
-                      {user.roleTitle}
-                    </div>
+                    <div className="text-xs font-semibold text-white">{user.fullName}</div>
+                    <div className="truncate text-[11px] text-slate-400">{user.email}</div>
+                    <div className="mt-0.5 text-[11px] text-eco-cyan">{user.roleTitle}</div>
                   </div>
-
                   <button
                     onClick={handleGoToUserWorkspace}
-                    className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-medium text-slate-200 transition-colors hover:bg-eco-electric/20 hover:text-white"
+                    className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs font-medium text-slate-200 transition-colors hover:bg-white/5"
                   >
                     <UserCheck className="h-4 w-4 shrink-0 text-eco-electric" />
-                    <span>Open My Workspace</span>
+                    <span>Open my workspace</span>
                   </button>
-
                   {user.role === "client_owner" && (
                     <button
                       onClick={() => {
                         onSelectView("client-dashboard");
                         setUserDropdownOpen(false);
                       }}
-                      className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-medium text-slate-200 transition-colors hover:bg-white/5"
+                      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs font-medium text-slate-200 transition-colors hover:bg-white/5"
                     >
                       <Gift className="h-4 w-4 shrink-0 text-amber-400" />
-                      <span>Referral Credits (₦250k)</span>
+                      <span>Referral credits (₦250k)</span>
                     </button>
                   )}
-
                   <button
                     onClick={() => {
                       logout();
                       setUserDropdownOpen(false);
                     }}
-                    className="flex w-full items-center gap-2 rounded-xl border-t border-white/10 px-3 py-2 text-left text-xs font-medium text-red-400 transition-colors hover:bg-red-950/40"
+                    className="flex w-full items-center gap-2 rounded-lg border-t border-white/10 px-3 py-2 text-left text-xs font-medium text-red-400 transition-colors hover:bg-red-950/40"
                   >
                     <LogOut className="h-4 w-4 shrink-0" />
-                    <span>Sign Out</span>
+                    <span>Sign out</span>
                   </button>
                 </div>
               )}
@@ -339,37 +299,31 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
           ) : (
             <button
               onClick={() => openAuthModal("login")}
-              className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-eco-navy px-3.5 py-1.5 text-xs font-bold text-slate-200 transition-all hover:border-eco-cyan/40"
+              className="whitespace-nowrap text-sm font-medium text-slate-400 transition-colors hover:text-white"
             >
-              <User className="h-3.5 w-3.5 text-eco-electric" />
-              <span className="whitespace-nowrap">Sign In</span>
+              Sign In
             </button>
           )}
 
-          {/* 4. High-Impact CTA Button */}
           <button
             onClick={onOpenBriefWizard}
-            className="flex shrink-0 items-center gap-2 rounded-xl bg-gradient-to-r from-eco-electric to-eco-cyan px-5 py-2.5 text-xs font-bold text-[#04121f] shadow-lg shadow-eco-electric/25 transition-all hover:brightness-110 active:scale-95"
+            className="whitespace-nowrap rounded-full bg-eco-electric px-5 py-2.5 text-sm font-bold text-eco-dark shadow-lg shadow-eco-electric/20 transition-all hover:brightness-110 active:scale-95"
           >
-            <span className="whitespace-nowrap">{t("nav_request_quote")}</span>
-            <ArrowRight className="h-3.5 w-3.5" />
+            Get Started
           </button>
         </div>
 
-        {/* Mobile Hamburger Button */}
-        <div className="flex shrink-0 items-center gap-2 2xl:hidden max-md:ml-auto">
-          {/* The text CTA is dropped below 380px so the brand, this button and
-              the hamburger always fit inside a 360px viewport; the drawer below
-              carries the full-width "Start a Project" equivalent. */}
+        {/* Menu button (below xl) */}
+        <div className="flex shrink-0 items-center gap-2 xl:hidden max-md:ml-auto">
           <button
             onClick={onOpenBriefWizard}
-            className="hidden h-10 shrink-0 rounded-lg bg-eco-electric px-3 text-xs font-bold text-[#04121f] min-[380px]:inline-flex md:hidden"
+            className="hidden h-10 shrink-0 items-center rounded-full bg-eco-electric px-4 text-xs font-bold text-eco-dark min-[380px]:inline-flex md:hidden"
           >
-            Get a Quote
+            Get Started
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="grid size-10 shrink-0 place-items-center rounded-lg border border-white/10 bg-eco-navy text-slate-200"
+            className="grid size-10 shrink-0 place-items-center rounded-full text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
             aria-label="Toggle navigation menu"
             aria-expanded={mobileMenuOpen}
           >
@@ -380,7 +334,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="max-h-[calc(100dvh-4rem)] w-full max-w-full animate-in space-y-5 overflow-x-hidden overflow-y-auto border-t border-white/10 bg-eco-dark px-4 py-5 duration-200 slide-in-from-top-4 2xl:hidden">
+        <div className="max-h-[calc(100dvh-4rem)] w-full max-w-full animate-in space-y-5 overflow-x-hidden overflow-y-auto border-t border-white/10 bg-eco-dark px-4 py-5 duration-200 slide-in-from-top-4 xl:hidden">
           {/* Ecosystem switcher — on small screens the drawer is the menu, so
               the family directory lives here rather than in the header row. */}
           <div>

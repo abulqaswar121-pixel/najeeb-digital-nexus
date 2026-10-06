@@ -6,6 +6,7 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
@@ -34,7 +35,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error("Runtime error caught by root boundary:", error);
   const router = useRouter();
 
@@ -50,7 +51,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         </div>
         <h1 className="text-xl font-bold tracking-tight text-white">Session Refresh</h1>
         <p className="text-xs text-slate-400 leading-relaxed">
-          {error?.message ||
+          {(error instanceof Error ? error.message : "") ||
             "An operational session refresh is recommended. Please reload the interface."}
         </p>
         <div className="pt-2 flex flex-wrap justify-center gap-3">
