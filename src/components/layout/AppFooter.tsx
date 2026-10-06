@@ -28,12 +28,7 @@ interface AppFooterProps {
   onOpenBriefWizard: () => void;
   onOpenTalentModal?: () => void;
   onOpenPaymentModal?: () => void;
-  /**
-   * Retained for call-site compatibility (AppShell still passes it). The NDH
-   * Academy cross-promotion is no longer homepage-gated: the ecosystem spec
-   * requires the footer itself to carry it on every page, so the prop is
-   * accepted and intentionally unused.
-   */
+  /** Show the featured Academy promotion on the homepage only. */
   isHomepage?: boolean;
 }
 
@@ -42,6 +37,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
   onOpenBriefWizard,
   onOpenTalentModal,
   onOpenPaymentModal,
+  isHomepage = false,
 }) => {
   const { user } = useAuth();
   const { currency } = useCurrencyLanguage();
@@ -58,10 +54,8 @@ export const AppFooter: React.FC<AppFooterProps> = ({
   return (
     <footer className="border-t border-white/10 bg-eco-dark py-16 font-sans text-xs text-slate-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Prominent NDH Academy cross-promotion (spec 2.3): the two are
-            separate sibling businesses on separate subdomains, so this is a
-            signpost out to academy.ndh.com.ng rather than an in-app route. */}
-        <AcademyCrossPromo />
+        {/* Feature the Academy cross-promotion on the homepage only. */}
+        {isHomepage && <AcademyCrossPromo />}
 
         {/* Shared ecosystem band: states the parent-gateway relationship and
             links every sibling subsidiary with its launch status. */}
