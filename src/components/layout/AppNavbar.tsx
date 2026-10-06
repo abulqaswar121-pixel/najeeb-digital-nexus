@@ -179,7 +179,6 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
               className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-eco-navy px-3 py-1.5 text-xs font-semibold text-slate-200 transition-all hover:border-eco-cyan/40"
               aria-label="Change Language"
             >
-              <span>{languages[language]?.flag}</span>
               <span className="uppercase">{language}</span>
               <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
             </button>
@@ -343,7 +342,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
               className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-eco-navy px-3.5 py-1.5 text-xs font-bold text-slate-200 transition-all hover:border-eco-cyan/40"
             >
               <User className="h-3.5 w-3.5 text-eco-electric" />
-              <span>Sign In</span>
+              <span className="whitespace-nowrap">Sign In</span>
             </button>
           )}
 
@@ -358,13 +357,13 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
         </div>
 
         {/* Mobile Hamburger Button */}
-        <div className="ml-auto flex shrink-0 items-center gap-2 md:hidden">
+        <div className="flex shrink-0 items-center gap-2 2xl:hidden max-md:ml-auto">
           {/* The text CTA is dropped below 380px so the brand, this button and
               the hamburger always fit inside a 360px viewport; the drawer below
               carries the full-width "Start a Project" equivalent. */}
           <button
             onClick={onOpenBriefWizard}
-            className="hidden h-10 shrink-0 rounded-lg bg-eco-electric px-3 text-xs font-bold text-[#04121f] min-[380px]:inline-flex"
+            className="hidden h-10 shrink-0 rounded-lg bg-eco-electric px-3 text-xs font-bold text-[#04121f] min-[380px]:inline-flex md:hidden"
           >
             Get a Quote
           </button>
@@ -381,7 +380,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="max-h-[calc(100dvh-4rem)] w-full max-w-full animate-in space-y-5 overflow-x-hidden overflow-y-auto border-t border-white/10 bg-eco-dark px-4 py-5 duration-200 slide-in-from-top-4 md:hidden">
+        <div className="max-h-[calc(100dvh-4rem)] w-full max-w-full animate-in space-y-5 overflow-x-hidden overflow-y-auto border-t border-white/10 bg-eco-dark px-4 py-5 duration-200 slide-in-from-top-4 2xl:hidden">
           {/* Ecosystem switcher — on small screens the drawer is the menu, so
               the family directory lives here rather than in the header row. */}
           <div>
