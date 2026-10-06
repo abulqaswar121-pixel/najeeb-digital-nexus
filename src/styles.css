@@ -10,7 +10,12 @@
      gateway (ndh.com.ng) so the family reads as one brand. Space Grotesk
      carries display/headings; DM Sans carries body and UI. */
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans:
+    "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Noto Color Emoji";
+  /* Monospace reads as "terminal" on a client-facing site; small labels and
+     figures use the body face with even-width numbers instead. */
+  --font-mono: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 
   --color-eco-dark: #070f1e;
   --color-eco-navy: #0b192c;
