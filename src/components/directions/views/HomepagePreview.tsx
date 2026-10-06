@@ -97,7 +97,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
   return (
     <div className="min-h-screen overflow-x-hidden bg-eco-dark font-sans text-slate-200">
       {/* 1. HERO */}
-      <section className="relative px-4 pb-24 pt-20 sm:px-6 sm:pt-24 lg:pb-28">
+      <section data-band="hero" className="relative px-4 pb-24 pt-20 sm:px-6 sm:pt-24 lg:pb-28">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-full max-w-4xl -translate-x-1/2 rounded-full bg-eco-glow/10 blur-[120px]"
@@ -108,7 +108,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-eco-electric opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-eco-electric" />
             </span>
-            <span className="text-[11px] font-semibold uppercase tracking-widest text-slate-400">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 sm:text-[11px] sm:tracking-widest">
               {heroBadge}
             </span>
           </div>
@@ -143,8 +143,11 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           <p className="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-slate-500">
             <Globe className="h-3.5 w-3.5" />
             <span>
-              {t("hero_price_prefix")} <span className="text-slate-300">{currency}</span> ·{" "}
-              {t("hero_price_suffix")}
+              {t("hero_price_prefix")}{" "}
+              <span className="text-slate-300" suppressHydrationWarning>
+                {currency}
+              </span>{" "}
+              · {t("hero_price_suffix")}
             </span>
           </p>
         </div>
@@ -195,7 +198,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
       </section>
 
       {/* 4. SERVICES — bento grid on a light band */}
-      <section className="bg-[#F1F4FA] px-4 py-24 text-slate-900 sm:px-6 lg:py-32">
+      <section data-band="porcelain" className="bg-[#F1F4FA] px-4 py-24 text-slate-900 sm:px-6 lg:py-32">
         <div className="mx-auto max-w-7xl">
           <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div className="max-w-2xl">
@@ -223,7 +226,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               const starterInfo = getRegionalPricing(dept.id, "starter");
               const wide = BENTO_SPANS[i] !== "";
               return (
-                <button
+                <button data-testid="department-card"
                   type="button"
                   key={dept.id}
                   onClick={() => setSelectedModalDept(dept)}
@@ -268,7 +271,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
       </section>
 
       {/* 5. ESTIMATOR — white band */}
-      <section id="estimator" className="bg-white px-4 py-24 text-slate-900 sm:px-6 lg:py-32">
+      <section id="estimator" data-band="white" className="bg-white px-4 py-24 text-slate-900 sm:px-6 lg:py-32">
         <div className="mx-auto max-w-5xl">
           <div className="mb-12 text-center">
             <span className="mb-4 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-[#0E7490]">
@@ -369,7 +372,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
       </section>
 
       {/* 6. FEATURED CASE STUDY — dark */}
-      <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:py-32">
+      <section data-band="dark" className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:py-32">
         <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div className="max-w-2xl">
             <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-eco-electric">

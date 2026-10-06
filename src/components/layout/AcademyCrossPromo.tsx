@@ -30,7 +30,7 @@ export const AcademyCrossPromo: React.FC = () => {
               Upskill with NDH Academy
             </h2>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-400">
-              {academy.tagline} It runs on its own platform at{" "}
+              Looking to build your skills or train your team? {academy.tagline} It runs on its own platform at{" "}
               <span className="text-slate-200">{academy.domain}</span>.
             </p>
             <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-400">
@@ -53,7 +53,7 @@ export const AcademyCrossPromo: React.FC = () => {
           rel="noopener noreferrer"
           className="flex shrink-0 items-center gap-3 whitespace-nowrap rounded-xl bg-eco-electric px-8 py-4 text-sm font-bold text-eco-dark shadow-lg shadow-eco-electric/20 transition-all hover:brightness-110"
         >
-          Explore Academy
+          Explore NDH Academy
           <ArrowRight className="h-4 w-4" />
         </a>
       </div>
