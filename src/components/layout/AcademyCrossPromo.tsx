@@ -53,7 +53,7 @@ export const AcademyCrossPromo: React.FC = () => {
           rel="noopener noreferrer"
           className="flex shrink-0 items-center gap-3 whitespace-nowrap rounded-xl bg-eco-electric px-8 py-4 text-sm font-bold text-eco-dark shadow-lg shadow-eco-electric/20 transition-all hover:brightness-110"
         >
-          Explore Academy
+          Explore NDH Academy
           <ArrowRight className="h-4 w-4" />
         </a>
       </div>
