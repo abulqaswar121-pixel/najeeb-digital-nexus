@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { AppNavbar, MainNavView } from "./AppNavbar";
 import { AppFooter } from "./AppFooter";
-import { AnnouncementBar } from "./AnnouncementBar";
 import { AppInstallBanner } from "../ui/AppInstallBanner";
 import { AIAssistantWidget } from "../ai/AIAssistantWidget";
 import { AuthModal } from "../auth/AuthModal";
@@ -62,18 +61,6 @@ export const AppShell: React.FC<AppShellProps> = ({ currentView, children }) => 
       >
         Skip to main content
       </a>
-
-      {!isPortalView && (
-        <AnnouncementBar
-          onActionClick={() => {
-            onSelectView("homepage");
-            setTimeout(() => {
-              const el = document.getElementById("estimator");
-              if (el) el.scrollIntoView({ behavior: "smooth" });
-            }, 100);
-          }}
-        />
-      )}
 
       {!isPortalView && (
         <AppNavbar
