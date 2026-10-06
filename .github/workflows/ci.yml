@@ -15,7 +15,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          # Node 22, not 20: jsdom 30 (pulled in by the vitest jsdom environment
+          # used by the component tests) calls undici internals that Node 20's
+          # bundled undici does not expose, which fails every jsdom test file
+          # with "webidl.util.markAsUncloneable is not a function". Node 20 is
+          # also deprecated on GitHub-hosted runners.
+          node-version: "22"
           cache: "npm"
 
       - name: Install dependencies
@@ -31,23 +36,7 @@ jobs:
         run: npm run lint
 
       - name: Unit tests
-        # TEMPORARY DIAGNOSTIC: this runner's job logs are stored on Azure blob
-        # and cannot be fetched from the authoring sandbox, so surface failure
-        # lines as check-run annotations instead (readable via the GitHub API).
-        # Revert to a plain `run: npm run test` once the failure is identified.
-        run: |
-          set +e
-          npm run test 2>&1 | tee /tmp/vitest-output.txt
-          code=${PIPESTATUS[0]}
-          if [ "$code" -ne 0 ]; then
-            echo "VITEST-FATAL-CONTEXT node=$(node -v) npm=$(npm -v) cwd=$PWD"
-            grep -aE "FAIL |AssertionError|Error:|TypeError|ReferenceError|Cannot find|× |Unhandled|expected .* to " /tmp/vitest-output.txt \
-              | head -50 \
-              | while IFS= read -r line; do
-                  printf '::error title=vitest::%s\n' "$(printf '%s' "$line" | tr -d '\r' | cut -c1-400)"
-                done
-          fi
-          exit "$code"
+        run: npm run test
 
       - name: Production build
         run: npm run build
@@ -65,7 +54,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          # Node 22, not 20: jsdom 30 (pulled in by the vitest jsdom environment
+          # used by the component tests) calls undici internals that Node 20's
+          # bundled undici does not expose, which fails every jsdom test file
+          # with "webidl.util.markAsUncloneable is not a function". Node 20 is
+          # also deprecated on GitHub-hosted runners.
+          node-version: "22"
           cache: "npm"
       - run: npm ci --no-audit --no-fund
       - run: npx playwright install --with-deps chromium
