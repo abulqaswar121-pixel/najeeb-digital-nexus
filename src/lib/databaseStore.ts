@@ -1,4 +1,5 @@
 import { ServiceDepartment, TalentProfile, UserSession, UserRole, CaseStudy } from "../types/ndh";
+import { CASE_STUDIES } from "../data/mockData";
 import { api } from "./apiClient";
 import { useEffect, useState, useCallback } from "react";
 
@@ -130,8 +131,8 @@ function subscribe(listener: () => void): () => void {
 
 const POLL_INTERVAL_MS = 8000;
 
-function useApiList<T>(path: string): T[] {
-  const [items, setItems] = useState<T[]>([]);
+function useApiList<T>(path: string, fallback?: T[]): T[] {
+  const [items, setItems] = useState<T[]>(() => fallback ?? []);
 
   const refetch = useCallback(() => {
     api
@@ -140,8 +141,8 @@ function useApiList<T>(path: string): T[] {
         const values = Object.values(body)[0];
         setItems(Array.isArray(values) ? values : []);
       })
-      .catch(() => setItems([]));
-  }, [path]);
+      .catch(() => setItems(fallback ?? []));
+  }, [path, fallback]);
 
   useEffect(() => {
     refetch();
@@ -251,7 +252,7 @@ export function useMyTalentProfile(): TalentProfile | null {
 // are editable from the admin portal; this is what the case-study gallery,
 // homepage spotlight, and hero carousel all read from.
 export function useCaseStudies(): CaseStudy[] {
-  return useApiList<CaseStudy>("/case-studies");
+  return useApiList<CaseStudy>("/case-studies", CASE_STUDIES);
 }
 
 export function useAnnouncement(): DatabaseAnnouncement | null {
