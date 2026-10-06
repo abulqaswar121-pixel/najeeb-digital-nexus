@@ -97,7 +97,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
   return (
     <div className="min-h-screen overflow-x-hidden bg-eco-dark font-sans text-slate-200">
       {/* 1. HERO */}
-      <section className="relative px-4 pb-24 pt-20 sm:px-6 sm:pt-24 lg:pb-28">
+      <section data-band="hero" className="relative px-4 pb-24 pt-20 sm:px-6 sm:pt-24 lg:pb-28">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-full max-w-4xl -translate-x-1/2 rounded-full bg-eco-glow/10 blur-[120px]"
@@ -198,7 +198,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
       </section>
 
       {/* 4. SERVICES — bento grid on a light band */}
-      <section className="bg-[#F1F4FA] px-4 py-24 text-slate-900 sm:px-6 lg:py-32">
+      <section data-band="porcelain" className="bg-[#F1F4FA] px-4 py-24 text-slate-900 sm:px-6 lg:py-32">
         <div className="mx-auto max-w-7xl">
           <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div className="max-w-2xl">
@@ -226,7 +226,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               const starterInfo = getRegionalPricing(dept.id, "starter");
               const wide = BENTO_SPANS[i] !== "";
               return (
-                <button
+                <button data-testid="department-card"
                   type="button"
                   key={dept.id}
                   onClick={() => setSelectedModalDept(dept)}
@@ -271,7 +271,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
       </section>
 
       {/* 5. ESTIMATOR — white band */}
-      <section id="estimator" className="bg-white px-4 py-24 text-slate-900 sm:px-6 lg:py-32">
+      <section id="estimator" data-band="white" className="bg-white px-4 py-24 text-slate-900 sm:px-6 lg:py-32">
         <div className="mx-auto max-w-5xl">
           <div className="mb-12 text-center">
             <span className="mb-4 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-[#0E7490]">
@@ -372,7 +372,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
       </section>
 
       {/* 6. FEATURED CASE STUDY — dark */}
-      <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:py-32">
+      <section data-band="dark" className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:py-32">
         <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div className="max-w-2xl">
             <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-eco-electric">

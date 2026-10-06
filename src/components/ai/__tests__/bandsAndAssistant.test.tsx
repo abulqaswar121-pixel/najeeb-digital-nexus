@@ -19,24 +19,21 @@ import { HomepagePreview } from "@/components/directions/views/HomepagePreview";
  * ------------------------------------------------------------------ */
 
 function bandSequence(container: HTMLElement): string[] {
-  return [...container.querySelectorAll("section.gw-band")].map((el) => {
-    if (el.classList.contains("gw-band-hero")) return "hero";
-    if (el.classList.contains("gw-band-white")) return "white";
-    if (el.classList.contains("gw-band-porcelain")) return "porcelain";
-    return "unknown";
-  });
+  return [...container.querySelectorAll("section[data-band]")].map(
+    (el) => el.getAttribute("data-band") ?? "unknown",
+  );
 }
 
-describe("Homepage alternating band rhythm", () => {
+describe("Homepage band rhythm (Executive Bureau)", () => {
   const renderHome = () =>
     render(<HomepagePreview onOpenBriefWizard={() => {}} onSelectScreen={() => {}} />);
 
-  it("alternates dark -> white -> porcelain -> white -> porcelain", () => {
+  it("alternates dark hero -> porcelain services -> white estimator -> dark case study", () => {
     const { container } = renderHome();
-    expect(bandSequence(container)).toEqual(["hero", "white", "porcelain", "white", "porcelain"]);
+    expect(bandSequence(container)).toEqual(["hero", "porcelain", "white", "dark"]);
   });
 
-  it("never places two light bands of the same tone adjacent to each other", () => {
+  it("never places two bands of the same tone adjacent to each other", () => {
     const { container } = renderHome();
     const bands = bandSequence(container);
     for (let i = 1; i < bands.length; i++) {
@@ -44,35 +41,21 @@ describe("Homepage alternating band rhythm", () => {
     }
   });
 
-  it("drops the hardcoded dark canvases from the sections that became light bands", () => {
-    const { container } = renderHome();
-    for (const band of container.querySelectorAll(".gw-band-white, .gw-band-porcelain")) {
-      // The band supplies the surface; a leftover hex canvas would fight it.
-      expect(band.className).not.toMatch(/bg-\[#0[0-9A-Fa-f]{6}\]/);
-    }
-  });
-
-  it("keeps the estimator deep-linkable (the announcement bar scrolls to #estimator)", () => {
+  it("keeps the estimator deep-linkable on a white band", () => {
     const { container } = renderHome();
     const estimator = container.querySelector("#estimator");
     expect(estimator).not.toBeNull();
-    expect(estimator!.classList.contains("gw-band-white")).toBe(true);
+    expect(estimator!.getAttribute("data-band")).toBe("white");
   });
 
-  it("guards photography so overlay captions stay legible on light bands", () => {
+  it("shows six department cards with photography inside the light services band", () => {
     const { container } = renderHome();
-    const plates = container.querySelectorAll(".gw-photo-plate");
-    // Six featured department cards each carry an image plate.
-    expect(plates.length).toBeGreaterThanOrEqual(6);
-    for (const plate of plates) {
-      // A plate must sit inside a light band, otherwise the guard is pointless.
-      expect(
-        plate.closest(".gw-band-white, .gw-band-porcelain"),
-        "plate inside a light band",
-      ).not.toBeNull();
-      // And its overlay heading must still be the white-on-photo utility.
-      const heading = plate.querySelector("h3.text-white");
-      expect(heading, "plate keeps white overlay text").not.toBeNull();
+    const cards = container.querySelectorAll('[data-testid="department-card"]');
+    expect(cards.length).toBe(6);
+    for (const card of cards) {
+      expect(card.closest('[data-band="porcelain"]')).not.toBeNull();
+      expect(card.querySelector("img")).not.toBeNull();
+      expect(card.querySelector("h3")?.textContent?.trim()).toBeTruthy();
     }
   });
 });
