@@ -44,7 +44,11 @@ function readFile<T>(name: string): T | undefined {
   }
 }
 function writeFile(name: string, value: unknown) {
-  fsMod.writeFileSync(pathMod.join(dataDir, `${name}.json`), JSON.stringify(value, null, 2), "utf-8");
+  fsMod.writeFileSync(
+    pathMod.join(dataDir, `${name}.json`),
+    JSON.stringify(value, null, 2),
+    "utf-8",
+  );
 }
 
 // ---------- registry for cloud hydrate/flush ----------
