@@ -20,52 +20,29 @@ export const AcademyCrossPromo: React.FC = () => {
   return (
     <section
       aria-label="NDH Academy"
-      className="ndh-academy-promo relative overflow-hidden rounded-3xl border border-eco-glow/25 bg-eco-navy"
+      className="ndh-academy-promo rounded-3xl bg-gradient-to-r from-eco-glow to-eco-electric p-px"
     >
-      {/* Atmospheric iris glow (spec: #8A2BE2 at low opacity) */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-24 -right-16 h-64 w-64 rounded-full bg-eco-glow/20 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-28 -left-20 h-64 w-64 rounded-full bg-eco-electric/10 blur-3xl"
-      />
-
-      <div className="relative flex flex-col gap-6 p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex min-w-0 items-start gap-4">
+      <div className="flex flex-col items-start justify-between gap-8 rounded-[23px] bg-eco-dark px-6 py-10 sm:px-10 md:flex-row md:items-center">
+        <div className="flex min-w-0 items-center gap-5 sm:gap-6">
           <NdhFamilySymbol SectorIcon={AcademyIcon} className="ndh-family-symbol--lg shrink-0" />
-
           <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <h2 className="font-display text-base font-semibold tracking-tight text-white sm:text-lg">
-                Looking to build your skills or train your team?
-              </h2>
-              <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-300">
-                <Award className="h-3 w-3" />
-                Live
-              </span>
-            </div>
-
-            <p className="mt-2 max-w-2xl text-xs leading-relaxed text-slate-300 sm:text-sm">
-              Explore <span className="font-semibold text-white">NDH Academy</span> —{" "}
-              {academy.tagline} It runs on its own platform at{" "}
-              <span className="font-mono text-eco-cyan">{academy.domain}</span>, entirely separate
-              from agency client accounts.
+            <h2 className="font-display text-xl font-bold tracking-tight text-white sm:text-2xl">
+              Upskill with NDH Academy
+            </h2>
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-400">
+              {academy.tagline} 60 practical courses across 6 schools, with verifiable
+              certificates, on its own platform at{" "}
+              <span className="text-slate-200">{academy.domain}</span>.
             </p>
-
-            <ul className="mt-4 grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-3">
-              <li className="flex items-center gap-2 text-[11px] text-slate-300">
-                <BookOpen className="h-3.5 w-3.5 shrink-0 text-eco-electric" />
-                <span className="truncate">60 practical courses</span>
+            <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-400">
+              <li className="flex items-center gap-1.5">
+                <BookOpen className="h-3.5 w-3.5 text-eco-electric" /> 60 courses
               </li>
-              <li className="flex items-center gap-2 text-[11px] text-slate-300">
-                <GraduationCap className="h-3.5 w-3.5 shrink-0 text-eco-electric" />
-                <span className="truncate">6 specialized schools</span>
+              <li className="flex items-center gap-1.5">
+                <GraduationCap className="h-3.5 w-3.5 text-eco-electric" /> 6 schools
               </li>
-              <li className="flex items-center gap-2 text-[11px] text-slate-300">
-                <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-eco-electric" />
-                <span className="truncate">Verifiable certificates</span>
+              <li className="flex items-center gap-1.5">
+                <ShieldCheck className="h-3.5 w-3.5 text-eco-electric" /> Verifiable certificates
               </li>
             </ul>
           </div>
@@ -75,10 +52,10 @@ export const AcademyCrossPromo: React.FC = () => {
           href={ACADEMY_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-eco-electric to-eco-cyan px-6 py-3 text-xs font-bold text-[#04121f] shadow-lg shadow-eco-electric/25 transition-all hover:brightness-110 active:scale-95"
+          className="flex shrink-0 items-center gap-3 whitespace-nowrap rounded-xl bg-eco-electric px-8 py-4 text-sm font-bold text-eco-dark shadow-lg shadow-eco-electric/20 transition-all hover:brightness-110"
         >
-          <span className="whitespace-nowrap">Explore NDH Academy</span>
-          <ArrowRight className="h-3.5 w-3.5" />
+          Explore Academy
+          <ArrowRight className="h-4 w-4" />
         </a>
       </div>
     </section>
