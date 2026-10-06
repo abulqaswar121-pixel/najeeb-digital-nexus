@@ -10,7 +10,7 @@ import {
   TalentRank,
   TalentRankDetails,
   RevenueSplitBreakdown,
-} from "../types/ndh";
+} from "../types/ndh.js";
 
 // Hero images for the case studies below live in `public/case-studies/` as
 // plain static files (not bundled via Vite's module-import pipeline). That

@@ -27,6 +27,11 @@ if (!sessionSecret) {
 
 export const env = {
   PORT: Number(process.env["API_PORT"] || process.env["PORT"] || 8787),
+  // Interface the API binds to. Defaults to 0.0.0.0 (unchanged behaviour).
+  // The browser never talks to this process directly — it only ever calls
+  // same-origin /api/*, which the Vite dev server proxies to localhost — so
+  // set API_HOST=127.0.0.1 to keep the API off the public interface entirely.
+  HOST: process.env["API_HOST"] || "0.0.0.0",
   SESSION_SECRET: sessionSecret,
   NODE_ENV: process.env["NODE_ENV"] || "development",
   // Paystack: PUBLIC key is also read client-side (VITE_PAYSTACK_PUBLIC_KEY);

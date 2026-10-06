@@ -24,6 +24,12 @@ export interface Request {
 export interface Response {
   status(code: number): Response;
   json(body: unknown): Response;
+  /**
+   * Terminate with no body — used for 204 responses. Express provides this
+   * natively; the edge adapter needs it too, otherwise `res.status(204).end()`
+   * throws when the same routes are served via dispatchFetch.
+   */
+  end(): Response;
   cookie(name: string, value: string, options?: CookieOptions): Response;
   clearCookie(name: string, options?: CookieOptions): Response;
 }
@@ -188,6 +194,11 @@ export async function dispatchFetch(request: globalThis.Request, mounts: Mount[]
         },
         json(b) {
           payload = b;
+          return res;
+        },
+        end() {
+          // Deliberately leaves `payload` as undefined so the Response is built
+          // with a null body, which is what a 204 requires.
           return res;
         },
         cookie(name, value, options) {

@@ -52,13 +52,13 @@ export const AppShell: React.FC<AppShellProps> = ({ currentView, children }) => 
   };
 
   return (
-    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#070A14] text-[#F1F5F9] flex flex-col font-sans antialiased selection:bg-blue-600/30 selection:text-white">
+    <div className="flex min-h-screen w-full max-w-full flex-col overflow-x-hidden bg-eco-dark font-sans text-[#F1F5F9] antialiased selection:bg-eco-electric/25 selection:text-white">
       {/* Accessibility: skip-to-content link, visually hidden until focused
           via keyboard, so keyboard/screen-reader users don't have to tab
           through the announcement bar + full navbar on every page. */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-lg focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white focus:shadow-xl"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-lg focus:bg-eco-electric focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-[#04121f] focus:shadow-xl"
       >
         Skip to main content
       </a>

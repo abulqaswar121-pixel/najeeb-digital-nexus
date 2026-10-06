@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../lib/authStore";
+import { AgencySectorMark } from "../brand/AgencySectorMark";
 import { useModalA11y } from "../../hooks/use-modal-a11y";
 import {
   dbService,
@@ -423,20 +424,26 @@ export const AdminPortal: React.FC = () => {
   return (
     <div className="bg-[#070A14] text-[#F1F5F9] min-h-screen font-sans flex flex-col">
       {/* Standalone Admin Command Nexus Top Bar */}
-      <header className="sticky top-0 z-40 bg-[#0B0F1D]/95 backdrop-blur-xl border-b border-slate-800 px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-white text-sm sm:text-base">Admin Command Nexus</span>
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+      <header className="sticky top-0 z-40 flex w-full max-w-full items-center justify-between gap-3 overflow-x-clip border-b border-white/10 bg-eco-navy/95 px-4 py-3.5 backdrop-blur-xl sm:px-6 lg:px-8">
+        <div className="flex min-w-0 items-center gap-4">
+          <div className="flex min-w-0 items-center gap-2.5">
+            {/* Open Gateway master mark + agency sector badge */}
+            <AgencySectorMark size="sm" className="shrink-0" />
+            <span className="truncate font-display text-sm font-semibold text-white sm:text-base">
+              Admin Command Nexus
+            </span>
+            <span className="hidden shrink-0 rounded px-2 py-0.5 font-mono text-[10px] font-bold min-[420px]:inline-block bg-amber-500/20 text-amber-300 border border-amber-500/30">
               DUAL-KEY AUTHORITY
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <div className="hidden min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-slate-300 sm:flex">
             <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
-            <span>Root Admin: {user?.fullName || "Super Admin"}</span>
+            <span className="max-w-[16ch] truncate">
+              Root Admin: {user?.fullName || "Super Admin"}
+            </span>
           </div>
 
           <PortalNavDropdown

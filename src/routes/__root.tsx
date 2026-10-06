@@ -236,7 +236,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&auto=format&fit=crop&q=80",
       },
-      { name: "theme-color", content: "#0B0F19" },
+      { name: "theme-color", content: "#070F1E" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { name: "format-detection", content: "telephone=no" },
@@ -251,6 +251,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/icons/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://images.unsplash.com" },
+      // NDH master typography stack, shared with the parent gateway:
+      // Space Grotesk for display/headings, DM Sans for body/UI.
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap",
+      },
     ],
     scripts: [
       {
@@ -271,7 +279,7 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="bg-[#0B0F19] text-slate-100 antialiased selection:bg-blue-600/30 selection:text-white">
+      <body className="bg-eco-dark font-sans text-slate-100 antialiased selection:bg-eco-electric/25 selection:text-white">
         {children}
         <Scripts />
       </body>

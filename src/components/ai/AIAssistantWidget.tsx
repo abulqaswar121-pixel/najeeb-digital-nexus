@@ -3,6 +3,8 @@ import { AIChatMessage } from "../../types/ndh";
 import { SERVICE_DEPARTMENTS } from "../../data/mockData";
 import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 import { ServiceDepartment } from "../../types/ndh";
+// Official NDH assistant avatar, shared with the parent gateway's OmniHubChat.
+import assistantAvatar from "@/assets/ndh-ai-assistant.png";
 import {
   Bot,
   X,
@@ -31,6 +33,9 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
   onNavigateScreen,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  // The micro-greeting pill is dismissible; once closed it stays closed for the
+  // rest of the session rather than reappearing on every navigation.
+  const [isGreetingDismissed, setIsGreetingDismissed] = useState<boolean>(false);
   const [inputMessage, setInputMessage] = useState<string>("");
   const [activeTab, setActiveTab] = useState<"chat" | "calculator" | "brief_checker">("chat");
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -62,10 +67,13 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
       text: "Hello! I am NDH Sentinel, the AI Operations Concierge for NDH Agency. How can I assist you today? You can ask about our 16 managed departments, estimate SLAs, find starter pricing, or test your brief readiness.",
       timestamp: "Just now",
       quickActions: [
-        { label: "Recommend Service", action: "recommend_service" },
-        { label: "Privacy & PM Model", action: "explain_privacy" },
-        { label: "Check Brief Quality", action: "check_brief" },
-        { label: "Academy vs Agency", action: "explain_academy" },
+        // The five agency quick actions, each wired to a real existing handler
+        // (brief wizard, estimator tab, case-study view, consultation, Academy).
+        { label: "Submit a Project Brief", action: "open_wizard" },
+        { label: "Estimate Delivery Timeline", action: "switch_calc" },
+        { label: "Explore Case Studies", action: "view_work" },
+        { label: "Book a Strategy Consultation", action: "book_consultation" },
+        { label: "Ask about NDH Academy & Courses", action: "explain_academy" },
       ],
     },
   ]);
@@ -145,6 +153,11 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
         actions = [
           { label: "Request Proposal", action: "open_wizard" },
           { label: "View Case Studies", action: "view_work" },
+          // The greeting row now leads with the five commercial quick actions,
+          // so these two explainers live on as follow-ups rather than being
+          // orphaned (their handlers are otherwise unreachable by click).
+          { label: "Recommend Service", action: "recommend_service" },
+          { label: "Privacy & PM Model", action: "explain_privacy" },
         ];
       }
 
@@ -171,6 +184,10 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
       onNavigateScreen("case-study");
     } else if (action === "view_pm") {
       onNavigateScreen("pm-dashboard");
+    } else if (action === "book_consultation") {
+      // Strategy consultations are booked through the contact page, which owns
+      // the consultation-request form backed by /api/consultation-requests.
+      onNavigateScreen("contact");
     } else if (action === "switch_calc") {
       setActiveTab("calculator");
     } else if (action === "switch_brief_checker") {
@@ -236,36 +253,63 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
 
   return (
     <>
-      {/* Floating Action Launcher Button */}
-      <div className="fixed bottom-4 left-3 right-3 z-50 flex justify-end sm:bottom-6 sm:left-auto sm:right-6">
-        {!isOpen && (
+      {/* Floating launcher — aligned with the parent gateway's OmniHubChat: a
+          fixed circular button carrying the official NDH assistant avatar, an
+          animated Electric Cyan orbit ring and a live status dot. Renders
+          outside any full-width row so it can never contribute to horizontal
+          overflow, and sits clear of the bottom-left install banner. */}
+      {!isOpen && (
+        <>
+          {!isGreetingDismissed && (
+            <div className="ai-assistant-greeting" role="status">
+              <span className="ai-assistant-greeting-text">
+                Need a quote or technical team? Ask NDH AI
+              </span>
+              <button
+                type="button"
+                className="ai-assistant-greeting-open"
+                onClick={() => setIsOpen(true)}
+              >
+                Ask
+              </button>
+              <button
+                type="button"
+                className="ai-assistant-greeting-dismiss"
+                onClick={() => setIsGreetingDismissed(true)}
+                aria-label="Dismiss AI assistant greeting"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </div>
+          )}
+
           <button
+            type="button"
             onClick={() => setIsOpen(true)}
-            className="group relative flex max-w-full items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white shadow-2xl shadow-blue-600/50 border border-blue-400/40 transition-all duration-300 hover:scale-105 active:scale-95"
+            className="ai-assistant-launcher"
+            aria-label="Open the NDH AI assistant"
+            aria-expanded={false}
           >
-            <div className="relative">
-              <Bot className="w-5 h-5 text-blue-200 group-hover:rotate-12 transition-transform" />
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-500 rounded-full"></span>
-            </div>
-            <div className="text-left font-sans">
-              <div className="text-xs font-bold leading-tight tracking-wide flex items-center gap-1">
-                <span>NDH Sentinel</span>
-                <span className="px-1.5 py-0.2 rounded bg-blue-900/80 text-blue-300 font-mono text-[9px] uppercase">
-                  AI Support
-                </span>
-              </div>
-              <div className="hidden text-[10px] text-blue-200/90 leading-tight min-[380px]:block">
-                Instant Scoping & PM Concierge
-              </div>
-            </div>
+            <span className="ai-assistant-orbit" aria-hidden="true" />
+            <img
+              className="ai-assistant-avatar"
+              src={assistantAvatar}
+              alt=""
+              width={816}
+              height={816}
+            />
+            <span className="ai-assistant-status" aria-hidden="true" />
           </button>
-        )}
-      </div>
+        </>
+      )}
 
       {/* Floating Assistant Modal Window */}
       {isOpen && (
-        <div className="fixed bottom-3 left-3 right-3 z-50 flex h-[min(600px,calc(100dvh-1.5rem))] flex-col justify-between overflow-hidden rounded-3xl border border-blue-900/60 bg-[#0A0E17]/95 text-xs text-slate-200 shadow-2xl shadow-black/90 backdrop-blur-2xl animate-in slide-in-from-bottom-5 duration-300 sm:bottom-6 sm:left-auto sm:right-6 sm:w-full sm:max-w-[420px]">
+        <div
+          role="dialog"
+          aria-label="NDH Sentinel AI assistant"
+          className="fixed bottom-3 left-3 right-3 z-[80] flex h-[min(600px,calc(100dvh-1.5rem))] flex-col justify-between overflow-hidden rounded-3xl border border-blue-900/60 bg-[#0A0E17]/95 text-xs text-slate-200 shadow-2xl shadow-black/90 backdrop-blur-2xl animate-in slide-in-from-bottom-5 duration-300 sm:bottom-6 sm:left-auto sm:right-6 sm:w-full sm:max-w-[420px]"
+        >
           {/* Header */}
           <div className="p-4 border-b border-blue-900/40 bg-gradient-to-r from-blue-950/80 via-slate-900/90 to-indigo-950/80 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2.5">
@@ -387,10 +431,12 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                   className="flex-1 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
                 />
                 <button
+                  type="button"
                   onClick={() => handleSendMessage()}
-                  className="p-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white shadow-md shadow-blue-600/30 transition-all shrink-0"
+                  aria-label="Send message"
+                  className="shrink-0 rounded-xl bg-blue-600 p-2.5 text-white shadow-md shadow-blue-600/30 transition-all hover:bg-blue-500"
                 >
-                  <Send className="w-3.5 h-3.5" />
+                  <Send className="h-3.5 w-3.5" />
                 </button>
               </div>
             </div>
