@@ -3,17 +3,8 @@ import { ServiceDepartment, ServiceDepartmentInfo } from "../../../types/ndh";
 import { SERVICE_DEPARTMENTS } from "../../../data/mockData";
 import { useCurrencyLanguage } from "../../../lib/currencyLanguageStore";
 import { useCaseStudies } from "../../../lib/databaseStore";
-import { HeroShowcaseSlider } from "../../home/HeroShowcaseSlider";
 import { ServiceDetailModal } from "../modals/ServiceDetailModal";
-import {
-  ShieldCheck,
-  ArrowRight,
-  Layers,
-  TrendingUp,
-  Sliders,
-  Building,
-  Globe,
-} from "lucide-react";
+import { ShieldCheck, ArrowRight, Sliders, Globe } from "lucide-react";
 
 interface HomepagePreviewProps {
   direction?: string;
@@ -93,522 +84,396 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
   const caseStudiesData = useCaseStudies();
   const currentCase = caseStudiesData[activeCaseIdx] || caseStudiesData[0];
 
+  const heroBadge = t("hero_badge").replace(/^[^\p{L}\p{N}]+/u, "");
+  const stats = [
+    { val: t("hero_stat_1_val"), lbl: t("hero_stat_1_lbl"), accent: false },
+    { val: t("hero_stat_2_val"), lbl: t("hero_stat_2_lbl"), accent: true },
+    { val: t("hero_stat_3_val"), lbl: t("hero_stat_3_lbl"), accent: false },
+    { val: t("hero_stat_4_val"), lbl: t("hero_stat_4_lbl"), accent: false },
+  ];
+  // Bento rhythm for six cards in a 3-column grid: wide+narrow, narrow+wide, wide+narrow.
+  const BENTO_SPANS = ["lg:col-span-2", "", "", "lg:col-span-2", "lg:col-span-2", ""];
+
   return (
-    <div className="bg-[#070A14] text-slate-100 min-h-screen font-sans selection:bg-blue-600/30 selection:text-white overflow-x-hidden">
-      {/* 1. LIVE OPERATIONS STREAM TICKER */}
-      <div className="bg-[#0B0F1D] border-b border-blue-900/40 py-2.5 overflow-hidden text-xs">
-        <div className="animate-marquee flex items-center gap-12 whitespace-nowrap text-slate-300 font-mono text-[11px]">
-          <span className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span className="text-emerald-400 font-bold">NDH:</span>
-            <span>{t("ticker_dept_line")}</span>
-          </span>
-          <span className="text-slate-500">•</span>
-          <span className="flex items-center gap-1.5 text-blue-300">
-            <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-            <span>{t("ticker_pm_line")}</span>
-          </span>
-          <span className="text-slate-500">•</span>
-          <span className="flex items-center gap-1.5 text-emerald-300">
-            <Globe className="w-3.5 h-3.5 text-emerald-400" />
-            <span>
-              {t("ticker_pricing_prefix")} {currencies[currency]?.name} ({currency})
+    <div className="min-h-screen overflow-x-hidden bg-eco-dark font-sans text-slate-200">
+      {/* 1. HERO */}
+      <section className="relative px-4 pb-24 pt-20 sm:px-6 sm:pt-24 lg:pb-28">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-full max-w-4xl -translate-x-1/2 rounded-full bg-eco-glow/10 blur-[120px]"
+        />
+        <div className="relative mx-auto max-w-4xl text-center">
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 backdrop-blur-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-eco-electric opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-eco-electric" />
             </span>
-          </span>
-        </div>
-      </div>
-
-      {/* 2. HERO SECTION — deep navy band (gw-band-hero) */}
-      <section className="gw-band gw-band-hero relative overflow-hidden pt-12 pb-20">
-        {/* Hero Background Image + Readability Overlay */}
-        <div className="absolute inset-0">
-          <img
-            src="/images/hero-background.jpg"
-            alt=""
-            aria-hidden="true"
-            className="w-full h-full object-cover opacity-60"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F1E]/90 via-[#070A14]/85 to-[#070A14]" />
-        </div>
-
-        {/* Glow Spheres */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-blue-600/15 blur-[120px] pointer-events-none rounded-full" />
-        <div className="absolute top-20 right-10 w-[400px] h-[300px] bg-indigo-600/10 blur-[100px] pointer-events-none rounded-full" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 relative z-10">
-          {/* Hero Header */}
-          <div className="max-w-4xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-950/80 border border-blue-800/80 text-blue-300 text-xs font-semibold shadow-lg backdrop-blur-md">
-              <span>{t("hero_badge")}</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08]">
-              {t("hero_title_1")}{" "}
-              <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">
-                {t("hero_title_2")}
-              </span>
-            </h1>
-
-            <p className="text-base sm:text-xl text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
-              {t("hero_desc")}
-            </p>
-
-            {/* Currency auto-detected from your browser/timezone; override anytime via the
-                currency switcher in the nav. No need to call out the detected country here —
-                pricing throughout the site already renders in the right currency automatically. */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
-              <Globe className="w-3.5 h-3.5 text-emerald-400" />
-              <span>
-                {t("hero_price_prefix")} <strong className="text-white">{currency}</strong> •{" "}
-                {t("hero_price_suffix")}
-              </span>
-            </div>
-
-            {/* Hero CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-              <button
-                onClick={onOpenBriefWizard}
-                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-sm shadow-2xl shadow-blue-600/40 border border-blue-400/30 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
-              >
-                <span>{t("hero_cta_primary")}</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-
-              <button
-                onClick={() => onSelectScreen("services")}
-                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold text-sm border border-slate-700/80 shadow-xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
-              >
-                <span>{t("hero_cta_secondary")}</span>
-              </button>
-            </div>
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-slate-400">
+              {heroBadge}
+            </span>
           </div>
 
-          {/* DYNAMIC AUTO-CHANGING HERO SHOWCASE SLIDER */}
-          <div className="pt-2">
-            <HeroShowcaseSlider
-              onOpenBriefWizard={onOpenBriefWizard}
-              onSelectScreen={onSelectScreen}
-            />
+          <h1 className="mb-8 font-display text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl md:text-7xl">
+            {t("hero_title_1")}{" "}
+            <span className="bg-gradient-to-r from-eco-electric to-eco-glow bg-clip-text text-transparent">
+              {t("hero_title_2")}
+            </span>
+          </h1>
+
+          <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-slate-400 md:text-xl">
+            {t("hero_desc")}
+          </p>
+
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <button
+              onClick={onOpenBriefWizard}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-eco-electric px-8 py-4 font-semibold text-eco-dark shadow-xl shadow-eco-electric/20 transition-all hover:brightness-110 sm:w-auto"
+            >
+              {t("hero_cta_primary")}
+              <ArrowRight className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => onSelectScreen("services")}
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-8 py-4 font-semibold text-white transition-all hover:bg-white/10 sm:w-auto"
+            >
+              {t("hero_cta_secondary")}
+            </button>
           </div>
 
-          {/* 4 Metric Counter Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-blue-400">
-                {t("hero_stat_1_val")}
-              </div>
-              <div className="text-xs font-bold text-white mt-1">{t("hero_stat_1_lbl")}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">{t("stat_1_sub")}</div>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-emerald-400">
-                {t("hero_stat_2_val")}
-              </div>
-              <div className="text-xs font-bold text-white mt-1">{t("hero_stat_2_lbl")}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">{t("stat_2_sub")}</div>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-indigo-400">
-                {t("hero_stat_3_val")}
-              </div>
-              <div className="text-xs font-bold text-white mt-1">{t("hero_stat_3_lbl")}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">{t("stat_3_sub")}</div>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
-              <div className="flex items-center gap-1.5 text-amber-400">
-                <Globe className="w-5 h-5" />
-                <span className="text-2xl sm:text-3xl font-black font-mono">
-                  {t("hero_stat_4_val")}
-                </span>
-              </div>
-              <div className="text-xs font-bold text-white mt-1">{t("hero_stat_4_lbl")}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">NGN · USD · GBP · EUR · AED</div>
-            </div>
-          </div>
+          <p className="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-slate-500">
+            <Globe className="h-3.5 w-3.5" />
+            <span>
+              {t("hero_price_prefix")} <span className="text-slate-300">{currency}</span> ·{" "}
+              {t("hero_price_suffix")}
+            </span>
+          </p>
         </div>
       </section>
 
-      {/* 3. REAL CLIENTS MARQUEE — names of actual, verifiable NDH case-study
-          clients only (see "Verified Client Success Stories" below for the
-          full case studies). No claimed partnerships with third-party
-          payment/infrastructure providers. */}
-      <section className="gw-band gw-band-white gw-band-tight overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 mb-4 text-center">
-          <span className="text-[11px] font-mono uppercase tracking-widest text-slate-400">
-            {t("marquee_heading")}
-          </span>
-        </div>
-        <div className="animate-marquee flex items-center gap-16 whitespace-nowrap text-slate-300 font-bold text-sm">
-          {[
-            ...caseStudiesData.map((c) => c.clientName),
-            // Additional real clients without a published case study yet.
-            "Markazussalaf",
-            "Taskzone",
-            "Suregrade",
-          ].map((name) => (
-            <span
-              key={name}
-              className="hover:text-white transition-colors cursor-pointer flex items-center gap-2"
-            >
-              <Building className="w-4 h-4 text-blue-400" /> {name}
-            </span>
+      {/* 2. STATS STRIP */}
+      <section className="px-4 pb-24 sm:px-6">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/5 bg-white/5 md:grid-cols-4">
+          {stats.map((s) => (
+            <div key={s.lbl} className="bg-eco-dark p-6 text-center sm:p-8">
+              <div
+                className={`mb-1 font-display text-2xl font-bold sm:text-3xl ${
+                  s.accent ? "text-eco-electric" : "text-white"
+                }`}
+              >
+                {s.val}
+              </div>
+              <div className="text-[11px] font-medium uppercase tracking-widest text-slate-500">
+                {s.lbl}
+              </div>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* 4. WHAT WE BUILD: 16 SPECIALIZED DEPARTMENTS WITH DISTINCT PHOTOGRAPHY
-          Porcelain band — the department cards invert to elevated white. */}
-      <section className="gw-band gw-band-porcelain gw-band-roomy">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="space-y-3 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
-                <Layers className="w-3.5 h-3.5 text-blue-400" />
-                <span>{t("section_build_badge")}</span>
-              </div>
-              <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-                {t("section_build_title")}
-              </h2>
-              <p className="text-sm sm:text-base text-slate-300">{t("section_build_desc")}</p>
-            </div>
-
-            <button
-              onClick={() => onSelectScreen("services")}
-              className="inline-flex items-center gap-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors"
-            >
-              <span>{t("btn_explore_all_departments")}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Department Cards Grid (6 Top Featured on Homepage) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {SERVICE_DEPARTMENTS.slice(0, 6).map((dept) => {
-              const starterInfo = getRegionalPricing(dept.id, "starter");
-              return (
-                <div
-                  key={dept.id}
-                  onClick={() => setSelectedModalDept(dept)}
-                  className="rounded-3xl bg-slate-900/90 border border-slate-800 hover:border-blue-500/70 overflow-hidden shadow-2xl transition-all duration-300 group flex flex-col justify-between hover:-translate-y-1 cursor-pointer"
-                >
-                  <div>
-                    {/* High-Resolution Image Header */}
-                    <div className="gw-photo-plate relative h-48 overflow-hidden bg-slate-950">
-                      <img
-                        src={dept.coverImage}
-                        alt={dept.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
-
-                      <div className="absolute top-3 left-3 px-3 py-1 rounded-lg bg-black/80 backdrop-blur-md text-[11px] font-bold text-blue-300 border border-blue-500/30">
-                        {dept.averageTurnaroundDays}d SLA Delivery
-                      </div>
-
-                      <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-slate-900/80 backdrop-blur-md text-[10px] font-mono text-emerald-400 border border-emerald-500/30">
-                        Active: {dept.activeTalentsCount} Talents
-                      </div>
-
-                      <div className="absolute bottom-3 left-3 right-3">
-                        <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors leading-tight drop-shadow-md">
-                          {dept.name}
-                        </h3>
-                      </div>
-                    </div>
-
-                    {/* Body Content */}
-                    <div className="p-6 space-y-4">
-                      <p className="text-xs text-slate-300 leading-relaxed line-clamp-3">
-                        {dept.description}
-                      </p>
-
-                      <div className="space-y-2">
-                        <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                          {t("label_key_capabilities")}
-                        </div>
-                        <div className="flex flex-wrap gap-1.5">
-                          {dept.capabilities.slice(0, 3).map((cap, i) => (
-                            <span
-                              key={i}
-                              className="px-2.5 py-1 rounded-md bg-slate-950 text-slate-200 text-[11px] border border-slate-800 font-medium"
-                            >
-                              {cap}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Accessible Local Pricing Footer */}
-                  <div className="p-6 pt-3 border-t border-slate-800/80 flex items-center justify-between bg-slate-950/30">
-                    <div>
-                      <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
-                        {t("label_starter_plan")} ({currency}):
-                      </div>
-                      <div className="text-xs font-mono font-bold text-emerald-400">
-                        {t("label_from_price")} {starterInfo.price}
-                      </div>
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedModalDept(dept);
-                      }}
-                      className="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-md shadow-blue-600/30 transition-all flex items-center gap-1.5 hover:scale-105"
-                    >
-                      <span>{t("btn_explore")}</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="text-center pt-2">
-            <button
-              onClick={() => onSelectScreen("services")}
-              className="px-8 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-white font-bold text-xs shadow-xl transition-all hover:scale-105 inline-flex items-center gap-2"
-            >
-              <span>{t("btn_view_all_departments")}</span>
-              <ArrowRight className="w-4 h-4 text-blue-400" />
-            </button>
+      {/* 3. CLIENTS — real NDH case-study clients only */}
+      <section className="border-y border-white/5 px-4 py-12 sm:px-6">
+        <div className="mx-auto max-w-7xl">
+          <p className="mb-8 text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+            {t("marquee_heading")}
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-5">
+            {[
+              ...caseStudiesData.map((c) => c.clientName),
+              "Markazussalaf",
+              "Taskzone",
+              "Suregrade",
+            ].map((name) => (
+              <span
+                key={name}
+                className="font-display text-base font-semibold text-slate-500 transition-colors hover:text-slate-200"
+              >
+                {name}
+              </span>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 5. INSTANT PROJECT PRICE & TIME ESTIMATOR */}
-      <section id="estimator" className="gw-band gw-band-white gw-band-roomy">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto bg-slate-900 border border-slate-700/80 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden space-y-8">
-            <div className="text-center space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
-                <Sliders className="w-3.5 h-3.5 text-blue-400" />
-                <span>{t("estimator_title")}</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-                {t("estimator_title")}
+      {/* 4. SERVICES — bento grid on a light band */}
+      <section className="bg-[#F1F4FA] px-4 py-24 text-slate-900 sm:px-6 lg:py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div className="max-w-2xl">
+              <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-[#0E7490]">
+                {t("section_build_badge")}
+              </span>
+              <h2 className="font-display text-3xl font-bold tracking-tight text-eco-dark sm:text-4xl">
+                {t("section_build_title")}
               </h2>
-              <p className="text-sm text-slate-300 max-w-xl mx-auto">{t("estimator_desc")}</p>
+              <p className="mt-4 text-base leading-relaxed text-slate-600">
+                {t("section_build_desc")}
+              </p>
             </div>
+            <button
+              onClick={() => onSelectScreen("services")}
+              className="group flex items-center gap-2 text-sm font-semibold text-slate-600 transition-colors hover:text-eco-dark"
+            >
+              {t("btn_explore_all_departments")}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </button>
+          </div>
 
-            {/* Step 1: Department Chips */}
-            <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {SERVICE_DEPARTMENTS.slice(0, 6).map((dept, i) => {
+              const starterInfo = getRegionalPricing(dept.id, "starter");
+              const wide = BENTO_SPANS[i] !== "";
+              return (
+                <button
+                  type="button"
+                  key={dept.id}
+                  onClick={() => setSelectedModalDept(dept)}
+                  className={`group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white text-left transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_12px_40px_-12px_rgba(7,15,30,0.18)] ${BENTO_SPANS[i]}`}
+                >
+                  <div className={`relative w-full overflow-hidden ${wide ? "h-52" : "h-40"}`}>
+                    <img
+                      src={dept.coverImage}
+                      alt=""
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-eco-dark/60 to-transparent" />
+                    <span className="absolute left-4 top-4 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-eco-dark backdrop-blur">
+                      {dept.averageTurnaroundDays}-day delivery
+                    </span>
+                  </div>
+                  <div className="flex w-full flex-1 flex-col p-6">
+                    <h3 className="font-display text-lg font-semibold leading-snug text-eco-dark">
+                      {dept.name}
+                    </h3>
+                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600">
+                      {dept.description}
+                    </p>
+                    <div className="mt-auto flex items-center justify-between border-t border-slate-100 pt-5">
+                      <span className="text-xs text-slate-500">
+                        {t("label_from_price")}{" "}
+                        <span className="text-sm font-semibold text-eco-dark">
+                          {starterInfo.price}
+                        </span>
+                      </span>
+                      <span className="flex items-center gap-1 text-xs font-semibold text-[#0E7490]">
+                        {t("btn_explore")}
+                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                      </span>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. ESTIMATOR — white band */}
+      <section id="estimator" className="bg-white px-4 py-24 text-slate-900 sm:px-6 lg:py-32">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-12 text-center">
+            <span className="mb-4 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-[#0E7490]">
+              <Sliders className="h-3.5 w-3.5" />
+              {t("label_instant_budget")}
+            </span>
+            <h2 className="font-display text-3xl font-bold tracking-tight text-eco-dark sm:text-4xl">
+              {t("estimator_title")}
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-base text-slate-600">{t("estimator_desc")}</p>
+          </div>
+
+          <div className="space-y-10 rounded-2xl border border-slate-200 bg-[#F8FAFC] p-6 sm:p-10">
+            <div>
+              <label className="mb-3 block text-xs font-semibold uppercase tracking-widest text-slate-500">
                 {t("label_select_service")}
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div className="flex flex-wrap gap-2">
                 {SERVICE_DEPARTMENTS.map((dept) => (
                   <button
                     key={dept.id}
                     onClick={() => setCalculatorDept(dept.id)}
-                    className={`p-3 rounded-xl text-left border transition-all truncate text-xs font-medium ${
+                    className={`rounded-full border px-4 py-2 text-xs font-medium transition-colors ${
                       calculatorDept === dept.id
-                        ? "bg-blue-600 text-white border-blue-400 shadow-lg"
-                        : "bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-600"
+                        ? "border-eco-dark bg-eco-dark text-white"
+                        : "border-slate-200 bg-white text-slate-600 hover:border-slate-400"
                     }`}
                   >
-                    {dept.name.split("&")[0]}
+                    {(dept.name.split("&")[0] ?? dept.name).split("(")[0]!.trim()}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Step 2: Scope & Speed Tiers */}
-            <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+            <div>
+              <label className="mb-3 block text-xs font-semibold uppercase tracking-widest text-slate-500">
                 {t("label_project_tier")}
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {getTierOptions(calculatorDept).map((t) => (
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {getTierOptions(calculatorDept).map((tier) => (
                   <button
-                    key={t.id}
+                    key={tier.id}
                     onClick={() =>
-                      setCalculatorTier(t.id as Parameters<typeof setCalculatorTier>[0])
+                      setCalculatorTier(tier.id as Parameters<typeof setCalculatorTier>[0])
                     }
-                    className={`p-4 rounded-xl text-left border transition-all ${
-                      calculatorTier === t.id
-                        ? "bg-blue-600/20 border-blue-500 text-white shadow-lg"
-                        : "bg-slate-950 border-slate-800 text-slate-300 hover:bg-slate-900"
+                    className={`rounded-xl border p-4 text-left transition-all ${
+                      calculatorTier === tier.id
+                        ? "border-[#0E7490] bg-white shadow-[0_0_0_3px_rgba(14,116,144,0.12)]"
+                        : "border-slate-200 bg-white hover:border-slate-300"
                     }`}
                   >
-                    <div className="font-bold text-xs text-white">{t.title}</div>
-                    <div className="text-[11px] text-slate-300 mt-1">{t.desc}</div>
+                    <div className="text-sm font-semibold text-eco-dark">{tier.title}</div>
+                    <div className="mt-1 text-xs leading-relaxed text-slate-500">{tier.desc}</div>
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Live Calculation Output Card */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6 shadow-inner">
-              <div className="space-y-2 text-center md:text-left">
-                <div className="flex items-center gap-3 justify-center md:justify-start">
-                  <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider">
-                    {regionalResult
-                      ? `${t("label_instant_budget")} (${currencies[currency]?.name}):`
-                      : t("label_custom_scope")}
-                  </span>
+            <div className="flex flex-col items-center justify-between gap-6 rounded-xl bg-eco-dark p-6 text-center sm:p-8 md:flex-row md:text-left">
+              <div>
+                <div className="text-xs font-medium uppercase tracking-widest text-slate-400">
+                  {regionalResult
+                    ? `${t("label_instant_budget")} (${currencies[currency]?.name})`
+                    : t("label_custom_scope")}
                 </div>
-
                 {regionalResult ? (
                   <>
-                    <div className="text-3xl sm:text-4xl font-extrabold text-emerald-400 font-mono">
+                    <div className="mt-2 font-display text-4xl font-bold text-white">
                       {regionalResult.price}
                     </div>
-                    <div className="text-xs text-slate-300">
+                    <div className="mt-1 text-sm text-slate-400">
                       {t("label_estimated_delivery")}{" "}
-                      <strong className="text-white font-mono">{regionalResult.weeks}</strong> •{" "}
+                      <span className="text-white">{regionalResult.weeks}</span> ·{" "}
                       {t("label_includes_pm_escrow")}
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400">
+                    <div className="mt-2 font-display text-3xl font-bold text-white">
                       {t("label_lets_talk_quote")}
                     </div>
-                    <div className="text-xs text-slate-300">{t("label_no_fixed_price_desc")}</div>
+                    <div className="mt-1 text-sm text-slate-400">
+                      {t("label_no_fixed_price_desc")}
+                    </div>
                   </>
                 )}
               </div>
-
               <button
                 onClick={onOpenBriefWizard}
-                className="w-full md:w-auto px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-xl shadow-blue-600/30 flex items-center justify-center gap-2 shrink-0 transition-transform hover:scale-105"
+                className="flex w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-eco-electric px-7 py-4 text-sm font-semibold text-eco-dark transition-all hover:brightness-110 md:w-auto"
               >
-                <span>
-                  {regionalResult ? t("btn_generate_proposal") : t("btn_start_custom_scoping")}
-                </span>
-                <ArrowRight className="w-4 h-4" />
+                {regionalResult ? t("btn_generate_proposal") : t("btn_start_custom_scoping")}
+                <ArrowRight className="h-4 w-4" />
               </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. VERIFIED CLIENT SUCCESS STORIES — porcelain band */}
-      <section className="gw-band gw-band-porcelain gw-band-roomy">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="space-y-3 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 text-blue-300 text-xs font-semibold border border-blue-800">
-                <TrendingUp className="w-3.5 h-3.5 text-blue-400" />
-                <span>{t("section_results_badge")}</span>
-              </div>
-              <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-                {t("section_results_title")}
-              </h2>
-              <p className="text-sm sm:text-base text-slate-300">{t("section_results_desc")}</p>
-            </div>
-
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
-              {caseStudiesData.map((c, i) => (
-                <button
-                  key={c.id}
-                  onClick={() => setActiveCaseIdx(i)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                    activeCaseIdx === i
-                      ? "bg-blue-600 text-white shadow-lg"
-                      : "bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-600"
-                  }`}
-                >
-                  {c.clientName}
-                </button>
-              ))}
-            </div>
+      {/* 6. FEATURED CASE STUDY — dark */}
+      <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:py-32">
+        <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div className="max-w-2xl">
+            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-eco-electric">
+              {t("section_results_badge")}
+            </span>
+            <h2 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              {currentCase?.title ?? t("section_results_title")}
+            </h2>
           </div>
+          <button
+            onClick={() => onSelectScreen("case-study")}
+            className="group flex shrink-0 items-center gap-2 text-slate-400 transition-colors hover:text-white"
+          >
+            <span className="text-sm font-semibold">View all projects</span>
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </button>
+        </div>
 
-          {/* Active Case Study Spotlight Card */}
-          {currentCase && (
-            <div className="rounded-3xl bg-slate-900 border border-slate-700/80 p-8 sm:p-12 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              <div className="lg:col-span-6 space-y-6">
-                <div className="flex items-center gap-3">
-                  <span className="px-3 py-1 rounded-md bg-blue-950 text-blue-300 border border-blue-800 text-xs font-bold">
-                    {currentCase.industry}
-                  </span>
-                  {currentCase.year && (
-                    <span className="text-xs text-slate-400 font-mono">
-                      {t("label_completed")} {currentCase.year}
-                    </span>
-                  )}
-                  {currentCase.projectDuration && (
-                    <span className="text-xs text-emerald-400 font-mono">
-                      • {currentCase.projectDuration}
-                    </span>
-                  )}
-                </div>
+        {caseStudiesData.length > 1 && (
+          <div className="no-scrollbar mb-6 flex gap-2 overflow-x-auto">
+            {caseStudiesData.map((c, i) => (
+              <button
+                key={c.id}
+                onClick={() => setActiveCaseIdx(i)}
+                className={`whitespace-nowrap rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
+                  activeCaseIdx === i
+                    ? "border-white/20 bg-white/10 text-white"
+                    : "border-white/5 text-slate-500 hover:text-slate-200"
+                }`}
+              >
+                {c.clientName}
+              </button>
+            ))}
+          </div>
+        )}
 
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
-                  {currentCase.title}
-                </h3>
-
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+        {currentCase && (
+          <div className="group overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-colors hover:border-eco-electric/25">
+            <div className="grid items-stretch lg:grid-cols-2">
+              <div className="p-8 md:p-12 lg:p-16">
+                <p className="mb-8 text-lg leading-relaxed text-slate-400">
                   {currentCase.summary ?? currentCase.solution}
                 </p>
 
-                {/* Verified Metrics Grid (only rendered when real, disclosed metrics exist) */}
                 {currentCase.measurableOutcomes.length > 0 && (
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                    {currentCase.measurableOutcomes.slice(0, 4).map((metric, i) => (
-                      <div
-                        key={i}
-                        className="p-3.5 rounded-xl bg-slate-950 border border-slate-800"
-                      >
-                        <div className="text-lg font-black font-mono text-emerald-400">
-                          {metric.metric}
-                        </div>
-                        <div className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
-                          {metric.label}
-                        </div>
+                  <div className="mb-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    {currentCase.measurableOutcomes.slice(0, 4).map((m, i) => (
+                      <div key={i} className="bg-eco-dark p-4">
+                        <div className="font-display text-xl font-bold text-white">{m.metric}</div>
+                        <div className="mt-0.5 line-clamp-2 text-xs text-slate-500">{m.label}</div>
                       </div>
                     ))}
                   </div>
                 )}
 
-                <div className="pt-2 flex items-center gap-4">
+                <div className="mb-10 flex flex-wrap gap-2">
+                  {[currentCase.industry, ...currentCase.techStack.slice(0, 2)].map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-md border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-slate-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-6">
                   <button
                     onClick={onOpenBriefWizard}
-                    className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg transition-transform hover:scale-105"
+                    className="rounded-lg bg-white px-6 py-3 font-semibold text-eco-dark transition-colors hover:bg-slate-200"
                   >
                     {t("btn_build_similar")}
                   </button>
                   <button
                     onClick={() => onSelectScreen("case-study")}
-                    className="text-xs font-bold text-slate-300 hover:text-white flex items-center gap-1"
+                    className="flex items-center gap-1 text-sm font-semibold text-slate-400 hover:text-white"
                   >
-                    <span>{t("btn_read_full_dossier")}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    {t("btn_read_full_dossier")}
+                    <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
               </div>
 
-              <div className="lg:col-span-6">
-                <div className="gw-photo-plate relative h-72 overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-950 shadow-2xl sm:h-96">
-                  <img
-                    src={currentCase.heroImage}
-                    alt={currentCase.clientName}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-black/80 backdrop-blur-md border border-white/10 text-xs text-slate-300 flex items-center justify-between">
-                    <span>{t("label_delivered_by_ndh")}</span>
-                    {currentCase.clientApprovalRecorded && (
-                      <span className="font-mono text-emerald-400 font-bold flex items-center gap-1">
-                        <ShieldCheck className="w-3.5 h-3.5" /> {t("label_verified_project")}
-                      </span>
-                    )}
+              <div className="relative min-h-[320px] overflow-hidden bg-eco-navy lg:min-h-full">
+                <img
+                  src={currentCase.heroImage}
+                  alt={currentCase.clientName}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-eco-dark via-transparent to-transparent" />
+                {currentCase.clientApprovalRecorded && (
+                  <div className="absolute bottom-6 right-6 flex items-center gap-2 rounded-full border border-white/10 bg-black/60 px-4 py-2 backdrop-blur-md">
+                    <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-white">
+                      {t("label_verified_project")}
+                    </span>
                   </div>
-                </div>
+                )}
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </section>
 
-      {/* Modal for Service Deep-Dive */}
       <ServiceDetailModal
         dept={selectedModalDept}
         isOpen={!!selectedModalDept}
