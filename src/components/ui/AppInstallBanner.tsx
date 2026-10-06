@@ -61,6 +61,7 @@ export const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onDismiss })
   return (
     <>
       {/* Floating Mini App Install Trigger Pill (bottom-left) */}
+      {deferredPrompt && (
       <div className="fixed bottom-6 left-6 z-40 hidden sm:block">
         <button
           onClick={() => setIsOpen(true)}
@@ -72,6 +73,7 @@ export const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onDismiss })
           <span>Install App</span>
         </button>
       </div>
+      )}
 
       {/* Install Modal */}
       {isOpen && (
