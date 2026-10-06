@@ -28,7 +28,7 @@ interface AppFooterProps {
   onOpenBriefWizard: () => void;
   onOpenTalentModal?: () => void;
   onOpenPaymentModal?: () => void;
-  /** Show the featured Academy promotion on the homepage only. */
+  /** Show the Academy, ecosystem, and full agency directory on the homepage only. */
   isHomepage?: boolean;
 }
 
@@ -57,8 +57,9 @@ export const AppFooter: React.FC<AppFooterProps> = ({
         {/* Feature the Academy cross-promotion on the homepage only. */}
         {isHomepage && <AcademyCrossPromo />}
 
-        {/* Shared ecosystem band: states the parent-gateway relationship and
-            links every sibling subsidiary with its launch status. */}
+        {isHomepage && (
+          <>
+        {/* Homepage ecosystem band and full agency directory. */}
         <FamilyFooterLinks />
 
         {/* 4-Column Directory Grid */}
@@ -296,6 +297,9 @@ export const AppFooter: React.FC<AppFooterProps> = ({
             </ul>
           </div>
         </div>
+
+          </>
+        )}
 
         {/* Bottom Bar with Compliance Badges */}
         <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-slate-400 sm:flex-row">
