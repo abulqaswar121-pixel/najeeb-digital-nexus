@@ -31,7 +31,23 @@ jobs:
         run: npm run lint
 
       - name: Unit tests
-        run: npm run test
+        # TEMPORARY DIAGNOSTIC: this runner's job logs are stored on Azure blob
+        # and cannot be fetched from the authoring sandbox, so surface failure
+        # lines as check-run annotations instead (readable via the GitHub API).
+        # Revert to a plain `run: npm run test` once the failure is identified.
+        run: |
+          set +e
+          npm run test 2>&1 | tee /tmp/vitest-output.txt
+          code=${PIPESTATUS[0]}
+          if [ "$code" -ne 0 ]; then
+            echo "VITEST-FATAL-CONTEXT node=$(node -v) npm=$(npm -v) cwd=$PWD"
+            grep -aE "FAIL |AssertionError|Error:|TypeError|ReferenceError|Cannot find|× |Unhandled|expected .* to " /tmp/vitest-output.txt \
+              | head -50 \
+              | while IFS= read -r line; do
+                  printf '::error title=vitest::%s\n' "$(printf '%s' "$line" | tr -d '\r' | cut -c1-400)"
+                done
+          fi
+          exit "$code"
 
       - name: Production build
         run: npm run build
