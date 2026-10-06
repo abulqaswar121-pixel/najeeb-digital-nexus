@@ -137,7 +137,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
         </div>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden min-w-0 items-center gap-6 text-sm font-semibold text-slate-300 xl:flex">
+        <nav className="ml-4 hidden min-w-0 items-center gap-5 text-sm font-semibold text-slate-300 2xl:flex">
           {navLinks.map((link) => {
             const isActive = currentView === link.id;
             return (
@@ -161,7 +161,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
         </nav>
 
         {/* Right Actions: Ecosystem + Currency + Language + User Session + CTA */}
-        <div className="ml-auto hidden min-w-0 items-center gap-2.5 md:flex">
+        <div className="ml-auto hidden shrink-0 items-center gap-2 md:flex">
           {/* 0. Precision Gateway ecosystem switcher */}
           <FamilyMenu
             links={SITE_LINKS}
@@ -230,8 +230,7 @@ export const AppNavbar: React.FC<AppNavbarProps> = ({
               className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-eco-navy px-3 py-1.5 text-xs font-bold text-slate-200 transition-all hover:border-eco-cyan/40"
               aria-label="Change Currency"
             >
-              <span>{currencies[currency]?.flag}</span>
-              <span>
+              <span className="whitespace-nowrap">
                 {currencies[currency]?.symbol} {currency}
               </span>
               <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
