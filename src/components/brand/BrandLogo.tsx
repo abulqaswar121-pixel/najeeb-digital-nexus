@@ -1,52 +1,77 @@
 import React from "react";
+import { AgencySectorMark } from "./AgencySectorMark";
 
 interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
   className?: string;
+  /** Hide the "MANAGED DIGITAL BUREAU" micro-badge (used in tight portal headers). */
+  compactBadge?: boolean;
 }
 
-export const BrandLogo: React.FC<BrandLogoProps> = ({ size = "md", className = "" }) => {
-  // Icon box sizes are taller than wide to match the real brand mark's
-  // vertical hexagon silhouette (the previous geometric SVG placeholder was
-  // a perfect square -- this mark isn't).
-  const iconSizes = {
-    sm: "w-6 h-8",
-    md: "w-8 h-10",
-    lg: "w-10 h-12",
+/**
+ * NDH Agency header lockup.
+ *
+ * Aligned with the parent "Precision Gateway" identity:
+ *  - the Open Gateway master mark (`NdhFamilySymbol`) carrying the agency's
+ *    `BriefcaseBusiness` sector badge in its lower-right corner,
+ *  - the "NAJEEB DIGITAL HUB" wordmark in Space Grotesk, tracking-tight,
+ *  - an "NDH AGENCY" sub-label plus an Electric Cyan micro-badge reading
+ *    "MANAGED DIGITAL BUREAU".
+ *
+ * Every text node is allowed to shrink (`min-w-0` + `truncate`) so the lockup
+ * can never force horizontal scrolling on a 360px viewport; the micro-badge is
+ * dropped below `sm` for the same reason.
+ */
+export const BrandLogo: React.FC<BrandLogoProps> = ({
+  size = "md",
+  className = "",
+  compactBadge = false,
+}) => {
+  const wordmarkSizes = {
+    sm: "text-[13px] sm:text-sm",
+    md: "text-sm sm:text-base",
+    lg: "text-lg sm:text-xl",
   };
 
-  const textSizes = {
-    sm: "text-base",
-    md: "text-lg",
-    lg: "text-2xl",
+  const subLabelSizes = {
+    sm: "text-[8px]",
+    md: "text-[9px]",
+    lg: "text-[10px]",
   };
 
   return (
-    <div className={`flex min-w-0 items-center gap-2.5 select-none group ${className}`}>
-      {/* Real NDH brand mark (supplied by the agency, not AI-generated
-          placeholder geometry) */}
-      <div
-        className={`relative ${iconSizes[size]} shrink-0 transition-transform duration-300 group-hover:scale-105 flex items-center justify-center`}
-      >
-        <img
-          src="/images/ndh-logo-mark.png"
-          alt="NDH Agency"
-          className="w-full h-full object-contain drop-shadow-[0_2px_6px_rgba(109,40,217,0.45)]"
-        />
-      </div>
+    <div
+      className={`ndh-agency-brand group flex min-w-0 select-none items-center gap-2.5 ${className}`}
+    >
+      {/* Open Gateway master mark + agency sector badge */}
+      <AgencySectorMark
+        size={size}
+        className="shrink-0 transition-transform duration-300 group-hover:scale-[1.04]"
+      />
 
-      {/* Brand Typography */}
-      <div className="flex min-w-0 flex-col">
-        <div className="flex min-w-0 items-center gap-2">
+      {/* Wordmark stack */}
+      <div className="flex min-w-0 flex-col justify-center leading-none">
+        <span
+          className={`ndh-brand-wordmark truncate font-semibold tracking-tight text-white ${wordmarkSizes[size]}`}
+        >
+          NAJEEB DIGITAL HUB
+        </span>
+
+        <span className="mt-1 flex min-w-0 items-center gap-1.5">
           <span
-            className={`whitespace-nowrap font-black tracking-tight text-white ${textSizes[size]} group-hover:text-blue-400 transition-colors`}
+            className={`ndh-brand-sublabel shrink-0 font-semibold uppercase text-eco-electric ${subLabelSizes[size]}`}
           >
-            NDH<span className="font-light text-blue-400 ml-1">AGENCY</span>
+            NDH Agency
           </span>
-          <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-gradient-to-r from-blue-500/20 to-indigo-500/20 border border-blue-400/30 text-blue-300 uppercase tracking-wider font-mono">
-            GLOBAL
-          </span>
-        </div>
+
+          {!compactBadge && (
+            <span
+              className={`ndh-brand-badge hidden shrink-0 items-center rounded-full border border-eco-electric/35 bg-eco-electric/10 px-1.5 py-[1px] font-mono font-bold uppercase tracking-[0.14em] text-eco-electric sm:inline-flex ${subLabelSizes[size]}`}
+            >
+              Managed Digital Bureau
+            </span>
+          )}
+        </span>
       </div>
     </div>
   );

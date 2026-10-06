@@ -118,8 +118,8 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
         </div>
       </div>
 
-      {/* 2. HERO SECTION */}
-      <section className="relative pt-12 pb-20 overflow-hidden bg-[#070A14]">
+      {/* 2. HERO SECTION — deep navy band (gw-band-hero) */}
+      <section className="gw-band gw-band-hero relative overflow-hidden pt-12 pb-20">
         {/* Hero Background Image + Readability Overlay */}
         <div className="absolute inset-0">
           <img
@@ -235,7 +235,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           clients only (see "Verified Client Success Stories" below for the
           full case studies). No claimed partnerships with third-party
           payment/infrastructure providers. */}
-      <section className="py-8 bg-[#090D1A] border-y border-slate-800/80 overflow-hidden">
+      <section className="gw-band gw-band-white gw-band-tight overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 mb-4 text-center">
           <span className="text-[11px] font-mono uppercase tracking-widest text-slate-400">
             {t("marquee_heading")}
@@ -259,8 +259,9 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
         </div>
       </section>
 
-      {/* 4. WHAT WE BUILD: 16 SPECIALIZED DEPARTMENTS WITH DISTINCT PHOTOGRAPHY */}
-      <section className="py-24 border-b border-slate-800 bg-[#070A14]">
+      {/* 4. WHAT WE BUILD: 16 SPECIALIZED DEPARTMENTS WITH DISTINCT PHOTOGRAPHY
+          Porcelain band — the department cards invert to elevated white. */}
+      <section className="gw-band gw-band-porcelain gw-band-roomy">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-3 max-w-2xl">
@@ -295,7 +296,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 >
                   <div>
                     {/* High-Resolution Image Header */}
-                    <div className="relative h-48 overflow-hidden bg-slate-950">
+                    <div className="gw-photo-plate relative h-48 overflow-hidden bg-slate-950">
                       <img
                         src={dept.coverImage}
                         alt={dept.name}
@@ -381,7 +382,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
       </section>
 
       {/* 5. INSTANT PROJECT PRICE & TIME ESTIMATOR */}
-      <section id="estimator" className="py-24 border-b border-slate-800 bg-[#090D1A]">
+      <section id="estimator" className="gw-band gw-band-white gw-band-roomy">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto bg-slate-900 border border-slate-700/80 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden space-y-8">
             <div className="text-center space-y-3">
@@ -488,8 +489,8 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
         </div>
       </section>
 
-      {/* 6. VERIFIED CLIENT SUCCESS STORIES */}
-      <section className="py-24 border-b border-slate-800 bg-[#070A14]">
+      {/* 6. VERIFIED CLIENT SUCCESS STORIES — porcelain band */}
+      <section className="gw-band gw-band-porcelain gw-band-roomy">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-3 max-w-2xl">
@@ -585,7 +586,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               </div>
 
               <div className="lg:col-span-6">
-                <div className="rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl relative h-72 sm:h-96 bg-slate-950">
+                <div className="gw-photo-plate relative h-72 overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-950 shadow-2xl sm:h-96">
                   <img
                     src={currentCase.heroImage}
                     alt={currentCase.clientName}

@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { MainNavView } from "./AppNavbar";
 import { BrandLogo } from "../brand/BrandLogo";
+import { AcademyCrossPromo } from "./AcademyCrossPromo";
+import { FamilyFooterLinks } from "./FamilyFooterLinks";
 import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 import { useAuth, openAuthModal } from "../../lib/authStore";
 
@@ -26,10 +28,12 @@ interface AppFooterProps {
   onOpenBriefWizard: () => void;
   onOpenTalentModal?: () => void;
   onOpenPaymentModal?: () => void;
-  // The NDH Academy cross-link banner below is only meant to appear on the
-  // homepage (it has its own dedicated, in-place instance on the Talent
-  // Network page) -- showing it in every page's footer previously meant it
-  // appeared literally everywhere, which wasn't the intent.
+  /**
+   * Retained for call-site compatibility (AppShell still passes it). The NDH
+   * Academy cross-promotion is no longer homepage-gated: the ecosystem spec
+   * requires the footer itself to carry it on every page, so the prop is
+   * accepted and intentionally unused.
+   */
   isHomepage?: boolean;
 }
 
@@ -38,7 +42,6 @@ export const AppFooter: React.FC<AppFooterProps> = ({
   onOpenBriefWizard,
   onOpenTalentModal,
   onOpenPaymentModal,
-  isHomepage,
 }) => {
   const { user } = useAuth();
   const { currency } = useCurrencyLanguage();
@@ -53,48 +56,19 @@ export const AppFooter: React.FC<AppFooterProps> = ({
   };
 
   return (
-    <footer className="bg-[#05070D] border-t border-slate-800/80 py-16 text-xs font-sans text-slate-300">
+    <footer className="border-t border-white/10 bg-eco-dark py-16 font-sans text-xs text-slate-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Discrete NDH Academy Cross-Link Banner — homepage only; the Talent
-            Network page carries its own in-place instance of this same
-            cross-link. */}
-        {isHomepage && (
-          <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950/60 to-slate-900 border border-slate-700/80 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
-            <div className="flex items-start sm:items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0 shadow-inner">
-                <Award className="w-6 h-6 text-blue-400" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-white">
-                    Looking for Tech Education &amp; Training? NDH Academy is live.
-                  </span>
-                  <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-mono font-medium">
-                    Now Live
-                  </span>
-                </div>
-                <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
-                  NDH Academy trains African developers, product designers, and AI engineers on an
-                  independent platform with its own curriculum, separate from agency client
-                  accounts.
-                </p>
-              </div>
-            </div>
+        {/* Prominent NDH Academy cross-promotion (spec 2.3): the two are
+            separate sibling businesses on separate subdomains, so this is a
+            signpost out to academy.ndh.com.ng rather than an in-app route. */}
+        <AcademyCrossPromo />
 
-            <a
-              href="https://academy.ndh.com.ng"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-2 shrink-0 shadow-lg shadow-blue-600/30 transition-all hover:scale-105"
-            >
-              <span>Visit academy.ndh.com.ng</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </a>
-          </div>
-        )}
+        {/* Shared ecosystem band: states the parent-gateway relationship and
+            links every sibling subsidiary with its launch status. */}
+        <FamilyFooterLinks />
 
         {/* 4-Column Directory Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pt-4 border-t border-slate-850">
+        <div className="grid min-w-0 grid-cols-1 gap-10 border-t border-white/10 pt-4 md:grid-cols-2 xl:grid-cols-4">
           {/* Col 1: Brand & Parent Hub */}
           <div className="space-y-4">
             <BrandLogo size="md" />
@@ -104,23 +78,23 @@ export const AppFooter: React.FC<AppFooterProps> = ({
             </p>
             <div className="space-y-2 text-slate-300 text-xs pt-1">
               <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-eco-electric shrink-0" />
                 <span>Marmaron Nufawa, Western Bye Pass, Sokoto, Nigeria</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                <Phone className="w-3.5 h-3.5 text-eco-electric shrink-0" />
                 <a href="https://wa.me/2349029932794" className="hover:text-white">
                   +234 902 993 2794 (WhatsApp)
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                <Mail className="w-3.5 h-3.5 text-eco-electric shrink-0" />
                 <a href="mailto:hello@ndh.com.ng" className="hover:text-white">
                   hello@ndh.com.ng
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                <Mail className="w-3.5 h-3.5 text-eco-electric shrink-0" />
                 <a href="mailto:abunnajeeh7@gmail.com" className="hover:text-white">
                   abunnajeeh7@gmail.com
                 </a>
@@ -336,7 +310,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
         </div>
 
         {/* Bottom Bar with Compliance Badges */}
-        <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-slate-400 sm:flex-row">
           <div className="space-y-1">
             <div>
               © 2026 NDH Agency (agency.ndh.com.ng). Part of Najeeb Digital Hub. All rights
@@ -345,21 +319,21 @@ export const AppFooter: React.FC<AppFooterProps> = ({
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px]">
               <button
                 onClick={() => onSelectView("privacy-policy")}
-                className="hover:text-blue-400 underline underline-offset-2"
+                className="hover:text-eco-electric underline underline-offset-2"
               >
                 Privacy Policy
               </button>
               <span className="text-slate-700">•</span>
               <button
                 onClick={() => onSelectView("terms-of-service")}
-                className="hover:text-blue-400 underline underline-offset-2"
+                className="hover:text-eco-electric underline underline-offset-2"
               >
                 Terms of Service
               </button>
               <span className="text-slate-700">•</span>
               <button
                 onClick={() => onSelectView("refund-policy")}
-                className="hover:text-blue-400 underline underline-offset-2"
+                className="hover:text-eco-electric underline underline-offset-2"
               >
                 Refund Policy
               </button>
@@ -368,21 +342,21 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               <span className="text-slate-600">Staff &amp; Partner Access:</span>
               <button
                 onClick={() => openAuthModal("login", "admin")}
-                className="hover:text-blue-400 underline underline-offset-2"
+                className="hover:text-eco-electric underline underline-offset-2"
               >
                 Admin
               </button>
               <span className="text-slate-700">•</span>
               <button
                 onClick={() => openAuthModal("login", "pm")}
-                className="hover:text-blue-400 underline underline-offset-2"
+                className="hover:text-eco-electric underline underline-offset-2"
               >
                 Project Manager
               </button>
               <span className="text-slate-700">•</span>
               <button
                 onClick={() => openAuthModal("login", "talent")}
-                className="hover:text-blue-400 underline underline-offset-2"
+                className="hover:text-eco-electric underline underline-offset-2"
               >
                 Talent
               </button>

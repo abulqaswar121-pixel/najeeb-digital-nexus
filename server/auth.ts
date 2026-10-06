@@ -1,4 +1,9 @@
-import type { Request, Response, NextFunction } from "express";
+// Framework-neutral request/response types (see server/http.ts). These
+// handlers are mounted both under Express (server/app.ts) and inside the edge
+// runtime (server/fetchApp.ts), so typing them with Express's own
+// Request/Response made them unassignable to MiniRouter's `Handler` and tied
+// the auth layer to one host framework.
+import type { Request, Response, NextFunction } from "./http.js";
 import crypto from "node:crypto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -58,13 +63,8 @@ function getUserFromRequest(req: Request): UserRecord | null {
   }
 }
 
-// Extend Express's Request type with the authenticated user, populated by
-// requireAuth below.
-declare module "express-serve-static-core" {
-  interface Request {
-    ndhUser?: UserRecord;
-  }
-}
+// The neutral `Request` type already carries `ndhUser` (see server/http.ts),
+// populated by requireAuth below, so no Express module augmentation is needed.
 
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
   const user = getUserFromRequest(req);

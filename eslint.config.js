@@ -6,7 +6,18 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", ".output", ".vinxi"] },
+  {
+    ignores: [
+      "dist",
+      ".output",
+      ".vinxi",
+      // Supabase client/types are codegen output (each file carries a
+      // "generated" banner) and are re-emitted wholesale by tooling, so linting
+      // them only produces churn that the next regeneration reverts. They held
+      // 179 of this repo's 187 lint problems, all formatting, which kept CI red.
+      "src/integrations/supabase",
+    ],
+  },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],

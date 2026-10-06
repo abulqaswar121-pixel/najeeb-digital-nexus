@@ -15,7 +15,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          # Node 22, not 20: jsdom 30 (pulled in by the vitest jsdom environment
+          # used by the component tests) calls undici internals that Node 20's
+          # bundled undici does not expose, which fails every jsdom test file
+          # with "webidl.util.markAsUncloneable is not a function". Node 20 is
+          # also deprecated on GitHub-hosted runners.
+          node-version: "22"
           cache: "npm"
 
       - name: Install dependencies
@@ -49,7 +54,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          # Node 22, not 20: jsdom 30 (pulled in by the vitest jsdom environment
+          # used by the component tests) calls undici internals that Node 20's
+          # bundled undici does not expose, which fails every jsdom test file
+          # with "webidl.util.markAsUncloneable is not a function". Node 20 is
+          # also deprecated on GitHub-hosted runners.
+          node-version: "22"
           cache: "npm"
       - run: npm ci --no-audit --no-fund
       - run: npx playwright install --with-deps chromium

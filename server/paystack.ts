@@ -53,7 +53,11 @@ export async function verifyPaystackTransaction(reference: string): Promise<Pays
     return {
       verified: body.data.status === "success",
       sandbox: false,
-      status: body.data.status as PaystackVerifyResult["status"],
+      // `PaystackVerifyResult["status"]` includes `undefined` because the
+      // property is optional, and under `exactOptionalPropertyTypes` an
+      // optional property may be absent but may not be explicitly `undefined`.
+      // NonNullable asserts the concrete status union Paystack returned.
+      status: body.data.status as NonNullable<PaystackVerifyResult["status"]>,
       amountKobo: body.data.amount,
       currency: body.data.currency,
       reference: body.data.reference,
