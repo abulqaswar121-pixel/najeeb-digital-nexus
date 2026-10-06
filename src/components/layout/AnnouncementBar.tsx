@@ -70,7 +70,7 @@ export const AnnouncementBar: React.FC<AnnouncementBarProps> = ({ onActionClick 
   return (
     <aside
       aria-label="Announcements"
-      className="relative z-50 overflow-hidden bg-gradient-to-r from-blue-700 via-indigo-600 to-cyan-600 bg-[length:200%_100%] animate-announcement-sheen text-white text-xs shadow-md"
+      className="relative z-50 overflow-hidden border-b border-eco-electric/20 bg-gradient-to-r from-eco-dark via-eco-navy to-eco-dark text-white text-xs"
     >
       <div className="max-w-7xl mx-auto flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2">
         <div className="flex-1 min-w-0 flex items-center justify-center">

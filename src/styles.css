@@ -1166,14 +1166,29 @@ h6,
   }
 }
 
-/* Very small screens: keep the pill clear of the left edge and shrink the
-   launcher target slightly without dropping below the 44px minimum. */
-@media (max-width: 400px) {
+/* Phones: the greeting pill would sit on top of page buttons, so only the
+   avatar launcher shows. */
+@media (max-width: 767px) {
   .ai-assistant-greeting {
-    right: 84px;
-    max-width: calc(100vw - 100px);
-    font-size: 11px;
+    display: none;
   }
+}
+
+/* Light-band polish: section pills and secondary buttons read as clean
+   light chips instead of dark islands on white. */
+.gw-band-white .bg-blue-950,
+.gw-band-porcelain .bg-blue-950 {
+  background-color: #ecfeff;
+  color: #0e7490;
+}
+.gw-band-white .bg-slate-900.text-white,
+.gw-band-porcelain .bg-slate-900.text-white {
+  background-color: #070f1e;
+  color: #ffffff;
+}
+.gw-band-white .rounded-3xl,
+.gw-band-porcelain .rounded-3xl {
+  border-color: #e2e8f0;
 }
 
 @media (prefers-reduced-motion: reduce) {
