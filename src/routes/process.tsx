@@ -10,6 +10,13 @@ export const Route = createFileRoute("/process")({
         name: "description",
         content: "How an engagement moves from brief to delivery at NDH Agency.",
       },
+      { property: "og:title", content: "Our Process | NDH Agency" },
+      {
+        property: "og:description",
+        content: "How an engagement moves from brief to delivery at NDH Agency.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: () => (
