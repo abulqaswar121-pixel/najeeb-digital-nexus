@@ -155,9 +155,12 @@ test.describe("Alternating band rhythm on the homepage", () => {
     const plate = page.locator(".gw-photo-plate").first();
     await expect(plate).toBeVisible();
 
-    const heading = plate.locator("h3").first();
-    const color = await heading.evaluate((el) => getComputedStyle(el).color);
-    // Overlay text must stay light, not be inverted to near-black by the band.
+    // The plate carries a "Delivered by NDH · <client>" overlay caption; the
+    // band inversion must not repaint it near-black over the photo.
+    const caption = plate.getByText(/Delivered by NDH/i).first();
+    await expect(caption).toBeVisible();
+
+    const color = await caption.evaluate((el) => getComputedStyle(el).color);
     const lum = relativeLuminance(parseRgb(color) ?? [0, 0, 0]);
     expect(lum, `overlay caption colour ${color}`).toBeGreaterThan(0.6);
   });

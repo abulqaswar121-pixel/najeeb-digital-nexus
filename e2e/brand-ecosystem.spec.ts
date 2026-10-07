@@ -136,8 +136,8 @@ test.describe("Agency header isolation (ecosystem lives in the footer)", () => {
 
     for (const label of AGENCY_LINKS) {
       await expect(
-        header.getByRole("link", { name: label, exact: true }).first(),
-        `header link ${label}`,
+        header.getByRole("button", { name: label, exact: true }).first(),
+        `header destination ${label}`,
       ).toBeVisible();
     }
 
@@ -176,9 +176,9 @@ test.describe("Agency header isolation (ecosystem lives in the footer)", () => {
     const drawer = page.locator("nav[aria-label='Mobile navigation']");
     await expect(drawer).toBeVisible();
     for (const label of AGENCY_LINKS) {
-      await expect(drawer.getByRole("link", { name: label, exact: true }).first()).toBeVisible();
+      await expect(drawer.getByRole("button", { name: label, exact: true }).first()).toBeVisible();
     }
-    await expect(drawer.locator("text=/academy|estore|ecosystem/i")).toHaveCount(0);
+    await expect(drawer.getByText(/academy|estore|ecosystem/i)).toHaveCount(0);
   });
 });
 

@@ -41,15 +41,12 @@ jobs:
       - name: Production build
         run: npm run build
 
-  # Disabled until this pipeline is confirmed running on a runner that permits
-  # installing Playwright's browser binaries (ubuntu-latest GitHub-hosted
-  # runners support this out of the box; this job is kept here but not yet
-  # enabled since it hasn't been validated in this environment). Flip
-  # `if: false` to `if: true` once validated.
+  # Runs on ubuntu-latest, which can install Playwright's browser binaries.
+  # playwright.config.ts boots both servers for us: the Express API on 8787
+  # and the Vite preview (which proxies /api there) on 4173.
   e2e:
     name: End-to-end tests (Playwright)
     runs-on: ubuntu-latest
-    if: false
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
