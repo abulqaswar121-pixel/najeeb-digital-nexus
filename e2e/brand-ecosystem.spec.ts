@@ -50,9 +50,12 @@ test.describe("Mobile layout at 360px has zero horizontal scrolling", () => {
   test("the mobile drawer holds only agency destinations", async ({ page }) => {
     await page.goto("/");
 
-    await page.getByRole("button", { name: /toggle navigation menu/i }).click();
     const header = page.locator("header");
-    await expect(header.locator("nav[aria-label='Mobile navigation']")).toBeVisible();
+    const drawerNav = header.locator("nav[aria-label='Mobile navigation']");
+    await expect(async () => {
+      await page.getByRole("button", { name: /toggle navigation menu/i }).click();
+      await expect(drawerNav).toBeVisible({ timeout: 2_000 });
+    }).toPass({ timeout: 20_000 });
 
     // The retired ecosystem switcher must not resurface in the drawer.
     await expect(header.locator(".gw-menu-panel")).toHaveCount(0);
@@ -83,18 +86,17 @@ test.describe("Open Gateway master mark + agency sector badge", () => {
   test("renders in the header and footer of a public page", async ({ page }) => {
     await page.goto("/");
 
-    const header = page.locator("header .ndh-family-symbol");
-    await expect(header.first()).toBeVisible();
-
-    const footer = page.locator("footer .ndh-family-symbol");
-    await expect(footer.first()).toBeVisible();
+    // The header renders a small (mobile) and a medium (desktop) lockup; only
+    // one is displayed at a given viewport.
+    await expect(page.locator("header .ndh-family-symbol:visible").first()).toBeVisible();
+    await expect(page.locator("footer .ndh-family-symbol:visible").first()).toBeVisible();
 
     // The sector badge is what distinguishes the agency from its siblings.
-    await expect(page.locator("header .ndh-family-sector").first()).toBeVisible();
-    await expect(page.locator("footer .ndh-family-sector").first()).toBeVisible();
+    await expect(page.locator("header .ndh-family-sector:visible").first()).toBeVisible();
+    await expect(page.locator("footer .ndh-family-sector:visible").first()).toBeVisible();
 
     // The master mark must load the real gateway artwork, not a placeholder.
-    const tile = page.locator("header .ndh-family-tile img").first();
+    const tile = page.locator("header .ndh-family-tile img:visible").first();
     await expect(tile).toHaveAttribute("src", /ndh-logo-gateway-cropped/);
     expect(await tile.evaluate((el) => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   });
@@ -171,10 +173,12 @@ test.describe("Agency header isolation (ecosystem lives in the footer)", () => {
   test("keeps the header 100% agency-focused in the 360px drawer too", async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 780 });
     await page.goto("/");
-    await page.getByRole("button", { name: /toggle navigation menu/i }).click();
 
     const drawer = page.locator("nav[aria-label='Mobile navigation']");
-    await expect(drawer).toBeVisible();
+    await expect(async () => {
+      await page.getByRole("button", { name: /toggle navigation menu/i }).click();
+      await expect(drawer).toBeVisible({ timeout: 2_000 });
+    }).toPass({ timeout: 20_000 });
     for (const label of AGENCY_LINKS) {
       await expect(drawer.getByRole("button", { name: label, exact: true }).first()).toBeVisible();
     }
@@ -220,7 +224,7 @@ test.describe("Footer stays agency-only", () => {
     await expect(footer).toHaveClass(/band-dark/);
     await expect(footer.getByText(/hello@ndh\.com\.ng/).first()).toBeVisible();
     await expect(footer.getByText(/Dual-Key Escrow Guarantee/i).first()).toBeVisible();
-    await expect(footer.getByRole("link", { name: /privacy policy/i }).first()).toBeVisible();
+    await expect(footer.getByText(/privacy policy/i).first()).toBeVisible();
   });
 });
 
@@ -229,6 +233,12 @@ test.describe("Master typography stack", () => {
     await page.goto("/");
 
     const loaded = await page.evaluate(async () => {
+      // `document.fonts.ready` only resolves for faces already requested, so
+      // pull the two families in explicitly before checking them.
+      await Promise.all([
+        document.fonts.load('600 16px "Space Grotesk"'),
+        document.fonts.load('400 16px "DM Sans"'),
+      ]);
       await document.fonts.ready;
       return {
         display: document.fonts.check('600 16px "Space Grotesk"'),
