@@ -46,7 +46,7 @@ function contrastRatio(fg: string, bg: string): number | null {
 }
 
 test.describe("Alternating band rhythm on the homepage", () => {
-  test("bands alternate dark / white / porcelain / white / porcelain", async ({ page }) => {
+  test("bands alternate hero / white / porcelain / white / porcelain / white", async ({ page }) => {
     await page.goto("/");
 
     const bands = await page.$$eval("section.gw-band", (els) =>
@@ -63,9 +63,17 @@ test.describe("Alternating band rhythm on the homepage", () => {
       }),
     );
 
-    expect(bands.map((b) => b.kind)).toEqual(["hero", "white", "porcelain", "white", "porcelain"]);
+    // Deep-navy hero, then the marquee strips and content bands on porcelain.
+    expect(bands.map((b) => b.kind)).toEqual([
+      "hero",
+      "white",
+      "porcelain",
+      "white",
+      "porcelain",
+      "white",
+    ]);
 
-    // The hero band must actually be dark, and the light bands actually light.
+    // The hero band must actually be dark, and the content bands actually light.
     const heroLum = relativeLuminance(parseRgb(bands[0]!.background) ?? [0, 0, 0]);
     expect(heroLum, "hero band is dark").toBeLessThan(0.2);
 
@@ -76,6 +84,15 @@ test.describe("Alternating band rhythm on the homepage", () => {
 
     // White and porcelain must be distinguishable from each other.
     expect(bands[1]!.background).not.toBe(bands[2]!.background);
+
+    // The closing CTA is the dark anchor strip, not another light band.
+    const anchor = page.locator("section.gw-band-anchor, section.band-dark").last();
+    await expect(anchor).toBeVisible();
+    const anchorBg = await anchor.evaluate((el) => getComputedStyle(el).backgroundColor);
+    expect(
+      relativeLuminance(parseRgb(anchorBg) ?? [255, 255, 255]),
+      "closing CTA anchor is deep navy",
+    ).toBeLessThan(0.2);
   });
 
   test("body text inside light bands meets WCAG AA (>= 4.5:1)", async ({ page }) => {

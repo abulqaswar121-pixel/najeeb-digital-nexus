@@ -47,7 +47,7 @@ export const DIRECTION_CONFIGS: Record<DesignDirectionId, DirectionThemeConfig> 
     ],
     targetAudience:
       "Fintech scale-ups, web3 & distributed protocols, venture studios, enterprise digital transformation leaders.",
-    containerBg: "bg-[#080C14] text-[#F1F5F9]",
+    containerBg: "bg-eco-dark text-slate-100",
     cardBg: "bg-[#0F172A]/90 backdrop-blur-md",
     cardBorder: "border-blue-900/40",
     accentBtn:
@@ -149,7 +149,7 @@ export const DIRECTION_CONFIGS: Record<DesignDirectionId, DirectionThemeConfig> 
     risks: [],
     targetAudience:
       "Global enterprises, fintech scale-ups, sovereign governments, and venture studios.",
-    containerBg: "bg-[#080C14] text-[#F1F5F9]",
+    containerBg: "bg-eco-dark text-slate-100",
     cardBg: "bg-[#0F172A]/90 backdrop-blur-md",
     cardBorder: "border-blue-900/40",
     accentBtn:

@@ -5,6 +5,8 @@ import { AgencySectorMark } from "../AgencySectorMark";
 import { BrandLogo } from "../BrandLogo";
 import { NdhFamilySymbol } from "../NdhFamilySymbol";
 import { FamilyMenu } from "../../layout/FamilyMenu";
+import { AgencyHeader } from "../../layout/AgencyHeader";
+import { AppFooter } from "../../layout/AppFooter";
 import { AcademyCrossPromo } from "../../layout/AcademyCrossPromo";
 import { FamilyFooterLinks } from "../../layout/FamilyFooterLinks";
 import {
@@ -215,5 +217,88 @@ describe("Footer ecosystem cross-references", () => {
     expect(container.textContent).toContain("Coming Soon");
     expect(container.textContent).toContain("NDH SchoolDesk");
     expect(hrefs).not.toContain("");
+  });
+});
+
+/* ------------------------------------------------------------------ *
+ * Header ecosystem isolation (the strict rule)
+ * ------------------------------------------------------------------ */
+
+describe("Agency header — 100% agency services, zero ecosystem promotion", () => {
+  const renderHeader = (currentView: Parameters<typeof AgencyHeader>[0]["currentView"]) =>
+    render(
+      <AgencyHeader
+        currentView={currentView}
+        onSelectView={() => {}}
+        onOpenBriefWizard={() => {}}
+      />,
+    );
+
+  it("carries exactly the seven agency destinations", () => {
+    const { container } = renderHeader("homepage");
+    const links = [...container.querySelectorAll("header nav button, header nav a")].map((el) =>
+      el.textContent?.trim(),
+    );
+    expect(links).toEqual([
+      "Services",
+      "Case Studies",
+      "How It Works",
+      "Talent Network",
+      "Insights",
+      "Contact",
+    ]);
+
+    // The CTA is the seventh destination, outside the nav list.
+    expect(screen.getByRole("button", { name: /start a project/i })).toBeInTheDocument();
+  });
+
+  it("never renders the ecosystem switcher, an Academy link or a sibling subdomain", () => {
+    const { container } = renderHeader("services");
+    const header = container.querySelector("header")!;
+
+    expect(header.querySelector(".gw-menu")).toBeNull();
+    expect(header.querySelector(".gw-menu-trigger")).toBeNull();
+    expect(header.querySelector(".ndh-academy-promo")).toBeNull();
+    expect(header.textContent).not.toMatch(/ndh\.com\.ng|academy|estore|ecosystem/i);
+  });
+
+  it("marks the active destination for assistive tech", () => {
+    const { container } = renderHeader("case-study");
+    const active = container.querySelector('[aria-current="page"]');
+    expect(active).not.toBeNull();
+    expect(active!.textContent).toContain("Case Studies");
+  });
+});
+
+describe("Footer — where the family directory is allowed to live", () => {
+  it("keeps the sibling directory and parent gateway in the footer only", () => {
+    const { container } = render(
+      <AppFooter
+        onSelectView={() => {}}
+        onOpenBriefWizard={() => {}}
+        onOpenTalentModal={() => {}}
+      />,
+    );
+    const footer = container.querySelector("footer")!;
+    // The footer is the deep-navy anchor band (Academy `FamilyFooter` rhythm).
+    expect(footer.getAttribute("class")).toContain("band-dark");
+
+    const text = footer.textContent ?? "";
+    expect(text).toContain("Parent Gateway");
+    expect(text).toContain("within the Najeeb Digital Hub family");
+    expect(text).toContain("academy.ndh.com.ng");
+    expect(text).toContain("estore.ndh.com.ng");
+
+    const hrefs = [...footer.querySelectorAll("a")].map((a) => a.getAttribute("href"));
+    expect(hrefs).toContain("https://ndh.com.ng");
+    expect(hrefs).toContain("https://academy.ndh.com.ng");
+  });
+
+  it("keeps the Academy sibling card inside the footer on every page", () => {
+    const { container } = render(
+      <AppFooter onSelectView={() => {}} onOpenBriefWizard={() => {}} />,
+    );
+    const footer = container.querySelector("footer")!;
+    expect(footer.querySelector(".ndh-academy-promo")).not.toBeNull();
   });
 });

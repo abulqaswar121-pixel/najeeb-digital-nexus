@@ -48,7 +48,7 @@ export const PortalNavDropdown: React.FC<PortalNavDropdownProps> = ({
     <div className="relative" ref={ref}>
       <button
         onClick={() => setIsOpen((o) => !o)}
-        className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-slate-500 text-white text-xs font-bold transition-all"
+        className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.06] border border-white/12 hover:border-white/25 text-white text-xs font-bold transition-all"
       >
         {activeTabInfo?.icon}
         <span className="hidden sm:inline">{activeTabInfo?.label || "Menu"}</span>
@@ -56,16 +56,16 @@ export const PortalNavDropdown: React.FC<PortalNavDropdownProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 sm:left-0 mt-2 w-72 rounded-2xl bg-[#0F172A] border border-slate-700 shadow-2xl overflow-hidden z-50">
-          <div className="p-3 border-b border-slate-800 flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
+        <div className="absolute right-0 sm:left-0 mt-2 w-72 rounded-2xl bg-eco-navy border border-white/12 shadow-2xl overflow-hidden z-50">
+          <div className="p-3 border-b border-white/10 flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-full bg-eco-cyan/20 border border-eco-cyan/40 flex items-center justify-center text-eco-cyan shrink-0">
               <UserIcon className="w-4 h-4" />
             </div>
             <div className="min-w-0">
               <div className="text-xs font-bold text-white truncate">
                 {user?.fullName || "Signed In"}
               </div>
-              <div className="text-[10px] text-slate-400 truncate">
+              <div className="text-[10px] text-[var(--eco-on-dark-muted)] truncate">
                 {user?.roleTitle || user?.email || ""}
               </div>
             </div>
@@ -81,8 +81,8 @@ export const PortalNavDropdown: React.FC<PortalNavDropdownProps> = ({
                 }}
                 className={`w-full flex items-center justify-between gap-2 px-4 py-2.5 text-xs text-left transition-colors ${
                   tab.id === activeTab
-                    ? "bg-blue-600/20 text-white"
-                    : "text-slate-300 hover:bg-slate-800/80 hover:text-white"
+                    ? "bg-primary/20 text-white"
+                    : "text-slate-200 hover:bg-white/[0.08]/80 hover:text-white"
                 }`}
               >
                 <span className="flex items-center gap-2 min-w-0">
@@ -95,13 +95,13 @@ export const PortalNavDropdown: React.FC<PortalNavDropdownProps> = ({
                       {tab.badge}
                     </span>
                   )}
-                  {tab.id === activeTab && <Check className="w-3.5 h-3.5 text-blue-400" />}
+                  {tab.id === activeTab && <Check className="w-3.5 h-3.5 text-eco-cyan" />}
                 </span>
               </button>
             ))}
           </div>
 
-          <div className="border-t border-slate-800 p-1.5">
+          <div className="border-t border-white/10 p-1.5">
             <button
               onClick={handleSignOut}
               className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold text-red-400 hover:bg-red-500/10 transition-colors"

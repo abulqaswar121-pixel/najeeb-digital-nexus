@@ -47,22 +47,18 @@ test.describe("Mobile layout at 360px has zero horizontal scrolling", () => {
     });
   }
 
-  test("the ecosystem switcher opens as a sheet without overflowing", async ({ page }) => {
+  test("the mobile drawer holds only agency destinations", async ({ page }) => {
     await page.goto("/");
 
-    // Below 768px the switcher lives in the drawer, so open that first.
     await page.getByRole("button", { name: /toggle navigation menu/i }).click();
-    await page.getByRole("button", { name: /ndh ecosystem menu/i }).click();
+    const header = page.locator("header");
+    await expect(header.locator("nav[aria-label='Mobile navigation']")).toBeVisible();
 
-    const panel = page.locator(".gw-menu-panel");
-    await expect(panel).toBeVisible();
+    // The retired ecosystem switcher must not resurface in the drawer.
+    await expect(header.locator(".gw-menu-panel")).toHaveCount(0);
+    await expect(header.getByRole("button", { name: /ecosystem/i })).toHaveCount(0);
 
-    const box = await panel.boundingBox();
-    expect(box, "panel must be laid out").not.toBeNull();
-    expect(box!.x).toBeGreaterThanOrEqual(0);
-    expect(box!.x + box!.width).toBeLessThanOrEqual(360);
-
-    await expectNoHorizontalScroll(page, "/ with switcher open");
+    await expectNoHorizontalScroll(page, "/ with the drawer open");
   });
 
   for (const { path, email } of PORTALS) {
@@ -124,61 +120,83 @@ test.describe("Open Gateway master mark + agency sector badge", () => {
   });
 });
 
-test.describe("Precision Gateway ecosystem switcher", () => {
-  test("lists the family with the right destinations and statuses", async ({ page }) => {
+test.describe("Agency header isolation (ecosystem lives in the footer)", () => {
+  const AGENCY_LINKS = [
+    "Services",
+    "Case Studies",
+    "How It Works",
+    "Talent Network",
+    "Insights",
+    "Contact",
+  ];
+
+  test("carries exactly the six agency destinations plus the CTA", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("button", { name: /ndh ecosystem menu/i }).click();
+    const header = page.locator("header");
 
-    const panel = page.locator(".gw-menu-panel");
-    await expect(panel).toBeVisible();
+    for (const label of AGENCY_LINKS) {
+      await expect(
+        header.getByRole("link", { name: label, exact: true }).first(),
+        `header link ${label}`,
+      ).toBeVisible();
+    }
 
-    // The agency is the current destination, so it is marked rather than linked.
-    await expect(panel.locator(".gw-menu-item.is-here")).toContainText("NDH Agency");
-
-    // Live siblings link to their own subdomains/deployments.
-    const academy = panel.locator(".gw-menu-item", { hasText: "NDH Academy" });
-    await expect(academy).toHaveAttribute("href", "https://academy.ndh.com.ng");
-
-    const estore = panel.locator(".gw-menu-item", { hasText: "NDH eStore" });
-    await expect(estore).toHaveAttribute("href", "https://estore.ndh.com.ng");
-
-    // Coming-soon siblings are not actionable.
-    const schoolDesk = panel.locator(".gw-menu-item.is-soon", { hasText: "NDH SchoolDesk" });
-    await expect(schoolDesk).toBeVisible();
-    await expect(schoolDesk).toContainText(/Coming Soon/i);
-
-    // The parent gateway is reachable from the panel.
-    await expect(panel.locator(".gw-menu-all")).toHaveAttribute("href", "https://ndh.com.ng");
+    await expect(header.getByRole("button", { name: /start a project/i })).toBeVisible();
   });
 
-  test("closes on Escape and on outside click", async ({ page }) => {
+  test("never renders a sibling, parent or ecosystem promotion", async ({ page }) => {
+    for (const path of ["/", "/services", "/case-studies", "/contact"]) {
+      await page.goto(path);
+      const header = page.locator("header");
+
+      await expect(header.locator(".gw-menu-panel"), `switcher on ${path}`).toHaveCount(0);
+      await expect(header.locator(".ndh-academy-promo"), `academy card on ${path}`).toHaveCount(0);
+
+      const hrefs = await header
+        .locator("a")
+        .evaluateAll((els) => els.map((el) => el.getAttribute("href") ?? ""));
+      for (const href of hrefs) {
+        expect(href, `sibling link in header on ${path}: ${href}`).not.toMatch(
+          /academy\.ndh\.com\.ng|estore\.ndh\.com\.ng|venture\.ndh\.com\.ng|^https?:\/\/ndh\.com\.ng/,
+        );
+      }
+
+      const text = (await header.innerText()).toLowerCase();
+      expect(text, `ecosystem copy in header on ${path}`).not.toMatch(
+        /ecosystem|ndh academy|ndh estore|ndh agricapital|school\s?desk|ndh travel|ndh ihospital/,
+      );
+    }
+  });
+
+  test("keeps the header 100% agency-focused in the 360px drawer too", async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 780 });
     await page.goto("/");
-    const trigger = page.getByRole("button", { name: /ndh ecosystem menu/i });
-    const panel = page.locator(".gw-menu-panel");
+    await page.getByRole("button", { name: /toggle navigation menu/i }).click();
 
-    await trigger.click();
-    await expect(panel).toBeVisible();
-    await page.keyboard.press("Escape");
-    await expect(panel).toBeHidden();
-
-    await trigger.click();
-    await expect(panel).toBeVisible();
-    await page.locator("footer").click({ position: { x: 5, y: 5 } });
-    await expect(panel).toBeHidden();
+    const drawer = page.locator("nav[aria-label='Mobile navigation']");
+    await expect(drawer).toBeVisible();
+    for (const label of AGENCY_LINKS) {
+      await expect(drawer.getByRole("link", { name: label, exact: true }).first()).toBeVisible();
+    }
+    await expect(drawer.locator("text=/academy|estore|ecosystem/i")).toHaveCount(0);
   });
 });
 
-test.describe("Footer ecosystem cross-references", () => {
-  test("Academy cross-promotion card is present on every page", async ({ page }) => {
+test.describe("Footer is the ecosystem home", () => {
+  test("Academy cross-promotion card lives in the footer on every page", async ({ page }) => {
     for (const path of ["/", "/services", "/about"]) {
       await page.goto(path);
-      const card = page.locator(".ndh-academy-promo");
+
+      const card = page.locator("footer .ndh-academy-promo");
       await expect(card, `academy card on ${path}`).toBeVisible();
-      await expect(card).toContainText(/Looking to build your skills or train your team/i);
+      await expect(card).toContainText(/Explore NDH Academy/i);
       await expect(card.getByRole("link", { name: /explore ndh academy/i })).toHaveAttribute(
         "href",
-        "https://academy.ndh.com.ng",
+        /academy\.ndh\.com\.ng/,
       );
+
+      // …and never above the fold.
+      await expect(page.locator("header .ndh-academy-promo")).toHaveCount(0);
     }
   });
 
@@ -220,4 +238,32 @@ test.describe("Master typography stack", () => {
     const bodyFont = await page.evaluate(() => getComputedStyle(document.body).fontFamily);
     expect(bodyFont).toContain("DM Sans");
   });
+});
+
+test.describe("Redesigned internal pages share the Academy rhythm", () => {
+  const PAGES = [
+    "/services",
+    "/case-studies",
+    "/about",
+    "/how-it-works",
+    "/talent-network",
+    "/insights",
+    "/contact",
+  ];
+
+  for (const path of PAGES) {
+    test(`${path} renders a navy hero over a porcelain body`, async ({ page }) => {
+      await page.goto(path);
+
+      // Deep-navy page hero with ambient glow, porcelain body below it.
+      await expect(page.locator("section.gw-page-hero")).toBeVisible();
+      await expect(page.locator(".gw-page-body")).toBeVisible();
+
+      const backgroundColor = await page
+        .locator(".gw-page-body")
+        .first()
+        .evaluate((el) => getComputedStyle(el).backgroundColor);
+      expect(backgroundColor, `porcelain body on ${path}`).toBe("rgb(241, 244, 250)");
+    });
+  }
 });

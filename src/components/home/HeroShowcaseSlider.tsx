@@ -33,7 +33,7 @@ const HERO_SLIDES: HeroSlide[] = [
   {
     id: "apex-agri-capital",
     category: "Web App Development",
-    badgeColor: "bg-blue-500/20 text-blue-300 border-blue-400/40",
+    badgeColor: "border-cyan-400/40 bg-cyan-400/15 text-cyan-200",
     title: "A Transparent Shared Ledger Built for a Growing",
     highlightText: "Agriculture Investment Cooperative.",
     subtitle:
@@ -48,7 +48,7 @@ const HERO_SLIDES: HeroSlide[] = [
   {
     id: "miftah-al-arabiyyah",
     category: "Content & Curriculum Development",
-    badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-400/40",
+    badgeColor: "border-emerald-400/40 bg-emerald-400/15 text-emerald-200",
     title: "An 8-Book Arabic Curriculum Series, Written and",
     highlightText: "Directed From Concept to Production.",
     subtitle:
@@ -63,7 +63,7 @@ const HERO_SLIDES: HeroSlide[] = [
   {
     id: "ndh-estore",
     category: "E-Commerce / SaaS",
-    badgeColor: "bg-amber-500/20 text-amber-300 border-amber-400/40",
+    badgeColor: "border-amber-400/40 bg-amber-400/15 text-amber-200",
     title: "A Multi-Vendor Commerce Platform Letting Merchants",
     highlightText: "Launch an Online Store in Minutes.",
     subtitle:
@@ -78,7 +78,7 @@ const HERO_SLIDES: HeroSlide[] = [
   {
     id: "hague-export",
     category: "B2B Trade / AgriTech Marketplace",
-    badgeColor: "bg-purple-500/20 text-purple-300 border-purple-400/40",
+    badgeColor: "border-violet-400/40 bg-violet-400/15 text-violet-200",
     title: "A 4-Tier Verification System Powering a B2B",
     highlightText: "Agro-Export Marketplace.",
     subtitle:
@@ -117,10 +117,10 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
   }, [isAutoPlay]);
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-slate-900/90 border border-slate-700/80 shadow-2xl backdrop-blur-2xl transition-all duration-700">
+    <div className="relative overflow-hidden rounded-3xl border border-white/12 bg-white/[0.06] shadow-2xl backdrop-blur-2xl transition-all duration-700">
       {/* Background Radial Glow */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] pointer-events-none -z-10" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-indigo-600/20 rounded-full blur-[90px] pointer-events-none -z-10" />
+      <div className="bg-eco-glow/20 pointer-events-none absolute top-0 right-0 -z-10 h-96 w-96 rounded-full blur-[100px]" />
+      <div className="bg-eco-cyan/15 pointer-events-none absolute bottom-0 left-0 -z-10 h-80 w-80 rounded-full blur-[90px]" />
 
       {/* Main Slide Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-6 sm:p-10 lg:p-12">
@@ -129,38 +129,36 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
           {/* Slide Category Badge */}
           <div className="flex items-center gap-3">
             <span
-              className={`px-3.5 py-1 rounded-full text-xs font-bold border uppercase tracking-wider font-mono ${currentSlide.badgeColor}`}
+              className={`rounded-full border px-3.5 py-1 font-mono text-xs font-bold uppercase tracking-wider ${currentSlide.badgeColor}`}
             >
               {currentSlide.category}
             </span>
-            <span className="text-xs text-slate-400 font-mono">
+            <span className="text-[var(--eco-on-dark-muted)] font-mono text-xs">
               {t("label_case_study_prefix")}{" "}
               <strong className="text-white">{currentSlide.client}</strong>
             </span>
           </div>
 
           {/* Headline */}
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-[1.15]">
+          <h2 className="font-display text-3xl leading-[1.15] font-black tracking-tight text-white sm:text-4xl lg:text-5xl">
             {currentSlide.title}{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent">
-              {currentSlide.highlightText}
-            </span>
+            <span className="text-gradient-brand">{currentSlide.highlightText}</span>
           </h2>
 
           {/* Subtitle */}
-          <p className="text-sm sm:text-base text-slate-200 leading-relaxed max-w-xl">
+          <p className="max-w-xl text-sm leading-relaxed text-[var(--eco-on-dark-muted)] sm:text-base">
             {currentSlide.subtitle}
           </p>
 
           {/* Technology Pills */}
           <div className="flex flex-wrap items-center gap-2 pt-1">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1">
+            <span className="mr-1 text-xs font-bold tracking-wider text-[var(--eco-on-dark-muted)] uppercase">
               {t("label_tech_stack_prefix")}
             </span>
             {currentSlide.tags.map((tag, i) => (
               <span
                 key={i}
-                className="px-3 py-1 rounded-lg bg-slate-950/90 text-slate-200 border border-slate-700/80 text-xs font-mono font-medium shadow-sm"
+                className="rounded-lg border border-white/12 bg-white/[0.07] px-3 py-1 font-mono text-xs font-medium text-slate-100 shadow-sm"
               >
                 {tag}
               </span>
@@ -168,23 +166,25 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
           </div>
 
           {/* Metric Highlight Box */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/12 bg-eco-dark/70 p-4 sm:p-5">
             <div>
-              <div className="text-2xl sm:text-3xl font-black font-mono text-emerald-400">
+              <div className="font-mono text-2xl font-black text-emerald-300 sm:text-3xl">
                 {currentSlide.statValue}
               </div>
-              <div className="text-xs font-bold text-white uppercase tracking-wider">
+              <div className="text-xs font-bold tracking-wider text-white uppercase">
                 {currentSlide.statLabel}
               </div>
-              <div className="text-[11px] text-slate-400 mt-0.5">{currentSlide.statSubtext}</div>
+              <div className="mt-0.5 text-[11px] text-[var(--eco-on-dark-muted)]">
+                {currentSlide.statSubtext}
+              </div>
             </div>
 
             <button
               onClick={onOpenBriefWizard}
-              className="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-transform hover:scale-105 shrink-0 flex items-center gap-2"
+              className="from-eco-electric to-eco-cyan text-eco-dark inline-flex shrink-0 items-center gap-2 rounded-xl bg-gradient-to-r px-6 py-3.5 text-xs font-extrabold shadow-lg shadow-cyan-500/25 transition-transform hover:scale-105"
             >
               <span>{t("btn_scope_this_project")}</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -192,28 +192,30 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
         {/* Right Visual Image Column with Dynamic Frame */}
         <div className="lg:col-span-5 relative group">
           {/* Glass Card Image Frame */}
-          <div className="relative rounded-2xl overflow-hidden border-2 border-slate-700/80 shadow-2xl bg-slate-950">
+          <div className="bg-eco-dark relative overflow-hidden rounded-2xl border border-white/15 shadow-2xl">
             <img
               src={currentSlide.image}
               alt={currentSlide.title}
-              className="w-full h-72 sm:h-80 lg:h-96 object-cover transition-all duration-700 group-hover:scale-105 opacity-90"
+              className="h-72 w-full object-cover opacity-90 transition-all duration-700 group-hover:scale-105 sm:h-80 lg:h-96"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+            <div className="from-eco-dark via-eco-dark/20 absolute inset-0 bg-gradient-to-t to-transparent" />
 
             {/* Floating Live Badge */}
-            <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-slate-950/90 backdrop-blur-md border border-slate-800 flex items-center justify-between text-xs">
+            <div className="bg-eco-dark/90 absolute right-4 bottom-4 left-4 flex items-center justify-between rounded-xl border border-white/12 p-3 text-xs backdrop-blur-md">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-emerald-400" />
                 <span className="text-white font-bold">{currentSlide.client}</span>
               </div>
-              <span className="text-[11px] text-blue-300 font-mono">Verified Project</span>
+              <span className="text-eco-cyan font-mono text-[11px]">
+                {t("label_verified_project")}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Slide Navigation Dots & Arrows Controls Bar */}
-      <div className="px-6 sm:px-10 py-4 bg-slate-950/90 border-t border-slate-800 flex items-center justify-between">
+      <div className="bg-eco-dark/70 flex items-center justify-between border-t border-white/12 px-6 py-4 sm:px-10">
         {/* Thumbnails / Category Switchers */}
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
           {HERO_SLIDES.map((slide, idx) => (
@@ -225,8 +227,8 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
               }}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                 currentSlideIndex === idx
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "text-slate-400 hover:text-white hover:bg-slate-900"
+                  ? "bg-eco-electric text-eco-dark shadow-md"
+                  : "text-[var(--eco-on-dark-muted)] hover:bg-white/10 hover:text-white"
               }`}
             >
               0{idx + 1}. {slide.category.split(" ")[0]}
@@ -241,10 +243,10 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
               setCurrentSlideIndex((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1));
               setIsAutoPlay(false);
             }}
-            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-600 transition-colors"
+            className="text-[var(--eco-on-dark-muted)] rounded-lg border border-white/12 bg-white/[0.07] p-2 transition-colors hover:border-eco-cyan/50 hover:text-white"
             aria-label="Previous Slide"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           </button>
           <button
             onClick={() => {
@@ -254,7 +256,7 @@ export const HeroShowcaseSlider: React.FC<HeroShowcaseSliderProps> = ({
             className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-600 transition-colors"
             aria-label="Next Slide"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
       </div>

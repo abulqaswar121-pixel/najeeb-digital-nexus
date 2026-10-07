@@ -1,5 +1,5 @@
 import React from "react";
-import { MainNavView } from "../layout/AppNavbar";
+import { MainNavView } from "../layout/navViews";
 
 interface LegalViewProps {
   page: "privacy" | "terms" | "refund";
@@ -10,19 +10,22 @@ const LAST_UPDATED = "October 1, 2026";
 
 export const LegalView: React.FC<LegalViewProps> = ({ page, onSelectView }) => {
   return (
-    <div className="bg-[#090D1A] text-slate-100 min-h-screen py-16 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-4xl mx-auto space-y-8">
-        {page === "privacy" && <PrivacyContent />}
-        {page === "terms" && <TermsContent />}
-        {page === "refund" && <RefundContent />}
+    <div className="min-h-screen font-sans">
+      {/* Porcelain body — policy copy reads on the light canvas */}
+      <div className="gw-page-body">
+        <div className="mx-auto max-w-4xl space-y-8 rounded-2xl border border-border bg-surface p-8 shadow-[0_4px_16px_rgba(16,27,64,0.07)] sm:p-10">
+          {page === "privacy" && <PrivacyContent />}
+          {page === "terms" && <TermsContent />}
+          {page === "refund" && <RefundContent />}
 
-        <div className="pt-6 border-t border-slate-800 text-xs text-slate-400">
-          <button
-            onClick={() => onSelectView("contact")}
-            className="text-blue-400 hover:text-blue-300 font-bold underline"
-          >
-            Questions about this policy? Contact us →
-          </button>
+          <div className="border-border text-muted-foreground border-t pt-6 text-xs">
+            <button
+              onClick={() => onSelectView("contact")}
+              className="text-brand-soft font-bold hover:underline"
+            >
+              Questions about this policy? Contact us →
+            </button>
+          </div>
         </div>
       </div>
     </div>

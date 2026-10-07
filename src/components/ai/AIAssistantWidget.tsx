@@ -308,12 +308,12 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
         <div
           role="dialog"
           aria-label="NDH Sentinel AI assistant"
-          className="fixed bottom-3 left-3 right-3 z-[80] flex h-[min(600px,calc(100dvh-1.5rem))] flex-col justify-between overflow-hidden rounded-3xl border border-blue-900/60 bg-[#0A0E17]/95 text-xs text-slate-200 shadow-2xl shadow-black/90 backdrop-blur-2xl animate-in slide-in-from-bottom-5 duration-300 sm:bottom-6 sm:left-auto sm:right-6 sm:w-full sm:max-w-[420px]"
+          className="fixed bottom-3 left-3 right-3 z-[80] flex h-[min(600px,calc(100dvh-1.5rem))] flex-col justify-between overflow-hidden rounded-3xl border border-white/12 bg-eco-navy/95 text-xs text-slate-200 shadow-2xl shadow-black/90 backdrop-blur-2xl animate-in slide-in-from-bottom-5 duration-300 sm:bottom-6 sm:left-auto sm:right-6 sm:w-full sm:max-w-[420px]"
         >
           {/* Header */}
-          <div className="p-4 border-b border-blue-900/40 bg-gradient-to-r from-blue-950/80 via-slate-900/90 to-indigo-950/80 flex items-center justify-between shrink-0">
+          <div className="p-4 from-eco-dark via-eco-navy to-eco-dark border-b border-white/10 bg-gradient-to-r flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400">
+              <div className="bg-eco-electric/15 border-eco-electric/40 text-eco-electric flex h-8 w-8 items-center justify-center rounded-xl border">
                 <Bot className="w-4 h-4" />
               </div>
               <div>
@@ -321,7 +321,7 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                   <span>NDH Sentinel Concierge</span>
                   <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
                 </div>
-                <p className="text-[10px] text-blue-300/80">
+                <p className="text-eco-cyan/80 text-[10px]">
                   AI Support • Managed Agency Assistant
                 </p>
               </div>
@@ -330,7 +330,7 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
             <div className="flex items-center gap-1">
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                className="text-[var(--eco-on-dark-muted)] rounded-lg p-1.5 transition-colors hover:bg-white/10 hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -338,13 +338,13 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
           </div>
 
           {/* Sub-tabs: Chat, Brief Evaluator, Service Finder */}
-          <div className="px-3 py-1.5 bg-[#080C14] border-b border-blue-950 flex items-center justify-between text-[11px] shrink-0">
+          <div className="bg-eco-dark border-b border-white/10 px-3 py-1.5 flex items-center justify-between text-[11px] shrink-0">
             <button
               onClick={() => setActiveTab("chat")}
               className={`px-3 py-1 rounded-md font-medium transition-all ${
                 activeTab === "chat"
-                  ? "bg-blue-600 text-white shadow-sm"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-eco-electric text-eco-dark shadow-sm"
+                  : "text-[var(--eco-on-dark-muted)] hover:text-white"
               }`}
             >
               AI Live Chat
@@ -354,8 +354,8 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
               onClick={() => setActiveTab("brief_checker")}
               className={`px-3 py-1 rounded-md font-medium transition-all ${
                 activeTab === "brief_checker"
-                  ? "bg-blue-600 text-white shadow-sm"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-eco-electric text-eco-dark shadow-sm"
+                  : "text-[var(--eco-on-dark-muted)] hover:text-white"
               }`}
             >
               Brief Evaluator
@@ -365,8 +365,8 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
               onClick={() => setActiveTab("calculator")}
               className={`px-3 py-1 rounded-md font-medium transition-all ${
                 activeTab === "calculator"
-                  ? "bg-blue-600 text-white shadow-sm"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-eco-electric text-eco-dark shadow-sm"
+                  : "text-[var(--eco-on-dark-muted)] hover:text-white"
               }`}
             >
               Service Finder
@@ -385,8 +385,8 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                     <div
                       className={`p-3 rounded-2xl max-w-[85%] leading-relaxed text-xs ${
                         msg.sender === "user"
-                          ? "bg-blue-600 text-white rounded-br-xs"
-                          : "bg-slate-900/90 border border-slate-800 text-slate-200 rounded-bl-xs shadow-md"
+                          ? "bg-eco-electric text-eco-dark rounded-br-xs"
+                          : "border-white/10 bg-white/[0.07] text-slate-100 rounded-bl-xs border shadow-md"
                       }`}
                     >
                       {msg.text}
@@ -399,7 +399,7 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                           <button
                             key={idx}
                             onClick={() => handleActionClick(qa.action)}
-                            className="px-2.5 py-1 rounded-full bg-blue-950/80 hover:bg-blue-900 border border-blue-800/60 text-blue-300 text-[10px] font-medium transition-all flex items-center gap-1"
+                            className="border-eco-cyan/25 bg-white/[0.07] hover:bg-white/12 text-eco-cyan flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-medium transition-all"
                           >
                             <span>{qa.label}</span>
                             <ArrowRight className="w-2.5 h-2.5" />
@@ -411,30 +411,30 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                 ))}
 
                 {isTyping && (
-                  <div className="flex items-center gap-1.5 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800 text-slate-400 w-24">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-bounce"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-bounce [animation-delay:0.2s]"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-bounce [animation-delay:0.4s]"></span>
+                  <div className="flex items-center gap-1.5 w-24 rounded-xl border border-white/10 bg-white/[0.06] p-2.5 text-[var(--eco-on-dark-muted)]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-eco-electric animate-bounce"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-eco-electric animate-bounce [animation-delay:0.2s]"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-eco-electric animate-bounce [animation-delay:0.4s]"></span>
                   </div>
                 )}
                 <div ref={messagesEndRef} />
               </div>
 
               {/* Chat Input Bar */}
-              <div className="p-3 border-t border-slate-800 bg-[#080C14] flex items-center gap-2 shrink-0">
+              <div className="bg-eco-dark border-t border-white/10 p-3 flex items-center gap-2 shrink-0">
                 <input
                   type="text"
                   placeholder="Ask NDH Sentinel anything..."
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-                  className="flex-1 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
+                  className="focus:border-eco-cyan flex-1 rounded-xl border border-white/12 bg-white/[0.06] px-3.5 py-2 text-xs text-white placeholder:text-[var(--eco-on-dark-muted)] focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={() => handleSendMessage()}
                   aria-label="Send message"
-                  className="shrink-0 rounded-xl bg-blue-600 p-2.5 text-white shadow-md shadow-blue-600/30 transition-all hover:bg-blue-500"
+                  className="bg-eco-electric text-eco-dark shrink-0 rounded-xl p-2.5 shadow-md shadow-cyan-500/30 transition-all hover:brightness-110"
                 >
                   <Send className="h-3.5 w-3.5" />
                 </button>
@@ -450,7 +450,7 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                   <Sparkles className="w-4 h-4 text-emerald-400" />
                   <span>AI Brief Readiness Evaluator</span>
                 </h4>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-[var(--eco-on-dark-muted)]">
                   Paste your project description or requirement bullet points to assess readiness
                   score before PM triage.
                 </p>
@@ -462,20 +462,20 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                   placeholder="Describe your project (e.g., We need a cross-border remittance web app with instant KYC and multi-currency Paystack/Stripe checkout)..."
                   value={briefInput}
                   onChange={(e) => setBriefInput(e.target.value)}
-                  className="w-full p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
+                  className="focus:border-eco-cyan w-full rounded-xl border border-white/12 bg-white/[0.06] p-3 text-xs text-white placeholder:text-[var(--eco-on-dark-muted)] focus:outline-none"
                 />
 
                 <button
                   onClick={runBriefEvaluation}
-                  className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-md shadow-blue-600/30 transition-all"
+                  className="bg-eco-electric text-eco-dark w-full rounded-xl py-2.5 text-xs font-semibold shadow-md shadow-cyan-500/30 transition-all hover:brightness-110"
                 >
                   Analyze Brief Readiness
                 </button>
               </div>
 
               {briefScoreResult && (
-                <div className="p-3.5 rounded-xl bg-slate-900 border border-blue-900/60 space-y-3 text-xs animate-in fade-in duration-300">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                <div className="rounded-xl border border-white/12 bg-white/[0.06] space-y-3 p-3.5 text-xs animate-in fade-in duration-300">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2">
                     <span className="font-semibold text-white">Readiness Score:</span>
                     <span className="font-mono font-bold text-emerald-400 text-sm">
                       {briefScoreResult.score} / 100
@@ -484,15 +484,17 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
 
                   <div className="space-y-1 text-[11px]">
                     <div>
-                      <span className="text-slate-400">Recommended Squad:</span>{" "}
+                      <span className="text-[var(--eco-on-dark-muted)]">Recommended Squad:</span>{" "}
                       <strong className="text-white">{briefScoreResult.dept}</strong>
                     </div>
                     <div>
-                      <span className="text-slate-400">Est. Duration:</span>{" "}
+                      <span className="text-[var(--eco-on-dark-muted)]">Est. Duration:</span>{" "}
                       <strong className="text-white">{briefScoreResult.duration}</strong>
                     </div>
                     <div>
-                      <span className="text-slate-400">Est. Scope Investment:</span>{" "}
+                      <span className="text-[var(--eco-on-dark-muted)]">
+                        Est. Scope Investment:
+                      </span>{" "}
                       <strong className="text-emerald-400 font-mono">
                         {briefScoreResult.estBudgetUSD}
                       </strong>
@@ -501,7 +503,7 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
 
                   <button
                     onClick={onOpenBriefWizard}
-                    className="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-1.5"
+                    className="bg-success w-full rounded-lg py-2 text-xs font-semibold text-white transition-colors hover:brightness-110 flex items-center justify-center gap-1.5"
                   >
                     <span>Proceed to Full Proposal Wizard</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -518,10 +520,10 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
             <div className="flex-1 p-4 overflow-y-auto space-y-4 no-scrollbar">
               <div className="space-y-1">
                 <h4 className="font-bold text-white text-sm flex items-center gap-1.5">
-                  <Compass className="w-4 h-4 text-blue-400" />
+                  <Compass className="w-4 h-4 text-eco-cyan" />
                   <span>Service &amp; SLA Finder</span>
                 </h4>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-[var(--eco-on-dark-muted)]">
                   Pick a department to see its real starter pricing (in {currency}) and typical
                   turnaround time.
                 </p>
@@ -529,11 +531,13 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
 
               <div className="space-y-3">
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Department:</label>
+                  <label className="text-[11px] text-[var(--eco-on-dark-muted)] block mb-1">
+                    Department:
+                  </label>
                   <select
                     value={finderDept}
                     onChange={(e) => setFinderDept(e.target.value as ServiceDepartment)}
-                    className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-blue-500"
+                    className="focus:border-eco-cyan w-full rounded-xl border border-white/12 bg-white/[0.06] p-2.5 text-xs text-white focus:outline-none"
                   >
                     {SERVICE_DEPARTMENTS.map((d) => (
                       <option key={d.id} value={d.id}>
@@ -544,28 +548,32 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
-                    <span className="text-[10px] text-slate-400 block">Starter Price From:</span>
+                  <div className="space-y-1 rounded-xl border border-white/12 bg-white/[0.06] p-3">
+                    <span className="text-[10px] text-[var(--eco-on-dark-muted)] block">
+                      Starter Price From:
+                    </span>
                     <div className="font-mono font-bold text-emerald-400 text-sm">
                       {currency} {finderStarterPricing.price.toLocaleString()}
                     </div>
-                    <span className="text-[9px] text-slate-500">
+                    <span className="text-[9px] text-[var(--eco-on-dark-muted)]">
                       {finderStarterPricing.starterDesc}
                     </span>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
-                    <span className="text-[10px] text-slate-400 block">Typical Turnaround:</span>
-                    <div className="font-mono font-bold text-blue-400 text-sm">
+                  <div className="space-y-1 rounded-xl border border-white/12 bg-white/[0.06] p-3">
+                    <span className="text-[10px] text-[var(--eco-on-dark-muted)] block">
+                      Typical Turnaround:
+                    </span>
+                    <div className="font-mono font-bold text-eco-cyan text-sm">
                       {finderDeptInfo.averageTurnaroundDays} days
                     </div>
-                    <span className="text-[9px] text-slate-500">
+                    <span className="text-[9px] text-[var(--eco-on-dark-muted)]">
                       {finderDeptInfo.activeTalentsCount} active talents
                     </span>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-blue-950/40 border border-blue-800/40 text-[11px] text-slate-300 space-y-1">
+                <div className="rounded-xl border border-eco-cyan/20 bg-white/[0.04] p-3 text-[11px] text-[var(--eco-on-dark-muted)] space-y-1">
                   <div className="font-semibold text-white">Payment Method Support:</div>
                   <p>
                     Invoices can be settled via Paystack (Nigeria/Ghana), Flutterwave, Stripe
@@ -575,7 +583,7 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
 
                 <button
                   onClick={onOpenBriefWizard}
-                  className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-md shadow-blue-600/30 transition-all flex items-center justify-center gap-1.5"
+                  className="bg-eco-electric text-eco-dark w-full rounded-xl py-2.5 text-xs font-semibold shadow-md shadow-cyan-500/30 transition-all hover:brightness-110 flex items-center justify-center gap-1.5"
                 >
                   <span>Build Proposal for This Department</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -585,7 +593,7 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
           )}
 
           {/* Footer note */}
-          <div className="p-2.5 border-t border-slate-800 bg-[#06090F] flex items-center justify-between text-[10px] text-slate-500 shrink-0">
+          <div className="bg-eco-dark border-t border-white/10 p-2.5 flex items-center justify-between text-[10px] text-[var(--eco-on-dark-muted)] shrink-0">
             <span className="flex items-center gap-1">
               <ShieldCheck className="w-3 h-3 text-emerald-500" />
               <span>Scripted Concierge — Demo Responses Only</span>

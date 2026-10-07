@@ -155,19 +155,19 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
   const currentActiveStage = stages.find((s) => s.step === state.currentStep) || stages[0]!;
 
   return (
-    <div className="bg-[#080C14] text-[#F1F5F9] min-h-screen py-10 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="bg-eco-dark text-slate-100 min-h-screen py-10 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto space-y-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl bg-[#0F172A]/90 border border-blue-900/40 shadow-2xl backdrop-blur-xl">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl bg-eco-navy/90 border border-white/10 shadow-2xl backdrop-blur-xl">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-mono border border-blue-500/20">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-eco-cyan/10 text-eco-cyan text-xs font-mono border border-eco-cyan/25">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Full Primary Journey Walkthrough Engine</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
               NDH Agency 13-Stage Operational Walkthrough
             </h1>
-            <p className="text-xs text-slate-400 max-w-2xl">
+            <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-2xl">
               Experience the end-to-end lifecycle of a client engagement from public brief
               submission, PM triage, private talent matching, QA revision cycles, and milestone
               sign-off, to dual-approval finance disbursement and case study publishing.
@@ -177,7 +177,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
           <div className="flex items-center gap-3">
             <button
               onClick={resetState}
-              className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 border border-slate-700 flex items-center gap-1.5 transition-colors"
+              className="px-4 py-2 rounded-lg bg-white/[0.08] hover:bg-white/12 text-xs font-mono text-slate-200 border border-white/12 flex items-center gap-1.5 transition-colors"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Reset Journey Flow</span>
@@ -186,20 +186,20 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
         </div>
 
         {/* Journey Progress Bar */}
-        <div className="p-5 rounded-2xl bg-[#0F172A]/90 border border-blue-900/40 space-y-3">
+        <div className="p-5 rounded-2xl bg-eco-navy/90 border border-white/10 space-y-3">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-semibold text-slate-300">
+            <span className="font-semibold text-slate-200">
               Stage {state.currentStep} of 13:{" "}
-              <strong className="text-blue-400">{currentActiveStage.title}</strong>
+              <strong className="text-eco-cyan">{currentActiveStage.title}</strong>
             </span>
             <span className="font-mono text-emerald-400">
               {Math.round(((state.currentStep - 1) / 13) * 100)}% Journey Progress
             </span>
           </div>
 
-          <div className="w-full bg-slate-900 rounded-full h-2.5 overflow-hidden border border-blue-900/40">
+          <div className="w-full bg-white/[0.06] rounded-full h-2.5 overflow-hidden border border-white/10">
             <div
-              className="bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-400 h-full rounded-full transition-all duration-500"
+              className="bg-gradient-to-r from-eco-electric via-eco-glow to-emerald-400 h-full rounded-full transition-all duration-500"
               style={{ width: `${Math.max(5, ((state.currentStep - 1) / 13) * 100)}%` }}
             ></div>
           </div>
@@ -209,7 +209,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Roadmap List */}
           <div className="lg:col-span-5 space-y-2.5">
-            <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">
+            <h3 className="text-xs font-mono uppercase tracking-wider text-[var(--eco-on-dark-muted)] mb-2">
               Primary Lifecycle Stages (Click any stage to inspect):
             </h3>
 
@@ -224,21 +224,21 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                     onClick={() => updateState({ currentStep: s.step })}
                     className={`p-3.5 rounded-xl cursor-pointer border transition-all text-xs flex items-start gap-3 ${
                       isCurrent
-                        ? "bg-blue-950/60 border-blue-500 ring-1 ring-blue-400 shadow-lg"
+                        ? "bg-white/[0.04] border-eco-cyan/40 ring-1 ring-eco-cyan/50 shadow-lg"
                         : isPassed
-                          ? "bg-[#0F172A]/80 border-emerald-900/40 hover:border-emerald-700/60"
-                          : "bg-[#0F172A]/40 border-slate-800 hover:border-slate-700"
+                          ? "bg-eco-navy/80 border-emerald-900/40 hover:border-emerald-700/60"
+                          : "bg-eco-navy/40 border-white/10 hover:border-white/12"
                     }`}
                   >
                     <div className="shrink-0 mt-0.5">
                       {isPassed ? (
                         <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                       ) : isCurrent ? (
-                        <div className="w-4 h-4 rounded-full border-2 border-blue-400 flex items-center justify-center">
-                          <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping"></div>
+                        <div className="w-4 h-4 rounded-full border-2 border-eco-cyan/50 flex items-center justify-center">
+                          <div className="w-1.5 h-1.5 rounded-full bg-eco-cyan animate-ping"></div>
                         </div>
                       ) : (
-                        <div className="w-4 h-4 rounded-full border border-slate-700 text-[10px] font-mono flex items-center justify-center text-slate-500">
+                        <div className="w-4 h-4 rounded-full border border-white/12 text-[10px] font-mono flex items-center justify-center text-[var(--eco-on-dark-muted)]">
                           {s.step}
                         </div>
                       )}
@@ -247,13 +247,13 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                     <div className="space-y-0.5 flex-1">
                       <div className="flex items-center justify-between">
                         <span
-                          className={`font-semibold ${isCurrent ? "text-white" : "text-slate-300"}`}
+                          className={`font-semibold ${isCurrent ? "text-white" : "text-slate-200"}`}
                         >
                           {s.title}
                         </span>
                       </div>
-                      <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
-                        <span className="text-blue-400 font-mono text-[10px] uppercase">
+                      <div className="text-[11px] text-[var(--eco-on-dark-muted)] flex items-center gap-1.5">
+                        <span className="text-eco-cyan font-mono text-[10px] uppercase">
                           {s.roleBadge}
                         </span>
                         <span>•</span>
@@ -268,23 +268,23 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
 
           {/* Right Interactive Execution Sandbox */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="p-6 rounded-2xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
+            <div className="p-6 rounded-2xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
               {/* Stage Header */}
-              <div className="flex items-start justify-between border-b border-slate-800 pb-4">
+              <div className="flex items-start justify-between border-b border-white/10 pb-4">
                 <div className="space-y-1">
-                  <span className="px-2.5 py-0.5 rounded bg-blue-950 text-blue-400 font-mono text-[10px] border border-blue-800/60 uppercase">
+                  <span className="px-2.5 py-0.5 rounded bg-eco-dark text-eco-cyan font-mono text-[10px] border border-eco-cyan/20 uppercase">
                     Stage {currentActiveStage.step} Sandbox
                   </span>
                   <h2 className="text-xl font-bold text-white mt-1">{currentActiveStage.title}</h2>
-                  <p className="text-xs text-slate-400 leading-relaxed">
+                  <p className="text-xs text-[var(--eco-on-dark-muted)] leading-relaxed">
                     {currentActiveStage.description}
                   </p>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="text-[10px] font-mono text-slate-500 uppercase block">
+                  <span className="text-[10px] font-mono text-[var(--eco-on-dark-muted)] uppercase block">
                     Actor Role
                   </span>
-                  <span className="text-xs font-semibold text-blue-300 font-mono">
+                  <span className="text-xs font-semibold text-eco-cyan font-mono">
                     {currentActiveStage.actor}
                   </span>
                 </div>
@@ -295,28 +295,36 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 1: Brief Submission */}
               {state.currentStep === 1 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
                     <div className="font-bold text-white text-sm">
                       Savannah Health Technologies • Discovery Brief
                     </div>
-                    <div className="grid grid-cols-2 gap-3 text-slate-300">
+                    <div className="grid grid-cols-2 gap-3 text-slate-200">
                       <div>
-                        <span className="text-slate-500 block text-[10px]">Department:</span>
+                        <span className="text-[var(--eco-on-dark-muted)] block text-[10px]">
+                          Department:
+                        </span>
                         <span className="font-semibold text-white">Website & App Development</span>
                       </div>
                       <div>
-                        <span className="text-slate-500 block text-[10px]">Budget Range:</span>
+                        <span className="text-[var(--eco-on-dark-muted)] block text-[10px]">
+                          Budget Range:
+                        </span>
                         <span className="font-mono text-emerald-400">
                           $35,000 - $50,000 USD (₦52.5M - ₦75M NGN)
                         </span>
                       </div>
                       <div>
-                        <span className="text-slate-500 block text-[10px]">Authorized Lead:</span>
+                        <span className="text-[var(--eco-on-dark-muted)] block text-[10px]">
+                          Authorized Lead:
+                        </span>
                         <span>Dr. Chinedu Eze (chinedu@savannahhealth.io)</span>
                       </div>
                       <div>
-                        <span className="text-slate-500 block text-[10px]">Mutual NDA:</span>
-                        <span className="text-blue-400 font-mono">Requested & Attached</span>
+                        <span className="text-[var(--eco-on-dark-muted)] block text-[10px]">
+                          Mutual NDA:
+                        </span>
+                        <span className="text-eco-cyan font-mono">Requested & Attached</span>
                       </div>
                     </div>
                   </div>
@@ -325,7 +333,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                     onClick={() => {
                       updateState({ leadSubmitted: true, currentStep: 2 });
                     }}
-                    className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition-all"
+                    className="w-full py-3 rounded-lg bg-primary hover:bg-eco-cyan/20 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/30 transition-all"
                   >
                     <span>Execute Step 1: Submit Brief into NDH Operations Queue</span>
                     <ArrowRight className="w-4 h-4" />
@@ -336,7 +344,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 2: Lead Qualification */}
               {state.currentStep === 2 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Lead Triage & AI Scoring Engine
@@ -345,11 +353,11 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                         Quality Score: 96/100
                       </span>
                     </div>
-                    <p className="text-slate-300 leading-relaxed">
+                    <p className="text-slate-200 leading-relaxed">
                       AI assessment passed. Enterprise clinical requirement validated against
                       NDPR/HIPAA compliance heuristics.
                     </p>
-                    <div className="p-3 rounded-lg bg-blue-950/40 border border-blue-800/40 text-blue-300">
+                    <div className="p-3 rounded-lg bg-white/[0.04] border border-eco-cyan/20 text-eco-cyan">
                       <strong>Assigned Lead PM:</strong> NDH PM Team
                     </div>
                   </div>
@@ -358,7 +366,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                     onClick={() => {
                       updateState({ leadQualified: true, currentStep: 3 });
                     }}
-                    className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition-all"
+                    className="w-full py-3 rounded-lg bg-primary hover:bg-eco-cyan/20 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/30 transition-all"
                   >
                     <span>Execute Step 2: Qualify Lead & Assign PM</span>
                     <ArrowRight className="w-4 h-4" />
@@ -369,7 +377,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 3: Proposal Builder */}
               {state.currentStep === 3 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Formal Milestone Proposal Specification
@@ -379,22 +387,22 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                       </span>
                     </div>
 
-                    <div className="space-y-2 text-slate-300">
-                      <div className="p-2.5 rounded bg-slate-950 border border-slate-800 flex justify-between">
+                    <div className="space-y-2 text-slate-200">
+                      <div className="p-2.5 rounded bg-eco-dark border border-white/10 flex justify-between">
                         <span>Milestone 1: Architectural Blueprint & OpenAPI Spec</span>
                         <span className="font-mono text-white">$12,000 USD</span>
                       </div>
-                      <div className="p-2.5 rounded bg-slate-950 border border-slate-800 flex justify-between">
+                      <div className="p-2.5 rounded bg-eco-dark border border-white/10 flex justify-between">
                         <span>Milestone 2: Edge React 19 Frontend & Biometric KYC</span>
                         <span className="font-mono text-white">$18,000 USD</span>
                       </div>
-                      <div className="p-2.5 rounded bg-slate-950 border border-slate-800 flex justify-between">
+                      <div className="p-2.5 rounded bg-eco-dark border border-white/10 flex justify-between">
                         <span>Milestone 3: Automated Diagnostic API Microservices</span>
                         <span className="font-mono text-white">$12,000 USD</span>
                       </div>
                     </div>
 
-                    <div className="text-[11px] text-slate-400 flex justify-between pt-1">
+                    <div className="text-[11px] text-[var(--eco-on-dark-muted)] flex justify-between pt-1">
                       <span>
                         Confidential Agency Margin: <strong>60.0%</strong>
                       </span>
@@ -410,7 +418,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                         currentStep: 4,
                       });
                     }}
-                    className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition-all"
+                    className="w-full py-3 rounded-lg bg-primary hover:bg-eco-cyan/20 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/30 transition-all"
                   >
                     <span>Execute Step 3: Transmit Formal Proposal to Client Portal</span>
                     <ArrowRight className="w-4 h-4" />
@@ -421,7 +429,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 4: Client Review, Revision & Deposit */}
               {state.currentStep === 4 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Client Portal • Dr. Chinedu Eze
@@ -430,7 +438,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                         Proposal Under Review
                       </span>
                     </div>
-                    <p className="text-slate-300">
+                    <p className="text-slate-200">
                       Client requested an addition in Section 3 for direct laboratory webhook feeds.
                       PM approved the clause.
                     </p>
@@ -460,22 +468,22 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 5: PM Creates Sprint & Shortlists Talent */}
               {state.currentStep === 5 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Project Initialized: Code NDH-2026-104
                       </span>
-                      <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 font-mono text-[10px]">
+                      <span className="px-2 py-0.5 rounded bg-eco-cyan/10 text-eco-cyan font-mono text-[10px]">
                         Sprint Active
                       </span>
                     </div>
-                    <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
+                    <div className="p-3 rounded-lg bg-eco-dark border border-white/10 space-y-2">
                       <div className="font-semibold text-white">
                         Matched Talent: Architect-Alpha
                       </div>
-                      <div className="text-slate-400 flex items-center gap-3 text-[11px]">
+                      <div className="text-[var(--eco-on-dark-muted)] flex items-center gap-3 text-[11px]">
                         <span>
-                          Tier: <strong className="text-purple-400">Elite</strong>
+                          Tier: <strong className="text-eco-glow">Elite</strong>
                         </span>
                         <span>•</span>
                         <span>
@@ -487,7 +495,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-slate-400 text-[11px]">
+                    <div className="flex items-center gap-2 text-[var(--eco-on-dark-muted)] text-[11px]">
                       <Lock className="w-3.5 h-3.5 text-emerald-400" />
                       <span>
                         Privacy Guard: Client name and gross agency margins are fully stripped from
@@ -500,7 +508,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                     onClick={() => {
                       updateState({ projectCreated: true, currentStep: 6 });
                     }}
-                    className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition-all"
+                    className="w-full py-3 rounded-lg bg-primary hover:bg-eco-cyan/20 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/30 transition-all"
                   >
                     <span>
                       Execute Step 5: Dispatch Confidential Task Invite to Architect-Alpha
@@ -513,16 +521,16 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 6: Talent Accepts & Starts Work */}
               {state.currentStep === 6 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Talent Portal • Architect-Alpha
                       </span>
-                      <span className="text-purple-400 font-mono text-[10px]">
+                      <span className="text-eco-glow font-mono text-[10px]">
                         Private Task Sandbox
                       </span>
                     </div>
-                    <p className="text-slate-300">
+                    <p className="text-slate-200">
                       Task:{" "}
                       <code className="text-white">
                         TASK-NDH-104-01: React 19 Clinical Reporting Web App
@@ -531,7 +539,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                       Fixed Allocation: <strong className="text-emerald-400">$4,400 USD</strong> •
                       SLA Due Date: 14 Days
                     </p>
-                    <div className="p-2.5 rounded bg-slate-950 border border-slate-800 text-[11px] text-slate-400">
+                    <div className="p-2.5 rounded bg-eco-dark border border-white/10 text-[11px] text-[var(--eco-on-dark-muted)]">
                       Communication Channel: Strictly with your assigned PM. Direct external contact
                       forbidden.
                     </div>
@@ -545,7 +553,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                         currentStep: 7,
                       });
                     }}
-                    className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition-all"
+                    className="w-full py-3 rounded-lg bg-primary hover:bg-eco-cyan/20 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/30 transition-all"
                   >
                     <span>Execute Step 6: Talent Accepts Task & Commences Sprint</span>
                     <ArrowRight className="w-4 h-4" />
@@ -556,7 +564,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 7: Talent Submits v1.0 & PM Requests Revision */}
               {state.currentStep === 7 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         QA Gate 1: Deliverable v1.0 Evaluation
@@ -565,7 +573,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                         Revision Triggered
                       </span>
                     </div>
-                    <p className="text-slate-300">
+                    <p className="text-slate-200">
                       Talent submitted v1.0 staging artifacts. PM review noted that edge diagnostic
                       query latency was 480ms (target: &lt;300ms).
                     </p>
@@ -594,7 +602,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 8: Talent Deploys v2.0 with Edge Optimization */}
               {state.currentStep === 8 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Deliverable Version 2.0 Upload
@@ -603,11 +611,11 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                         P95: 275ms (Passed)
                       </span>
                     </div>
-                    <p className="text-slate-300">
+                    <p className="text-slate-200">
                       Architect-Alpha optimized Cloudflare edge routing and verified zero TypeScript
                       compilation warnings.
                     </p>
-                    <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 font-mono text-[11px]">
+                    <div className="p-3 rounded-lg bg-eco-dark border border-white/10 text-slate-200 font-mono text-[11px]">
                       Artifacts:{" "}
                       <code className="text-emerald-400">
                         Savannah_Clinical_App_v2.0_Production.zip
@@ -623,7 +631,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                         currentStep: 9,
                       });
                     }}
-                    className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition-all"
+                    className="w-full py-3 rounded-lg bg-primary hover:bg-eco-cyan/20 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/30 transition-all"
                   >
                     <span>Execute Step 8: Upload Deliverable v2.0 into QA Vault</span>
                     <ArrowRight className="w-4 h-4" />
@@ -634,7 +642,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 9: PM QA Sign-Off & Publish to Client */}
               {state.currentStep === 9 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         QA Gate Sign-Off (Score: 5.0/5.0)
@@ -643,11 +651,11 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                         QA Passed
                       </span>
                     </div>
-                    <p className="text-slate-300">
+                    <p className="text-slate-200">
                       Your assigned PM verified edge performance, test coverage, and security
                       sandboxing.
                     </p>
-                    <div className="p-3 rounded-lg bg-blue-950/40 border border-blue-800/40 text-blue-300">
+                    <div className="p-3 rounded-lg bg-white/[0.04] border border-eco-cyan/20 text-eco-cyan">
                       Deliverable package is now made visible in Dr. Chinedu Eze's Client Portal for
                       milestone acceptance.
                     </div>
@@ -672,7 +680,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 10: Client Milestone Approval */}
               {state.currentStep === 10 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Client Milestone 1 Formal Approval
@@ -681,11 +689,11 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                         Sign-Off Executed
                       </span>
                     </div>
-                    <p className="text-slate-300">
+                    <p className="text-slate-200">
                       Dr. Chinedu Eze verified the live staging preview and executed the digital
                       milestone sign-off.
                     </p>
-                    <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex justify-between items-center text-slate-300">
+                    <div className="p-3 rounded-lg bg-eco-dark border border-white/10 flex justify-between items-center text-slate-200">
                       <span>
                         Receipt Generated: <strong>NDH-REC-2026-104-A</strong>
                       </span>
@@ -714,7 +722,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 11: Finance Dual-Approval & Payout */}
               {state.currentStep === 11 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Dual-Approval Payout Batch: NDH-PAY-2026-W40
@@ -724,16 +732,20 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                       </span>
                     </div>
                     <div className="grid grid-cols-2 gap-3 text-[11px]">
-                      <div className="p-2.5 rounded bg-slate-950 border border-slate-800">
-                        <span className="text-slate-500 block">Maker Signature:</span>
+                      <div className="p-2.5 rounded bg-eco-dark border border-white/10">
+                        <span className="text-[var(--eco-on-dark-muted)] block">
+                          Maker Signature:
+                        </span>
                         <span className="font-semibold text-emerald-400">Finance Admin ✓</span>
                       </div>
-                      <div className="p-2.5 rounded bg-slate-950 border border-slate-800">
-                        <span className="text-slate-500 block">Checker Signature:</span>
+                      <div className="p-2.5 rounded bg-eco-dark border border-white/10">
+                        <span className="text-[var(--eco-on-dark-muted)] block">
+                          Checker Signature:
+                        </span>
                         <span className="font-semibold text-emerald-400">Managing Director ✓</span>
                       </div>
                     </div>
-                    <p className="text-slate-300 font-mono text-[11px]">
+                    <p className="text-slate-200 font-mono text-[11px]">
                       Disbursement: ₦36,900,000 NGN ($24,600 USD) transmitted to NIBSS Nigerian
                       Inter-Bank Network.
                     </p>
@@ -759,7 +771,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 12: Case Study Nomination & Publication */}
               {state.currentStep === 12 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Case Study CMS Publishing Gate
@@ -768,13 +780,13 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                         Consent Recorded
                       </span>
                     </div>
-                    <p className="text-slate-300">
+                    <p className="text-slate-200">
                       Project nominated:{" "}
                       <code className="text-white">
                         Savannah Health: Sub-300ms Clinical Diagnostic Engine
                       </code>
                     </p>
-                    <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 text-[11px]">
+                    <div className="p-3 rounded-lg bg-eco-dark border border-white/10 text-[var(--eco-on-dark-muted)] text-[11px]">
                       Client testimonial verified by Dr. Eze • Measurable KPI: 78% faster lab
                       reporting time.
                     </div>
@@ -800,7 +812,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 13: Decoupled Academy Bridge */}
               {state.currentStep === 13 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-5 rounded-xl bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 border border-blue-800/40 space-y-3">
+                  <div className="p-5 rounded-xl bg-gradient-to-r from-eco-dark via-eco-navy to-eco-dark border border-eco-cyan/20 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Decoupled NDH Academy Integration Bridge
@@ -809,9 +821,9 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                         Zero Data Leakage Certified
                       </span>
                     </div>
-                    <p className="text-slate-300 leading-relaxed">
+                    <p className="text-slate-200 leading-relaxed">
                       Agency footer cross-link:{" "}
-                      <code className="text-blue-300">
+                      <code className="text-eco-cyan">
                         "Looking to build your skills? Explore NDH Academy."
                       </code>{" "}
                       (https://academy.ndh.com.ng)
@@ -822,7 +834,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                       </code>{" "}
                       (https://agency.ndh.com.ng)
                     </p>
-                    <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 text-[11px]">
+                    <div className="p-3 rounded-lg bg-eco-dark border border-white/10 text-[var(--eco-on-dark-muted)] text-[11px]">
                       Talent graduation credentials verify soulbound alumni badges without leaking
                       academy student records or course exams into client portals.
                     </div>
@@ -832,7 +844,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                     <button
                       type="button"
                       onClick={() => updateState({ academyCrossLinkVisited: true })}
-                      className="w-full sm:flex-1 py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition-all"
+                      className="w-full sm:flex-1 py-3 rounded-lg bg-primary hover:bg-eco-cyan/20 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/30 transition-all"
                     >
                       <span>Simulate Visiting NDH Academy (academy.ndh.com.ng)</span>
                       <ExternalLink className="w-4 h-4" />
@@ -840,7 +852,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
 
                     <button
                       onClick={() => onNavigateScreen && onNavigateScreen("homepage")}
-                      className="w-full sm:w-auto px-5 py-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs border border-slate-700"
+                      className="w-full sm:w-auto px-5 py-3 rounded-lg bg-white/[0.08] hover:bg-white/12 text-slate-200 font-medium text-xs border border-white/12"
                     >
                       Return to Agency Home
                     </button>

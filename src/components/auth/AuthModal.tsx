@@ -161,10 +161,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
       aria-label={activeTab === "login" ? "Sign in" : "Create account"}
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans"
     >
-      <div className="w-full max-w-md rounded-3xl bg-[#0F172A] border border-blue-500/40 p-6 sm:p-8 shadow-2xl relative space-y-6">
+      <div className="w-full max-w-md rounded-3xl bg-eco-navy border border-eco-cyan/25 p-6 sm:p-8 shadow-2xl relative space-y-6">
         <button
           onClick={closeAuthModal}
-          className="absolute top-4 right-4 text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-800 transition-colors"
+          className="absolute top-4 right-4 text-[var(--eco-on-dark-muted)] hover:text-white p-2 rounded-full hover:bg-white/[0.08] transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -177,7 +177,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
           <h2 className="text-xl font-black text-white">
             {activeTab === "login" ? portalCopy.heading : "Create Client Account"}
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-[var(--eco-on-dark-muted)]">
             {activeTab === "login"
               ? portalCopy.subheading
               : "Start your project with milestone escrow protection and dedicated PMs"}
@@ -188,7 +188,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
             Admin/PM/Talent accounts are provisioned by an admin, not
             self-service, so those portal contexts skip straight to sign-in. */}
         {authPortalContext === "client" && (
-          <div className="grid grid-cols-2 p-1 rounded-2xl bg-slate-950 border border-slate-800 text-xs font-bold">
+          <div className="grid grid-cols-2 p-1 rounded-2xl bg-eco-dark border border-white/10 text-xs font-bold">
             <button
               type="button"
               onClick={() => {
@@ -197,8 +197,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
               }}
               className={`py-2 rounded-xl transition-all ${
                 activeTab === "login"
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-primary text-white shadow-md"
+                  : "text-[var(--eco-on-dark-muted)] hover:text-white"
               }`}
             >
               Sign In
@@ -211,8 +211,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
               }}
               className={`py-2 rounded-xl transition-all ${
                 activeTab === "register"
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-primary text-white shadow-md"
+                  : "text-[var(--eco-on-dark-muted)] hover:text-white"
               }`}
             >
               Create Account
@@ -237,7 +237,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
         {activeTab === "login" ? (
           <form onSubmit={handleLoginSubmit} className="space-y-4 text-xs">
             {authPortalContext === "client" ? (
-              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-[10px] text-slate-400 leading-relaxed">
+              <div className="p-3 rounded-xl bg-white/[0.06]/60 border border-white/10 text-[10px] text-[var(--eco-on-dark-muted)] leading-relaxed">
                 New client?{" "}
                 <button
                   type="button"
@@ -245,7 +245,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
                     setActiveTab("register");
                     setErrorMessage("");
                   }}
-                  className="font-bold text-blue-400 hover:underline"
+                  className="font-bold text-eco-cyan hover:underline"
                 >
                   Create a client account
                 </button>{" "}
@@ -254,7 +254,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
                 given.
               </div>
             ) : (
-              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-[10px] text-slate-400 leading-relaxed">
+              <div className="p-3 rounded-xl bg-white/[0.06]/60 border border-white/10 text-[10px] text-[var(--eco-on-dark-muted)] leading-relaxed">
                 This access is granted by an NDH admin. If you&apos;re expecting access, use the
                 email and password you were given — contact your admin if you don&apos;t have one
                 yet.
@@ -262,23 +262,23 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
             )}
 
             <div className="space-y-1.5">
-              <label className="font-bold text-slate-300">Email Address</label>
+              <label className="font-bold text-slate-200">Email Address</label>
               <div className="relative">
-                <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--eco-on-dark-muted)]" />
                 <input
                   type="email"
                   required
                   placeholder="you@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="font-bold text-slate-300">Password</label>
+                <label className="font-bold text-slate-200">Password</label>
                 <button
                   type="button"
                   onClick={() =>
@@ -286,20 +286,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
                       "Self-service password reset isn\u2019t available yet. Contact your project manager or admin to have your password reset.",
                     )
                   }
-                  className="text-[10px] text-blue-400 hover:underline"
+                  className="text-[10px] text-eco-cyan hover:underline"
                 >
                   Forgot Password?
                 </button>
               </div>
               <div className="relative">
-                <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--eco-on-dark-muted)]" />
                 <input
                   type="password"
                   required
                   placeholder="••••••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
             </div>
@@ -307,7 +307,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 disabled:opacity-60 text-white font-extrabold text-xs shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-primary via-eco-glow to-eco-dark hover:from-eco-cyan hover:to-eco-glow disabled:opacity-60 text-white font-extrabold text-xs shadow-lg shadow-cyan-500/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]"
             >
               <span>{isSubmitting ? "Signing In..." : "Sign In to Workspace"}</span>
               <ArrowRight className="w-4 h-4" />
@@ -317,77 +317,77 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
           /* REGISTRATION FORM */
           <form onSubmit={handleRegisterSubmit} className="space-y-3.5 text-xs">
             <div className="space-y-1">
-              <label className="font-bold text-slate-300">Your Full Name *</label>
+              <label className="font-bold text-slate-200">Your Full Name *</label>
               <div className="relative">
-                <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--eco-on-dark-muted)]" />
                 <input
                   type="text"
                   required
                   placeholder="e.g. Tolu Adeyemi"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
             </div>
 
             <div className="space-y-1">
-              <label className="font-bold text-slate-300">Company / Project Name *</label>
+              <label className="font-bold text-slate-200">Company / Project Name *</label>
               <div className="relative">
-                <Building className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <Building className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--eco-on-dark-muted)]" />
                 <input
                   type="text"
                   required
                   placeholder="e.g. Apex Health Systems"
                   value={orgName}
                   onChange={(e) => setOrgName(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1">
-                <label className="font-bold text-slate-300">Work Email *</label>
+                <label className="font-bold text-slate-200">Work Email *</label>
                 <input
                   type="email"
                   required
                   placeholder="tolu@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="font-bold text-slate-300">Phone / WhatsApp</label>
+                <label className="font-bold text-slate-200">Phone / WhatsApp</label>
                 <input
                   type="text"
                   placeholder="+234 812 345 6789"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
             </div>
 
             <div className="space-y-1">
-              <label className="font-bold text-slate-300">Password *</label>
+              <label className="font-bold text-slate-200">Password *</label>
               <div className="relative">
-                <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--eco-on-dark-muted)]" />
                 <input
                   type="password"
                   required
                   placeholder="Create a strong password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
             </div>
 
             <div className="space-y-1">
-              <label className="font-semibold text-slate-400 flex items-center justify-between">
+              <label className="font-semibold text-[var(--eco-on-dark-muted)] flex items-center justify-between">
                 <span>Referral Code (Optional)</span>
                 <span className="text-[10px] text-emerald-400 font-mono">
                   Get ₦50k / $50 Discount
@@ -400,7 +400,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
                   placeholder="e.g. FOLAKE-NDH-2026"
                   value={referralCode}
                   onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
-                  className="w-full pl-10 pr-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-emerald-300 font-mono focus:outline-none focus:border-emerald-500"
+                  className="w-full pl-10 pr-4 py-2 rounded-xl bg-eco-dark border border-white/10 text-emerald-300 font-mono focus:outline-none focus:border-emerald-500"
                 />
               </div>
             </div>
@@ -408,7 +408,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 disabled:opacity-60 text-white font-extrabold text-xs shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-primary hover:from-emerald-500 hover:to-eco-cyan disabled:opacity-60 text-white font-extrabold text-xs shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]"
             >
               <span>{isSubmitting ? "Creating Workspace..." : "Create Client Workspace"}</span>
               <ArrowRight className="w-4 h-4" />
@@ -416,7 +416,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
           </form>
         )}
 
-        <div className="flex items-center justify-center gap-2 text-[11px] text-slate-400 pt-1 text-center">
+        <div className="flex items-center justify-center gap-2 text-[11px] text-[var(--eco-on-dark-muted)] pt-1 text-center">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
           <span>
             Your account and password are stored for real on the server (bcrypt-hashed, never sent

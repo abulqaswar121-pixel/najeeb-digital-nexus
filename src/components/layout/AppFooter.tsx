@@ -1,22 +1,17 @@
 import React from "react";
 import {
-  Award,
   ShieldCheck,
   Lock,
   Globe,
-  Layers,
-  Sparkles,
   MapPin,
   Mail,
   Phone,
-  Heart,
   CreditCard,
   UserPlus,
   FileCheck,
   User,
-  ArrowRight,
 } from "lucide-react";
-import { MainNavView } from "./AppNavbar";
+import { MainNavView } from "./navViews";
 import { BrandLogo } from "../brand/BrandLogo";
 import { AcademyCrossPromo } from "./AcademyCrossPromo";
 import { FamilyFooterLinks } from "./FamilyFooterLinks";
@@ -29,19 +24,28 @@ interface AppFooterProps {
   onOpenTalentModal?: () => void;
   onOpenPaymentModal?: () => void;
   /**
-   * Retained for call-site compatibility (AppShell still passes it). The NDH
-   * Academy cross-promotion is no longer homepage-gated: the ecosystem spec
-   * requires the footer itself to carry it on every page, so the prop is
-   * accepted and intentionally unused.
+   * On the home page the Academy cross-promotion is intentionally omitted: the
+   * home page already runs a full Academy cross-promotion section inside its
+   * own "The NDH Family" anchor band, so repeating the card here would double
+   * it. Every other page gets it in the footer.
    */
-  isHomepage?: boolean;
 }
 
+/**
+ * Deep-navy footer anchor — the Academy `FamilyFooter` treatment.
+ *
+ * STRICT ECOSYSTEM ISOLATION: this footer is the *only* place the NDH family
+ * directory lives. The sibling directory (`FamilyFooterLinks`), the parent
+ * gateway link and (off the home page) the Academy cross-promotion all sit
+ * here, never in the top navigation.
+ *
+ * The whole footer renders inside the shared `.band-dark` token scope, so any
+ * token-driven child (cards, chips, headings) flips to its on-navy value.
+ */
 export const AppFooter: React.FC<AppFooterProps> = ({
   onSelectView,
   onOpenBriefWizard,
   onOpenTalentModal,
-  onOpenPaymentModal,
 }) => {
   const { user } = useAuth();
   const { currency } = useCurrencyLanguage();
@@ -56,46 +60,44 @@ export const AppFooter: React.FC<AppFooterProps> = ({
   };
 
   return (
-    <footer className="border-t border-white/10 bg-eco-dark py-16 font-sans text-xs text-slate-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Prominent NDH Academy cross-promotion (spec 2.3): the two are
-            separate sibling businesses on separate subdomains, so this is a
-            signpost out to academy.ndh.com.ng rather than an in-app route. */}
-        <AcademyCrossPromo />
-
-        {/* Shared ecosystem band: states the parent-gateway relationship and
-            links every sibling subsidiary with its launch status. */}
+    <footer className="band-dark border-border/60 border-t py-16 font-sans text-xs">
+      <div className="mx-auto max-w-7xl space-y-12 px-4 sm:px-6 lg:px-8">
+        {/* The NDH family directory — parent gateway, siblings, launch status */}
         <FamilyFooterLinks />
 
+        {/* Academy cross-promotion — sibling promotion lives in the footer on
+            every page (the top navigation stays 100% agency-focused). */}
+        <AcademyCrossPromo />
+
         {/* 4-Column Directory Grid */}
-        <div className="grid min-w-0 grid-cols-1 gap-10 border-t border-white/10 pt-4 md:grid-cols-2 xl:grid-cols-4">
-          {/* Col 1: Brand & Parent Hub */}
+        <div className="border-border/60 grid min-w-0 grid-cols-1 gap-10 border-t pt-10 md:grid-cols-2 xl:grid-cols-4">
+          {/* Col 1: Brand & contact */}
           <div className="space-y-4">
             <BrandLogo size="md" />
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-muted-foreground text-xs leading-relaxed">
               We design and build world-class digital systems, mobile apps, and brand strategies
               that help modern businesses scale with certainty.
             </p>
-            <div className="space-y-2 text-slate-300 text-xs pt-1">
+            <div className="text-muted-foreground space-y-2 pt-1 text-xs">
               <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-eco-electric shrink-0" />
+                <MapPin className="text-brand-soft h-3.5 w-3.5 shrink-0" />
                 <span>Marmaron Nufawa, Western Bye Pass, Sokoto, Nigeria</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-eco-electric shrink-0" />
-                <a href="https://wa.me/2349029932794" className="hover:text-white">
+                <Phone className="text-brand-soft h-3.5 w-3.5 shrink-0" />
+                <a href="https://wa.me/2349029932794" className="hover:text-foreground">
                   +234 902 993 2794 (WhatsApp)
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-eco-electric shrink-0" />
-                <a href="mailto:hello@ndh.com.ng" className="hover:text-white">
+                <Mail className="text-brand-soft h-3.5 w-3.5 shrink-0" />
+                <a href="mailto:hello@ndh.com.ng" className="hover:text-foreground">
                   hello@ndh.com.ng
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-eco-electric shrink-0" />
-                <a href="mailto:abunnajeeh7@gmail.com" className="hover:text-white">
+                <Mail className="text-brand-soft h-3.5 w-3.5 shrink-0" />
+                <a href="mailto:abunnajeeh7@gmail.com" className="hover:text-foreground">
                   abunnajeeh7@gmail.com
                 </a>
               </div>
@@ -104,40 +106,47 @@ export const AppFooter: React.FC<AppFooterProps> = ({
                   href="https://www.facebook.com/share/1Be6HN8zjS/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white"
+                  className="hover:text-foreground"
                   aria-label="NDH on Facebook"
                 >
                   Facebook
                 </a>
-                <span className="text-slate-700">•</span>
+                <span className="text-muted-foreground/40">•</span>
                 <a
                   href="https://www.instagram.com/njb_digital_hub"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white"
+                  className="hover:text-foreground"
                   aria-label="NDH on Instagram"
                 >
                   Instagram
                 </a>
               </div>
               <div className="flex items-center gap-2 pt-1">
-                <Globe className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <Globe className="text-success h-3.5 w-3.5 shrink-0" />
                 <span>Nigeria · Worldwide — prices shown in {currency}</span>
               </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="pt-2 flex flex-col gap-2">
+            {/* Quick actions */}
+            <div className="flex flex-col gap-2 pt-2">
+              <button
+                onClick={onOpenBriefWizard}
+                className="border-brand-subtle/60 bg-brand-subtle text-brand-soft hover:text-foreground flex items-center justify-between rounded-xl border px-4 py-2.5 text-xs font-bold transition-colors"
+              >
+                <span>Start a project brief</span>
+                <span className="font-mono text-[10px]">Free scope</span>
+              </button>
               {onOpenTalentModal && (
                 <button
                   onClick={onOpenTalentModal}
-                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600/30 to-blue-600/30 border border-emerald-500/40 text-emerald-300 hover:text-white hover:border-emerald-400 text-xs font-bold transition-all flex items-center justify-between"
+                  className="border-success/40 text-success flex items-center justify-between rounded-xl border bg-emerald-400/10 px-4 py-2.5 text-xs font-bold transition-colors hover:border-emerald-400/60"
                 >
                   <span className="flex items-center gap-1.5">
-                    <UserPlus className="w-3.5 h-3.5" />
+                    <UserPlus className="h-3.5 w-3.5" />
                     <span>Apply as Vetted Talent</span>
                   </span>
-                  <span className="text-[10px] bg-emerald-500/20 px-1.5 py-0.5 rounded font-mono">
+                  <span className="rounded bg-emerald-400/15 px-1.5 py-0.5 font-mono text-[10px]">
                     Join Squad
                   </span>
                 </button>
@@ -145,72 +154,34 @@ export const AppFooter: React.FC<AppFooterProps> = ({
             </div>
           </div>
 
-          {/* Col 2: Managed Departments */}
+          {/* Col 2: Managed departments */}
           <div className="space-y-3">
-            <div className="font-bold text-white uppercase tracking-wider text-xs">
+            <div className="text-foreground text-xs font-bold tracking-wider uppercase">
               Popular Departments
             </div>
-            <ul className="space-y-1.5 text-slate-300 text-xs">
-              <li>
-                <button
-                  onClick={() => onSelectView("services")}
-                  className="hover:text-blue-400 text-left transition-colors"
-                >
-                  Web &amp; Full-Stack Development
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onSelectView("services")}
-                  className="hover:text-blue-400 text-left transition-colors"
-                >
-                  Mobile Apps (iOS &amp; Android)
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onSelectView("services")}
-                  className="hover:text-blue-400 text-left transition-colors"
-                >
-                  UI/UX &amp; Product Design Systems
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onSelectView("services")}
-                  className="hover:text-blue-400 text-left transition-colors"
-                >
-                  Brand Strategy &amp; Visual Identity
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onSelectView("services")}
-                  className="hover:text-blue-400 text-left transition-colors"
-                >
-                  AI Agents &amp; Workflow Automation
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onSelectView("services")}
-                  className="hover:text-blue-400 text-left transition-colors"
-                >
-                  FinTech &amp; Payment Gateways
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onSelectView("services")}
-                  className="hover:text-blue-400 text-left transition-colors"
-                >
-                  Rapid No-Code MVPs (Starters &amp; Startups)
-                </button>
-              </li>
+            <ul className="text-muted-foreground space-y-1.5 text-xs">
+              {[
+                "Web & Full-Stack Development",
+                "Mobile Apps (iOS & Android)",
+                "UI/UX & Product Design Systems",
+                "Brand Strategy & Visual Identity",
+                "AI Agents & Workflow Automation",
+                "FinTech & Payment Gateways",
+                "Rapid No-Code MVPs",
+              ].map((label) => (
+                <li key={label}>
+                  <button
+                    onClick={() => onSelectView("services")}
+                    className="hover:text-foreground text-left transition-colors"
+                  >
+                    {label}
+                  </button>
+                </li>
+              ))}
               <li className="pt-1">
                 <button
                   onClick={() => onSelectView("services")}
-                  className="text-blue-400 hover:text-blue-300 text-left font-bold transition-colors"
+                  className="text-brand-soft hover:text-foreground text-left font-bold transition-colors"
                 >
                   View All 16 Departments →
                 </button>
@@ -218,71 +189,47 @@ export const AppFooter: React.FC<AppFooterProps> = ({
             </ul>
           </div>
 
-          {/* Col 3: Why Choose Us */}
+          {/* Col 3: Why choose NDH */}
           <div className="space-y-3">
-            <div className="font-bold text-white uppercase tracking-wider text-xs">
+            <div className="text-foreground text-xs font-bold tracking-wider uppercase">
               Why Choose NDH
             </div>
-            <ul className="space-y-2 text-slate-300 text-xs">
-              <li>
-                <button
-                  onClick={() => onSelectView("about")}
-                  className="hover:text-blue-400 text-left transition-colors"
-                >
-                  Managed Bureau vs Freelancers
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onSelectView("process")}
-                  className="hover:text-blue-400 text-left transition-colors"
-                >
-                  Guaranteed On-Time Delivery SLAs
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onSelectView("talent-network")}
-                  className="hover:text-blue-400 text-left transition-colors"
-                >
-                  Top 3% Vetted African Talent
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onSelectView("case-study")}
-                  className="hover:text-blue-400 text-left transition-colors"
-                >
-                  Client Success Stories &amp; ROI
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onSelectView("insights")}
-                  className="hover:text-blue-400 text-left transition-colors"
-                >
-                  Tech Blog &amp; Case Dossiers
-                </button>
-              </li>
+            <ul className="text-muted-foreground space-y-2 text-xs">
+              {[
+                { view: "about" as MainNavView, label: "Managed Bureau vs Freelancers" },
+                { view: "process" as MainNavView, label: "Guaranteed On-Time Delivery SLAs" },
+                { view: "talent-network" as MainNavView, label: "Top 3% Vetted African Talent" },
+                { view: "case-study" as MainNavView, label: "Client Success Stories & ROI" },
+                { view: "insights" as MainNavView, label: "Insights & Case Dossiers" },
+              ].map((item) => (
+                <li key={item.label}>
+                  <button
+                    onClick={() => onSelectView(item.view)}
+                    className="hover:text-foreground text-left transition-colors"
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Col 4: Client & Governance */}
+          {/* Col 4: Client & governance */}
           <div className="space-y-3">
-            <div className="font-bold text-white uppercase tracking-wider text-xs">
+            <div className="text-foreground text-xs font-bold tracking-wider uppercase">
               Client &amp; Governance
             </div>
-            <ul className="space-y-2 text-slate-300 text-xs">
+            <ul className="text-muted-foreground space-y-2 text-xs">
               <li>
                 <button
                   onClick={handleClientPortalClick}
-                  className="hover:text-blue-400 flex items-center justify-between w-full transition-colors font-medium text-white"
+                  className="hover:text-foreground flex w-full items-center justify-between font-medium transition-colors"
                 >
                   <span className="flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-blue-400" />
+                    <User className="text-brand-soft h-3.5 w-3.5" />
                     <span>Client Portal</span>
                   </span>
-                  <span className="text-[10px] text-blue-400 font-mono px-2 py-0.5 rounded bg-blue-950 border border-blue-800">
+                  <span className="text-brand-soft bg-brand-subtle rounded px-2 py-0.5 font-mono text-[10px]">
                     {user ? "Active" : "Sign In"}
                   </span>
                 </button>
@@ -290,18 +237,18 @@ export const AppFooter: React.FC<AppFooterProps> = ({
               <li>
                 <button
                   onClick={() => onSelectView("process")}
-                  className="hover:text-blue-400 text-left transition-colors flex items-center gap-1.5"
+                  className="hover:text-foreground flex items-center gap-1.5 text-left transition-colors"
                 >
-                  <FileCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <FileCheck className="text-success h-3.5 w-3.5" />
                   <span>Dual-Key Escrow Guarantee</span>
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => onSelectView("contact")}
-                  className="hover:text-blue-400 text-left transition-colors flex items-center gap-1.5"
+                  className="hover:text-foreground flex items-center gap-1.5 text-left transition-colors"
                 >
-                  <Phone className="w-3.5 h-3.5 text-indigo-400" />
+                  <Phone className="text-brand-soft h-3.5 w-3.5" />
                   <span>Book Consultation Call</span>
                 </button>
               </li>
@@ -309,70 +256,70 @@ export const AppFooter: React.FC<AppFooterProps> = ({
           </div>
         </div>
 
-        {/* Bottom Bar with Compliance Badges */}
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-slate-400 sm:flex-row">
+        {/* Bottom bar — legal, staff access, trust cues */}
+        <div className="border-border/60 text-muted-foreground flex flex-col items-center justify-between gap-4 border-t pt-8 text-xs sm:flex-row">
           <div className="space-y-1">
             <div>
-              © 2026 NDH Agency (agency.ndh.com.ng). Part of Najeeb Digital Hub. All rights
-              reserved.
+              © {new Date().getFullYear()} NDH Agency (agency.ndh.com.ng). Part of Najeeb Digital
+              Hub. All rights reserved.
             </div>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px]">
               <button
                 onClick={() => onSelectView("privacy-policy")}
-                className="hover:text-eco-electric underline underline-offset-2"
+                className="hover:text-foreground underline underline-offset-2"
               >
                 Privacy Policy
               </button>
-              <span className="text-slate-700">•</span>
+              <span className="text-muted-foreground/40">•</span>
               <button
                 onClick={() => onSelectView("terms-of-service")}
-                className="hover:text-eco-electric underline underline-offset-2"
+                className="hover:text-foreground underline underline-offset-2"
               >
                 Terms of Service
               </button>
-              <span className="text-slate-700">•</span>
+              <span className="text-muted-foreground/40">•</span>
               <button
                 onClick={() => onSelectView("refund-policy")}
-                className="hover:text-eco-electric underline underline-offset-2"
+                className="hover:text-foreground underline underline-offset-2"
               >
                 Refund Policy
               </button>
             </div>
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] pt-1">
-              <span className="text-slate-600">Staff &amp; Partner Access:</span>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-[11px]">
+              <span className="text-muted-foreground/70">Staff &amp; Partner Access:</span>
               <button
                 onClick={() => openAuthModal("login", "admin")}
-                className="hover:text-eco-electric underline underline-offset-2"
+                className="hover:text-foreground underline underline-offset-2"
               >
                 Admin
               </button>
-              <span className="text-slate-700">•</span>
+              <span className="text-muted-foreground/40">•</span>
               <button
                 onClick={() => openAuthModal("login", "pm")}
-                className="hover:text-eco-electric underline underline-offset-2"
+                className="hover:text-foreground underline underline-offset-2"
               >
                 Project Manager
               </button>
-              <span className="text-slate-700">•</span>
+              <span className="text-muted-foreground/40">•</span>
               <button
                 onClick={() => openAuthModal("login", "talent")}
-                className="hover:text-eco-electric underline underline-offset-2"
+                className="hover:text-foreground underline underline-offset-2"
               >
                 Talent
               </button>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-6">
-            <span className="flex items-center gap-1.5 text-slate-300">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <span className="flex items-center gap-1.5">
+              <ShieldCheck className="text-success h-4 w-4" />
               <span>NDA-Protected Client Engagements</span>
             </span>
-            <span className="flex items-center gap-1.5 text-slate-300">
-              <Lock className="w-4 h-4 text-blue-400" />
+            <span className="flex items-center gap-1.5">
+              <Lock className="text-brand-soft h-4 w-4" />
               <span>Enterprise-Grade Security Practices</span>
             </span>
-            <span className="flex items-center gap-1.5 text-slate-300">
-              <CreditCard className="w-4 h-4 text-amber-400" />
+            <span className="flex items-center gap-1.5">
+              <CreditCard className="text-gold h-4 w-4" />
               <span>Paystack &amp; Flutterwave Payment Rails</span>
             </span>
           </div>

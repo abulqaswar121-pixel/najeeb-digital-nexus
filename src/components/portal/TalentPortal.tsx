@@ -82,9 +82,9 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
   if (!talent) {
     return (
-      <div className="bg-[#070A14] text-[#F1F5F9] min-h-screen font-sans flex flex-col items-center justify-center gap-4 p-8 text-center">
-        <p className="text-sm text-slate-400">Loading your talent profile…</p>
-        <p className="text-xs text-slate-500 max-w-md">
+      <div className="bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col items-center justify-center gap-4 p-8 text-center">
+        <p className="text-sm text-[var(--eco-on-dark-muted)]">Loading your talent profile…</p>
+        <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-md">
           If this doesn't load, this account may not have a linked talent profile on the server yet
           (only the demo "Architect-Alpha" account is currently linked).
         </p>
@@ -135,7 +135,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
   ];
 
   return (
-    <div className="bg-[#070A14] text-[#F1F5F9] min-h-screen font-sans flex flex-col">
+    <div className="bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col">
       {/* Standalone Talent Workspace Top Bar */}
       <header className="sticky top-0 z-40 flex w-full max-w-full items-center justify-between gap-3 overflow-x-clip border-b border-white/10 bg-eco-navy/95 px-4 py-3.5 backdrop-blur-xl sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-4">
@@ -155,13 +155,13 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
           {talent.isDualRolePM && onSwitchToPM && (
             <button
               onClick={onSwitchToPM}
-              className="hidden shrink-0 items-center gap-1.5 rounded-xl border border-indigo-500/40 bg-indigo-600/20 px-3 py-1.5 text-xs font-bold text-indigo-300 transition-all hover:bg-indigo-600 hover:text-white md:flex"
+              className="hidden shrink-0 items-center gap-1.5 rounded-xl border border-eco-glow/40 bg-eco-glow/20 px-3 py-1.5 text-xs font-bold text-eco-glow transition-all hover:bg-eco-glow hover:text-white md:flex"
             >
               <Briefcase className="w-3.5 h-3.5" />
               <span>Switch to PM Lead View</span>
             </button>
           )}
-          <div className="hidden min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-slate-300 sm:flex">
+          <div className="hidden min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-slate-200 sm:flex">
             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="max-w-[16ch] truncate">ID: {talent.pseudonym}</span>
           </div>
@@ -177,7 +177,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
       <div className="flex-1 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-8">
           {/* Talent Header Profile & Current Rank Badge */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 shadow-2xl backdrop-blur-xl">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 p-6 rounded-3xl bg-eco-navy/90 border border-white/10 shadow-2xl backdrop-blur-xl">
             <div className="flex items-start sm:items-center gap-4">
               <div className="relative">
                 <img
@@ -209,25 +209,25 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                   </div>
 
                   {talent.isDualRolePM && (
-                    <span className="px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 text-[10px] font-bold border border-indigo-500/30 flex items-center gap-1">
-                      <Zap className="w-3 h-3 text-indigo-400" />
+                    <span className="px-2.5 py-0.5 rounded-full bg-eco-glow/15 text-eco-glow text-[10px] font-bold border border-eco-glow/25 flex items-center gap-1">
+                      <Zap className="w-3 h-3 text-eco-glow" />
                       Appointed PM-Lead (Dual-Role)
                     </span>
                   )}
                 </div>
 
-                <p className="text-xs text-slate-400 mt-1.5 flex flex-wrap items-center gap-2">
+                <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1.5 flex flex-wrap items-center gap-2">
                   <span>
                     Department:{" "}
                     <strong className="text-slate-200">
                       {talent.department.replace("_", " ").toUpperCase()}
                     </strong>
                   </span>
-                  <span className="text-slate-600">•</span>
+                  <span className="text-[var(--eco-on-dark-muted)]/70">•</span>
                   <span>
-                    Assigned PM: <strong className="text-blue-400">Your PM</strong>
+                    Assigned PM: <strong className="text-eco-cyan">Your PM</strong>
                   </span>
-                  <span className="text-slate-600">•</span>
+                  <span className="text-[var(--eco-on-dark-muted)]/70">•</span>
                   <span>
                     QA Delivery Rate:{" "}
                     <strong className="text-emerald-400">{talent.onTimeDeliveryRate}%</strong>
@@ -238,12 +238,12 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
             {/* Performance Stats Cards */}
             <div className="flex flex-wrap items-center gap-3">
-              <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs flex items-center gap-3">
+              <div className="p-3.5 rounded-2xl bg-white/[0.06]/90 border border-white/10 text-xs flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold">
                   {talent.qaPercentageScore}%
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-400 block uppercase font-bold tracking-wider">
+                  <span className="text-[10px] text-[var(--eco-on-dark-muted)] block uppercase font-bold tracking-wider">
                     QA Quality Score
                   </span>
                   <span className="font-mono font-bold text-emerald-400">
@@ -252,24 +252,24 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold">
+              <div className="p-3.5 rounded-2xl bg-white/[0.06]/90 border border-white/10 text-xs flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-eco-cyan/10 border border-eco-cyan/25 flex items-center justify-center text-eco-cyan font-bold">
                   {talent.completedProjects}
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-400 block uppercase font-bold tracking-wider">
+                  <span className="text-[10px] text-[var(--eco-on-dark-muted)] block uppercase font-bold tracking-wider">
                     Tasks Delivered
                   </span>
                   <span className="font-mono font-bold text-white">Diamond Tier</span>
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs flex items-center gap-3">
+              <div className="p-3.5 rounded-2xl bg-white/[0.06]/90 border border-white/10 text-xs flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">
                   <DollarSign className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-400 block uppercase font-bold tracking-wider">
+                  <span className="text-[10px] text-[var(--eco-on-dark-muted)] block uppercase font-bold tracking-wider">
                     Total Earned
                   </span>
                   <span className="font-mono font-bold text-white">
@@ -281,8 +281,8 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
           </div>
 
           {/* Privacy Notice Banner */}
-          <div className="p-4 rounded-2xl bg-blue-950/30 border border-blue-800/40 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5 text-slate-300">
+          <div className="p-4 rounded-2xl bg-eco-dark/30 border border-eco-cyan/20 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5 text-slate-200">
               <Lock className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>
                 <strong>NDH Managed Privacy Buffer:</strong> You execute pure technical tickets and
@@ -290,7 +290,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                 commercial margins are kept fully isolated.
               </span>
             </div>
-            <span className="px-2.5 py-0.5 rounded bg-slate-900 font-mono text-[10px] text-slate-300 border border-slate-800 shrink-0">
+            <span className="px-2.5 py-0.5 rounded bg-white/[0.06] font-mono text-[10px] text-slate-200 border border-white/10 shrink-0">
               Anonymized Isolation: 100% Active
             </span>
           </div>
@@ -298,13 +298,13 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
           {/* TAB 1: SPRINT TASKS */}
           {activeTab === "tasks" && (
             <div className="space-y-6">
-              <div className="p-6 rounded-3xl bg-[#0F172A]/80 border border-blue-900/40 space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="p-6 rounded-3xl bg-eco-navy/80 border border-white/10 space-y-4">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
                   <div>
                     <h3 className="font-bold text-sm text-white">
                       Active Milestone Task Allocations
                     </h3>
-                    <p className="text-xs text-slate-400 mt-0.5">
+                    <p className="text-xs text-[var(--eco-on-dark-muted)] mt-0.5">
                       Tasks assigned by your PM with funded escrow guarantee
                     </p>
                   </div>
@@ -315,21 +315,21 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
                 <div className="space-y-4">
                   {/* Task 1 */}
-                  <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 text-xs hover:border-slate-700 transition-all">
+                  <div className="p-5 rounded-2xl bg-white/[0.06]/90 border border-white/10 space-y-3 text-xs hover:border-white/12 transition-all">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-xs text-blue-400 font-bold">
+                          <span className="font-mono text-xs text-eco-cyan font-bold">
                             TASK-NDH-89-02
                           </span>
                           <span className="font-bold text-sm text-white">
                             React 19 Frontend & Edge Biometric KYC Settlement
                           </span>
-                          <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 font-mono text-[10px]">
+                          <span className="px-2 py-0.5 rounded bg-eco-cyan/10 text-eco-cyan font-mono text-[10px]">
                             Milestone 2
                           </span>
                         </div>
-                        <p className="text-slate-400 mt-1">
+                        <p className="text-[var(--eco-on-dark-muted)] mt-1">
                           Scope: Sub-300ms verification state machine, Cloudflare Workers routing,
                           100% strict TypeScript.
                         </p>
@@ -339,13 +339,13 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                         <div className="text-base font-mono font-bold text-emerald-400">
                           ₦3,300,000 NGN ($2,200 USD)
                         </div>
-                        <div className="text-[10px] text-slate-400">
+                        <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
                           Includes +15% Diamond Rank Bonus
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-3 border-t border-slate-800/80 gap-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-3 border-t border-white/10/80 gap-2">
                       <div className="flex items-center gap-2 text-amber-400">
                         <Clock className="w-3.5 h-3.5" />
                         <span>
@@ -357,7 +357,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                       </div>
                       <button
                         onClick={() => setActiveTab("deliverables")}
-                        className="px-3 py-1.5 rounded-lg bg-blue-600/20 text-blue-300 hover:bg-blue-600 hover:text-white border border-blue-500/30 text-xs font-bold transition-all"
+                        className="px-3 py-1.5 rounded-lg bg-primary/20 text-eco-cyan hover:bg-primary hover:text-white border border-eco-cyan/25 text-xs font-bold transition-all"
                       >
                         Upload Code Patch →
                       </button>
@@ -365,21 +365,21 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                   </div>
 
                   {/* Task 2 */}
-                  <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 text-xs hover:border-slate-700 transition-all">
+                  <div className="p-5 rounded-2xl bg-white/[0.06]/90 border border-white/10 space-y-3 text-xs hover:border-white/12 transition-all">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-xs text-blue-400 font-bold">
+                          <span className="font-mono text-xs text-eco-cyan font-bold">
                             TASK-NDH-91-01
                           </span>
                           <span className="font-bold text-sm text-white">
                             PostgreSQL Read-Replica Cluster & Idempotency Queues
                           </span>
-                          <span className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 font-mono text-[10px]">
+                          <span className="px-2 py-0.5 rounded bg-purple-500/10 text-eco-glow font-mono text-[10px]">
                             Milestone 1
                           </span>
                         </div>
-                        <p className="text-slate-400 mt-1">
+                        <p className="text-[var(--eco-on-dark-muted)] mt-1">
                           Scope: Redis distributed locking, SHA-256 idempotency cache, connection
                           pool tuning.
                         </p>
@@ -389,18 +389,20 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                         <div className="text-base font-mono font-bold text-emerald-400">
                           ₦1,950,000 NGN ($1,300 USD)
                         </div>
-                        <div className="text-[10px] text-slate-400">Due: Oct 08, 2026</div>
+                        <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
+                          Due: Oct 08, 2026
+                        </div>
                       </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-3 border-t border-slate-800/80 gap-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-3 border-t border-white/10/80 gap-2">
                       <div className="flex items-center gap-2 text-emerald-400">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                         <span>Status: In Active Sprint Execution</span>
                       </div>
                       <button
                         onClick={() => setActiveTab("deliverables")}
-                        className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white border border-slate-700 text-xs font-bold transition-all"
+                        className="px-3 py-1.5 rounded-lg bg-white/[0.08] text-slate-200 hover:text-white border border-white/12 text-xs font-bold transition-all"
                       >
                         Submit Staging Link
                       </button>
@@ -410,15 +412,17 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
               </div>
 
               {/* PM Internal Chat */}
-              <div className="p-6 rounded-3xl bg-[#0F172A]/80 border border-blue-900/40 space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="p-6 rounded-3xl bg-eco-navy/80 border border-white/10 space-y-4">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
                   <div className="flex items-center gap-2">
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                     <h3 className="font-bold text-sm text-white">
                       Direct Channel: Your Assigned PM
                     </h3>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400">End-to-End Encrypted</span>
+                  <span className="text-[11px] font-mono text-[var(--eco-on-dark-muted)]">
+                    End-to-End Encrypted
+                  </span>
                 </div>
 
                 <div className="space-y-3 max-h-60 overflow-y-auto pr-2 text-xs">
@@ -427,8 +431,8 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                       key={i}
                       className={`p-3.5 rounded-2xl max-w-xl ${
                         msg.isTalent
-                          ? "ml-auto bg-blue-600 text-white shadow-md"
-                          : "bg-slate-900 border border-slate-800 text-slate-200"
+                          ? "ml-auto bg-primary text-white shadow-md"
+                          : "bg-white/[0.06] border border-white/10 text-slate-200"
                       }`}
                     >
                       <div className="flex items-center justify-between gap-3 text-[10px] opacity-80 mb-1">
@@ -440,18 +444,18 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                   ))}
                 </div>
 
-                <div className="flex items-center gap-2 pt-2 border-t border-slate-800">
+                <div className="flex items-center gap-2 pt-2 border-t border-white/10">
                   <input
                     type="text"
                     value={talentMessageInput}
                     onChange={(e) => setTalentMessageInput(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
                     placeholder="Message your Project Manager (Tariq)..."
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-blue-500"
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.06] border border-white/10 text-xs text-white focus:outline-none focus:border-eco-cyan/40"
                   />
                   <button
                     onClick={handleSendMessage}
-                    className="p-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-all shadow-md"
+                    className="p-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white transition-all shadow-md"
                   >
                     <Send className="w-4 h-4" />
                   </button>
@@ -464,7 +468,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
           {activeTab === "ranks" && (
             <div className="space-y-8">
               {/* Rank Overview Card */}
-              <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#0F172A] to-[#1E293B] border border-cyan-500/30 space-y-6 shadow-2xl relative overflow-hidden">
+              <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-eco-navy to-eco-navy border border-cyan-500/30 space-y-6 shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
@@ -478,7 +482,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                         Top 2% Talent Network
                       </span>
                     </h2>
-                    <p className="text-sm text-slate-300 mt-2 max-w-2xl">
+                    <p className="text-sm text-slate-200 mt-2 max-w-2xl">
                       Ranked based on <strong>34 completed projects</strong>, a{" "}
                       <strong>99.6% QA score</strong>, and a{" "}
                       <strong>99.4% on-time delivery rate</strong>. You receive an automatic{" "}
@@ -488,25 +492,25 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
                   <div className="p-5 rounded-2xl bg-black/40 border border-cyan-500/30 text-center shrink-0">
                     <div className="text-3xl font-mono font-extrabold text-cyan-400">1.15x</div>
-                    <div className="text-xs font-bold text-slate-300 mt-1">Payout Multiplier</div>
-                    <div className="text-[10px] text-slate-400 mt-0.5">
+                    <div className="text-xs font-bold text-slate-200 mt-1">Payout Multiplier</div>
+                    <div className="text-[10px] text-[var(--eco-on-dark-muted)] mt-0.5">
                       +15% Added to Every Task
                     </div>
                   </div>
                 </div>
 
                 {/* Progress to Next Milestone */}
-                <div className="space-y-2 pt-4 border-t border-slate-700/60">
+                <div className="space-y-2 pt-4 border-t border-white/12/60">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-300 font-semibold">
+                    <span className="text-slate-200 font-semibold">
                       Tier Mastery: Sovereign Principal Rank
                     </span>
                     <span className="text-cyan-400 font-mono font-bold">
                       Max Rank Achieved (100%)
                     </span>
                   </div>
-                  <div className="w-full h-3 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
-                    <div className="h-full bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400 rounded-full w-full" />
+                  <div className="w-full h-3 bg-white/[0.06] rounded-full overflow-hidden border border-white/10">
+                    <div className="h-full bg-gradient-to-r from-eco-electric via-cyan-400 to-emerald-400 rounded-full w-full" />
                   </div>
                 </div>
               </div>
@@ -517,7 +521,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                   <h3 className="font-bold text-base text-white">
                     The 4 NDH Talent Performance Tiers
                   </h3>
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-[var(--eco-on-dark-muted)]">
                     Objective criteria automatically verified via PM QA gates
                   </span>
                 </div>
@@ -532,13 +536,13 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                         key={r}
                         className={`p-5 rounded-2xl border transition-all flex flex-col justify-between ${
                           isCurrent
-                            ? "bg-[#0F172A] border-cyan-400/80 shadow-lg shadow-cyan-500/20 ring-1 ring-cyan-400/50"
-                            : "bg-slate-900/80 border-slate-800"
+                            ? "bg-eco-navy border-cyan-400/80 shadow-lg shadow-cyan-500/20 ring-1 ring-cyan-400/50"
+                            : "bg-white/[0.06]/80 border-white/10"
                         }`}
                       >
                         <div className="space-y-3">
                           <div className="flex items-center justify-between">
-                            <span className="text-[11px] font-mono font-bold text-slate-400">
+                            <span className="text-[11px] font-mono font-bold text-[var(--eco-on-dark-muted)]">
                               LEVEL {cfg.level}
                             </span>
                             {isCurrent && (
@@ -550,17 +554,17 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
                           <div className="font-bold text-white text-base">{cfg.rank}</div>
 
-                          <div className="space-y-1.5 text-xs text-slate-300 font-mono border-t border-b border-slate-800 py-3">
+                          <div className="space-y-1.5 text-xs text-slate-200 font-mono border-t border-b border-white/10 py-3">
                             <div className="flex justify-between">
-                              <span className="text-slate-400">Min Projects:</span>
+                              <span className="text-[var(--eco-on-dark-muted)]">Min Projects:</span>
                               <strong className="text-white">{cfg.minProjects}+ Tasks</strong>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-slate-400">Min QA Score:</span>
+                              <span className="text-[var(--eco-on-dark-muted)]">Min QA Score:</span>
                               <strong className="text-emerald-400">{cfg.minQAScore}%</strong>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-slate-400">Task Bonus:</span>
+                              <span className="text-[var(--eco-on-dark-muted)]">Task Bonus:</span>
                               <strong className="text-cyan-400">
                                 +{cfg.bonusRatePercentage}% (1.
                                 {cfg.bonusRatePercentage < 10
@@ -572,13 +576,13 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                           </div>
 
                           <div className="space-y-1.5 pt-1">
-                            <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                            <span className="text-[10px] uppercase font-bold text-[var(--eco-on-dark-muted)] block">
                               Rank Perks:
                             </span>
                             {cfg.perks.map((p: string, idx: number) => (
                               <div
                                 key={idx}
-                                className="flex items-start gap-1.5 text-xs text-slate-300"
+                                className="flex items-start gap-1.5 text-xs text-slate-200"
                               >
                                 <CheckCircle className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
                                 <span className="leading-tight text-[11px]">{p}</span>
@@ -597,26 +601,26 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
           {/* TAB 3: SUBMIT DELIVERABLES */}
           {activeTab === "deliverables" && (
             <div className="space-y-6">
-              <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
+              <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
                 <div>
                   <h3 className="font-bold text-lg text-white">
                     Deliverable Vault & PM QA Submission
                   </h3>
-                  <p className="text-xs text-slate-400 mt-1">
+                  <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
                     Uploaded artifacts undergo automated linting and PM QA scoring before milestone
                     escrow disbursement.
                   </p>
                 </div>
 
-                <div className="p-8 rounded-2xl bg-slate-900/80 border-2 border-dashed border-blue-600/40 text-center space-y-4">
-                  <div className="w-14 h-14 mx-auto rounded-2xl bg-blue-600/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
+                <div className="p-8 rounded-2xl bg-white/[0.06]/80 border-2 border-dashed border-eco-cyan/40 text-center space-y-4">
+                  <div className="w-14 h-14 mx-auto rounded-2xl bg-primary/10 border border-eco-cyan/25 flex items-center justify-center text-eco-cyan">
                     <Upload className="w-7 h-7" />
                   </div>
                   <div>
                     <div className="text-sm text-white font-bold">
                       Upload Production Code Bundles, Git Release Tags, or Figma Design Links
                     </div>
-                    <div className="text-xs text-slate-400 mt-1">
+                    <div className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
                       Supported: .zip archives, Git patch commits, Loom walkthrough URLs, Figma
                       tokens (Max 5GB)
                     </div>
@@ -627,7 +631,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                     className={`px-6 py-3 rounded-xl text-xs font-bold transition-all shadow-lg ${
                       deliverableUploaded
                         ? "bg-emerald-600 text-white cursor-default shadow-emerald-600/30"
-                        : "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/30"
+                        : "bg-primary hover:bg-eco-cyan/20 text-white shadow-cyan-500/30"
                     }`}
                   >
                     {deliverableUploaded
@@ -641,14 +645,14 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                   <div className="text-xs font-bold text-white uppercase tracking-wider">
                     Recent Milestone Submissions:
                   </div>
-                  <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div className="flex items-center gap-3">
                       <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                       <div>
                         <span className="font-mono font-bold text-white">
                           v2.0-rc3 Release Candidate
                         </span>
-                        <span className="text-slate-400 block sm:inline sm:ml-2">
+                        <span className="text-[var(--eco-on-dark-muted)] block sm:inline sm:ml-2">
                           — Biometric KYC edge latency &lt;275ms, 100% test coverage
                         </span>
                       </div>
@@ -667,8 +671,8 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
             <div className="space-y-8">
               {/* Top Earnings Metrics */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-2">
-                  <span className="text-xs text-slate-400 font-semibold">
+                <div className="p-6 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-2">
+                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-semibold">
                     Total Lifetime Earnings
                   </span>
                   <div className="text-2xl font-bold font-mono text-white">
@@ -679,78 +683,78 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                   </div>
                 </div>
 
-                <div className="p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-2">
-                  <span className="text-xs text-slate-400 font-semibold">
+                <div className="p-6 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-2">
+                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-semibold">
                     Next Bi-Weekly Payout (Oct 15, 2026)
                   </span>
                   <div className="text-2xl font-bold font-mono text-emerald-400">
                     ₦5,250,000 NGN
                   </div>
-                  <div className="text-xs text-slate-400 font-mono">
+                  <div className="text-xs text-[var(--eco-on-dark-muted)] font-mono">
                     $3,500 USD (Includes 1.15x Diamond Bonus)
                   </div>
                 </div>
 
-                <div className="p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-2">
-                  <span className="text-xs text-slate-400 font-semibold">
+                <div className="p-6 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-2">
+                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-semibold">
                     Direct Deposit Bank Account
                   </span>
                   <div className="font-bold text-white text-sm">
                     {talent.bankDetails?.bankName || "Access Bank PLC"}
                   </div>
-                  <div className="text-xs text-blue-400 font-mono">
+                  <div className="text-xs text-eco-cyan font-mono">
                     Acct: {talent.bankDetails?.accountNumber || "0129849201"} (NIBSS Verified)
                   </div>
                 </div>
               </div>
 
               {/* Task-Based Profit Share Explanation & Interactive Simulator */}
-              <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+              <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                   <div>
                     <h3 className="font-bold text-base sm:text-lg text-white">
                       How Task-Based Milestone Payout Protects Everyone
                     </h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
                       Zero salary overhead risk: Every payout is backed 100% by client escrow
                       deposits before work begins.
                     </p>
                   </div>
-                  <span className="px-3 py-1 rounded-xl bg-blue-500/10 text-blue-300 font-mono text-xs font-bold border border-blue-500/30 shrink-0">
+                  <span className="px-3 py-1 rounded-xl bg-eco-cyan/10 text-eco-cyan font-mono text-xs font-bold border border-eco-cyan/25 shrink-0">
                     Escrow Model: 45% Admin / 15% PM / 40% Talent
                   </span>
                 </div>
 
                 {/* Breakdown Explanation Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                  <div className="p-4 rounded-2xl bg-slate-900/90 border border-amber-500/30 space-y-2">
+                  <div className="p-4 rounded-2xl bg-white/[0.06]/90 border border-amber-500/30 space-y-2">
                     <div className="flex items-center gap-2 text-amber-400 font-bold">
                       <Building className="w-4 h-4" />
                       <span>1. Admin / Owner (45%)</span>
                     </div>
-                    <p className="text-slate-300 leading-relaxed text-[11px]">
+                    <p className="text-slate-200 leading-relaxed text-[11px]">
                       Covers client acquisition, legal escrow liability, server infrastructure,
                       platform R&D, and agency treasury net profits.
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-slate-900/90 border border-indigo-500/30 space-y-2">
-                    <div className="flex items-center gap-2 text-indigo-400 font-bold">
+                  <div className="p-4 rounded-2xl bg-white/[0.06]/90 border border-eco-glow/25 space-y-2">
+                    <div className="flex items-center gap-2 text-eco-glow font-bold">
                       <Briefcase className="w-4 h-4" />
                       <span>2. Project Manager (15%)</span>
                     </div>
-                    <p className="text-slate-300 leading-relaxed text-[11px]">
+                    <p className="text-slate-200 leading-relaxed text-[11px]">
                       Compensates the PM for client communication, brief triage, milestone
                       structuring, QA inspection, and dispute-free delivery.
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-slate-900/90 border border-emerald-500/30 space-y-2">
+                  <div className="p-4 rounded-2xl bg-white/[0.06]/90 border border-emerald-500/30 space-y-2">
                     <div className="flex items-center gap-2 text-emerald-400 font-bold">
                       <Terminal className="w-4 h-4" />
                       <span>3. Talent Execution Pool (40%)</span>
                     </div>
-                    <p className="text-slate-300 leading-relaxed text-[11px]">
+                    <p className="text-slate-200 leading-relaxed text-[11px]">
                       Directly distributed to the vetted engineers/designers who build the sprint
                       deliverables, enhanced by rank bonus multipliers.
                     </p>
@@ -758,7 +762,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                 </div>
 
                 {/* Interactive Revenue Split Calculator */}
-                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+                <div className="p-5 rounded-2xl bg-white/[0.06] border border-white/10 space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <label className="text-xs font-bold text-white">
                       Simulate Client Milestone Deposit:
@@ -770,8 +774,8 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                           onClick={() => setCalcBudget(amt)}
                           className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all ${
                             calcBudget === amt
-                              ? "bg-blue-600 text-white"
-                              : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                              ? "bg-primary text-white"
+                              : "bg-white/[0.08] text-slate-200 hover:bg-white/12"
                           }`}
                         >
                           ₦{(amt / 1000).toLocaleString()}k
@@ -788,19 +792,19 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                       <strong className="text-amber-400 text-sm">
                         ₦{splitPreview.adminMarginNGN.toLocaleString()}
                       </strong>
-                      <div className="text-[10px] text-slate-400">
+                      <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
                         (${splitPreview.adminMarginUSD.toLocaleString()} USD)
                       </div>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-                      <span className="text-[10px] text-indigo-300 uppercase block font-bold">
+                    <div className="p-3 rounded-xl bg-eco-glow/15 border border-eco-glow/25">
+                      <span className="text-[10px] text-eco-glow uppercase block font-bold">
                         PM Management (15%)
                       </span>
-                      <strong className="text-indigo-400 text-sm">
+                      <strong className="text-eco-glow text-sm">
                         ₦{splitPreview.pmFeeNGN.toLocaleString()}
                       </strong>
-                      <div className="text-[10px] text-slate-400">
+                      <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
                         (${splitPreview.pmFeeUSD.toLocaleString()} USD)
                       </div>
                     </div>
@@ -812,14 +816,14 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                       <strong className="text-emerald-400 text-sm">
                         ₦{splitPreview.talentPoolNGN.toLocaleString()}
                       </strong>
-                      <div className="text-[10px] text-slate-400">
+                      <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
                         (${splitPreview.talentPoolUSD.toLocaleString()} USD)
                       </div>
                     </div>
                   </div>
 
                   {talent.isDualRolePM && (
-                    <div className="p-3.5 rounded-xl bg-indigo-950/40 border border-indigo-500/30 text-xs flex items-center justify-between text-indigo-200">
+                    <div className="p-3.5 rounded-xl bg-white/[0.05] border border-eco-glow/25 text-xs flex items-center justify-between text-eco-glow">
                       <span>
                         ⚡ <strong>Dual PM-Talent Bonus:</strong> On projects you both manage and
                         code, you receive PM (15%) + Talent (40%) ={" "}
@@ -835,17 +839,17 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
           {/* TAB 5: DUAL-ROLE (HYBRID PM + TALENT) */}
           {activeTab === "hybrid_pm" && (
-            <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold">
+                  <div className="w-12 h-12 rounded-2xl bg-eco-glow/15 border border-eco-glow/25 flex items-center justify-center text-eco-glow font-bold">
                     <Zap className="w-6 h-6" />
                   </div>
                   <div>
                     <h3 className="font-bold text-base text-white">
                       Hybrid PM-Lead Dual Capability Active
                     </h3>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-[var(--eco-on-dark-muted)]">
                       Appointed by Admin to oversee technical sprints while contributing elite
                       codebase architecture.
                     </p>
@@ -855,7 +859,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                 {onSwitchToPM && (
                   <button
                     onClick={onSwitchToPM}
-                    className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-all shadow-md flex items-center gap-2"
+                    className="px-4 py-2 rounded-xl bg-eco-glow hover:brightness-110 text-white text-xs font-bold transition-all shadow-md flex items-center gap-2"
                   >
                     <span>Launch PM Command Desk</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -864,24 +868,24 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                <div className="p-5 rounded-2xl bg-white/[0.06] border border-white/10 space-y-2">
                   <h4 className="font-bold text-white flex items-center gap-2">
-                    <Briefcase className="w-4 h-4 text-indigo-400" />
+                    <Briefcase className="w-4 h-4 text-eco-glow" />
                     <span>When Acting Strictly as PM Lead:</span>
                   </h4>
-                  <p className="text-slate-300 leading-relaxed text-[11px]">
+                  <p className="text-slate-200 leading-relaxed text-[11px]">
                     You coordinate other squad members, score deliverables against QA rubrics, and
                     unlock milestone completions. You earn the{" "}
                     <strong>15% PM Management Fee</strong> on the total client budget.
                   </p>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                <div className="p-5 rounded-2xl bg-white/[0.06] border border-white/10 space-y-2">
                   <h4 className="font-bold text-white flex items-center gap-2">
                     <Terminal className="w-4 h-4 text-emerald-400" />
                     <span>When Managing & Personally Coding:</span>
                   </h4>
-                  <p className="text-slate-300 leading-relaxed text-[11px]">
+                  <p className="text-slate-200 leading-relaxed text-[11px]">
                     On high-speed solo projects or specialized micro-sprints, you receive both the{" "}
                     <strong>15% PM fee + 40% Talent pool = 55% combined payout</strong>, while the
                     Admin/NDH treasury retains the 45% platform margin.
@@ -893,8 +897,8 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
           {/* TAB 6: NDH ACADEMY BRIDGE */}
           {activeTab === "academy" && (
-            <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">
                     <Award className="w-6 h-6" />
@@ -903,7 +907,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                     <h3 className="font-bold text-base text-white">
                       NDH Academy Verified Talent Bridge
                     </h3>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-[var(--eco-on-dark-muted)]">
                       Certified Full-Stack Master • Verified Alumni Badge Active
                     </p>
                   </div>
@@ -918,18 +922,18 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                <div className="p-5 rounded-xl bg-white/[0.06] border border-white/10 space-y-2">
                   <div className="font-semibold text-white">Decoupled Architecture:</div>
-                  <p className="text-slate-400 leading-relaxed">
+                  <p className="text-[var(--eco-on-dark-muted)] leading-relaxed">
                     NDH Academy and NDH Agency operate as separate codebases and databases. Your
                     verified credential is cryptographic proof of capability without leaking student
                     LMS records into agency client projects.
                   </p>
                 </div>
 
-                <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                <div className="p-5 rounded-xl bg-white/[0.06] border border-white/10 space-y-2">
                   <div className="font-semibold text-white">Elite Tier Progression:</div>
-                  <p className="text-slate-400 leading-relaxed">
+                  <p className="text-[var(--eco-on-dark-muted)] leading-relaxed">
                     Graduating advanced system design modules qualifies talents for higher internal
                     hourly rates ($75+/hr) and priority sprint allocation for sovereign enterprise
                     projects.
@@ -942,21 +946,21 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
       </div>
 
       {/* Standalone Talent Workspace System Footer */}
-      <footer className="mt-auto border-t border-slate-800/80 bg-[#090D1A] px-4 sm:px-6 lg:px-8 py-4 text-xs text-slate-400">
+      <footer className="mt-auto border-t border-white/10/80 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px]">
               <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>Talent Privacy Shield Active</span>
             </div>
-            <span className="text-slate-600 hidden sm:inline">•</span>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[var(--eco-on-dark-muted)]/70 hidden sm:inline">•</span>
+            <span className="text-[11px] text-[var(--eco-on-dark-muted)]">
               Assigned PM: <strong className="text-slate-200">Your PM</strong> • Next Payout:{" "}
               <strong className="text-emerald-400">Oct 15, 2026</strong>
             </span>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px] text-slate-400">
+          <div className="flex items-center gap-4 text-[11px] text-[var(--eco-on-dark-muted)]">
             <span>Automated NIBSS / Wise Direct Deposit</span>
           </div>
         </div>
