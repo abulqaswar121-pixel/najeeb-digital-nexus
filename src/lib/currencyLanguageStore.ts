@@ -745,7 +745,20 @@ export const UI_TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> 
     nav_contact: "Contact",
     nav_request_quote: "Get Started",
     nav_client_login: "Client Portal",
-    hero_badge: "✨ Top-Tier Digital Agency • Trusted in Nigeria & Worldwide",
+    hero_badge: "Managed Digital Bureau of Najeeb Digital Hub",
+    arc_badge: "The delivery arc",
+    arc_title: "Brief → PM → Sprint → Launch",
+    arc_desc:
+      "Four steps, a fixed scope and escrow-backed milestones — with a named project manager from kickoff to handoff.",
+    testimonials_badge: "Verified feedback",
+    testimonials_title: "Client words, published with permission",
+    testimonials_desc:
+      "Every quote below comes from a real engagement we can point at, published only where approval was recorded.",
+    cta_title: "Your next launch starts with a brief",
+    cta_desc:
+      "Tell us the outcome you need. A dedicated project manager replies with scope, timeline and fixed pricing — no obligation.",
+    cta_primary: "Start a Project",
+    cta_secondary: "Talk to a PM",
     hero_title_1: "We Build World-Class Software & Brands",
     hero_title_2: "That Fast-Track Your Growth.",
     hero_desc:
@@ -831,7 +844,20 @@ export const UI_TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> 
     nav_contact: "Contact",
     nav_request_quote: "Démarrer un Projet",
     nav_client_login: "Portail Client",
-    hero_badge: "✨ Agence Digitale d’Élite • Reconnue Mondialement",
+    hero_badge: "Bureau numérique géré de Najeeb Digital Hub",
+    arc_badge: "L’arc de livraison",
+    arc_title: "Brief → PM → Sprint → Lancement",
+    arc_desc:
+      "Quatre étapes, un périmètre fixe et des jalons sous séquestre — avec un chef de projet nommé du lancement à la livraison.",
+    testimonials_badge: "Retours vérifiés",
+    testimonials_title: "Les mots de nos clients, publiés avec accord",
+    testimonials_desc:
+      "Chaque témoignage provient d’un projet réel que nous pouvons citer, publié uniquement avec accord enregistré.",
+    cta_title: "Votre prochain lancement commence par un brief",
+    cta_desc:
+      "Dites-nous le résultat attendu. Un chef de projet dédié vous répond avec périmètre, délais et prix fixe — sans engagement.",
+    cta_primary: "Démarrer un Projet",
+    cta_secondary: "Parler à un PM",
     hero_title_1: "Nous Créons des Logiciels et des Marques",
     hero_title_2: "Qui Accélèrent Votre Croissance.",
     hero_desc:
@@ -917,7 +943,19 @@ export const UI_TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> 
     nav_contact: "اتصل بنا",
     nav_request_quote: "ابدأ مشروعك",
     nav_client_login: "بوابة العملاء",
-    hero_badge: "✨ وكالة رقمية رائدة عالمياً • أسعار محلية مناسبة للجميع",
+    hero_badge: "مكتب رقمي مُدار من Najeeb Digital Hub",
+    arc_badge: "مسار التنفيذ",
+    arc_title: "البريف ← مدير المشروع ← السبرنت ← الإطلاق",
+    arc_desc:
+      "أربع خطوات، نطاق محدد، ومراحل مضمونة بالضمانة — مع مدير مشروع مخصص من البداية حتى التسليم.",
+    testimonials_badge: "شهادات موثقة",
+    testimonials_title: "كلمات عملائنا بموافقة النشر",
+    testimonials_desc: "كل شهادة هنا من مشروع حقيقي يمكننا نسبته، ولا تُنشر إلا بموافقة مسجلة.",
+    cta_title: "إطلاقك القادم يبدأ ببريف",
+    cta_desc:
+      "أخبرنا بالنتيجة التي تريدها. سيرد عليك مدير مشروع مخصص بالنطاق والجدول والسعر الثابت — دون التزام.",
+    cta_primary: "ابدأ مشروعك",
+    cta_secondary: "تحدث إلى مدير مشروع",
     hero_title_1: "نبني برمجيات وهويات علامات تجارية عالمية",
     hero_title_2: "تسرع نمو أعمالك ومشاريعك.",
     hero_desc:

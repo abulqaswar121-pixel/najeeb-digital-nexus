@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { MainNavView } from "../components/layout/AppNavbar";
+import { MainNavView } from "../components/layout/navViews";
 
 // Maps the app's existing "view name" navigation API (MainNavView) to real
 // URLs now that each of these is a real TanStack route instead of a branch

@@ -41,15 +41,15 @@ jobs:
       - name: Production build
         run: npm run build
 
-  # Disabled until this pipeline is confirmed running on a runner that permits
-  # installing Playwright's browser binaries (ubuntu-latest GitHub-hosted
-  # runners support this out of the box; this job is kept here but not yet
-  # enabled since it hasn't been validated in this environment). Flip
-  # `if: false` to `if: true` once validated.
+  # Runs on ubuntu-latest, which can install Playwright's browser binaries.
+  # playwright.config.ts boots both servers for us: the Express API on 8787
+  # and the Vite preview (which proxies /api there) on 4173.
   e2e:
     name: End-to-end tests (Playwright)
     runs-on: ubuntu-latest
-    if: false
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -63,4 +63,51 @@ jobs:
           cache: "npm"
       - run: npm ci --no-audit --no-fund
       - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e
+      - name: Run Playwright
+        id: playwright
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          npm run test:e2e 2>&1 | tee e2e-output.txt
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+      # The failing assertions are published on the PR so a run can be triaged
+      # from the conversation instead of digging through the log archive.
+      - name: Comment failures on the pull request
+        # Best-effort: the token may not carry pull-requests: write, in which
+        # case the annotations below are the machine-readable record.
+        continue-on-error: true
+        if: always() && github.event_name == 'pull_request' && steps.playwright.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "### Playwright e2e failures"
+            echo
+            echo "\`\`\`"
+            grep -aE "^[[:space:]]*([0-9]+\\)|(✘|×|✗|Error:|Expected|Received|Timed out|›))|expect\\(" e2e-output.txt | head -140
+            echo "\`\`\`"
+            echo
+            echo "_Full report: the \`playwright-report\` artifact on this run._"
+          } > /tmp/e2e-comment.md
+          gh pr comment "${{ github.event.pull_request.number }}" --body-file /tmp/e2e-comment.md
+      # Annotations ride on the job's check run and are readable via the
+      # Checks API, unlike the raw log archive.
+      - name: Publish failure annotations
+        if: always() && steps.playwright.outcome == 'failure'
+        run: |
+          grep -aE "^[[:space:]]*[0-9]+\) " e2e-output.txt | head -40 | while IFS= read -r line; do
+            echo "::error::$(printf '%s' "$line" | tr -d '\r')"
+          done
+          grep -aE "^(Expected|Received|Error:|TimeoutError|locator|Call log)" e2e-output.txt | head -60 | while IFS= read -r line; do
+            echo "::error::$(printf '%s' "$line" | tr -d '\r')"
+          done
+
+      - name: Fail the job if Playwright failed
+        if: steps.playwright.outcome == 'failure'
+        run: exit 1

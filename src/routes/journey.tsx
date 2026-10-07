@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell, useAppShell } from "../components/layout/AppShell";
 import { InteractiveJourneyWalkthrough } from "../components/journey/InteractiveJourneyWalkthrough";
-import { MainNavView } from "../components/layout/AppNavbar";
+import { MainNavView } from "../components/layout/navViews";
 
 export const Route = createFileRoute("/journey")({
   head: () => ({

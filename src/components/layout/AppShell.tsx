@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
-import { AppNavbar, MainNavView } from "./AppNavbar";
+import { MainNavView } from "./navViews";
+import { AgencyHeader } from "./AgencyHeader";
 import { AppFooter } from "./AppFooter";
-import { AnnouncementBar } from "./AnnouncementBar";
-import { AppInstallBanner } from "../ui/AppInstallBanner";
 import { AIAssistantWidget } from "../ai/AIAssistantWidget";
 import { AuthModal } from "../auth/AuthModal";
 import { InteractiveBriefModal } from "../directions/modals/InteractiveBriefModal";
@@ -52,31 +51,22 @@ export const AppShell: React.FC<AppShellProps> = ({ currentView, children }) => 
   };
 
   return (
-    <div className="flex min-h-screen w-full max-w-full flex-col overflow-x-hidden bg-eco-dark font-sans text-[#F1F5F9] antialiased selection:bg-eco-electric/25 selection:text-white">
+    <div className="bg-background text-foreground flex min-h-screen w-full max-w-full flex-col overflow-x-hidden font-sans antialiased">
       {/* Accessibility: skip-to-content link, visually hidden until focused
           via keyboard, so keyboard/screen-reader users don't have to tab
           through the announcement bar + full navbar on every page. */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-lg focus:bg-eco-electric focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-[#04121f] focus:shadow-xl"
+        className="bg-primary sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-lg focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white focus:shadow-xl"
       >
         Skip to main content
       </a>
 
+      {/* No announcement/promo strip above the header: the Academy rhythm puts
+          the offer pill inside the deep-navy hero band instead, and the header
+          stays 100% agency-focused. */}
       {!isPortalView && (
-        <AnnouncementBar
-          onActionClick={() => {
-            onSelectView("homepage");
-            setTimeout(() => {
-              const el = document.getElementById("estimator");
-              if (el) el.scrollIntoView({ behavior: "smooth" });
-            }, 100);
-          }}
-        />
-      )}
-
-      {!isPortalView && (
-        <AppNavbar
+        <AgencyHeader
           currentView={currentView}
           onSelectView={onSelectView}
           onOpenBriefWizard={() => setIsBriefModalOpen(true)}
@@ -93,11 +83,8 @@ export const AppShell: React.FC<AppShellProps> = ({ currentView, children }) => 
           onOpenBriefWizard={() => setIsBriefModalOpen(true)}
           onOpenTalentModal={() => setIsTalentModalOpen(true)}
           onOpenPaymentModal={() => setIsPaymentModalOpen(true)}
-          isHomepage={currentView === "homepage"}
         />
       )}
-
-      {!isPortalView && <AppInstallBanner />}
 
       <AIAssistantWidget
         onOpenBriefWizard={() => setIsBriefModalOpen(true)}

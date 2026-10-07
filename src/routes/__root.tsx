@@ -14,7 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0B0F19] px-4 text-slate-100">
+    <div className="flex min-h-screen items-center justify-center bg-eco-dark px-4 text-slate-100">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-extrabold text-blue-500">404</h1>
         <h2 className="mt-4 text-2xl font-bold text-white">Page Not Found</h2>
@@ -43,8 +43,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#070A14] px-4 text-slate-100 font-sans">
-      <div className="max-w-md text-center p-8 rounded-3xl bg-[#0F172A] border border-blue-900/40 shadow-2xl space-y-4">
+    <div className="flex min-h-screen items-center justify-center bg-eco-dark px-4 text-slate-100 font-sans">
+      <div className="max-w-md text-center p-8 rounded-3xl bg-eco-navy border border-blue-900/40 shadow-2xl space-y-4">
         <div className="w-12 h-12 rounded-2xl bg-blue-600/20 text-blue-400 flex items-center justify-center mx-auto">
           <span className="text-xl font-bold">NDH</span>
         </div>
@@ -236,7 +236,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&auto=format&fit=crop&q=80",
       },
-      { name: "theme-color", content: "#070F1E" },
+      { name: "theme-color", content: "#0A1A30" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { name: "format-detection", content: "telephone=no" },
@@ -247,9 +247,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", href: "/icons/icon-192.png", type: "image/png", sizes: "192x192" },
       { rel: "apple-touch-icon", href: "/icons/apple-touch-icon.png" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "preconnect", href: "https://images.unsplash.com" },
       // NDH master typography stack, shared with the parent gateway:
       // Space Grotesk for display/headings, DM Sans for body/UI.
@@ -275,11 +276,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="dark scroll-smooth">
+    <html lang="en" className="scroll-smooth">
       <head>
         <HeadContent />
       </head>
-      <body className="bg-eco-dark font-sans text-slate-100 antialiased selection:bg-eco-electric/25 selection:text-white">
+      <body className="bg-background text-foreground font-sans antialiased">
         {children}
         <Scripts />
       </body>

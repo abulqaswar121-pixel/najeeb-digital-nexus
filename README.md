@@ -92,6 +92,51 @@ gitignored). Key variables:
 - `VITE_PAYSTACK_PUBLIC_KEY` — the only client-side (`VITE_*`) variable;
   used by the Paystack Inline popup.
 
+### Design system — "Precision Gateway"
+
+The public site follows the shared NDH master visual system, ported from NDH
+Academy. Everything lives in `src/styles.css`; do not introduce a second
+styling approach.
+
+- **Tokens** — porcelain canvas `#f1f4fa`, pure-white elevated cards with the
+  `#d9e1ef` hairline and the `0 4px 16px rgb(16 27 64 / 0.07)` shadow, deep
+  navy `#091b3f` hero/CTA bands, Electric Cyan `#22d3ee` as the agency sector
+  accent, Space Grotesk for display type and DM Sans for body.
+- **Band rhythm** — `.gw-band` plus `-hero`, `-white`, `-porcelain`, `-tight`,
+  `-roomy` and `-anchor` alternate navy → porcelain → white down every page.
+  Internal pages use `.gw-page-hero` (navy) over `.gw-page-body` (porcelain).
+  This is deliberately **not** an all-dark theme.
+- **Primitives** — `.gw-card`, `.gw-icon-pill`, `.gw-chip`, `.gw-step-numeral`,
+  `.gw-eyebrow`, `.gw-marquee*`, `.text-gradient-brand`, `.bg-gradient-cta`,
+  `.hero-glow`.
+- Two inversion layers inside `src/styles.css` remap legacy dark-first
+  utilities (`bg-slate-900`, `text-slate-400`, …) onto the light ink ramp
+  whenever they appear inside a light band, so older components stay readable
+  without being rewritten. Render on-navy surfaces _outside_ those bands.
+
+### Ecosystem isolation rule (strict)
+
+NDH Agency's own site is an agency-only surface:
+
+- The top header carries exactly the seven agency destinations — Services,
+  Case Studies, How It Works, Talent Network, Insights, Contact and the
+  "Start a Project" CTA. No ecosystem switcher, no promo banner, no sibling
+  links.
+- The footer is also agency-only: sibling directories, the parent-gateway
+  card and the Academy cross-promotion have been removed. Please do not
+  reintroduce them.
+- There is no floating PWA install button or install modal any more.
+  `public/manifest.webmanifest` and the icons stay, so browsers can still
+  install the app from their own menu.
+
+### Project layout
+
+- `src/components/layout/` — `AgencyHeader`, `AppFooter`, `AppShell`.
+- `src/components/home/` — homepage building blocks (`Marquees`,
+  `DeliveryArc`, `DepartmentCard`, `HeroShowcaseSlider`, `SectionHeading`).
+- `src/data/agencyDepartments.ts` — the 16 department profiles that drive the
+  marquee, the showcase grid and the service dossier modals.
+
 ### Continuous integration
 
 `.github/workflows/ci.yml` runs on every push/PR: install → typecheck → lint

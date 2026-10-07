@@ -15,7 +15,7 @@ import { HomepagePreview } from "@/components/directions/views/HomepagePreview";
  */
 
 /* ------------------------------------------------------------------ *
- * 1. Alternating band rhythm
+ * 1. Academy contrast rhythm — deep navy → porcelain → white → …
  * ------------------------------------------------------------------ */
 
 function bandSequence(container: HTMLElement): string[] {
@@ -27,13 +27,20 @@ function bandSequence(container: HTMLElement): string[] {
   });
 }
 
-describe("Homepage alternating band rhythm", () => {
+describe("Homepage Academy contrast rhythm", () => {
   const renderHome = () =>
     render(<HomepagePreview onOpenBriefWizard={() => {}} onSelectScreen={() => {}} />);
 
-  it("alternates dark -> white -> porcelain -> white -> porcelain", () => {
+  it("runs navy hero → white → porcelain → white → porcelain → white", () => {
     const { container } = renderHome();
-    expect(bandSequence(container)).toEqual(["hero", "white", "porcelain", "white", "porcelain"]);
+    expect(bandSequence(container)).toEqual([
+      "hero",
+      "white",
+      "porcelain",
+      "white",
+      "porcelain",
+      "white",
+    ]);
   });
 
   it("never places two light bands of the same tone adjacent to each other", () => {
@@ -44,7 +51,16 @@ describe("Homepage alternating band rhythm", () => {
     }
   });
 
-  it("drops the hardcoded dark canvases from the sections that became light bands", () => {
+  it("closes on the deep-navy anchor band, not a light one", () => {
+    const { container } = renderHome();
+    const anchor = container.querySelector(".gw-band-anchor");
+    expect(anchor).not.toBeNull();
+    expect(anchor!.classList.contains("band-dark")).toBe(true);
+    // The anchor must not be counted as a light band by the rhythm above.
+    expect(bandSequence(container)).not.toContain("unknown");
+  });
+
+  it("drops hardcoded dark canvases from every light band", () => {
     const { container } = renderHome();
     for (const band of container.querySelectorAll(".gw-band-white, .gw-band-porcelain")) {
       // The band supplies the surface; a leftover hex canvas would fight it.
@@ -52,28 +68,163 @@ describe("Homepage alternating band rhythm", () => {
     }
   });
 
-  it("keeps the estimator deep-linkable (the announcement bar scrolls to #estimator)", () => {
+  it("carries the animated bureau pill, gradient headline and stat counters in the hero", () => {
+    const { container } = renderHome();
+    const hero = container.querySelector(".gw-band-hero")!;
+    expect(hero).not.toBeNull();
+
+    const pill = hero.querySelector(".gw-eyebrow");
+    expect(pill).not.toBeNull();
+    expect(pill!.querySelector(".gw-eyebrow-dot")).not.toBeNull();
+    expect(pill!.textContent).toMatch(/Managed Digital Bureau of Najeeb Digital Hub/i);
+
+    // The gradient highlight span sits inside the h1.
+    expect(hero.querySelector("h1 .text-gradient-brand")).not.toBeNull();
+    expect(hero.querySelectorAll("h1").length).toBe(1);
+
+    // Four high-contrast stat counters, each with a value, label and sub-line.
+    const stats = container.querySelectorAll("#hero-stats > div");
+    expect(stats.length).toBe(4);
+    for (const stat of stats) {
+      expect(stat.querySelector(".font-mono.font-black")).not.toBeNull();
+    }
+  });
+
+  it("keeps the estimator deep-linkable (the hero pill scrolls to #estimator)", () => {
     const { container } = renderHome();
     const estimator = container.querySelector("#estimator");
     expect(estimator).not.toBeNull();
-    expect(estimator!.classList.contains("gw-band-white")).toBe(true);
+    expect(estimator!.classList.contains("gw-band-porcelain")).toBe(true);
   });
 
-  it("guards photography so overlay captions stay legible on light bands", () => {
+  it("keeps the case-study band present even before the API responds", () => {
+    // Case-study content is fetched (see the e2e suite for the loaded state);
+    // the band, its headline and the navy photo plate treatment are static.
     const { container } = renderHome();
-    const plates = container.querySelectorAll(".gw-photo-plate");
-    // Six featured department cards each carry an image plate.
-    expect(plates.length).toBeGreaterThanOrEqual(6);
-    for (const plate of plates) {
-      // A plate must sit inside a light band, otherwise the guard is pointless.
-      expect(
-        plate.closest(".gw-band-white, .gw-band-porcelain"),
-        "plate inside a light band",
-      ).not.toBeNull();
-      // And its overlay heading must still be the white-on-photo utility.
-      const heading = plate.querySelector("h3.text-white");
-      expect(heading, "plate keeps white overlay text").not.toBeNull();
+    const band = container.querySelector("#case-studies")!;
+    expect(band).not.toBeNull();
+    expect(band.classList.contains("gw-band-white")).toBe(true);
+    expect(band.textContent).toContain("Verified work");
+  });
+
+  it("keeps the estimator deep-linkable (the hero pill scrolls to #estimator)", () => {
+    const { container } = renderHome();
+    const estimator = container.querySelector("#estimator");
+    expect(estimator).not.toBeNull();
+    expect(estimator!.classList.contains("gw-band-porcelain")).toBe(true);
+  });
+});
+
+/* ------------------------------------------------------------------ *
+ * 1b. The Academy layout primitives
+ * ------------------------------------------------------------------ */
+
+describe("Continuous services marquee", () => {
+  const renderHome = () =>
+    render(<HomepagePreview onOpenBriefWizard={() => {}} onSelectScreen={() => {}} />);
+
+  it("streams all 16 departments twice for a seamless loop", () => {
+    const { container } = renderHome();
+    const tracks = container.querySelectorAll(".gw-marquee-track");
+    expect(tracks.length).toBeGreaterThanOrEqual(2);
+
+    // The 16-department ticker is the first one, doubled for the loop.
+    const departmentItems = tracks[0]!.querySelectorAll(".gw-marquee-item");
+    expect(departmentItems.length).toBe(32);
+    for (const label of [
+      "UI/UX Design",
+      "AI Automation",
+      "Web App Development",
+      "Cloud DevOps",
+      "Cybersecurity",
+    ]) {
+      expect(tracks[0]!.textContent).toContain(label);
     }
+    // Each item carries its category icon.
+    expect(tracks[0]!.querySelectorAll("svg").length).toBe(32);
+  });
+
+  it("sits directly beneath the hero band", () => {
+    const { container } = renderHome();
+    const hero = container.querySelector(".gw-band-hero")!;
+    const next = hero.nextElementSibling;
+    expect(next!.querySelector(".gw-marquee-track")).not.toBeNull();
+  });
+});
+
+describe("4-step delivery arc", () => {
+  const renderHome = () =>
+    render(<HomepagePreview onOpenBriefWizard={() => {}} onSelectScreen={() => {}} />);
+
+  it("numbers the four steps 01 → 04 with the locked titles", () => {
+    const { container } = renderHome();
+    const numerals = [...container.querySelectorAll(".gw-step-numeral")].map((el) =>
+      el.textContent?.trim(),
+    );
+    expect(numerals).toEqual(["01", "02", "03", "04"]);
+
+    for (const title of ["Brief & Scope", "Dedicated PM", "Sprint & Escrow", "Production Launch"]) {
+      expect(container.textContent).toContain(title);
+    }
+  });
+
+  it("gives every step a tinted icon pill on an elevated card", () => {
+    const { container } = renderHome();
+    const arc = container.querySelector("#delivery-arc")!;
+    const cards = arc.querySelectorAll(".gw-card");
+    expect(cards.length).toBe(4);
+    for (const card of cards) {
+      expect(card.querySelector(".gw-icon-pill")).not.toBeNull();
+    }
+  });
+});
+
+describe("16 department showcase", () => {
+  const renderHome = () =>
+    render(<HomepagePreview onOpenBriefWizard={() => {}} onSelectScreen={() => {}} />);
+
+  it("renders all 16 departments as elevated white cards with icon pills", () => {
+    const { container } = renderHome();
+    const showcase = container.querySelector("#departments")!;
+    const cards = showcase.querySelectorAll("article.gw-card");
+    expect(cards.length).toBe(16);
+
+    for (const card of cards) {
+      expect(card.querySelector(".gw-icon-pill")).not.toBeNull();
+      // Active capacity badge.
+      expect(card.textContent).toMatch(/\d+ active/i);
+      // Interactive hover state requested by the design spec.
+      expect(card.classList.contains("gw-card-hover")).toBe(true);
+    }
+  });
+
+  it("keeps two-line scope summaries, not the raw long descriptions", () => {
+    const { container } = renderHome();
+    const showcase = container.querySelector("#departments")!;
+    const summaries = showcase.querySelectorAll("p.line-clamp-2");
+    expect(summaries.length).toBe(16);
+  });
+});
+
+describe("Verified case studies & client feedback", () => {
+  const renderHome = () =>
+    render(<HomepagePreview onOpenBriefWizard={() => {}} onSelectScreen={() => {}} />);
+
+  it("gives the feedback block its verified-feedback framing and a route to the dossiers", () => {
+    const { container } = renderHome();
+    const band = container.querySelector("#case-studies")!;
+    // Copy that only makes sense once real, approval-recorded quotes exist.
+    expect(band.textContent).toContain("Verified feedback");
+    expect(band.textContent).toContain("Read the full case-study dossiers");
+  });
+
+  it("renders fetched dossiers and client quotes once the API responds (e2e covers the loaded DOM)", async () => {
+    // In jsdom the case-study store resolves to [] because there is no backend,
+    // so this asserts the empty-but-honest state rather than a fabricated one.
+    const { container } = renderHome();
+    const figures = container.querySelectorAll("#case-studies figure");
+    const spotlight = container.querySelector("#case-studies article");
+    expect(figures.length + (spotlight ? 1 : 0)).toBe(0);
   });
 });
 

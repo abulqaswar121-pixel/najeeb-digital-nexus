@@ -422,7 +422,7 @@ export const AdminPortal: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#070A14] text-[#F1F5F9] min-h-screen font-sans flex flex-col">
+    <div className="bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col">
       {/* Standalone Admin Command Nexus Top Bar */}
       <header className="sticky top-0 z-40 flex w-full max-w-full items-center justify-between gap-3 overflow-x-clip border-b border-white/10 bg-eco-navy/95 px-4 py-3.5 backdrop-blur-xl sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-4">
@@ -439,7 +439,7 @@ export const AdminPortal: React.FC = () => {
         </div>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          <div className="hidden min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-slate-300 sm:flex">
+          <div className="hidden min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-slate-200 sm:flex">
             <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
             <span className="max-w-[16ch] truncate">
               Root Admin: {user?.fullName || "Super Admin"}
@@ -457,7 +457,7 @@ export const AdminPortal: React.FC = () => {
       <div className="flex-1 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-8">
           {/* Admin Header */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 shadow-2xl backdrop-blur-xl">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl bg-eco-navy/90 border border-white/10 shadow-2xl backdrop-blur-xl">
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 font-bold text-xl">
                 <Sliders className="w-7 h-7" />
@@ -472,7 +472,7 @@ export const AdminPortal: React.FC = () => {
                     Root Access Active
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
                   Full Website CMS Control • Profit Split Governance • Talent Ranks Desk • Bi-Weekly
                   Payout Engine
                 </p>
@@ -482,7 +482,7 @@ export const AdminPortal: React.FC = () => {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowInvitePmModal(true)}
-                className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-600/30 flex items-center gap-1.5 transition-transform hover:scale-105"
+                className="px-4 py-2 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-md shadow-cyan-500/30 flex items-center gap-1.5 transition-transform hover:scale-105"
               >
                 <UserPlus className="w-3.5 h-3.5" />
                 <span>Invite New PM Lead</span>
@@ -494,16 +494,18 @@ export const AdminPortal: React.FC = () => {
           {activeTab === "overview" && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="p-6 rounded-3xl bg-[#0F172A]/80 border border-blue-900/40 space-y-1">
-                  <span className="text-xs text-slate-400 font-semibold">Total Platform GMV</span>
+                <div className="p-6 rounded-3xl bg-eco-navy/80 border border-white/10 space-y-1">
+                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-semibold">
+                    Total Platform GMV
+                  </span>
                   <div className="text-2xl font-bold font-mono text-white">$188,500 USD</div>
                   <div className="text-[10px] text-emerald-400 font-mono">
                     ₦282,750,000 NGN Equivalent
                   </div>
                 </div>
 
-                <div className="p-6 rounded-3xl bg-[#0F172A]/80 border border-blue-900/40 space-y-1">
-                  <span className="text-xs text-slate-400 font-semibold">
+                <div className="p-6 rounded-3xl bg-eco-navy/80 border border-white/10 space-y-1">
+                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-semibold">
                     Admin / Owner Net Reserve
                   </span>
                   <div className="text-2xl font-bold font-mono text-amber-400">$84,825 USD</div>
@@ -512,29 +514,29 @@ export const AdminPortal: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="p-6 rounded-3xl bg-[#0F172A]/80 border border-blue-900/40 space-y-1">
-                  <span className="text-xs text-slate-400 font-semibold">
+                <div className="p-6 rounded-3xl bg-eco-navy/80 border border-white/10 space-y-1">
+                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-semibold">
                     Active Vetted Talents
                   </span>
                   <div className="text-2xl font-bold font-mono text-white">140 Talents</div>
-                  <div className="text-[10px] text-slate-400">
+                  <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
                     16 Specialized Global Departments
                   </div>
                 </div>
 
-                <div className="p-6 rounded-3xl bg-[#0F172A]/80 border border-blue-900/40 space-y-1">
-                  <span className="text-xs text-slate-400 font-semibold">
+                <div className="p-6 rounded-3xl bg-eco-navy/80 border border-white/10 space-y-1">
+                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-semibold">
                     Next Bi-Weekly Payout Cycle
                   </span>
                   <div className="text-2xl font-bold font-mono text-emerald-400">Oct 15, 2026</div>
-                  <div className="text-[10px] text-slate-400 font-mono">
+                  <div className="text-[10px] text-[var(--eco-on-dark-muted)] font-mono">
                     NIBSS &amp; Paystack Rails Ready
                   </div>
                 </div>
               </div>
 
               {/* Live Project Health Matrix */}
-              <div className="p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-4">
+              <div className="p-6 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-4">
                 <h3 className="font-bold text-sm text-white">
                   Live Client Projects & Milestone Escrow Status
                 </h3>
@@ -542,20 +544,20 @@ export const AdminPortal: React.FC = () => {
                   {ACTIVE_PROJECTS.map((proj) => (
                     <div
                       key={proj.id}
-                      className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs"
+                      className="p-4 rounded-2xl bg-white/[0.06] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs"
                     >
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-blue-400 font-bold">{proj.code}</span>
+                          <span className="font-mono text-eco-cyan font-bold">{proj.code}</span>
                           <span className="font-bold text-white text-sm">{proj.title}</span>
                           <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                             {proj.status.replace("_", " ").toUpperCase()}
                           </span>
                         </div>
-                        <div className="text-slate-400 text-[11px] mt-1">
+                        <div className="text-[var(--eco-on-dark-muted)] text-[11px] mt-1">
                           Client:{" "}
                           <strong className="text-slate-200">{proj.organizationName}</strong> • PM:{" "}
-                          <strong className="text-indigo-400">{proj.assignedPMName}</strong>
+                          <strong className="text-eco-glow">{proj.assignedPMName}</strong>
                         </div>
                       </div>
 
@@ -579,17 +581,17 @@ export const AdminPortal: React.FC = () => {
           {/* TAB: LIVE LEAD PIPELINE (real public-site submissions) */}
           {activeTab === "pipeline" && (
             <div className="space-y-6">
-              <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-emerald-900/40 space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="p-6 rounded-2xl bg-eco-navy/80 border border-emerald-900/40 space-y-4">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
                   <h3 className="font-bold text-sm text-white">
                     Real Project Briefs — "Start Your Project" Wizard
                   </h3>
-                  <span className="text-xs text-slate-400 font-mono">
+                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-mono">
                     {liveBriefs.length} submitted this browser session
                   </span>
                 </div>
                 {liveBriefs.length === 0 ? (
-                  <p className="text-xs text-slate-400 italic">
+                  <p className="text-xs text-[var(--eco-on-dark-muted)] italic">
                     No live brief submissions yet. These are real visitor submissions captured by
                     the public brief wizard — distinct from the hardcoded sample leads shown inside
                     the PM Portal's Triage tab.
@@ -599,16 +601,16 @@ export const AdminPortal: React.FC = () => {
                     {liveBriefs.map((brief) => (
                       <div
                         key={brief.id}
-                        className="p-4 rounded-xl bg-slate-900/80 border border-emerald-800/50 text-xs space-y-2"
+                        className="p-4 rounded-xl bg-white/[0.06] border border-emerald-800/50 text-xs space-y-2"
                       >
                         <div className="flex items-center justify-between">
                           <span className="font-bold text-white">{brief.organizationName}</span>
-                          <span className="text-slate-400 font-mono">
+                          <span className="text-[var(--eco-on-dark-muted)] font-mono">
                             {new Date(brief.createdAt).toLocaleString()}
                           </span>
                         </div>
-                        <p className="text-slate-300">{brief.briefDetails}</p>
-                        <div className="flex flex-wrap gap-3 text-[11px] text-slate-400">
+                        <p className="text-slate-200">{brief.briefDetails}</p>
+                        <div className="flex flex-wrap gap-3 text-[11px] text-[var(--eco-on-dark-muted)]">
                           <span>Dept: {brief.department.replace("_", " ")}</span>
                           <span>
                             Budget: {brief.budgetAmount} {brief.currency}
@@ -623,29 +625,31 @@ export const AdminPortal: React.FC = () => {
                 )}
               </div>
 
-              <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-blue-900/40 space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-4">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
                   <h3 className="font-bold text-sm text-white">
                     Discovery Consultation Requests — Contact Page
                   </h3>
-                  <span className="text-xs text-slate-400 font-mono">
+                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-mono">
                     {liveConsultRequests.length} requested
                   </span>
                 </div>
                 {liveConsultRequests.length === 0 ? (
-                  <p className="text-xs text-slate-400 italic">No consultation requests yet.</p>
+                  <p className="text-xs text-[var(--eco-on-dark-muted)] italic">
+                    No consultation requests yet.
+                  </p>
                 ) : (
                   <div className="space-y-3">
                     {liveConsultRequests.map((req) => (
                       <div
                         key={req.id}
-                        className="p-4 rounded-xl bg-slate-900/80 border border-blue-800/50 text-xs flex items-center justify-between"
+                        className="p-4 rounded-xl bg-white/[0.06] border border-white/10 text-xs flex items-center justify-between"
                       >
                         <span className="font-semibold text-white">{req.fullName}</span>
-                        <span className="text-slate-300">
+                        <span className="text-slate-200">
                           {req.email} • {req.preferredDate} • {req.focusArea}
                         </span>
-                        <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px] uppercase">
+                        <span className="px-2 py-0.5 rounded bg-white/[0.08] text-slate-200 font-mono text-[10px] uppercase">
                           {req.status}
                         </span>
                       </div>
@@ -654,17 +658,17 @@ export const AdminPortal: React.FC = () => {
                 )}
               </div>
 
-              <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-slate-800 space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-4">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
                   <h3 className="font-bold text-sm text-white">
                     Recorded Payment Transactions (Sandbox)
                   </h3>
-                  <span className="text-xs text-slate-400 font-mono">
+                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-mono">
                     {liveTransactions.length} recorded
                   </span>
                 </div>
                 {liveTransactions.length === 0 ? (
-                  <p className="text-xs text-slate-400 italic">
+                  <p className="text-xs text-[var(--eco-on-dark-muted)] italic">
                     No transactions recorded yet. Transactions created through the Paystack sandbox
                     payment modal will appear here — this is the first place in the app where that
                     data was ever surfaced for reconciliation.
@@ -674,7 +678,7 @@ export const AdminPortal: React.FC = () => {
                     {liveTransactions.map((tx) => (
                       <div
                         key={tx.id}
-                        className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs flex items-center justify-between font-mono"
+                        className="p-3 rounded-xl bg-white/[0.06] border border-white/10 text-xs flex items-center justify-between font-mono"
                       >
                         <span>{tx.reference}</span>
                         <span>{tx.customerName}</span>
@@ -699,13 +703,13 @@ export const AdminPortal: React.FC = () => {
           {/* TAB 2: PROFIT SPLIT & ESCROW GOVERNANCE */}
           {activeTab === "split_model" && (
             <div className="space-y-8">
-              <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+              <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                   <div>
                     <h3 className="font-bold text-lg text-white">
                       Guaranteed Payout Architecture: Nobody Loses
                     </h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
                       Task-based milestone escrow distribution formula: Admin/Owner, PMs, and
                       Talents are backed 100% by funded client deposits.
                     </p>
@@ -718,7 +722,7 @@ export const AdminPortal: React.FC = () => {
                 {/* 3 Split Pillars */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Pillar 1: Admin */}
-                  <div className="p-5 rounded-2xl bg-slate-900/90 border border-amber-500/40 space-y-3">
+                  <div className="p-5 rounded-2xl bg-white/[0.06] border border-amber-500/40 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
                         <Building className="w-4 h-4" />
@@ -728,7 +732,7 @@ export const AdminPortal: React.FC = () => {
                         45% Net Margin
                       </span>
                     </div>
-                    <p className="text-slate-300 text-xs leading-relaxed">
+                    <p className="text-slate-200 text-xs leading-relaxed">
                       Guaranteed agency net profit, customer acquisition marketing budget, cloud
                       servers, and platform operating treasury. Admin never pays out more than what
                       is deposited into escrow.
@@ -736,17 +740,17 @@ export const AdminPortal: React.FC = () => {
                   </div>
 
                   {/* Pillar 2: PM */}
-                  <div className="p-5 rounded-2xl bg-slate-900/90 border border-indigo-500/40 space-y-3">
+                  <div className="p-5 rounded-2xl bg-white/[0.06] border border-eco-glow/40 space-y-3">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-indigo-400 font-bold text-sm">
+                      <div className="flex items-center gap-2 text-eco-glow font-bold text-sm">
                         <Briefcase className="w-4 h-4" />
                         <span>Project Manager (15%)</span>
                       </div>
-                      <span className="font-mono font-bold text-indigo-300 bg-indigo-500/20 px-2 py-0.5 rounded text-xs">
+                      <span className="font-mono font-bold text-eco-glow bg-eco-glow/15 px-2 py-0.5 rounded text-xs">
                         15% Fee
                       </span>
                     </div>
-                    <p className="text-slate-300 text-xs leading-relaxed">
+                    <p className="text-slate-200 text-xs leading-relaxed">
                       Incentivizes the PM to maintain tight deadlines, rigorous QA scores (&gt;90%),
                       and frictionless client communication. Released automatically upon milestone
                       completion.
@@ -754,7 +758,7 @@ export const AdminPortal: React.FC = () => {
                   </div>
 
                   {/* Pillar 3: Talent */}
-                  <div className="p-5 rounded-2xl bg-slate-900/90 border border-emerald-500/40 space-y-3">
+                  <div className="p-5 rounded-2xl bg-white/[0.06] border border-emerald-500/40 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
                         <Terminal className="w-4 h-4" />
@@ -764,7 +768,7 @@ export const AdminPortal: React.FC = () => {
                         40% Task Pool
                       </span>
                     </div>
-                    <p className="text-slate-300 text-xs leading-relaxed">
+                    <p className="text-slate-200 text-xs leading-relaxed">
                       Divided amongst the assigned squad engineers/designers based on ticket
                       milestones and talent rank bonuses (Level 1–4 multipliers: 1.0x to 1.15x).
                     </p>
@@ -772,16 +776,16 @@ export const AdminPortal: React.FC = () => {
                 </div>
 
                 {/* Dual-Role Rule Explanation */}
-                <div className="p-5 rounded-2xl bg-gradient-to-r from-indigo-950/60 to-purple-950/60 border border-indigo-500/40 space-y-2 text-xs">
-                  <div className="flex items-center gap-2 text-indigo-300 font-bold text-sm">
-                    <Zap className="w-4 h-4 text-indigo-400" />
+                <div className="p-5 rounded-2xl bg-gradient-to-r from-eco-dark/60 to-purple-950/60 border border-eco-glow/40 space-y-2 text-xs">
+                  <div className="flex items-center gap-2 text-eco-glow font-bold text-sm">
+                    <Zap className="w-4 h-4 text-eco-glow" />
                     <span>How the "Dual-Role (PM is also Talent)" is Handled:</span>
                   </div>
                   <p className="text-slate-200 leading-relaxed">
                     When an appointed lead acts as <strong>both PM and executing Talent</strong> on
                     a sprint:
                   </p>
-                  <ul className="list-disc list-inside space-y-1 text-slate-300 ml-2">
+                  <ul className="list-disc list-inside space-y-1 text-slate-200 ml-2">
                     <li>
                       They receive the <strong>PM Management Fee (15%)</strong> +{" "}
                       <strong>Talent Execution Fee (40%)</strong> ={" "}
@@ -799,7 +803,7 @@ export const AdminPortal: React.FC = () => {
                 </div>
 
                 {/* Live Split Simulator */}
-                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+                <div className="p-5 rounded-2xl bg-white/[0.06] border border-white/10 space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <label className="text-xs font-bold text-white">
                       Test Client Deposit Calculation:
@@ -811,8 +815,8 @@ export const AdminPortal: React.FC = () => {
                           onClick={() => setSampleBudget(b)}
                           className={`px-3 py-1 rounded-lg text-xs font-mono font-bold ${
                             sampleBudget === b
-                              ? "bg-blue-600 text-white"
-                              : "bg-slate-800 text-slate-300"
+                              ? "bg-primary text-white"
+                              : "bg-white/[0.08] text-slate-200"
                           }`}
                         >
                           ₦{(b / 1000000).toFixed(1)}M
@@ -829,19 +833,19 @@ export const AdminPortal: React.FC = () => {
                       <strong className="text-amber-400 text-base">
                         ₦{splitResult.adminMarginNGN.toLocaleString()}
                       </strong>
-                      <div className="text-[10px] text-slate-400">
+                      <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
                         (${splitResult.adminMarginUSD.toLocaleString()} USD)
                       </div>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-                      <span className="text-[10px] text-indigo-300 block uppercase font-bold">
+                    <div className="p-3 rounded-xl bg-eco-glow/15 border border-eco-glow/25">
+                      <span className="text-[10px] text-eco-glow block uppercase font-bold">
                         PM Share (15%)
                       </span>
-                      <strong className="text-indigo-400 text-base">
+                      <strong className="text-eco-glow text-base">
                         ₦{splitResult.pmFeeNGN.toLocaleString()}
                       </strong>
-                      <div className="text-[10px] text-slate-400">
+                      <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
                         (${splitResult.pmFeeUSD.toLocaleString()} USD)
                       </div>
                     </div>
@@ -853,7 +857,7 @@ export const AdminPortal: React.FC = () => {
                       <strong className="text-emerald-400 text-base">
                         ₦{splitResult.talentPoolNGN.toLocaleString()}
                       </strong>
-                      <div className="text-[10px] text-slate-400">
+                      <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
                         (${splitResult.talentPoolUSD.toLocaleString()} USD)
                       </div>
                     </div>
@@ -866,13 +870,13 @@ export const AdminPortal: React.FC = () => {
           {/* TAB 3: TALENT RANKS & DUAL-ROLES */}
           {activeTab === "talent_ranks" && (
             <div className="space-y-6">
-              <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+              <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                   <div>
                     <h3 className="font-bold text-base sm:text-lg text-white">
                       Talent Performance Ranks & Dual-Role Desk
                     </h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
                       Talents advance through 4 ranks based on QA scores &amp; delivered projects.
                       Appoint top Diamond/Gold talents as Dual-Role PM Leads.
                     </p>
@@ -883,8 +887,8 @@ export const AdminPortal: React.FC = () => {
                 </div>
 
                 {dualRoleSuccessMsg && (
-                  <div className="p-4 rounded-xl bg-indigo-950/80 border border-indigo-500/40 text-indigo-300 text-xs font-bold flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-indigo-400" />
+                  <div className="p-4 rounded-xl bg-white/[0.05] border border-eco-glow/40 text-eco-glow text-xs font-bold flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-eco-glow" />
                     <span>{dualRoleSuccessMsg}</span>
                   </div>
                 )}
@@ -892,7 +896,7 @@ export const AdminPortal: React.FC = () => {
                 {/* Talents Table */}
                 <div className="overflow-x-auto">
                   <table className="w-full text-xs text-left">
-                    <thead className="bg-slate-900/90 text-slate-400 uppercase font-mono text-[10px] border-b border-slate-800">
+                    <thead className="bg-white/[0.06] text-[var(--eco-on-dark-muted)] uppercase font-mono text-[10px] border-b border-white/10">
                       <tr>
                         <th className="py-3 px-4">Talent Profile</th>
                         <th className="py-3 px-4">Current Rank</th>
@@ -902,22 +906,22 @@ export const AdminPortal: React.FC = () => {
                         <th className="py-3 px-4 text-right">Dual-Role PM Status</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-800">
+                    <tbody className="divide-y divide-white/10">
                       {talentsList.map((t) => {
                         const rankCfg = TALENT_RANK_CONFIGS[t.rank || "Bronze Prodigy"];
 
                         return (
-                          <tr key={t.id} className="hover:bg-slate-900/60 transition-colors">
+                          <tr key={t.id} className="hover:bg-white/[0.06] transition-colors">
                             <td className="py-3.5 px-4">
                               <div className="flex items-center gap-3">
                                 <img
                                   src={t.avatarUrl}
                                   alt={t.fullName}
-                                  className="w-8 h-8 rounded-full object-cover border border-slate-700"
+                                  className="w-8 h-8 rounded-full object-cover border border-white/12"
                                 />
                                 <div>
                                   <div className="font-bold text-white text-xs">{t.fullName}</div>
-                                  <div className="text-[10px] text-slate-400 font-mono">
+                                  <div className="text-[10px] text-[var(--eco-on-dark-muted)] font-mono">
                                     {t.pseudonym} • {t.department}
                                   </div>
                                 </div>
@@ -949,8 +953,8 @@ export const AdminPortal: React.FC = () => {
                                 onClick={() => handleToggleDualRole(t.id)}
                                 className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all ${
                                   t.isDualRolePM
-                                    ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
-                                    : "bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700"
+                                    ? "bg-eco-glow text-white shadow-md shadow-eco-glow/30"
+                                    : "bg-white/[0.08] text-slate-200 hover:text-white hover:bg-white/12"
                                 }`}
                               >
                                 {t.isDualRolePM ? "⚡ Dual PM-Lead Active" : "Appoint Dual-Role PM"}
@@ -969,13 +973,13 @@ export const AdminPortal: React.FC = () => {
           {/* TAB 4: CLIENT REFERRALS & ESCROW TRIGGER */}
           {activeTab === "referrals" && (
             <div className="space-y-6">
-              <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+              <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                   <div>
                     <h3 className="font-bold text-base sm:text-lg text-white">
                       Client Referral & Cashback Ledger
                     </h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
                       <strong>Strict Escrow Rule:</strong> The ₦50,000 / $50 discount and 10%
                       referrer cashback are ONLY unlocked when the referred client funds their first
                       milestone project.
@@ -1002,8 +1006,8 @@ export const AdminPortal: React.FC = () => {
                         key={ref.id}
                         className={`p-5 rounded-2xl border transition-all text-xs space-y-3 ${
                           isFunded
-                            ? "bg-slate-900/90 border-emerald-500/40"
-                            : "bg-slate-900/50 border-amber-500/30"
+                            ? "bg-white/[0.06] border-emerald-500/40"
+                            : "bg-white/[0.06] border-amber-500/30"
                         }`}
                       >
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -1012,7 +1016,9 @@ export const AdminPortal: React.FC = () => {
                               <span className="font-bold text-white text-sm">
                                 {ref.referredUserName}
                               </span>
-                              <span className="text-slate-400">({ref.referredUserEmail})</span>
+                              <span className="text-[var(--eco-on-dark-muted)]">
+                                ({ref.referredUserEmail})
+                              </span>
                               {isFunded ? (
                                 <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono font-bold text-[10px] border border-emerald-500/30">
                                   Milestone Funded ✓
@@ -1023,11 +1029,11 @@ export const AdminPortal: React.FC = () => {
                                 </span>
                               )}
                             </div>
-                            <div className="text-slate-400 mt-1">
+                            <div className="text-[var(--eco-on-dark-muted)] mt-1">
                               Referred by:{" "}
-                              <strong className="text-blue-400">{ref.referrerName}</strong> •
+                              <strong className="text-eco-cyan">{ref.referrerName}</strong> •
                               Registered:{" "}
-                              <strong className="text-slate-300">{ref.registeredAt}</strong>
+                              <strong className="text-slate-200">{ref.registeredAt}</strong>
                             </div>
                           </div>
 
@@ -1037,7 +1043,7 @@ export const AdminPortal: React.FC = () => {
                                 <div className="text-sm font-mono font-bold text-emerald-400">
                                   +₦{ref.cashbackEarnedNGN.toLocaleString()} NGN Referrer Cashback
                                 </div>
-                                <div className="text-[10px] text-slate-400">
+                                <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
                                   ₦{ref.discountAppliedNGN.toLocaleString()} discount applied on
                                   project
                                 </div>
@@ -1059,8 +1065,8 @@ export const AdminPortal: React.FC = () => {
                         </div>
 
                         {ref.referredProjectTitle && (
-                          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-[11px]">
-                            <span className="text-slate-300">
+                          <div className="p-3 rounded-xl bg-eco-dark border border-white/10 flex items-center justify-between text-[11px]">
+                            <span className="text-slate-200">
                               Project: <strong>{ref.referredProjectTitle}</strong>
                             </span>
                             {ref.fundedAmountNGN && (
@@ -1081,13 +1087,13 @@ export const AdminPortal: React.FC = () => {
 
           {/* TAB 5: A-to-Z Website CMS */}
           {activeTab === "cms" && (
-            <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <div>
                   <h3 className="font-bold text-base sm:text-lg text-white">
                     A-to-Z Website CMS Control
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-[var(--eco-on-dark-muted)]">
                     Live updates instantly reflected across the public agency marketing website.
                   </p>
                 </div>
@@ -1101,7 +1107,7 @@ export const AdminPortal: React.FC = () => {
 
               <div className="space-y-5 text-xs">
                 {/* 1. Announcement Banner */}
-                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+                <div className="p-5 rounded-2xl bg-white/[0.06] border border-white/10 space-y-3">
                   <div className="flex items-center justify-between">
                     <label className="font-bold text-slate-200">
                       1. Top Broadcast Announcement Bar
@@ -1111,7 +1117,7 @@ export const AdminPortal: React.FC = () => {
                       className={`flex items-center gap-1.5 px-3 py-1 rounded-lg font-mono text-[11px] font-bold ${
                         announcementActive
                           ? "bg-emerald-600/20 text-emerald-300 border border-emerald-500/30"
-                          : "bg-slate-800 text-slate-400"
+                          : "bg-white/[0.08] text-[var(--eco-on-dark-muted)]"
                       }`}
                     >
                       {announcementActive ? (
@@ -1126,7 +1132,7 @@ export const AdminPortal: React.FC = () => {
                     type="text"
                     value={announcementText}
                     onChange={(e) => setAnnouncementText(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500 font-sans"
+                    className="w-full px-4 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40 font-sans"
                   />
                 </div>
 
@@ -1134,7 +1140,7 @@ export const AdminPortal: React.FC = () => {
                 <div className="flex justify-end pt-2">
                   <button
                     onClick={handleSaveCMS}
-                    className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-transform hover:scale-105"
+                    className="px-6 py-3 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-lg shadow-cyan-500/30 transition-transform hover:scale-105"
                   >
                     Publish Changes to Live Agency Site
                   </button>
@@ -1145,13 +1151,13 @@ export const AdminPortal: React.FC = () => {
 
           {/* TAB: Case Studies & Portfolio */}
           {activeTab === "case_studies" && (
-            <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4 flex-wrap gap-3">
+            <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4 flex-wrap gap-3">
                 <div>
                   <h3 className="font-bold text-base sm:text-lg text-white">
                     Case Studies &amp; Portfolio
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-[var(--eco-on-dark-muted)]">
                     Add, edit, or retire case studies shown on the public gallery, homepage
                     spotlight, and hero carousel. Changes go live immediately — no redeploy
                     required.
@@ -1159,7 +1165,7 @@ export const AdminPortal: React.FC = () => {
                 </div>
                 <button
                   onClick={handleOpenNewCaseStudy}
-                  className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-600/30 flex items-center gap-1.5 transition-transform hover:scale-105"
+                  className="px-4 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-md shadow-cyan-500/30 flex items-center gap-1.5 transition-transform hover:scale-105"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>New Case Study</span>
@@ -1168,18 +1174,20 @@ export const AdminPortal: React.FC = () => {
 
               <div className="space-y-3">
                 {caseStudiesList.length === 0 && (
-                  <p className="text-xs text-slate-500 italic">No case studies yet.</p>
+                  <p className="text-xs text-[var(--eco-on-dark-muted)] italic">
+                    No case studies yet.
+                  </p>
                 )}
                 {caseStudiesList.map((cs) => (
                   <div
                     key={cs.id}
-                    className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    className="p-4 rounded-2xl bg-white/[0.06] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <img
                         src={cs.heroImage}
                         alt={cs.title}
-                        className="w-14 h-14 rounded-xl object-cover border border-slate-800 shrink-0"
+                        className="w-14 h-14 rounded-xl object-cover border border-white/10 shrink-0"
                       />
                       <div className="min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
@@ -1193,13 +1201,13 @@ export const AdminPortal: React.FC = () => {
                             className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border ${
                               cs.status === "published"
                                 ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
-                                : "bg-slate-800 text-slate-400 border-slate-700"
+                                : "bg-white/[0.08] text-[var(--eco-on-dark-muted)] border-white/12"
                             }`}
                           >
                             {cs.status}
                           </span>
                         </div>
-                        <div className="text-[11px] text-slate-400 mt-0.5 truncate">
+                        <div className="text-[11px] text-[var(--eco-on-dark-muted)] mt-0.5 truncate">
                           {cs.clientName} • {cs.industry}
                         </div>
                       </div>
@@ -1207,7 +1215,7 @@ export const AdminPortal: React.FC = () => {
                     <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
                       <button
                         onClick={() => handleOpenEditCaseStudy(cs)}
-                        className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
+                        className="p-2 rounded-lg bg-white/[0.08] hover:bg-white/12 text-slate-200 transition-colors"
                         aria-label={`Edit ${cs.title}`}
                       >
                         <Edit3 className="w-3.5 h-3.5" />
@@ -1229,17 +1237,17 @@ export const AdminPortal: React.FC = () => {
 
           {/* TAB 6: Clients & Squads */}
           {activeTab === "users" && (
-            <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <div>
                   <h3 className="font-bold text-base text-white">
                     Registered Client Organizations
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-[var(--eco-on-dark-muted)]">
                     Client account owners, loyalty badges, total spend, and active projects.
                   </p>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-mono font-bold">
+                <span className="px-3 py-1 rounded-full bg-eco-cyan/20 text-eco-cyan text-xs font-mono font-bold">
                   {CLIENT_ORGANIZATIONS.length} Active Organizations
                 </span>
               </div>
@@ -1248,15 +1256,15 @@ export const AdminPortal: React.FC = () => {
                 {CLIENT_ORGANIZATIONS.map((org) => (
                   <div
                     key={org.id}
-                    className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs"
+                    className="p-4 rounded-2xl bg-white/[0.06] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold">
+                      <div className="w-10 h-10 rounded-xl bg-eco-cyan/10 border border-eco-cyan/25 flex items-center justify-center text-eco-cyan font-bold">
                         <Building className="w-5 h-5" />
                       </div>
                       <div>
                         <div className="font-bold text-white text-sm">{org.name}</div>
-                        <div className="text-slate-400 text-[11px]">
+                        <div className="text-[var(--eco-on-dark-muted)] text-[11px]">
                           Contact: {org.primaryContact.name} ({org.primaryContact.email}) •{" "}
                           {org.city}
                         </div>
@@ -1267,7 +1275,7 @@ export const AdminPortal: React.FC = () => {
                       <span className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 font-mono text-[11px] font-bold border border-emerald-500/20">
                         {org.tier} Tier
                       </span>
-                      <span className="font-mono text-slate-300 font-bold">
+                      <span className="font-mono text-slate-200 font-bold">
                         ${org.totalSpentUSD.toLocaleString()} USD
                       </span>
                     </div>
@@ -1279,18 +1287,18 @@ export const AdminPortal: React.FC = () => {
 
           {/* TAB 7: Talent Applications Review Desk */}
           {activeTab === "talent_apps" && (
-            <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <div>
                   <h3 className="font-bold text-base text-white">
                     Incoming Talent Applications Desk
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-[var(--eco-on-dark-muted)]">
                     Review candidate portfolios, test project code, and grant approved status to
                     issue workspace credentials.
                   </p>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-mono font-bold">
+                <span className="px-3 py-1 rounded-full bg-eco-cyan/20 text-eco-cyan text-xs font-mono font-bold">
                   {talentApps.length} Candidates in Queue
                 </span>
               </div>
@@ -1307,13 +1315,13 @@ export const AdminPortal: React.FC = () => {
                     <CheckCircle2 className="w-4 h-4" />
                     <span>Real workspace credentials created</span>
                   </div>
-                  <p className="text-slate-300">
+                  <p className="text-slate-200">
                     A real login was created for <strong>{approvalResult.email}</strong>. There is
                     no automatic email delivery in this build — copy this one-time temporary
                     password and send it to the candidate yourself. It will not be shown again.
                   </p>
                   <div className="flex items-center gap-2">
-                    <code className="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-emerald-300 font-mono text-[11px]">
+                    <code className="px-3 py-1.5 rounded-lg bg-eco-dark border border-white/12 text-emerald-300 font-mono text-[11px]">
                       {approvalResult.temporaryPassword}
                     </code>
                     <button
@@ -1321,14 +1329,14 @@ export const AdminPortal: React.FC = () => {
                       onClick={() => {
                         void navigator.clipboard?.writeText(approvalResult.temporaryPassword);
                       }}
-                      className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-[10px]"
+                      className="px-2.5 py-1.5 rounded-lg bg-white/[0.08] hover:bg-white/12 text-slate-200 font-bold text-[10px]"
                     >
                       Copy
                     </button>
                     <button
                       type="button"
                       onClick={() => setApprovalResult(null)}
-                      className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-[10px]"
+                      className="px-2.5 py-1.5 rounded-lg bg-white/[0.08] hover:bg-white/12 text-slate-200 font-bold text-[10px]"
                     >
                       Dismiss
                     </button>
@@ -1337,7 +1345,7 @@ export const AdminPortal: React.FC = () => {
               )}
 
               {talentApps.length === 0 ? (
-                <div className="p-8 text-center rounded-2xl bg-slate-900 border border-slate-800 text-slate-400 text-xs">
+                <div className="p-8 text-center rounded-2xl bg-white/[0.06] border border-white/10 text-[var(--eco-on-dark-muted)] text-xs">
                   No talent applications yet.
                 </div>
               ) : (
@@ -1345,16 +1353,16 @@ export const AdminPortal: React.FC = () => {
                   {talentApps.map((app) => (
                     <div
                       key={app.id}
-                      className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4 text-xs"
+                      className="p-6 rounded-2xl bg-white/[0.06] border border-white/10 space-y-4 text-xs"
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div>
                           <div className="flex items-center gap-2">
                             <h4 className="font-bold text-white text-sm">{app.fullName}</h4>
-                            <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 text-[10px] font-mono font-bold">
+                            <span className="px-2 py-0.5 rounded bg-eco-cyan/20 text-eco-cyan text-[10px] font-mono font-bold">
                               {app.experienceLevel}
                             </span>
-                            <span className="text-slate-400 font-mono text-[11px]">
+                            <span className="text-[var(--eco-on-dark-muted)] font-mono text-[11px]">
                               • {app.country}
                             </span>
                             {app.status !== "pending_review" &&
@@ -1370,7 +1378,7 @@ export const AdminPortal: React.FC = () => {
                                 </span>
                               )}
                           </div>
-                          <div className="text-slate-400 mt-0.5">
+                          <div className="text-[var(--eco-on-dark-muted)] mt-0.5">
                             Email: <strong className="text-slate-200">{app.email}</strong> • Phone:{" "}
                             <strong className="text-slate-200">{app.phone || "N/A"}</strong>
                           </div>
@@ -1381,7 +1389,7 @@ export const AdminPortal: React.FC = () => {
                             href={app.portfolioUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-mono text-[11px] flex items-center gap-1"
+                            className="px-3 py-1.5 rounded-lg bg-white/[0.08] hover:bg-white/12 text-slate-200 font-mono text-[11px] flex items-center gap-1"
                           >
                             <span>Inspect Portfolio</span>
                             <ExternalLink className="w-3 h-3" />
@@ -1389,14 +1397,14 @@ export const AdminPortal: React.FC = () => {
                         </div>
                       </div>
 
-                      <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 leading-relaxed">
+                      <div className="p-3.5 rounded-xl bg-eco-dark border border-white/10 text-slate-200 leading-relaxed">
                         {app.bioNotes || "Applied to join the NDH Vetted African Talent Network."}
                       </div>
 
-                      <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
-                        <div className="text-slate-400 font-mono text-[11px]">
+                      <div className="flex items-center justify-between pt-2 border-t border-white/10">
+                        <div className="text-[var(--eco-on-dark-muted)] font-mono text-[11px]">
                           Department:{" "}
-                          <strong className="text-blue-400">{app.primaryDepartment}</strong> •
+                          <strong className="text-eco-cyan">{app.primaryDepartment}</strong> •
                           Expected Rate:{" "}
                           <strong className="text-emerald-400">{app.hourlyRateExpectation}</strong>
                         </div>
@@ -1407,7 +1415,7 @@ export const AdminPortal: React.FC = () => {
                             <button
                               onClick={() => handleRejectTalent(app.id)}
                               disabled={approvingAppId === app.id}
-                              className="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-red-900/60 text-slate-200 disabled:opacity-60 transition-all"
+                              className="px-4 py-2 rounded-xl text-xs font-bold bg-white/[0.08] hover:bg-red-900/60 text-slate-200 disabled:opacity-60 transition-all"
                             >
                               Reject
                             </button>
@@ -1432,8 +1440,8 @@ export const AdminPortal: React.FC = () => {
 
           {/* TAB 8: Bi-Weekly 14-Day Payouts Engine */}
           {activeTab === "payouts" && (
-            <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">
@@ -1443,7 +1451,7 @@ export const AdminPortal: React.FC = () => {
                       Payroll Disbursement Batch (Cycle #2026-19)
                     </h3>
                   </div>
-                  <p className="text-xs text-slate-400 mt-1">
+                  <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
                     Settles all completed milestone tickets every 2 weeks (1st &amp; 15th of each
                     month) to PMs and Talents.
                   </p>
@@ -1453,7 +1461,9 @@ export const AdminPortal: React.FC = () => {
                   <div className="text-xl font-mono font-bold text-emerald-400">
                     ₦14,850,000 NGN
                   </div>
-                  <div className="text-xs text-slate-400 font-mono">($9,900 USD Equivalent)</div>
+                  <div className="text-xs text-[var(--eco-on-dark-muted)] font-mono">
+                    ($9,900 USD Equivalent)
+                  </div>
                 </div>
               </div>
 
@@ -1469,29 +1479,29 @@ export const AdminPortal: React.FC = () => {
                     ₦14,850,000 NGN has been transferred across 14 talent and PM bank accounts via
                     NIBSS FastPay &amp; Wise API.
                   </p>
-                  <div className="font-mono text-[11px] text-slate-400 pt-2">
+                  <div className="font-mono text-[11px] text-[var(--eco-on-dark-muted)] pt-2">
                     Signed by {payoutBatch.approvals.map((a) => a.userName).join(" & ") || "—"}
                   </div>
                 </div>
               ) : (
                 <div className="space-y-6">
                   {/* Batch Summary */}
-                  <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4 text-xs">
+                  <div className="p-5 rounded-2xl bg-white/[0.06] border border-white/10 space-y-4 text-xs">
                     <div className="font-bold text-white text-sm">Batch Allocations:</div>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                      <div className="p-3 rounded-xl bg-eco-dark border border-white/10">
                         <div>Talent Sprints Total:</div>
                         <div className="font-mono text-white font-bold text-sm mt-0.5">
                           ₦10,200,000 NGN
                         </div>
                       </div>
-                      <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                      <div className="p-3 rounded-xl bg-eco-dark border border-white/10">
                         <div>PM Commission Total:</div>
                         <div className="font-mono text-white font-bold text-sm mt-0.5">
                           ₦4,650,000 NGN
                         </div>
                       </div>
-                      <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                      <div className="p-3 rounded-xl bg-eco-dark border border-white/10">
                         <div>Settlement Gateway:</div>
                         <div className="font-mono text-emerald-400 font-bold text-sm mt-0.5">
                           NIBSS FastPay + Stripe
@@ -1506,14 +1516,14 @@ export const AdminPortal: React.FC = () => {
                       signer ids. To fully exercise this, sign in as a different
                       demo account (e.g. Amina Yusuf / Finance Lead) in another
                       tab/session -- one person cannot complete this alone. */}
-                  <div className="p-5 rounded-2xl bg-blue-950/40 border border-blue-800/40 space-y-4 text-xs">
+                  <div className="p-5 rounded-2xl bg-white/[0.04] border border-eco-cyan/20 space-y-4 text-xs">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div className="space-y-1">
                         <div className="font-bold text-white flex items-center gap-2">
-                          <Lock className="w-4 h-4 text-blue-400" />
+                          <Lock className="w-4 h-4 text-eco-cyan" />
                           <span>Dual-Approval Sovereign Safeguard</span>
                         </div>
-                        <p className="text-slate-400 text-[11px]">
+                        <p className="text-[var(--eco-on-dark-muted)] text-[11px]">
                           Requires 2 distinct Super Admin / Finance Lead signatures. Signed so far:{" "}
                           {payoutBatch?.approvals.length ?? 0} / 2
                           {payoutBatch && payoutBatch.approvals.length > 0 && (
@@ -1524,7 +1534,7 @@ export const AdminPortal: React.FC = () => {
 
                       <div className="flex items-center gap-3">
                         {payoutBatch && payoutBatch.approvals.some((a) => a.userId === user?.id) ? (
-                          <span className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 text-[11px] font-mono">
+                          <span className="px-4 py-2 rounded-xl bg-white/[0.06] border border-white/12 text-[var(--eco-on-dark-muted)] text-[11px] font-mono">
                             You already signed. A different authorized signer is required for the
                             next key.
                           </span>
@@ -1541,7 +1551,7 @@ export const AdminPortal: React.FC = () => {
                                 );
                               }
                             }}
-                            className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md"
+                            className="px-5 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-md"
                           >
                             Sign as {user?.fullName || "current user"}
                           </button>
@@ -1578,28 +1588,30 @@ export const AdminPortal: React.FC = () => {
 
           {/* TAB 9: Security & Audit Logs */}
           {activeTab === "audit" && (
-            <div className="p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-4 shadow-2xl">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div className="p-6 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-4 shadow-2xl">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <h3 className="font-bold text-sm text-white">
                   Immutable Platform Security Audit Stream
                 </h3>
-                <span className="text-xs text-slate-400 font-mono">Stream ID: lag-audit-9912</span>
+                <span className="text-xs text-[var(--eco-on-dark-muted)] font-mono">
+                  Stream ID: lag-audit-9912
+                </span>
               </div>
 
               <div className="space-y-2 text-xs">
                 {SECURITY_AUDIT_LOGS.map((log) => (
                   <div
                     key={log.id}
-                    className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between font-mono text-[11px]"
+                    className="p-3.5 rounded-xl bg-white/[0.06] border border-white/10 flex items-center justify-between font-mono text-[11px]"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-slate-500">
+                      <span className="text-[var(--eco-on-dark-muted)]">
                         {log.timestamp.split("T")[1]?.slice(0, 8)}
                       </span>
-                      <span className="text-blue-400">{log.action}</span>
-                      <span className="text-slate-400">by {log.actorName}</span>
+                      <span className="text-eco-cyan">{log.action}</span>
+                      <span className="text-[var(--eco-on-dark-muted)]">by {log.actorName}</span>
                     </div>
-                    <span className="px-2 py-0.5 rounded text-[10px] bg-slate-950 text-emerald-400 border border-slate-800">
+                    <span className="px-2 py-0.5 rounded text-[10px] bg-eco-dark text-emerald-400 border border-white/10">
                       {log.location}
                     </span>
                   </div>
@@ -1618,21 +1630,21 @@ export const AdminPortal: React.FC = () => {
           aria-label="Invite Project Manager"
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans"
         >
-          <div className="w-full max-w-md rounded-3xl bg-[#0F172A] border border-blue-500/40 p-6 sm:p-8 shadow-2xl relative space-y-5">
+          <div className="w-full max-w-md rounded-3xl bg-eco-navy border border-eco-cyan/40 p-6 sm:p-8 shadow-2xl relative space-y-5">
             <button
               onClick={() => {
                 setShowInvitePmModal(false);
                 setPmInviteResult(null);
                 setPmInviteError(null);
               }}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-800 transition-colors"
+              className="absolute top-4 right-4 text-[var(--eco-on-dark-muted)] hover:text-white p-2 rounded-full hover:bg-white/[0.08] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
 
             <div className="space-y-1">
               <h3 className="text-xl font-bold text-white">Invite Project Manager</h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-[var(--eco-on-dark-muted)]">
                 Creates a real login for this PM on the server. There is no outbound email service
                 in this build, so you&apos;ll need to relay the one-time temporary password
                 yourself.
@@ -1652,7 +1664,7 @@ export const AdminPortal: React.FC = () => {
                   <span>Real account created for {pmInviteResult.email}!</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <code className="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-emerald-300 font-mono text-[11px]">
+                  <code className="px-3 py-1.5 rounded-lg bg-eco-dark border border-white/12 text-emerald-300 font-mono text-[11px]">
                     {pmInviteResult.temporaryPassword}
                   </code>
                   <button
@@ -1660,7 +1672,7 @@ export const AdminPortal: React.FC = () => {
                     onClick={() => {
                       void navigator.clipboard?.writeText(pmInviteResult.temporaryPassword);
                     }}
-                    className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-[10px]"
+                    className="px-2.5 py-1.5 rounded-lg bg-white/[0.08] hover:bg-white/12 text-slate-200 font-bold text-[10px]"
                   >
                     Copy
                   </button>
@@ -1673,35 +1685,35 @@ export const AdminPortal: React.FC = () => {
             ) : (
               <form onSubmit={handleInvitePM} className="space-y-4 text-xs">
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-300">PM Full Name</label>
+                  <label className="font-bold text-slate-200">PM Full Name</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Zainab Al-Hassan"
                     value={newPmName}
                     onChange={(e) => setNewPmName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-300">PM Official Email</label>
+                  <label className="font-bold text-slate-200">PM Official Email</label>
                   <input
                     type="email"
                     required
                     placeholder="e.g. zainab.pm@agency.ndh.com.ng"
                     value={newPmEmail}
                     onChange={(e) => setNewPmEmail(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-300">Supervised Department</label>
+                  <label className="font-bold text-slate-200">Supervised Department</label>
                   <select
                     value={newPmDept}
                     onChange={(e) => setNewPmDept(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500 font-sans"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40 font-sans"
                   >
                     {SERVICE_DEPARTMENTS.map((dept) => (
                       <option key={dept.id} value={dept.id}>
@@ -1715,7 +1727,7 @@ export const AdminPortal: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isInvitingPm}
-                    className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2"
+                    className="w-full py-3 rounded-xl bg-primary hover:bg-eco-cyan/20 disabled:opacity-60 text-white font-bold text-xs shadow-lg shadow-cyan-500/30 transition-all flex items-center justify-center gap-2"
                   >
                     <Send className="w-3.5 h-3.5" />
                     <span>
@@ -1739,10 +1751,10 @@ export const AdminPortal: React.FC = () => {
           aria-label={editingCaseStudy ? "Edit Case Study" : "New Case Study"}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans overflow-y-auto"
         >
-          <div className="w-full max-w-2xl my-8 rounded-3xl bg-[#0F172A] border border-blue-500/40 p-6 sm:p-8 shadow-2xl relative space-y-5">
+          <div className="w-full max-w-2xl my-8 rounded-3xl bg-eco-navy border border-eco-cyan/40 p-6 sm:p-8 shadow-2xl relative space-y-5">
             <button
               onClick={() => setShowCaseStudyModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-800 transition-colors"
+              className="absolute top-4 right-4 text-[var(--eco-on-dark-muted)] hover:text-white p-2 rounded-full hover:bg-white/[0.08] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -1751,7 +1763,7 @@ export const AdminPortal: React.FC = () => {
               <h3 className="text-xl font-bold text-white">
                 {editingCaseStudy ? "Edit Case Study" : "New Case Study"}
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-[var(--eco-on-dark-muted)]">
                 Published immediately to the live case-study gallery, homepage spotlight, and hero
                 carousel.
               </p>
@@ -1769,17 +1781,17 @@ export const AdminPortal: React.FC = () => {
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-300">Title</label>
+                  <label className="font-bold text-slate-200">Title</label>
                   <input
                     type="text"
                     required
                     value={caseStudyForm.title}
                     onChange={(e) => setCaseStudyForm({ ...caseStudyForm, title: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-300">Client Name</label>
+                  <label className="font-bold text-slate-200">Client Name</label>
                   <input
                     type="text"
                     required
@@ -1787,28 +1799,28 @@ export const AdminPortal: React.FC = () => {
                     onChange={(e) =>
                       setCaseStudyForm({ ...caseStudyForm, clientName: e.target.value })
                     }
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-300">Industry</label>
+                  <label className="font-bold text-slate-200">Industry</label>
                   <input
                     type="text"
                     value={caseStudyForm.industry}
                     onChange={(e) =>
                       setCaseStudyForm({ ...caseStudyForm, industry: e.target.value })
                     }
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-300">Service Department</label>
+                  <label className="font-bold text-slate-200">Service Department</label>
                   <select
                     value={caseStudyForm.department}
                     onChange={(e) =>
                       setCaseStudyForm({ ...caseStudyForm, department: e.target.value })
                     }
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500 font-sans"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40 font-sans"
                   >
                     {SERVICE_DEPARTMENTS.map((dept) => (
                       <option key={dept.id} value={dept.id}>
@@ -1818,18 +1830,18 @@ export const AdminPortal: React.FC = () => {
                   </select>
                 </div>
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-300">Location</label>
+                  <label className="font-bold text-slate-200">Location</label>
                   <input
                     type="text"
                     value={caseStudyForm.location}
                     onChange={(e) =>
                       setCaseStudyForm({ ...caseStudyForm, location: e.target.value })
                     }
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-300">Hero Image URL</label>
+                  <label className="font-bold text-slate-200">Hero Image URL</label>
                   <input
                     type="text"
                     placeholder="/case-studies/your-image.jpg"
@@ -1837,18 +1849,18 @@ export const AdminPortal: React.FC = () => {
                     onChange={(e) =>
                       setCaseStudyForm({ ...caseStudyForm, heroImage: e.target.value })
                     }
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                   />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <label className="font-bold text-slate-300">Summary</label>
+                <label className="font-bold text-slate-200">Summary</label>
                 <textarea
                   rows={2}
                   value={caseStudyForm.summary}
                   onChange={(e) => setCaseStudyForm({ ...caseStudyForm, summary: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
 
@@ -1862,20 +1874,20 @@ export const AdminPortal: React.FC = () => {
                 ] as const
               ).map(([field, label]) => (
                 <div key={field} className="space-y-1">
-                  <label className="font-bold text-slate-300">{label}</label>
+                  <label className="font-bold text-slate-200">{label}</label>
                   <textarea
                     rows={2}
                     value={caseStudyForm[field]}
                     onChange={(e) =>
                       setCaseStudyForm({ ...caseStudyForm, [field]: e.target.value })
                     }
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                   />
                 </div>
               ))}
 
               <div className="space-y-1">
-                <label className="font-bold text-slate-300">
+                <label className="font-bold text-slate-200">
                   Tech Stack / Capabilities (comma-separated)
                 </label>
                 <input
@@ -1885,13 +1897,13 @@ export const AdminPortal: React.FC = () => {
                   onChange={(e) =>
                     setCaseStudyForm({ ...caseStudyForm, techStackText: e.target.value })
                   }
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="font-bold text-slate-300">
+                  <label className="font-bold text-slate-200">
                     Measurable Outcomes (only real, disclosed metrics)
                   </label>
                   <button
@@ -1905,7 +1917,7 @@ export const AdminPortal: React.FC = () => {
                         ],
                       })
                     }
-                    className="text-[11px] font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1"
+                    className="text-[11px] font-bold text-eco-cyan hover:text-eco-cyan flex items-center gap-1"
                   >
                     <Plus className="w-3 h-3" /> Add Row
                   </button>
@@ -1921,7 +1933,7 @@ export const AdminPortal: React.FC = () => {
                         next[idx] = { ...next[idx]!, metric: e.target.value };
                         setCaseStudyForm({ ...caseStudyForm, measurableOutcomes: next });
                       }}
-                      className="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                      className="px-3 py-2 rounded-lg bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                     />
                     <input
                       type="text"
@@ -1932,7 +1944,7 @@ export const AdminPortal: React.FC = () => {
                         next[idx] = { ...next[idx]!, label: e.target.value };
                         setCaseStudyForm({ ...caseStudyForm, measurableOutcomes: next });
                       }}
-                      className="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                      className="px-3 py-2 rounded-lg bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                     />
                     <input
                       type="text"
@@ -1943,7 +1955,7 @@ export const AdminPortal: React.FC = () => {
                         next[idx] = { ...next[idx]!, evidenceNote: e.target.value };
                         setCaseStudyForm({ ...caseStudyForm, measurableOutcomes: next });
                       }}
-                      className="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                      className="px-3 py-2 rounded-lg bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                     />
                   </div>
                 ))}
@@ -1951,7 +1963,7 @@ export const AdminPortal: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-300">Live URL (optional)</label>
+                  <label className="font-bold text-slate-200">Live URL (optional)</label>
                   <input
                     type="text"
                     placeholder="https://your-project.lovable.app"
@@ -1959,11 +1971,11 @@ export const AdminPortal: React.FC = () => {
                     onChange={(e) =>
                       setCaseStudyForm({ ...caseStudyForm, liveUrl: e.target.value })
                     }
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="font-bold text-slate-300">Live URL Label (optional)</label>
+                  <label className="font-bold text-slate-200">Live URL Label (optional)</label>
                   <input
                     type="text"
                     placeholder="your-project.lovable.app"
@@ -1971,14 +1983,14 @@ export const AdminPortal: React.FC = () => {
                     onChange={(e) =>
                       setCaseStudyForm({ ...caseStudyForm, liveUrlLabel: e.target.value })
                     }
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                   />
                 </div>
               </div>
 
               <div className="flex items-center justify-between flex-wrap gap-3 pt-1">
                 <div className="flex items-center gap-4">
-                  <label className="flex items-center gap-2 font-bold text-slate-300">
+                  <label className="flex items-center gap-2 font-bold text-slate-200">
                     <input
                       type="checkbox"
                       checked={caseStudyForm.featured}
@@ -1997,7 +2009,7 @@ export const AdminPortal: React.FC = () => {
                         status: e.target.value as CaseStudy["status"],
                       })
                     }
-                    className="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500 font-sans"
+                    className="px-3 py-2 rounded-lg bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40 font-sans"
                   >
                     <option value="published">Published</option>
                     <option value="review">Review</option>
@@ -2008,7 +2020,7 @@ export const AdminPortal: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSavingCaseStudy}
-                  className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-all"
+                  className="px-6 py-3 rounded-xl bg-primary hover:bg-eco-cyan/20 disabled:opacity-60 text-white font-bold text-xs shadow-lg shadow-cyan-500/30 transition-all"
                 >
                   {isSavingCaseStudy
                     ? "Saving..."
@@ -2023,21 +2035,21 @@ export const AdminPortal: React.FC = () => {
       )}
 
       {/* Standalone Admin Command Nexus System Footer */}
-      <footer className="mt-auto border-t border-slate-800/80 bg-[#090D1A] px-4 sm:px-6 lg:px-8 py-4 text-xs text-slate-400">
+      <footer className="mt-auto border-t border-white/10 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-red-400 font-mono text-[11px]">
               <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
               <span>Root Governance Authority Active</span>
             </div>
-            <span className="text-slate-600 hidden sm:inline">•</span>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[var(--eco-on-dark-muted)]/70 hidden sm:inline">•</span>
+            <span className="text-[11px] text-[var(--eco-on-dark-muted)]">
               Bi-Weekly Payout Cycle: <strong className="text-emerald-400">Oct 15, 2026</strong> •
               NIBSS Dual-Approval Verified
             </span>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px] text-slate-400">
+          <div className="flex items-center gap-4 text-[11px] text-[var(--eco-on-dark-muted)]">
             <span>Server Health: 99.99% Uptime</span>
           </div>
         </div>

@@ -12,7 +12,7 @@ test.describe("Public lead-generation funnel reaches operations", () => {
 
     // Open the brief wizard from the primary header CTA.
     await page
-      .getByRole("button", { name: /get started/i })
+      .getByRole("button", { name: /start a project/i })
       .first()
       .click();
     await expect(page.getByText("NDH Agency • Request a Tailored Proposal")).toBeVisible();

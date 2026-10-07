@@ -82,10 +82,10 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
       aria-label="Talent application"
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans overflow-y-auto"
     >
-      <div className="w-full max-w-2xl rounded-3xl bg-[#0F172A] border border-blue-500/40 p-6 sm:p-8 shadow-2xl relative space-y-6 my-8">
+      <div className="w-full max-w-2xl rounded-3xl bg-eco-navy border border-eco-cyan/25 p-6 sm:p-8 shadow-2xl relative space-y-6 my-8">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-800 transition-colors"
+          className="absolute top-4 right-4 text-[var(--eco-on-dark-muted)] hover:text-white p-2 rounded-full hover:bg-white/[0.08] transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -97,18 +97,18 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
             </div>
             <div className="space-y-2">
               <h3 className="text-2xl font-extrabold text-white">Application Received!</h3>
-              <p className="text-xs text-slate-300 max-w-md mx-auto leading-relaxed">
+              <p className="text-xs text-slate-200 max-w-md mx-auto leading-relaxed">
                 Thank you for applying to the <strong>NDH Vetted Talent Network</strong>. Our talent
                 management squad will review your portfolio and initiate technical vetting within 48
                 business hours.
               </p>
             </div>
-            <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 max-w-sm mx-auto text-xs text-left space-y-1 font-mono text-slate-400">
+            <div className="p-4 rounded-2xl bg-white/[0.06] border border-white/10 max-w-sm mx-auto text-xs text-left space-y-1 font-mono text-[var(--eco-on-dark-muted)]">
               <div>
                 Candidate: <span className="text-white font-bold">{fullName}</span>
               </div>
               <div>
-                Department: <span className="text-blue-400 font-bold">{department}</span>
+                Department: <span className="text-eco-cyan font-bold">{department}</span>
               </div>
               <div>
                 Status: <span className="text-emerald-400 font-bold">Vetting Queue Active ✓</span>
@@ -119,7 +119,7 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
                 setIsSubmitted(false);
                 onClose();
               }}
-              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg transition-transform hover:scale-105"
+              className="px-6 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-lg transition-transform hover:scale-105"
             >
               Return to Website
             </button>
@@ -127,14 +127,14 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-1">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-950 text-blue-300 text-[10px] font-mono font-bold border border-blue-800">
-                <Sparkles className="w-3 h-3 text-blue-400" />
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-eco-dark text-eco-cyan text-[10px] font-mono font-bold border border-white/10">
+                <Sparkles className="w-3 h-3 text-eco-cyan" />
                 <span>JOIN TOP 3% AFRICAN TALENT</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-black text-white">
                 Apply to the NDH Talent Squad
               </h2>
-              <p className="text-xs text-slate-300">
+              <p className="text-xs text-slate-200">
                 Work on high-impact enterprise projects with guaranteed prompt escrow payments in
                 NGN/USD and dedicated PM protection.
               </p>
@@ -142,57 +142,57 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div className="space-y-1.5">
-                <label className="font-bold text-slate-300">Full Name *</label>
+                <label className="font-bold text-slate-200">Full Name *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Oluwaseun Adeleke"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="font-bold text-slate-300">Email Address *</label>
+                <label className="font-bold text-slate-200">Email Address *</label>
                 <input
                   type="email"
                   required
                   placeholder="e.g. seun@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="font-bold text-slate-300">Phone / WhatsApp Number</label>
+                <label className="font-bold text-slate-200">Phone / WhatsApp Number</label>
                 <input
                   type="text"
                   placeholder="e.g. +234 812 345 6789"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="font-bold text-slate-300">Country / Base</label>
+                <label className="font-bold text-slate-200">Country / Base</label>
                 <input
                   type="text"
                   placeholder="e.g. Nigeria / UK / Ghana / Remote"
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="font-bold text-slate-300">Primary Discipline *</label>
+                <label className="font-bold text-slate-200">Primary Discipline *</label>
                 <select
                   value={department}
                   onChange={(e) => setDepartment(e.target.value as ServiceDepartment)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 >
                   {SERVICE_DEPARTMENTS.map((d) => (
                     <option key={d.id} value={d.id}>
@@ -203,13 +203,13 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
               </div>
 
               <div className="space-y-1.5">
-                <label className="font-bold text-slate-300">Seniority Level *</label>
+                <label className="font-bold text-slate-200">Seniority Level *</label>
                 <select
                   value={experienceLevel}
                   onChange={(e) =>
                     setExperienceLevel(e.target.value as Parameters<typeof setExperienceLevel>[0])
                   }
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 >
                   <option value="Junior">Junior (1-2 yrs)</option>
                   <option value="Intermediate">Intermediate (3-4 yrs)</option>
@@ -220,49 +220,49 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
               </div>
 
               <div className="space-y-1.5">
-                <label className="font-bold text-slate-300">Portfolio / Live URL *</label>
+                <label className="font-bold text-slate-200">Portfolio / Live URL *</label>
                 <input
                   type="url"
                   required
                   placeholder="https://myportfolio.com or Figma link"
                   value={portfolioUrl}
                   onChange={(e) => setPortfolioUrl(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="font-bold text-slate-300">GitHub / Behance / Dribbble</label>
+                <label className="font-bold text-slate-200">GitHub / Behance / Dribbble</label>
                 <input
                   type="url"
                   placeholder="https://github.com/yourhandle"
                   value={githubOrBehance}
                   onChange={(e) => setGithubOrBehance(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5 text-xs">
-              <label className="font-bold text-slate-300">Brief Overview of Your Superpowers</label>
+              <label className="font-bold text-slate-200">Brief Overview of Your Superpowers</label>
               <textarea
                 rows={3}
                 placeholder="Tell us about the most complex system, brand, or campaign you've engineered..."
                 value={bioNotes}
                 onChange={(e) => setBioNotes(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500 resize-none"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40 resize-none"
               />
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-blue-950/40 border border-blue-800/40 flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2 text-slate-300">
+            <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-eco-cyan/20 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2 text-slate-200">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>NDA Protected • 100% Talent Margin Confidentiality</span>
               </div>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-bold text-xs shadow-lg shadow-blue-600/30 flex items-center gap-2 transition-transform hover:scale-105"
+                className="px-6 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 disabled:opacity-60 text-white font-bold text-xs shadow-lg shadow-cyan-500/30 flex items-center gap-2 transition-transform hover:scale-105"
               >
                 <span>{isSubmitting ? "Submitting..." : "Submit Application"}</span>
                 <Send className="w-3.5 h-3.5" />

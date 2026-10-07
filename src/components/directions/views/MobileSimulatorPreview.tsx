@@ -80,7 +80,7 @@ export const MobileSimulatorPreview: React.FC<MobileSimulatorPreviewProps> = ({
         </div>
 
         {/* Mobile Device Frame */}
-        <div className="relative mx-auto w-[375px] h-[720px] rounded-[48px] bg-[#000000] p-3 shadow-2xl border-4 border-zinc-700 ring-1 ring-white/10 flex flex-col justify-between overflow-hidden">
+        <div className="relative mx-auto w-[375px] h-[720px] rounded-[48px] bg-black p-3 shadow-2xl border-4 border-zinc-700 ring-1 ring-white/10 flex flex-col justify-between overflow-hidden">
           {/* Dynamic Island / Speaker Notch */}
           <div className="absolute top-4 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-full z-50 flex items-center justify-center">
             <div className="w-2.5 h-2.5 rounded-full bg-zinc-800 ml-16"></div>

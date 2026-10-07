@@ -229,7 +229,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
   ];
 
   return (
-    <div className="bg-[#070A14] text-[#F1F5F9] min-h-screen font-sans flex flex-col">
+    <div className="bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col">
       {/* Standalone Client Workspace Top Bar */}
       <header className="sticky top-0 z-40 flex w-full max-w-full items-center justify-between gap-3 overflow-x-clip border-b border-white/10 bg-eco-navy/95 px-4 py-3.5 backdrop-blur-xl sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-4">
@@ -239,7 +239,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
             <span className="truncate font-display text-sm font-semibold text-white sm:text-base">
               Client Workspace
             </span>
-            <span className="hidden shrink-0 rounded px-2 py-0.5 font-mono text-[10px] font-bold min-[420px]:inline-block bg-blue-500/20 text-blue-300 border border-blue-500/30">
+            <span className="hidden shrink-0 rounded px-2 py-0.5 font-mono text-[10px] font-bold min-[420px]:inline-block bg-eco-cyan/20 text-eco-cyan border border-eco-cyan/25">
               PORTAL SECURE
             </span>
           </div>
@@ -247,7 +247,9 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <div className="hidden min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-white sm:flex">
-            <span className="text-slate-400 text-[11px] hidden md:inline">Entity:</span>
+            <span className="text-[var(--eco-on-dark-muted)] text-[11px] hidden md:inline">
+              Entity:
+            </span>
             <span className="max-w-[18ch] truncate font-bold">{displayOrgName}</span>
             {isDemoWorkspace && (
               <span className="hidden shrink-0 rounded border border-amber-500/30 bg-amber-500/20 px-1.5 py-0.2 font-mono text-[9px] font-bold text-amber-300 md:inline-block">
@@ -278,9 +280,9 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
           )}
 
           {/* Top Header & Loyalty Badge */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 shadow-2xl backdrop-blur-xl">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl bg-eco-navy/90 border border-white/10 shadow-2xl backdrop-blur-xl">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-xl">
+              <div className="w-14 h-14 rounded-2xl bg-eco-cyan/10 border border-eco-cyan/25 flex items-center justify-center text-eco-cyan font-bold text-xl">
                 <Building2 className="w-7 h-7" />
               </div>
               <div>
@@ -295,24 +297,25 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                       NDA Executed (Sample)
                     </span>
                   ) : (
-                    <span className="px-2.5 py-0.5 rounded bg-slate-700/40 text-slate-400 font-mono text-[10px]">
+                    <span className="px-2.5 py-0.5 rounded bg-white/[0.06] text-[var(--eco-on-dark-muted)] font-mono text-[10px]">
                       No Agreements Yet
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
                   Authorized User: <strong className="text-white">{displayUserName}</strong>{" "}
                   {isDemoWorkspace ? (
                     <>
-                      • PM: <strong className="text-blue-400">Tariq Al-Najeeb</strong>
+                      • PM: <strong className="text-eco-cyan">Tariq Al-Najeeb</strong>
                     </>
                   ) : myLatestBrief && myLatestBrief.assignedPM !== "Unassigned" ? (
                     <>
-                      • PM: <strong className="text-blue-400">{myLatestBrief.assignedPM}</strong>
+                      • PM: <strong className="text-eco-cyan">{myLatestBrief.assignedPM}</strong>
                     </>
                   ) : (
                     <>
-                      • PM: <strong className="text-slate-500">Not yet assigned</strong>
+                      • PM:{" "}
+                      <strong className="text-[var(--eco-on-dark-muted)]">Not yet assigned</strong>
                     </>
                   )}
                 </p>
@@ -330,7 +333,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
 
               <button
                 onClick={onOpenBriefWizard}
-                className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-600/30 flex items-center gap-1.5 transition-transform hover:scale-105"
+                className="px-4 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-md shadow-cyan-500/30 flex items-center gap-1.5 transition-transform hover:scale-105"
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Submit Full Brief</span>
@@ -343,8 +346,10 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
             <div className="space-y-6">
               {isDemoWorkspace ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-blue-900/40 space-y-1">
-                    <span className="text-xs text-slate-400">Active Sprint Project</span>
+                  <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
+                    <span className="text-xs text-[var(--eco-on-dark-muted)]">
+                      Active Sprint Project
+                    </span>
                     <div className="text-base font-bold text-white truncate">
                       {activeProject.title}
                     </div>
@@ -353,55 +358,69 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                     </div>
                   </div>
 
-                  <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-blue-900/40 space-y-1">
-                    <span className="text-xs text-slate-400">Total Escrow Deposited</span>
+                  <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
+                    <span className="text-xs text-[var(--eco-on-dark-muted)]">
+                      Total Escrow Deposited
+                    </span>
                     <div className="text-2xl font-bold font-mono text-white">
                       ${activeProject.totalClientBudgetUSD.toLocaleString()}
                     </div>
-                    <div className="text-[10px] text-slate-400">100% Escrow Protected</div>
+                    <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
+                      100% Escrow Protected
+                    </div>
                   </div>
 
-                  <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-blue-900/40 space-y-1">
-                    <span className="text-xs text-slate-400">Internal QA Score</span>
+                  <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
+                    <span className="text-xs text-[var(--eco-on-dark-muted)]">
+                      Internal QA Score
+                    </span>
                     <div className="text-2xl font-bold font-mono text-emerald-400">4.95 / 5.0</div>
                     <div className="text-[10px] text-emerald-400 font-mono">
                       Gate 2 Verified by PM
                     </div>
                   </div>
 
-                  <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-blue-900/40 space-y-1">
-                    <span className="text-xs text-slate-400">Your Referral Balance</span>
+                  <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
+                    <span className="text-xs text-[var(--eco-on-dark-muted)]">
+                      Your Referral Balance
+                    </span>
                     <div className="text-2xl font-bold font-mono text-amber-400">₦250,000 NGN</div>
-                    <div className="text-[10px] text-slate-400">Available as project credit</div>
+                    <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
+                      Available as project credit
+                    </div>
                   </div>
                 </div>
               ) : (
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-blue-900/40 space-y-1">
-                      <span className="text-xs text-slate-400">Briefs Submitted</span>
+                    <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
+                      <span className="text-xs text-[var(--eco-on-dark-muted)]">
+                        Briefs Submitted
+                      </span>
                       <div className="text-2xl font-bold font-mono text-white">
                         {myBriefs.length}
                       </div>
-                      <div className="text-[10px] text-slate-400">
+                      <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
                         {myLatestBrief
                           ? `Latest: ${myLatestBrief.status.replace("_", " ")}`
                           : "No project yet"}
                       </div>
                     </div>
 
-                    <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-blue-900/40 space-y-1">
-                      <span className="text-xs text-slate-400">Total Paid to Escrow</span>
+                    <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
+                      <span className="text-xs text-[var(--eco-on-dark-muted)]">
+                        Total Paid to Escrow
+                      </span>
                       <div className="text-2xl font-bold font-mono text-white">
                         {myTxTotalsLabel || "₦0"}
                       </div>
-                      <div className="text-[10px] text-slate-400">
+                      <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
                         {mySuccessfulTx.length > 0 ? "Verified deposits" : "No deposits yet"}
                       </div>
                     </div>
 
-                    <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-blue-900/40 space-y-1">
-                      <span className="text-xs text-slate-400">Loyalty Rank</span>
+                    <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
+                      <span className="text-xs text-[var(--eco-on-dark-muted)]">Loyalty Rank</span>
                       <div className="text-xl font-bold font-mono text-emerald-400">
                         {user?.loyaltyTier || "Bronze Pioneer"}
                       </div>
@@ -410,25 +429,29 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                       </div>
                     </div>
 
-                    <div className="p-6 rounded-2xl bg-[#0F172A]/80 border border-blue-900/40 space-y-1">
-                      <span className="text-xs text-slate-400">Your Referral Balance</span>
+                    <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
+                      <span className="text-xs text-[var(--eco-on-dark-muted)]">
+                        Your Referral Balance
+                      </span>
                       <div className="text-2xl font-bold font-mono text-amber-400">
                         ₦{(user?.referralCredits ?? 0).toLocaleString()} NGN
                       </div>
-                      <div className="text-[10px] text-slate-400">Available as project credit</div>
+                      <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
+                        Available as project credit
+                      </div>
                     </div>
                   </div>
 
                   {myBriefs.length === 0 ? (
-                    <div className="p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 text-center space-y-4">
-                      <div className="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 mx-auto">
+                    <div className="p-8 rounded-3xl bg-eco-navy/90 border border-white/10 text-center space-y-4">
+                      <div className="w-14 h-14 rounded-2xl bg-eco-cyan/10 border border-eco-cyan/25 flex items-center justify-center text-eco-cyan mx-auto">
                         <Rocket className="w-7 h-7" />
                       </div>
                       <div>
                         <h3 className="font-bold text-lg text-white">
                           Welcome to {displayOrgName}'s NDH workspace!
                         </h3>
-                        <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto">
+                        <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1 max-w-md mx-auto">
                           You don't have an active project yet. Submit a full brief or drop a custom
                           task with your own budget to get your first sprint started -- a PM will
                           review it and reach out here.
@@ -437,7 +460,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                       <div className="flex items-center justify-center gap-3 pt-2">
                         <button
                           onClick={onOpenBriefWizard}
-                          className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-600/30 flex items-center gap-1.5"
+                          className="px-5 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-md shadow-cyan-500/30 flex items-center gap-1.5"
                         >
                           <Sparkles className="w-3.5 h-3.5" />
                           <span>Submit Full Brief</span>
@@ -452,7 +475,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                       </div>
                     </div>
                   ) : (
-                    <div className="p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-4">
+                    <div className="p-6 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-4">
                       <h3 className="font-bold text-sm text-white">Your Submitted Projects</h3>
                       <div className="space-y-3">
                         {myBriefs
@@ -461,25 +484,25 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                           .map((brief) => (
                             <div
                               key={brief.id}
-                              className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-xs space-y-1.5"
+                              className="p-4 rounded-2xl bg-white/[0.06] border border-white/10 text-xs space-y-1.5"
                             >
                               <div className="flex items-center justify-between flex-wrap gap-2">
                                 <span className="font-bold text-white">{brief.projectName}</span>
-                                <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 font-mono text-[10px] uppercase">
+                                <span className="px-2 py-0.5 rounded bg-eco-cyan/10 text-eco-cyan font-mono text-[10px] uppercase">
                                   {brief.status.replace("_", " ")}
                                 </span>
                               </div>
-                              <div className="text-slate-400">
+                              <div className="text-[var(--eco-on-dark-muted)]">
                                 {brief.scopeTier} • {brief.budgetAmount} {brief.currency} •{" "}
                                 {brief.timelineWeeks}
                               </div>
-                              <div className="text-slate-500 text-[11px]">
+                              <div className="text-[var(--eco-on-dark-muted)] text-[11px]">
                                 PM:{" "}
                                 <span
                                   className={
                                     brief.assignedPM === "Unassigned"
-                                      ? "text-slate-500"
-                                      : "text-blue-400 font-semibold"
+                                      ? "text-[var(--eco-on-dark-muted)]"
+                                      : "text-eco-cyan font-semibold"
                                   }
                                 >
                                   {brief.assignedPM}
@@ -498,8 +521,8 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
 
           {/* TAB: Drop Custom Budget Task */}
           {activeTab === "custom_task" && (
-            <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-              <div className="space-y-1 border-b border-slate-800 pb-4">
+            <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+              <div className="space-y-1 border-b border-white/10 pb-4">
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold">
                   <Zap className="w-3 h-3 text-emerald-400" />
                   <span>CUSTOM BUDGET &amp; TAILORED TASK</span>
@@ -507,7 +530,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 <h3 className="text-xl font-bold text-white">
                   Drop a Custom Task with Your Chosen Budget
                 </h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-[var(--eco-on-dark-muted)]">
                   If our preset starter or growth packages don't fit, name your task and state the
                   exact amount you wish to allocate. Your PM will organize the sprint and launch
                   immediately.
@@ -523,13 +546,13 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                     <h4 className="font-bold text-base text-white">
                       Custom Task Successfully Logged!
                     </h4>
-                    <p className="text-xs text-slate-300 mt-1">
+                    <p className="text-xs text-slate-200 mt-1">
                       Task: <strong className="text-white">{customTaskTitle}</strong> • Budget:{" "}
                       <strong className="text-emerald-400">
                         {currency} {Number(customBudgetAmount).toLocaleString()}
                       </strong>
                     </p>
-                    <p className="text-[11px] text-slate-400 mt-1">
+                    <p className="text-[11px] text-[var(--eco-on-dark-muted)] mt-1">
                       Your brief has been logged and is awaiting PM review. You can track its status
                       anytime from the Sprint Overview tab.
                     </p>
@@ -547,19 +570,19 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
               ) : (
                 <form onSubmit={handleCustomTaskSubmit} className="space-y-4 text-xs">
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">Task / Deliverable Title *</label>
+                    <label className="font-bold text-slate-200">Task / Deliverable Title *</label>
                     <input
                       type="text"
                       required
                       placeholder="e.g. Redesign Checkout Flow & Fix Webhook Sync"
                       value={customTaskTitle}
                       onChange={(e) => setCustomTaskTitle(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">
+                    <label className="font-bold text-slate-200">
                       Your Custom Budget Amount ({currency}) *
                     </label>
                     <input
@@ -568,15 +591,15 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                       placeholder="e.g. 50000"
                       value={customBudgetAmount}
                       onChange={(e) => setCustomBudgetAmount(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-emerald-400 font-mono font-bold text-base focus:outline-none focus:border-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-emerald-400 font-mono font-bold text-base focus:outline-none focus:border-eco-cyan/40"
                     />
-                    <span className="text-[10px] text-slate-400">
+                    <span className="text-[10px] text-[var(--eco-on-dark-muted)]">
                       Enter whatever amount fits your budget (e.g. ₦35k, ₦75k, ₦150k, $250, etc.).
                     </span>
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-bold text-slate-300">
+                    <label className="font-bold text-slate-200">
                       Task Scope &amp; Instructions
                     </label>
                     <textarea
@@ -584,7 +607,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                       placeholder="Specify exact requirements, API endpoints, Figma links, or objectives..."
                       value={customTaskDesc}
                       onChange={(e) => setCustomTaskDesc(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-blue-500 resize-none"
+                      className="w-full px-4 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-white focus:outline-none focus:border-eco-cyan/40 resize-none"
                     />
                   </div>
 
@@ -602,8 +625,8 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
 
           {/* TAB: Rewards, Ranks & Referrals */}
           {activeTab === "rewards" && (
-            <div className="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-              <div className="space-y-1 border-b border-slate-800 pb-4">
+            <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+              <div className="space-y-1 border-b border-white/10 pb-4">
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold">
                   <Gift className="w-3 h-3 text-amber-400" />
                   <span>CLIENT LOYALTY &amp; REFERRAL ENGINE</span>
@@ -611,14 +634,14 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 <h3 className="text-xl font-bold text-white">
                   Client Ranks, Special Offers &amp; Referral Rewards
                 </h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-[var(--eco-on-dark-muted)]">
                   Universal 10% Welcome Discount Allowance on all new client accounts, loyalty rank
                   benefits, and 10% referral credits.
                 </p>
               </div>
 
               {/* 1. Universal Welcome Discount Credit Ledger */}
-              <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0F172A] to-[#1E293B] border border-amber-500/40 space-y-4 shadow-xl">
+              <div className="p-6 rounded-3xl bg-gradient-to-br from-eco-navy to-eco-navy border border-amber-500/40 space-y-4 shadow-xl">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
@@ -629,7 +652,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                         ₦50,000 ($50 USD) Welcome Discount Bucket
                       </h4>
                     </div>
-                    <p className="text-xs text-slate-300">
+                    <p className="text-xs text-slate-200">
                       Granted to <strong>every new client</strong>. 10% is automatically deducted
                       from each milestone invoice until your ₦50,000 allowance is completely
                       consumed.
@@ -637,13 +660,13 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                   </div>
 
                   <div className="text-right shrink-0 p-3 rounded-2xl bg-black/40 border border-amber-500/30">
-                    <span className="text-[10px] text-slate-400 block font-bold uppercase tracking-wider">
+                    <span className="text-[10px] text-[var(--eco-on-dark-muted)] block font-bold uppercase tracking-wider">
                       Remaining Allowance:
                     </span>
                     <div className="text-2xl font-bold font-mono text-emerald-400">
                       ₦{(user?.welcomeCreditBalanceNGN ?? 50000).toLocaleString()} NGN
                     </div>
-                    <div className="text-[10px] text-slate-400 font-mono">
+                    <div className="text-[10px] text-[var(--eco-on-dark-muted)] font-mono">
                       (${(user?.welcomeCreditBalanceUSD ?? 50).toLocaleString()} USD) • Ready for
                       next sprint
                     </div>
@@ -657,14 +680,14 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                   const totalNGN = usedNGN + remainingNGN || 1;
                   const percentLeft = Math.round((remainingNGN / totalNGN) * 100);
                   return (
-                    <div className="space-y-1.5 pt-2 border-t border-slate-700/60 text-xs">
-                      <div className="flex justify-between text-slate-300 font-mono text-[11px]">
+                    <div className="space-y-1.5 pt-2 border-t border-white/12 text-xs">
+                      <div className="flex justify-between text-slate-200 font-mono text-[11px]">
                         <span>₦{usedNGN.toLocaleString()} Used</span>
                         <span className="text-emerald-400 font-bold">
                           ₦{remainingNGN.toLocaleString()} Remaining ({percentLeft}% Pool Left)
                         </span>
                       </div>
-                      <div className="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                      <div className="w-full h-2.5 bg-white/[0.06] rounded-full overflow-hidden border border-white/10">
                         <div
                           className="h-full bg-gradient-to-r from-amber-500 to-emerald-400 rounded-full"
                           style={{ width: `${percentLeft}%` }}
@@ -675,11 +698,11 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 })()}
 
                 {/* Real-world Rule Clarification */}
-                <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-[11px] text-slate-300 space-y-1">
+                <div className="p-3.5 rounded-xl bg-white/[0.06] border border-white/10 text-[11px] text-slate-200 space-y-1">
                   <span className="text-amber-300 font-bold block">
                     💡 How the 10% drawdown works on your invoices:
                   </span>
-                  <p className="text-slate-400 leading-relaxed">
+                  <p className="text-[var(--eco-on-dark-muted)] leading-relaxed">
                     If your next milestone is <strong>₦150,000</strong>, a 10% discount (
                     <strong>₦15,000</strong>) is deducted directly from this bucket. You pay only{" "}
                     <strong>₦135,000</strong>, and <strong>₦5,000</strong> remains in your allowance
@@ -722,7 +745,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                       className={`p-4 rounded-2xl border space-y-2 ${
                         r.active
                           ? "bg-amber-950/40 border-amber-500/50 text-white shadow-lg"
-                          : "bg-slate-950 border-slate-800 text-slate-400"
+                          : "bg-eco-dark border-white/10 text-[var(--eco-on-dark-muted)]"
                       }`}
                     >
                       <div className="flex items-center justify-between">
@@ -734,20 +757,20 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                         )}
                       </div>
                       <div className="text-[11px] text-amber-300 font-mono">{r.criteria}</div>
-                      <div className="text-[11px] text-slate-300 leading-tight">{r.perk}</div>
+                      <div className="text-[11px] text-slate-200 leading-tight">{r.perk}</div>
                     </div>
                   ))}
               </div>
 
               {/* Referral Share Box */}
-              <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4 text-xs">
+              <div className="p-6 rounded-2xl bg-white/[0.06] border border-white/10 space-y-4 text-xs">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="space-y-1">
                     <h4 className="font-bold text-sm text-white flex items-center gap-2">
-                      <Share2 className="w-4 h-4 text-blue-400" />
+                      <Share2 className="w-4 h-4 text-eco-cyan" />
                       <span>Your Unique Client Referral Link</span>
                     </h4>
-                    <p className="text-slate-400 text-xs">
+                    <p className="text-[var(--eco-on-dark-muted)] text-xs">
                       Share with founders, CTOs &amp; business owners. When they fund their first
                       project milestone, they get <strong>₦50,000 / $50 off</strong>, and you earn{" "}
                       <strong>10% project credits (cashback)</strong>.
@@ -755,13 +778,13 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                   </div>
 
                   <div className="text-right shrink-0">
-                    <span className="text-[10px] text-slate-400 block font-bold uppercase tracking-wider">
+                    <span className="text-[10px] text-[var(--eco-on-dark-muted)] block font-bold uppercase tracking-wider">
                       Unlocked Referral Credits:
                     </span>
                     <div className="text-xl font-bold font-mono text-emerald-400">
                       ₦{(user?.referralCredits ?? 0).toLocaleString()} NGN
                     </div>
-                    <span className="text-[10px] text-slate-400">
+                    <span className="text-[10px] text-[var(--eco-on-dark-muted)]">
                       Usable across all future milestones
                     </span>
                   </div>
@@ -772,11 +795,11 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                     type="text"
                     readOnly
                     value={referralLink}
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-blue-300 font-mono text-xs focus:outline-none"
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-eco-dark border border-white/12 text-eco-cyan font-mono text-xs focus:outline-none"
                   />
                   <button
                     onClick={handleCopyReferral}
-                    className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shrink-0"
+                    className="px-5 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shrink-0"
                   >
                     {copiedReferral ? (
                       <>
@@ -793,9 +816,9 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 </div>
 
                 {/* Referral Condition Notice */}
-                <div className="p-3.5 rounded-xl bg-blue-950/40 border border-blue-800/40 text-[11px] text-slate-300 space-y-1">
-                  <div className="font-bold text-blue-300 flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+                <div className="p-3.5 rounded-xl bg-white/[0.04] border border-eco-cyan/20 text-[11px] text-slate-200 space-y-1">
+                  <div className="font-bold text-eco-cyan flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-eco-cyan" />
                     <span>Payment-Triggered Referral Terms:</span>
                   </div>
                   <p>
@@ -806,12 +829,12 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 </div>
 
                 {/* Activity Feed */}
-                <div className="space-y-2 pt-2 border-t border-slate-800">
-                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                <div className="space-y-2 pt-2 border-t border-white/10">
+                  <div className="text-[11px] font-bold text-[var(--eco-on-dark-muted)] uppercase tracking-wider">
                     Referred Organizations Status:
                   </div>
                   {myReferrals.length === 0 ? (
-                    <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-center text-[11px] text-slate-400">
+                    <div className="p-4 rounded-xl bg-eco-dark border border-white/10 text-center text-[11px] text-[var(--eco-on-dark-muted)]">
                       No referrals yet. Share your link above to start earning cashback.
                     </div>
                   ) : (
@@ -819,7 +842,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                       {myReferrals.map((r) => (
                         <div
                           key={r.id}
-                          className={`p-3 rounded-xl bg-slate-950 border flex items-center justify-between text-[11px] ${
+                          className={`p-3 rounded-xl bg-eco-dark border flex items-center justify-between text-[11px] ${
                             r.status === "milestone_funded" || r.status === "credited"
                               ? "border-emerald-500/30"
                               : "border-amber-500/30"
@@ -827,7 +850,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                         >
                           <div>
                             <strong className="text-white">{r.referredUserName}</strong>
-                            <div className="text-slate-400">
+                            <div className="text-[var(--eco-on-dark-muted)]">
                               {r.referredProjectTitle || "Awaiting project brief"} • Registered{" "}
                               {r.registeredAt}
                             </div>
@@ -855,15 +878,15 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
 
           {/* TAB 2: Deliverables & Approvals */}
           {activeTab === "milestones" && (
-            <div className="p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
+            <div className="p-6 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
               {isDemoWorkspace ? (
                 <>
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-4">
                     <div>
                       <h3 className="font-bold text-base text-white">
                         Milestone 2 Deliverables Inspection (Sample)
                       </h3>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-[var(--eco-on-dark-muted)]">
                         Inspected and QA-certified by Tariq Al-Najeeb (Lead PM). Score: 4.95 / 5.0.
                       </p>
                     </div>
@@ -872,12 +895,12 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                     </span>
                   </div>
 
-                  <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 text-xs">
+                  <div className="p-5 rounded-2xl bg-white/[0.06] border border-white/10 space-y-3 text-xs">
                     <div className="font-bold text-white">
                       Deliverable Package: React 19 Frontend + Biometric KYC Integration
                     </div>
-                    <div className="text-slate-300">
-                      Git Tag: <code className="text-blue-400">v2.0-rc-verified</code> • P95
+                    <div className="text-slate-200">
+                      Git Tag: <code className="text-eco-cyan">v2.0-rc-verified</code> • P95
                       Latency: <code className="text-emerald-400">275ms</code>
                     </div>
                     <div className="flex items-center gap-3 pt-2">
@@ -917,9 +940,9 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 </>
               ) : (
                 <div className="text-center py-10 space-y-2">
-                  <CheckCircle2 className="w-10 h-10 text-slate-600 mx-auto" />
+                  <CheckCircle2 className="w-10 h-10 text-[var(--eco-on-dark-muted)]/70 mx-auto" />
                   <h3 className="font-bold text-base text-white">No deliverables yet</h3>
-                  <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                  <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
                     Once your PM assigns milestones to your project, QA-verified deliverables will
                     appear here for your inspection and approval.
                   </p>
@@ -930,14 +953,14 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
 
           {/* TAB 3: Invoices & Billing */}
           {activeTab === "invoices" && (
-            <div className="p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-6 shadow-2xl">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div className="p-6 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <h3 className="font-bold text-base text-white">
                   Escrow Invoices &amp; Billing History
                 </h3>
                 <button
                   onClick={() => setIsPaymentModalOpen(true)}
-                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md"
+                  className="px-4 py-2 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-md"
                 >
                   Make Escrow Deposit
                 </button>
@@ -948,14 +971,16 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                   {clientInvoices.map((inv) => (
                     <div
                       key={inv.id}
-                      className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs"
+                      className="p-4 rounded-2xl bg-white/[0.06] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs"
                     >
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="font-bold text-white">{inv.invoiceNumber}</span>
-                          <span className="text-slate-400">({inv.milestoneTitle})</span>
+                          <span className="text-[var(--eco-on-dark-muted)]">
+                            ({inv.milestoneTitle})
+                          </span>
                         </div>
-                        <div className="text-slate-400 mt-0.5">
+                        <div className="text-[var(--eco-on-dark-muted)] mt-0.5">
                           Due: {inv.dueDate} • Gateway: {inv.paymentGateway}
                         </div>
                       </div>
@@ -979,9 +1004,9 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 </div>
               ) : myTransactions.length === 0 ? (
                 <div className="text-center py-10 space-y-2">
-                  <CreditCard className="w-10 h-10 text-slate-600 mx-auto" />
+                  <CreditCard className="w-10 h-10 text-[var(--eco-on-dark-muted)]/70 mx-auto" />
                   <h3 className="font-bold text-base text-white">No invoices yet</h3>
-                  <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                  <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
                     Once your first project milestone is scheduled, invoices will appear here. You
                     can also make an ad-hoc escrow deposit anytime via the button above.
                   </p>
@@ -991,14 +1016,14 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                   {myTransactions.map((tx) => (
                     <div
                       key={tx.id}
-                      className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs"
+                      className="p-4 rounded-2xl bg-white/[0.06] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs"
                     >
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="font-bold text-white">{tx.reference}</span>
-                          <span className="text-slate-400">({tx.purpose})</span>
+                          <span className="text-[var(--eco-on-dark-muted)]">({tx.purpose})</span>
                         </div>
-                        <div className="text-slate-400 mt-0.5">
+                        <div className="text-[var(--eco-on-dark-muted)] mt-0.5">
                           {new Date(tx.timestamp).toLocaleDateString()} • Gateway: {tx.gateway}
                         </div>
                       </div>
@@ -1008,7 +1033,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                         >
                           {tx.currency} {tx.amount.toLocaleString()}
                         </span>
-                        <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px] uppercase">
+                        <span className="px-2 py-0.5 rounded bg-white/[0.08] text-slate-200 font-mono text-[10px] uppercase">
                           {tx.status}
                         </span>
                       </div>
@@ -1021,19 +1046,19 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
 
           {/* TAB 4: PM Direct Channel */}
           {activeTab === "messages" && (
-            <div className="p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-4 shadow-2xl">
+            <div className="p-6 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-4 shadow-2xl">
               {isDemoWorkspace ? (
                 <>
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 font-bold">
+                      <div className="w-10 h-10 rounded-xl bg-primary/20 border border-eco-cyan/40 flex items-center justify-center text-eco-cyan font-bold">
                         T
                       </div>
                       <div>
                         <h3 className="font-bold text-sm text-white">
                           Tariq Al-Najeeb (Your Assigned Lead PM) — Sample Conversation
                         </h3>
-                        <p className="text-[11px] text-slate-400">
+                        <p className="text-[11px] text-[var(--eco-on-dark-muted)]">
                           Average response time: &lt;15 mins
                         </p>
                       </div>
@@ -1047,9 +1072,9 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                     {messagesList.map((msg, i) => (
                       <div
                         key={i}
-                        className={`p-4 rounded-2xl text-xs space-y-1 ${msg.isPM ? "bg-slate-900 border border-slate-800" : "bg-blue-950/40 border border-blue-800/40 ml-6"}`}
+                        className={`p-4 rounded-2xl text-xs space-y-1 ${msg.isPM ? "bg-white/[0.06] border border-white/10" : "bg-white/[0.04] border border-eco-cyan/20 ml-6"}`}
                       >
-                        <div className="flex items-center justify-between text-[11px] text-slate-400 font-semibold">
+                        <div className="flex items-center justify-between text-[11px] text-[var(--eco-on-dark-muted)] font-semibold">
                           <span>{msg.sender}</span>
                           <span className="font-mono">{msg.time}</span>
                         </div>
@@ -1065,11 +1090,11 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                       value={clientMessageInput}
                       onChange={(e) => setClientMessageInput(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-                      className="flex-1 px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-blue-500"
+                      className="flex-1 px-4 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-xs text-white focus:outline-none focus:border-eco-cyan/40"
                     />
                     <button
                       onClick={handleSendMessage}
-                      className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md"
+                      className="px-5 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs flex items-center gap-1.5 shadow-md"
                     >
                       <Send className="w-3.5 h-3.5" />
                       <span>Send</span>
@@ -1078,20 +1103,20 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 </>
               ) : myLatestBrief && myLatestBrief.assignedPM !== "Unassigned" ? (
                 <div className="text-center py-10 space-y-2">
-                  <MessageSquare className="w-10 h-10 text-slate-600 mx-auto" />
+                  <MessageSquare className="w-10 h-10 text-[var(--eco-on-dark-muted)]/70 mx-auto" />
                   <h3 className="font-bold text-base text-white">
                     You're connected with {myLatestBrief.assignedPM}
                   </h3>
-                  <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                  <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
                     Direct in-portal messaging is being rolled out -- for now, your PM will follow
                     up by email at {user?.email}.
                   </p>
                 </div>
               ) : (
                 <div className="text-center py-10 space-y-2">
-                  <MessageSquare className="w-10 h-10 text-slate-600 mx-auto" />
+                  <MessageSquare className="w-10 h-10 text-[var(--eco-on-dark-muted)]/70 mx-auto" />
                   <h3 className="font-bold text-base text-white">No PM assigned yet</h3>
-                  <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                  <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
                     You'll be connected with a dedicated PM here as soon as your brief is reviewed
                     and claimed.
                   </p>
@@ -1102,12 +1127,12 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
 
           {/* TAB 5: Contracts */}
           {activeTab === "contracts" && (
-            <div className="p-6 rounded-3xl bg-[#0F172A]/90 border border-blue-900/40 space-y-4 text-xs shadow-2xl">
+            <div className="p-6 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-4 text-xs shadow-2xl">
               <h3 className="font-bold text-sm text-white">
                 Bilateral NDA &amp; Master Services Agreement
               </h3>
               {isDemoWorkspace ? (
-                <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+                <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <ShieldCheck className="w-5 h-5 text-emerald-400" />
                     <div>
@@ -1115,21 +1140,21 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                         Mutual NDA Executed (Sample): NDH-
                         {currentOrg.name.slice(0, 4).toUpperCase()}-2026
                       </div>
-                      <div className="text-[10px] text-slate-500">
+                      <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
                         Timestamp: 2026-01-15 14:22 UTC • Signed by Authorized Officer
                       </div>
                     </div>
                   </div>
-                  <button className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-mono text-[11px] flex items-center gap-1">
+                  <button className="px-3 py-1.5 rounded-lg bg-white/[0.08] hover:bg-white/12 text-slate-200 font-mono text-[11px] flex items-center gap-1">
                     <Download className="w-3 h-3" />
                     <span>Download PDF</span>
                   </button>
                 </div>
               ) : (
-                <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 text-center space-y-2">
-                  <Lock className="w-8 h-8 text-slate-600 mx-auto" />
+                <div className="p-6 rounded-xl bg-white/[0.06] border border-white/10 text-center space-y-2">
+                  <Lock className="w-8 h-8 text-[var(--eco-on-dark-muted)]/70 mx-auto" />
                   <h4 className="font-bold text-white">No agreements signed yet</h4>
-                  <p className="text-slate-400 max-w-sm mx-auto">
+                  <p className="text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
                     Your NDA and Master Services Agreement will be generated here once your first
                     project is confirmed with your assigned PM.
                   </p>
@@ -1149,15 +1174,15 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
       />
 
       {/* Dedicated Standalone Client Portal System Footer */}
-      <footer className="mt-auto border-t border-slate-800/80 bg-[#090D1A] px-4 sm:px-6 lg:px-8 py-4 text-xs text-slate-400">
+      <footer className="mt-auto border-t border-white/10 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px]">
               <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>NDH Client Secure Rails Active</span>
             </div>
-            <span className="text-slate-600 hidden sm:inline">•</span>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[var(--eco-on-dark-muted)]/70 hidden sm:inline">•</span>
+            <span className="text-[11px] text-[var(--eco-on-dark-muted)]">
               Assigned PM:{" "}
               <strong className="text-slate-200">
                 {isDemoWorkspace
@@ -1170,7 +1195,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
             </span>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px] text-slate-400">
+          <div className="flex items-center gap-4 text-[11px] text-[var(--eco-on-dark-muted)]">
             <span>NDA-Protected • Dual-Key Escrow Milestones</span>
           </div>
         </div>
