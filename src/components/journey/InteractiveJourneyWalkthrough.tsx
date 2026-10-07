@@ -295,7 +295,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 1: Brief Submission */}
               {state.currentStep === 1 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 space-y-3">
                     <div className="font-bold text-white text-sm">
                       Savannah Health Technologies • Discovery Brief
                     </div>
@@ -344,7 +344,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 2: Lead Qualification */}
               {state.currentStep === 2 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Lead Triage & AI Scoring Engine
@@ -377,7 +377,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 3: Proposal Builder */}
               {state.currentStep === 3 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Formal Milestone Proposal Specification
@@ -429,7 +429,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 4: Client Review, Revision & Deposit */}
               {state.currentStep === 4 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Client Portal • Dr. Chinedu Eze
@@ -468,7 +468,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 5: PM Creates Sprint & Shortlists Talent */}
               {state.currentStep === 5 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Project Initialized: Code NDH-2026-104
@@ -521,7 +521,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 6: Talent Accepts & Starts Work */}
               {state.currentStep === 6 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Talent Portal • Architect-Alpha
@@ -564,7 +564,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 7: Talent Submits v1.0 & PM Requests Revision */}
               {state.currentStep === 7 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         QA Gate 1: Deliverable v1.0 Evaluation
@@ -602,7 +602,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 8: Talent Deploys v2.0 with Edge Optimization */}
               {state.currentStep === 8 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Deliverable Version 2.0 Upload
@@ -642,7 +642,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 9: PM QA Sign-Off & Publish to Client */}
               {state.currentStep === 9 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         QA Gate Sign-Off (Score: 5.0/5.0)
@@ -680,7 +680,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 10: Client Milestone Approval */}
               {state.currentStep === 10 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Client Milestone 1 Formal Approval
@@ -722,7 +722,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 11: Finance Dual-Approval & Payout */}
               {state.currentStep === 11 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Dual-Approval Payout Batch: NDH-PAY-2026-W40
@@ -771,7 +771,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
               {/* STAGE 12: Case Study Nomination & Publication */}
               {state.currentStep === 12 && (
                 <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3">
+                  <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
                         Case Study CMS Publishing Gate

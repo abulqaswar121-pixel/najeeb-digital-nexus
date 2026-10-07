@@ -238,7 +238,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
             {/* Performance Stats Cards */}
             <div className="flex flex-wrap items-center gap-3">
-              <div className="p-3.5 rounded-2xl bg-white/[0.06]/90 border border-white/10 text-xs flex items-center gap-3">
+              <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/10 text-xs flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold">
                   {talent.qaPercentageScore}%
                 </div>
@@ -252,7 +252,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white/[0.06]/90 border border-white/10 text-xs flex items-center gap-3">
+              <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/10 text-xs flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-eco-cyan/10 border border-eco-cyan/25 flex items-center justify-center text-eco-cyan font-bold">
                   {talent.completedProjects}
                 </div>
@@ -264,7 +264,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white/[0.06]/90 border border-white/10 text-xs flex items-center gap-3">
+              <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/10 text-xs flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">
                   <DollarSign className="w-4 h-4" />
                 </div>
@@ -315,7 +315,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
                 <div className="space-y-4">
                   {/* Task 1 */}
-                  <div className="p-5 rounded-2xl bg-white/[0.06]/90 border border-white/10 space-y-3 text-xs hover:border-white/12 transition-all">
+                  <div className="p-5 rounded-2xl bg-white/[0.06] border border-white/10 space-y-3 text-xs hover:border-white/12 transition-all">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">
@@ -345,7 +345,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                       </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-3 border-t border-white/10/80 gap-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-3 border-t border-white/10 gap-2">
                       <div className="flex items-center gap-2 text-amber-400">
                         <Clock className="w-3.5 h-3.5" />
                         <span>
@@ -365,7 +365,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                   </div>
 
                   {/* Task 2 */}
-                  <div className="p-5 rounded-2xl bg-white/[0.06]/90 border border-white/10 space-y-3 text-xs hover:border-white/12 transition-all">
+                  <div className="p-5 rounded-2xl bg-white/[0.06] border border-white/10 space-y-3 text-xs hover:border-white/12 transition-all">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">
@@ -395,7 +395,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                       </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-3 border-t border-white/10/80 gap-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-3 border-t border-white/10 gap-2">
                       <div className="flex items-center gap-2 text-emerald-400">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                         <span>Status: In Active Sprint Execution</span>
@@ -500,7 +500,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                 </div>
 
                 {/* Progress to Next Milestone */}
-                <div className="space-y-2 pt-4 border-t border-white/12/60">
+                <div className="space-y-2 pt-4 border-t border-white/12">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-slate-200 font-semibold">
                       Tier Mastery: Sovereign Principal Rank
@@ -537,7 +537,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                         className={`p-5 rounded-2xl border transition-all flex flex-col justify-between ${
                           isCurrent
                             ? "bg-eco-navy border-cyan-400/80 shadow-lg shadow-cyan-500/20 ring-1 ring-cyan-400/50"
-                            : "bg-white/[0.06]/80 border-white/10"
+                            : "bg-white/[0.06] border-white/10"
                         }`}
                       >
                         <div className="space-y-3">
@@ -612,7 +612,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                   </p>
                 </div>
 
-                <div className="p-8 rounded-2xl bg-white/[0.06]/80 border-2 border-dashed border-eco-cyan/40 text-center space-y-4">
+                <div className="p-8 rounded-2xl bg-white/[0.06] border-2 border-dashed border-eco-cyan/40 text-center space-y-4">
                   <div className="w-14 h-14 mx-auto rounded-2xl bg-primary/10 border border-eco-cyan/25 flex items-center justify-center text-eco-cyan">
                     <Upload className="w-7 h-7" />
                   </div>
@@ -727,7 +727,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
                 {/* Breakdown Explanation Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                  <div className="p-4 rounded-2xl bg-white/[0.06]/90 border border-amber-500/30 space-y-2">
+                  <div className="p-4 rounded-2xl bg-white/[0.06] border border-amber-500/30 space-y-2">
                     <div className="flex items-center gap-2 text-amber-400 font-bold">
                       <Building className="w-4 h-4" />
                       <span>1. Admin / Owner (45%)</span>
@@ -738,7 +738,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-white/[0.06]/90 border border-eco-glow/25 space-y-2">
+                  <div className="p-4 rounded-2xl bg-white/[0.06] border border-eco-glow/25 space-y-2">
                     <div className="flex items-center gap-2 text-eco-glow font-bold">
                       <Briefcase className="w-4 h-4" />
                       <span>2. Project Manager (15%)</span>
@@ -749,7 +749,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-white/[0.06]/90 border border-emerald-500/30 space-y-2">
+                  <div className="p-4 rounded-2xl bg-white/[0.06] border border-emerald-500/30 space-y-2">
                     <div className="flex items-center gap-2 text-emerald-400 font-bold">
                       <Terminal className="w-4 h-4" />
                       <span>3. Talent Execution Pool (40%)</span>
@@ -946,7 +946,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
       </div>
 
       {/* Standalone Talent Workspace System Footer */}
-      <footer className="mt-auto border-t border-white/10/80 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
+      <footer className="mt-auto border-t border-white/10 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px]">

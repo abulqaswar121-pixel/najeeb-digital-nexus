@@ -297,7 +297,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                       NDA Executed (Sample)
                     </span>
                   ) : (
-                    <span className="px-2.5 py-0.5 rounded bg-white/12/40 text-[var(--eco-on-dark-muted)] font-mono text-[10px]">
+                    <span className="px-2.5 py-0.5 rounded bg-white/[0.06] text-[var(--eco-on-dark-muted)] font-mono text-[10px]">
                       No Agreements Yet
                     </span>
                   )}
@@ -680,7 +680,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                   const totalNGN = usedNGN + remainingNGN || 1;
                   const percentLeft = Math.round((remainingNGN / totalNGN) * 100);
                   return (
-                    <div className="space-y-1.5 pt-2 border-t border-white/12/60 text-xs">
+                    <div className="space-y-1.5 pt-2 border-t border-white/12 text-xs">
                       <div className="flex justify-between text-slate-200 font-mono text-[11px]">
                         <span>₦{usedNGN.toLocaleString()} Used</span>
                         <span className="text-emerald-400 font-bold">
@@ -698,7 +698,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 })()}
 
                 {/* Real-world Rule Clarification */}
-                <div className="p-3.5 rounded-xl bg-white/[0.06]/90 border border-white/10 text-[11px] text-slate-200 space-y-1">
+                <div className="p-3.5 rounded-xl bg-white/[0.06] border border-white/10 text-[11px] text-slate-200 space-y-1">
                   <span className="text-amber-300 font-bold block">
                     💡 How the 10% drawdown works on your invoices:
                   </span>
@@ -1174,7 +1174,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
       />
 
       {/* Dedicated Standalone Client Portal System Footer */}
-      <footer className="mt-auto border-t border-white/10/80 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
+      <footer className="mt-auto border-t border-white/10 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px]">

@@ -237,7 +237,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
         {activeTab === "login" ? (
           <form onSubmit={handleLoginSubmit} className="space-y-4 text-xs">
             {authPortalContext === "client" ? (
-              <div className="p-3 rounded-xl bg-white/[0.06]/60 border border-white/10 text-[10px] text-[var(--eco-on-dark-muted)] leading-relaxed">
+              <div className="p-3 rounded-xl bg-white/[0.06] border border-white/10 text-[10px] text-[var(--eco-on-dark-muted)] leading-relaxed">
                 New client?{" "}
                 <button
                   type="button"
@@ -254,7 +254,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
                 given.
               </div>
             ) : (
-              <div className="p-3 rounded-xl bg-white/[0.06]/60 border border-white/10 text-[10px] text-[var(--eco-on-dark-muted)] leading-relaxed">
+              <div className="p-3 rounded-xl bg-white/[0.06] border border-white/10 text-[10px] text-[var(--eco-on-dark-muted)] leading-relaxed">
                 This access is granted by an NDH admin. If you&apos;re expecting access, use the
                 email and password you were given — contact your admin if you don&apos;t have one
                 yet.

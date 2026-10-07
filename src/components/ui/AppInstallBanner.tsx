@@ -64,9 +64,9 @@ export const AppInstallBanner: React.FC<AppInstallBannerProps> = ({ onDismiss })
       <div className="fixed bottom-6 left-6 z-40 hidden sm:block">
         <button
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-white/[0.06]/90 hover:bg-white/[0.08] border border-white/12/80 text-slate-200 text-xs font-semibold shadow-xl backdrop-blur-md transition-all hover:scale-105 group"
+          className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-white/[0.06] hover:bg-white/[0.08] border border-white/12 text-slate-200 text-xs font-semibold shadow-xl backdrop-blur-md transition-all hover:scale-105 group"
         >
-          <div className="w-5 h-5 rounded-lg bg-primary/30 border border-eco-cyan/50/40 flex items-center justify-center text-eco-cyan group-hover:rotate-12 transition-transform">
+          <div className="w-5 h-5 rounded-lg bg-primary/30 border border-eco-cyan/50 flex items-center justify-center text-eco-cyan group-hover:rotate-12 transition-transform">
             <Smartphone className="w-3 h-3" />
           </div>
           <span>Install App</span>

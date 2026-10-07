@@ -601,7 +601,7 @@ export const AdminPortal: React.FC = () => {
                     {liveBriefs.map((brief) => (
                       <div
                         key={brief.id}
-                        className="p-4 rounded-xl bg-white/[0.06]/80 border border-emerald-800/50 text-xs space-y-2"
+                        className="p-4 rounded-xl bg-white/[0.06] border border-emerald-800/50 text-xs space-y-2"
                       >
                         <div className="flex items-center justify-between">
                           <span className="font-bold text-white">{brief.organizationName}</span>
@@ -643,7 +643,7 @@ export const AdminPortal: React.FC = () => {
                     {liveConsultRequests.map((req) => (
                       <div
                         key={req.id}
-                        className="p-4 rounded-xl bg-white/[0.06]/80 border border-white/10/50 text-xs flex items-center justify-between"
+                        className="p-4 rounded-xl bg-white/[0.06] border border-white/10 text-xs flex items-center justify-between"
                       >
                         <span className="font-semibold text-white">{req.fullName}</span>
                         <span className="text-slate-200">
@@ -678,7 +678,7 @@ export const AdminPortal: React.FC = () => {
                     {liveTransactions.map((tx) => (
                       <div
                         key={tx.id}
-                        className="p-3 rounded-xl bg-white/[0.06]/80 border border-white/10 text-xs flex items-center justify-between font-mono"
+                        className="p-3 rounded-xl bg-white/[0.06] border border-white/10 text-xs flex items-center justify-between font-mono"
                       >
                         <span>{tx.reference}</span>
                         <span>{tx.customerName}</span>
@@ -722,7 +722,7 @@ export const AdminPortal: React.FC = () => {
                 {/* 3 Split Pillars */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Pillar 1: Admin */}
-                  <div className="p-5 rounded-2xl bg-white/[0.06]/90 border border-amber-500/40 space-y-3">
+                  <div className="p-5 rounded-2xl bg-white/[0.06] border border-amber-500/40 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
                         <Building className="w-4 h-4" />
@@ -740,7 +740,7 @@ export const AdminPortal: React.FC = () => {
                   </div>
 
                   {/* Pillar 2: PM */}
-                  <div className="p-5 rounded-2xl bg-white/[0.06]/90 border border-eco-glow/40 space-y-3">
+                  <div className="p-5 rounded-2xl bg-white/[0.06] border border-eco-glow/40 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-eco-glow font-bold text-sm">
                         <Briefcase className="w-4 h-4" />
@@ -758,7 +758,7 @@ export const AdminPortal: React.FC = () => {
                   </div>
 
                   {/* Pillar 3: Talent */}
-                  <div className="p-5 rounded-2xl bg-white/[0.06]/90 border border-emerald-500/40 space-y-3">
+                  <div className="p-5 rounded-2xl bg-white/[0.06] border border-emerald-500/40 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
                         <Terminal className="w-4 h-4" />
@@ -896,7 +896,7 @@ export const AdminPortal: React.FC = () => {
                 {/* Talents Table */}
                 <div className="overflow-x-auto">
                   <table className="w-full text-xs text-left">
-                    <thead className="bg-white/[0.06]/90 text-[var(--eco-on-dark-muted)] uppercase font-mono text-[10px] border-b border-white/10">
+                    <thead className="bg-white/[0.06] text-[var(--eco-on-dark-muted)] uppercase font-mono text-[10px] border-b border-white/10">
                       <tr>
                         <th className="py-3 px-4">Talent Profile</th>
                         <th className="py-3 px-4">Current Rank</th>
@@ -911,7 +911,7 @@ export const AdminPortal: React.FC = () => {
                         const rankCfg = TALENT_RANK_CONFIGS[t.rank || "Bronze Prodigy"];
 
                         return (
-                          <tr key={t.id} className="hover:bg-white/[0.06]/60 transition-colors">
+                          <tr key={t.id} className="hover:bg-white/[0.06] transition-colors">
                             <td className="py-3.5 px-4">
                               <div className="flex items-center gap-3">
                                 <img
@@ -1006,8 +1006,8 @@ export const AdminPortal: React.FC = () => {
                         key={ref.id}
                         className={`p-5 rounded-2xl border transition-all text-xs space-y-3 ${
                           isFunded
-                            ? "bg-white/[0.06]/90 border-emerald-500/40"
-                            : "bg-white/[0.06]/50 border-amber-500/30"
+                            ? "bg-white/[0.06] border-emerald-500/40"
+                            : "bg-white/[0.06] border-amber-500/30"
                         }`}
                       >
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -1401,7 +1401,7 @@ export const AdminPortal: React.FC = () => {
                         {app.bioNotes || "Applied to join the NDH Vetted African Talent Network."}
                       </div>
 
-                      <div className="flex items-center justify-between pt-2 border-t border-white/10/80">
+                      <div className="flex items-center justify-between pt-2 border-t border-white/10">
                         <div className="text-[var(--eco-on-dark-muted)] font-mono text-[11px]">
                           Department:{" "}
                           <strong className="text-eco-cyan">{app.primaryDepartment}</strong> •
@@ -2035,7 +2035,7 @@ export const AdminPortal: React.FC = () => {
       )}
 
       {/* Standalone Admin Command Nexus System Footer */}
-      <footer className="mt-auto border-t border-white/10/80 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
+      <footer className="mt-auto border-t border-white/10 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-red-400 font-mono text-[11px]">

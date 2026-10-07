@@ -203,7 +203,7 @@ export const PMPortal: React.FC = () => {
                   {ACTIVE_PROJECTS.map((proj) => (
                     <div
                       key={proj.id}
-                      className="p-5 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-4 text-xs"
+                      className="p-5 rounded-xl bg-white/[0.06] border border-white/10 space-y-4 text-xs"
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div>
@@ -252,7 +252,7 @@ export const PMPortal: React.FC = () => {
                       </div>
 
                       {/* Quick PM Actions */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-white/10/80">
+                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-white/10">
                         <div className="flex items-center gap-2 text-[var(--eco-on-dark-muted)]">
                           <Lock className="w-3.5 h-3.5 text-emerald-400" />
                           <span>Client cannot see talent identities or internal margin</span>
@@ -310,7 +310,7 @@ export const PMPortal: React.FC = () => {
                     {liveBriefs.map((brief) => (
                       <div
                         key={brief.id}
-                        className="p-5 rounded-xl bg-white/[0.06]/80 border border-emerald-800/50 space-y-3 text-xs"
+                        className="p-5 rounded-xl bg-white/[0.06] border border-emerald-800/50 space-y-3 text-xs"
                       >
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                           <div className="flex items-center gap-2">
@@ -413,7 +413,7 @@ export const PMPortal: React.FC = () => {
                     {liveConsultRequests.map((req) => (
                       <div
                         key={req.id}
-                        className="p-5 rounded-xl bg-white/[0.06]/80 border border-white/10/50 space-y-2 text-xs"
+                        className="p-5 rounded-xl bg-white/[0.06] border border-white/10 space-y-2 text-xs"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
@@ -452,7 +452,7 @@ export const PMPortal: React.FC = () => {
                   {INCOMING_LEADS.map((lead) => (
                     <div
                       key={lead.id}
-                      className="p-5 rounded-xl bg-white/[0.06]/80 border border-white/10 space-y-3 text-xs"
+                      className="p-5 rounded-xl bg-white/[0.06] border border-white/10 space-y-3 text-xs"
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
@@ -562,7 +562,7 @@ export const PMPortal: React.FC = () => {
                   {availableTalents.map((talent) => (
                     <div
                       key={talent.id}
-                      className="p-5 rounded-xl bg-white/[0.06]/80 border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs"
+                      className="p-5 rounded-xl bg-white/[0.06] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs"
                     >
                       <div className="space-y-2">
                         <div className="flex items-center gap-2">
@@ -725,7 +725,7 @@ export const PMPortal: React.FC = () => {
       </div>
 
       {/* Dedicated Standalone PM Operations System Footer */}
-      <footer className="mt-auto border-t border-white/10/80 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
+      <footer className="mt-auto border-t border-white/10 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-eco-glow font-mono text-[11px]">

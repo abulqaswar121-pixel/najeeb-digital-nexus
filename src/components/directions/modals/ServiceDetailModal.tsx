@@ -67,7 +67,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
               <span className="px-3 py-1 rounded-full bg-primary/90 text-white text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-lg">
                 {dept.category.toUpperCase()}
               </span>
-              <span className="px-3 py-1 rounded-full bg-white/[0.06]/90 text-emerald-400 text-xs font-mono font-bold backdrop-blur-md border border-emerald-500/30 flex items-center gap-1">
+              <span className="px-3 py-1 rounded-full bg-white/[0.06] text-emerald-400 text-xs font-mono font-bold backdrop-blur-md border border-emerald-500/30 flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5" />
                 <span>{dept.averageTurnaroundDays}d Avg Delivery</span>
               </span>

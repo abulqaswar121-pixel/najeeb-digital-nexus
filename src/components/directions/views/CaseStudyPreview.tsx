@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import { CaseStudy } from "../../../types/ndh";
 import { useCaseStudies } from "../../../lib/databaseStore";
 import {
-  ShieldCheck,
-  CheckCircle2,
-  TrendingUp,
-  Clock,
   ArrowRight,
+  Check,
+  CheckCircle2,
+  Clock,
   Eye,
   EyeOff,
-  Quote,
-  Sparkles,
+  FolderKanban,
   Layers,
-  Check,
+  Quote,
+  ShieldCheck,
+  Sparkles,
+  TrendingUp,
 } from "lucide-react";
 
 interface CaseStudyPreviewProps {
@@ -29,9 +30,45 @@ export const CaseStudyPreview: React.FC<CaseStudyPreviewProps> = ({ onOpenBriefW
     caseStudiesData.find((c) => c.id === selectedCaseId) || caseStudiesData[0];
 
   if (!cs) {
+    // Dossiers arrive from the case-study API, so the first paint (and SSR)
+    // renders the same navy-hero / porcelain-body rhythm with skeletons.
     return (
-      <div className="bg-background text-muted-foreground flex min-h-screen items-center justify-center font-sans">
-        <p className="text-sm">Loading case studies…</p>
+      <div className="min-h-screen font-sans">
+        <section className="gw-page-hero relative overflow-hidden">
+          <div className="bg-grid-pattern absolute inset-0 opacity-40" aria-hidden="true" />
+          <div
+            className="gw-glow-cyan top-0 left-1/3 h-[280px] w-[560px] -translate-x-1/2"
+            aria-hidden="true"
+          />
+          <div className="relative z-10 mx-auto max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
+            <span className="gw-eyebrow">
+              <FolderKanban className="h-3.5 w-3.5" aria-hidden="true" />
+              Verified dossiers
+            </span>
+            <h1 className="font-display max-w-3xl text-3xl font-black tracking-tight text-white sm:text-5xl">
+              Real client work, documented end to end.
+            </h1>
+            <p className="max-w-2xl text-sm sm:text-base">
+              Every dossier below is a delivered NDH engagement — scope, stack and outcome on the
+              record.
+            </p>
+          </div>
+        </section>
+
+        <div className="gw-page-body">
+          <div
+            className="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8"
+            role="status"
+            aria-live="polite"
+          >
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="gw-card h-56 animate-pulse" aria-hidden="true" />
+              ))}
+            </div>
+            <p className="text-muted-foreground text-center text-sm">Loading case studies…</p>
+          </div>
+        </div>
       </div>
     );
   }
