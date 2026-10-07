@@ -8,10 +8,10 @@ import { ArrowRight, Check, ChevronDown, LogOut, Menu, User, X } from "lucide-re
 /**
  * Which nav view each top-level header link maps to.
  *
- * STRICT ECOSYSTEM ISOLATION: the top header carries agency destinations only.
- * There is no sibling cross-promotion, no ecosystem banner and no family
- * switcher here — the NDH family directory lives exclusively in the footer
- * (`FamilyFooterLinks`).
+ * AGENCY-ONLY SURFACE: the header (and the footer) carry agency destinations
+ * only. Sibling and parent-gateway promotion was removed from the site
+ * entirely — there is no cross-promo banner, no ecosystem switcher and no
+ * family directory in either place.
  */
 const PRIMARY_LINKS: { id: MainNavView; label: string }[] = [
   { id: "services", label: "Services" },

@@ -182,36 +182,45 @@ test.describe("Agency header isolation (ecosystem lives in the footer)", () => {
   });
 });
 
-test.describe("Footer is the ecosystem home", () => {
-  test("Academy cross-promotion card lives in the footer on every page", async ({ page }) => {
-    for (const path of ["/", "/services", "/about"]) {
+test.describe("Footer stays agency-only", () => {
+  test("carries no sibling, parent-gateway or Academy promotion", async ({ page }) => {
+    for (const path of ["/", "/services", "/about", "/process"]) {
       await page.goto(path);
+      const footer = page.locator("footer");
+      await expect(footer).toBeVisible();
 
-      const card = page.locator("footer .ndh-academy-promo");
-      await expect(card, `academy card on ${path}`).toBeVisible();
-      await expect(card).toContainText(/Explore NDH Academy/i);
-      await expect(card.getByRole("link", { name: /explore ndh academy/i })).toHaveAttribute(
-        "href",
-        /academy\.ndh\.com\.ng/,
+      // The retired ecosystem blocks must not come back, anywhere on the page.
+      await expect(page.locator(".ndh-academy-promo"), `academy promo on ${path}`).toHaveCount(0);
+      await expect(
+        page.getByRole("region", { name: /the ndh family of businesses/i }),
+        `family directory on ${path}`,
+      ).toHaveCount(0);
+      await expect(footer.getByText(/parent gateway/i)).toHaveCount(0);
+
+      const text = (await footer.innerText()).toLowerCase();
+      expect(text, `ecosystem copy in footer on ${path}`).not.toMatch(
+        /ecosystem directory|our businesses|coming soon: ndh|explore ndh academy|ndh agricapital|ndh estore|ndh schooldesk/,
       );
 
-      // …and never above the fold.
-      await expect(page.locator("header .ndh-academy-promo")).toHaveCount(0);
+      const hrefs = await footer
+        .locator("a")
+        .evaluateAll((els) => els.map((el) => el.getAttribute("href") ?? ""));
+      for (const href of hrefs) {
+        expect(href, `sibling/gateway link in footer on ${path}: ${href}`).not.toMatch(
+          /academy\.ndh\.com\.ng|estore\.ndh\.com\.ng|venture\.ndh\.com\.ng|ndhventure|^https?:\/\/ndh\.com\.ng/,
+        );
+      }
     }
   });
 
-  test("sibling directory links every non-coming subsidiary", async ({ page }) => {
+  test("still renders the agency's own directory, contact and guarantees", async ({ page }) => {
     await page.goto("/");
-    const band = page.getByRole("region", { name: /the ndh family of businesses/i });
-    await expect(band).toBeVisible();
-    await expect(band.getByRole("link", { name: /parent gateway/i })).toHaveAttribute(
-      "href",
-      "https://ndh.com.ng",
-    );
-    for (const domain of ["academy.ndh.com.ng", "estore.ndh.com.ng"]) {
-      await expect(band, `sibling ${domain}`).toContainText(domain);
-    }
-    await expect(band).toContainText(/Coming Soon/i);
+    const footer = page.locator("footer");
+
+    await expect(footer).toHaveClass(/band-dark/);
+    await expect(footer.getByText(/hello@ndh\.com\.ng/).first()).toBeVisible();
+    await expect(footer.getByText(/Dual-Key Escrow Guarantee/i).first()).toBeVisible();
+    await expect(footer.getByRole("link", { name: /privacy policy/i }).first()).toBeVisible();
   });
 });
 

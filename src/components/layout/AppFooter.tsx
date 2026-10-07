@@ -13,8 +13,6 @@ import {
 } from "lucide-react";
 import { MainNavView } from "./navViews";
 import { BrandLogo } from "../brand/BrandLogo";
-import { AcademyCrossPromo } from "./AcademyCrossPromo";
-import { FamilyFooterLinks } from "./FamilyFooterLinks";
 import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 import { useAuth, openAuthModal } from "../../lib/authStore";
 
@@ -23,21 +21,14 @@ interface AppFooterProps {
   onOpenBriefWizard: () => void;
   onOpenTalentModal?: () => void;
   onOpenPaymentModal?: () => void;
-  /**
-   * On the home page the Academy cross-promotion is intentionally omitted: the
-   * home page already runs a full Academy cross-promotion section inside its
-   * own "The NDH Family" anchor band, so repeating the card here would double
-   * it. Every other page gets it in the footer.
-   */
 }
 
 /**
  * Deep-navy footer anchor — the Academy `FamilyFooter` treatment.
  *
- * STRICT ECOSYSTEM ISOLATION: this footer is the *only* place the NDH family
- * directory lives. The sibling directory (`FamilyFooterLinks`), the parent
- * gateway link and (off the home page) the Academy cross-promotion all sit
- * here, never in the top navigation.
+ * AGENCY-ONLY SURFACE: like the header, the footer sells NDH Agency's own
+ * services (departments, guarantees, governance, contact). Sibling and parent
+ * ecosystem promotion has been removed from the site entirely.
  *
  * The whole footer renders inside the shared `.band-dark` token scope, so any
  * token-driven child (cards, chips, headings) flips to its on-navy value.
@@ -62,15 +53,9 @@ export const AppFooter: React.FC<AppFooterProps> = ({
   return (
     <footer className="band-dark border-border/60 border-t py-16 font-sans text-xs">
       <div className="mx-auto max-w-7xl space-y-12 px-4 sm:px-6 lg:px-8">
-        {/* The NDH family directory — parent gateway, siblings, launch status */}
-        <FamilyFooterLinks />
-
-        {/* Academy cross-promotion — sibling promotion lives in the footer on
-            every page (the top navigation stays 100% agency-focused). */}
-        <AcademyCrossPromo />
-
-        {/* 4-Column Directory Grid */}
-        <div className="border-border/60 grid min-w-0 grid-cols-1 gap-10 border-t pt-10 md:grid-cols-2 xl:grid-cols-4">
+        {/* 4-Column Directory Grid — entirely agency-focused: no sibling or
+            parent-gateway promotion anywhere on this site. */}
+        <div className="grid min-w-0 grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-4">
           {/* Col 1: Brand & contact */}
           <div className="space-y-4">
             <BrandLogo size="md" />

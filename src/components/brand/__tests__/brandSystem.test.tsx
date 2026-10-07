@@ -7,8 +7,6 @@ import { NdhFamilySymbol } from "../NdhFamilySymbol";
 import { FamilyMenu } from "../../layout/FamilyMenu";
 import { AgencyHeader } from "../../layout/AgencyHeader";
 import { AppFooter } from "../../layout/AppFooter";
-import { AcademyCrossPromo } from "../../layout/AcademyCrossPromo";
-import { FamilyFooterLinks } from "../../layout/FamilyFooterLinks";
 import {
   COMING_SUBSIDIARY_COUNT,
   LIVE_SUBSIDIARY_COUNT,
@@ -191,35 +189,6 @@ describe("Precision Gateway switcher", () => {
   });
 });
 
-describe("Footer ecosystem cross-references", () => {
-  it("carries the Academy cross-promotion with the required copy and destination", () => {
-    const { container } = render(<AcademyCrossPromo />);
-    expect(container.querySelector(".ndh-academy-promo")).not.toBeNull();
-    expect(container.textContent).toContain("Looking to build your skills or train your team?");
-    const link = screen.getByRole("link", { name: /explore ndh academy/i });
-    expect(link).toHaveAttribute("href", "https://academy.ndh.com.ng");
-    expect(link).toHaveAttribute("target", "_blank");
-    expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
-  });
-
-  it("shows the Academy's own sector badge, not the agency's", () => {
-    const { container } = render(<AcademyCrossPromo />);
-    expect(container.querySelector(".ndh-family-sector svg.lucide-book-open")).not.toBeNull();
-  });
-
-  it("links the parent gateway and every available sibling", () => {
-    const { container } = render(<FamilyFooterLinks />);
-    const hrefs = [...container.querySelectorAll("a")].map((a) => a.getAttribute("href"));
-    expect(hrefs).toContain("https://ndh.com.ng");
-    expect(hrefs).toContain("https://academy.ndh.com.ng");
-    expect(hrefs).toContain("https://estore.ndh.com.ng");
-    // Coming-soon siblings are named but never linked.
-    expect(container.textContent).toContain("Coming Soon");
-    expect(container.textContent).toContain("NDH SchoolDesk");
-    expect(hrefs).not.toContain("");
-  });
-});
-
 /* ------------------------------------------------------------------ *
  * Header ecosystem isolation (the strict rule)
  * ------------------------------------------------------------------ */
@@ -270,35 +239,42 @@ describe("Agency header — 100% agency services, zero ecosystem promotion", () 
   });
 });
 
-describe("Footer — where the family directory is allowed to live", () => {
-  it("keeps the sibling directory and parent gateway in the footer only", () => {
-    const { container } = render(
+describe("Footer — deep-navy anchor, still 100% agency-focused", () => {
+  const renderFooter = () =>
+    render(
       <AppFooter
         onSelectView={() => {}}
         onOpenBriefWizard={() => {}}
         onOpenTalentModal={() => {}}
       />,
     );
+
+  it("renders the deep-navy anchor band with the agency directory", () => {
+    const { container } = renderFooter();
     const footer = container.querySelector("footer")!;
     // The footer is the deep-navy anchor band (Academy `FamilyFooter` rhythm).
     expect(footer.getAttribute("class")).toContain("band-dark");
 
     const text = footer.textContent ?? "";
-    expect(text).toContain("Parent Gateway");
-    expect(text).toContain("within the Najeeb Digital Hub family");
-    expect(text).toContain("academy.ndh.com.ng");
-    expect(text).toContain("estore.ndh.com.ng");
-
-    const hrefs = [...footer.querySelectorAll("a")].map((a) => a.getAttribute("href"));
-    expect(hrefs).toContain("https://ndh.com.ng");
-    expect(hrefs).toContain("https://academy.ndh.com.ng");
+    expect(text).toContain("We design and build world-class digital systems");
+    expect(text).toContain("hello@ndh.com.ng");
   });
 
-  it("keeps the Academy sibling card inside the footer on every page", () => {
-    const { container } = render(
-      <AppFooter onSelectView={() => {}} onOpenBriefWizard={() => {}} />,
-    );
+  it("carries no sibling, parent-gateway or Academy promotion", () => {
+    const { container } = renderFooter();
     const footer = container.querySelector("footer")!;
-    expect(footer.querySelector(".ndh-academy-promo")).not.toBeNull();
+
+    expect(footer.querySelector(".ndh-academy-promo")).toBeNull();
+    expect(footer.querySelector("[aria-label*='NDH family' i]")).toBeNull();
+
+    const text = footer.textContent ?? "";
+    expect(text).not.toMatch(/academy|estore|agricapital|schooldesk|parent gateway/i);
+    expect(text).not.toMatch(/ndh family of businesses|ecosystem/i);
+
+    for (const href of [...footer.querySelectorAll("a")].map((a) => a.getAttribute("href"))) {
+      expect(href ?? "").not.toMatch(
+        /academy\.ndh\.com\.ng|estore\.ndh\.com\.ng|venture\.ndh\.com\.ng|ndhventure|(^|\/\/)ndh\.com\.ng/i,
+      );
+    }
   });
 });
