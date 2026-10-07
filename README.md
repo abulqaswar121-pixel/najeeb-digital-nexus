@@ -69,7 +69,8 @@ npm run dev             # start BOTH the Vite dev server and the API server
 npm run dev:web         # start only the Vite dev server
 npm run server:dev      # start only the API server (tsx watch)
 npm run build           # production build of the frontend (outputs to .output/)
-npm run preview         # preview a production build locally
+npm run preview         # vite preview — not usable with the Cloudflare
+                        # Worker build output; run `npm run dev` instead
 npm run typecheck       # tsc --noEmit (frontend)
 npm run typecheck:server # tsc --noEmit (server/, separate tsconfig)
 npm run lint            # eslint .
