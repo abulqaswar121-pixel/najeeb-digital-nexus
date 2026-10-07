@@ -110,7 +110,10 @@ jobs:
             capturing {
               line = $0; gsub(/\r/, "", line); gsub(/%/, "%25", line);
               msg = msg " || " line; n++;
-              if (n >= 12) { print "::error::" msg; capturing = 0 }
+              # 40 lines: enough to include Playwright's page snapshot for a
+              # failing assertion, which is the only diagnostic that survives
+              # the (unreachable) log archive.
+              if (n >= 40) { print "::error::" msg; capturing = 0 }
             }
           ' e2e-output.txt | head -20
 

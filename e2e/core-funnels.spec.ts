@@ -29,6 +29,18 @@ async function signInAs(page: import("@playwright/test").Page, email: string) {
   await dialog.getByPlaceholder(/you@company\.com/i).fill(email);
   await dialog.getByPlaceholder(/•+/).fill("NDHDemo2026!");
   await dialog.getByRole("button", { name: /sign in to workspace/i }).click();
+
+  // The modal closes on success; a rejected attempt renders the server's
+  // message in a red panel. Fail with that text instead of a bare timeout.
+  const errorPanel = dialog.locator(".text-red-300").first();
+  await expect(async () => {
+    const settled = !(await dialog.isVisible()) || (await errorPanel.count()) > 0;
+    expect(settled, "sign-in settled (modal closed, or rejected)").toBe(true);
+  }).toPass({ timeout: 30_000 });
+
+  if (await errorPanel.count()) {
+    throw new Error(`sign-in failed for ${email}: ${(await errorPanel.textContent())?.trim()}`);
+  }
 }
 
 test.describe("Public lead-generation funnel reaches operations", () => {
@@ -71,9 +83,13 @@ test.describe("Public lead-generation funnel reaches operations", () => {
 
     await signInAs(page, "tariq.pm@agency.ndh.com.ng");
 
-    await page.getByRole("button", { name: /triage/i }).click();
-    await expect(page.getByText("Live Inbound Submissions")).toBeVisible();
-    await expect(page.getByText("Playwright Test Co")).toBeVisible();
+    // The portal is a lazy chunk: wait for the tab itself rather than assuming
+    // it is on screen the moment the session cookie lands.
+    const triageTab = page.getByRole("button", { name: /triage/i });
+    await expect(triageTab).toBeVisible({ timeout: 45_000 });
+    await triageTab.click();
+    await expect(page.getByText("Live Inbound Submissions")).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByText("Playwright Test Co")).toBeVisible({ timeout: 15_000 });
   });
 });
 
@@ -81,7 +97,7 @@ test.describe("Authentication", () => {
   test("logging in with a correct demo account reaches its own portal", async ({ page }) => {
     await page.goto("/");
     await signInAs(page, "najeeb@ndh.com.ng");
-    await expect(page.getByText(/platform telemetry/i).first()).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByText(/platform telemetry/i).first()).toBeVisible({ timeout: 45_000 });
   });
 
   test("a known email with a wrong password is rejected (no email-guessing bypass)", async ({

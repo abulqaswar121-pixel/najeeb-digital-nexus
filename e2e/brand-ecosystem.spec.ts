@@ -25,6 +25,30 @@ const PORTALS = [
 
 const PUBLIC_PAGES = ["/", "/services", "/case-studies", "/about", "/contact", "/talent-network"];
 
+/**
+ * Logs in through the API (shared cookie jar) and lands on a portal page whose
+ * real header has replaced the auth/loading fallback.
+ *
+ * Auth resolves client-side (`GET /api/auth/me`) and each portal is a lazy
+ * chunk the dev server compiles on demand, so the page is reloaded until the
+ * lockup shows up instead of assuming one cold render is fast enough.
+ */
+async function openPortalWithHeader(
+  page: import("@playwright/test").Page,
+  path: string,
+  email: string,
+  password: string,
+) {
+  const res = await page.request.post("/api/auth/login", { data: { email, password } });
+  expect(res.ok(), `login for ${email}`).toBeTruthy();
+
+  const badge = page.locator("header .ndh-family-sector:visible").first();
+  await expect(async () => {
+    await page.goto(path);
+    await expect(badge).toBeVisible({ timeout: 20_000 });
+  }).toPass({ timeout: 75_000 });
+}
+
 /** Asserts the document does not scroll sideways at the current viewport. */
 async function expectNoHorizontalScroll(page: import("@playwright/test").Page, label: string) {
   const { scrollWidth, clientWidth } = await page.evaluate(() => ({
@@ -66,21 +90,7 @@ test.describe("Mobile layout at 360px has zero horizontal scrolling", () => {
 
   for (const { path, email } of PORTALS) {
     test(`portal ${path} header fits the viewport`, async ({ page }) => {
-      // `page.request` shares the browser context's cookie jar, so logging in
-      // through the API gives us the same httpOnly session cookie the UI sets.
-      const res = await page.request.post("/api/auth/login", {
-        data: { email, password: DEMO_PASSWORD },
-      });
-      expect(res.ok(), `login for ${email}`).toBeTruthy();
-
-      await page.goto(path);
-      // Portals are lazy + auth-gated, so wait for the real header to replace
-      // the loading fallback. The chunk is compiled on demand by the dev
-      // server, so allow a generous window and only match a displayed lockup
-      // (the header renders a mobile and a desktop one).
-      await expect(page.locator("header .ndh-family-sector:visible").first()).toBeVisible({
-        timeout: 30_000,
-      });
+      await openPortalWithHeader(page, path, email, DEMO_PASSWORD);
       await expectNoHorizontalScroll(page, path);
     });
   }
@@ -107,14 +117,7 @@ test.describe("Open Gateway master mark + agency sector badge", () => {
 
   test("renders in every portal header", async ({ page }) => {
     for (const { path, email } of PORTALS) {
-      await page.request.post("/api/auth/login", {
-        data: { email, password: DEMO_PASSWORD },
-      });
-      await page.goto(path);
-      await expect(
-        page.locator("header .ndh-family-sector:visible").first(),
-        `sector badge in ${path}`,
-      ).toBeVisible({ timeout: 30_000 });
+      await openPortalWithHeader(page, path, email, DEMO_PASSWORD);
     }
   });
 

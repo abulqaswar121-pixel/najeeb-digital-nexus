@@ -6,6 +6,10 @@ import { defineConfig, devices } from "@playwright/test";
 // on ubuntu-latest and runs the same command.
 export default defineConfig({
   testDir: "./e2e",
+  // The suite runs against the dev server, which compiles route chunks on
+  // demand: a first render of a heavy portal can take tens of seconds under
+  // parallel workers, so the default 30s per test is not enough headroom.
+  timeout: 120_000,
   fullyParallel: true,
   forbidOnly: !!process.env["CI"],
   retries: process.env["CI"] ? 2 : 0,
