@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState } from "react";
 import { MainNavView } from "./navViews";
 import { AgencyHeader } from "./AgencyHeader";
 import { AppFooter } from "./AppFooter";
-import { AppInstallBanner } from "../ui/AppInstallBanner";
 import { AIAssistantWidget } from "../ai/AIAssistantWidget";
 import { AuthModal } from "../auth/AuthModal";
 import { InteractiveBriefModal } from "../directions/modals/InteractiveBriefModal";
@@ -86,8 +85,6 @@ export const AppShell: React.FC<AppShellProps> = ({ currentView, children }) => 
           onOpenPaymentModal={() => setIsPaymentModalOpen(true)}
         />
       )}
-
-      {!isPortalView && <AppInstallBanner />}
 
       <AIAssistantWidget
         onOpenBriefWizard={() => setIsBriefModalOpen(true)}
