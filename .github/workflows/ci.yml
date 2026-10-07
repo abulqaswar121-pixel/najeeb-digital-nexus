@@ -87,7 +87,7 @@ jobs:
             echo "### Playwright e2e failures"
             echo
             echo "\`\`\`"
-            grep -aE "^( *)(✘|×|✗|Error:|Expected|Received|Timed out)|^-{3,}|expect\(" e2e-output.txt | head -120
+            grep -aE "^[[:space:]]*([0-9]+\\)|(✘|×|✗|Error:|Expected|Received|Timed out|›))|expect\\(" e2e-output.txt | head -140
             echo "\`\`\`"
             echo
             echo "_Full report: the \`playwright-report\` artifact on this run._"
