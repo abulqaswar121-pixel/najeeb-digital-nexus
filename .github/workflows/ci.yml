@@ -47,6 +47,9 @@ jobs:
   e2e:
     name: End-to-end tests (Playwright)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -60,4 +63,36 @@ jobs:
           cache: "npm"
       - run: npm ci --no-audit --no-fund
       - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e
+      - name: Run Playwright
+        id: playwright
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          npm run test:e2e 2>&1 | tee e2e-output.txt
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+      # The failing assertions are published on the PR so a run can be triaged
+      # from the conversation instead of digging through the log archive.
+      - name: Comment failures on the pull request
+        if: always() && github.event_name == 'pull_request' && steps.playwright.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "### Playwright e2e failures"
+            echo
+            echo "\`\`\`"
+            grep -aE "^( *)(✘|×|✗|Error:|Expected|Received|Timed out)|^-{3,}|expect\(" e2e-output.txt | head -120
+            echo "\`\`\`"
+            echo
+            echo "_Full report: the \`playwright-report\` artifact on this run._"
+          } > /tmp/e2e-comment.md
+          gh pr comment "${{ github.event.pull_request.number }}" --body-file /tmp/e2e-comment.md
+      - name: Fail the job if Playwright failed
+        if: steps.playwright.outcome == 'failure'
+        run: exit 1
