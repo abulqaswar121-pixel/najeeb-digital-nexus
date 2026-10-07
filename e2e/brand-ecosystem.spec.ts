@@ -264,7 +264,7 @@ test.describe("Redesigned internal pages share the Academy rhythm", () => {
     "/services",
     "/case-studies",
     "/about",
-    "/how-it-works",
+    "/process",
     "/talent-network",
     "/insights",
     "/contact",

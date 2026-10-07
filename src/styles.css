@@ -1222,6 +1222,17 @@ section.gw-band {
   color: #ffffff;
 }
 
+/* Same protection for the token-based fills the Academy palette introduced:
+   a primary/iris button or selected chip keeps white text on its solid
+   background instead of being inverted to dark ink. Tinted (`/20`) washes are
+   deliberately not matched — those want the dark ink the band gives them. */
+:is(.gw-band-white, .gw-band-porcelain, .gw-page-body) .bg-primary.text-white,
+:is(.gw-band-white, .gw-band-porcelain, .gw-page-body) .bg-success.text-white,
+:is(.gw-band-white, .gw-band-porcelain, .gw-page-body) .from-primary.text-white,
+:is(.gw-band-white, .gw-band-porcelain, .gw-page-body) .from-primary\/85.text-white {
+  color: #ffffff;
+}
+
 /* Second pass of the dark-first ramp: the internal pages that were retuned
    band-by-band still carry saturated blue fills, amber/emerald washes and
    200–300-step accents authored against navy. On a light surface each one
