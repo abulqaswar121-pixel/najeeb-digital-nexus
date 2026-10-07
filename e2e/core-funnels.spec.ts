@@ -83,10 +83,17 @@ test.describe("Public lead-generation funnel reaches operations", () => {
 
     await signInAs(page, "tariq.pm@agency.ndh.com.ng");
 
-    // The portal is a lazy chunk: wait for the tab itself rather than assuming
-    // it is on screen the moment the session cookie lands.
+    // The portal is a lazy chunk, and its sections live in the nav dropdown
+    // (the trigger shows the *active* section, "Active Sprints & Margin
+    // Health"), so open the menu and pick Brief Triage from it. Both clicks are
+    // retried because the portal may still be hydrating.
+    const navTrigger = page.locator("header button:has(svg.lucide-chevron-down)").first();
+    await expect(navTrigger).toBeVisible({ timeout: 45_000 });
     const triageTab = page.getByRole("button", { name: /triage/i });
-    await expect(triageTab).toBeVisible({ timeout: 45_000 });
+    await expect(async () => {
+      if (!(await triageTab.isVisible())) await navTrigger.click();
+      await expect(triageTab).toBeVisible({ timeout: 2_000 });
+    }).toPass({ timeout: 60_000 });
     await triageTab.click();
     await expect(page.getByText("Live Inbound Submissions")).toBeVisible({ timeout: 15_000 });
     await expect(page.getByText("Playwright Test Co")).toBeVisible({ timeout: 15_000 });
