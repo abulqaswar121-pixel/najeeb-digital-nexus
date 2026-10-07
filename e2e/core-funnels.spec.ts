@@ -47,8 +47,9 @@ test.describe("Public lead-generation funnel reaches operations", () => {
     }).toPass({ timeout: 20_000 });
     await expect(page.getByText("NDH Agency • Request a Tailored Proposal")).toBeVisible();
 
-    // Step 1 — pick the department the brief is for, then advance.
-    await wizard.getByText("Web App Development", { exact: true }).first().click();
+    // Step 1 — pick the department the brief is for, then advance. The wizard
+    // grid renders the full department name from SERVICE_DEPARTMENTS.
+    await wizard.getByText("Website & Full-Stack Web Development", { exact: true }).first().click();
     await wizard.getByRole("button", { name: /next: scope & budget/i }).click();
 
     // Step 2 — the objective is a required field before the wizard advances.

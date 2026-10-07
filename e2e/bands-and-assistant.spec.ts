@@ -100,17 +100,19 @@ test.describe("Alternating band rhythm on the homepage", () => {
 
     const results = await page.$$eval(".gw-band-white, .gw-band-porcelain", (bands) => {
       // Walk up to the nearest ancestor that actually paints a background.
-      const effectiveBg = (el: Element): string => {
+      // Gradient-filled surfaces have no single colour, so `null` marks them as
+      // unmeasurable (they are asserted structurally after the ratio sweep).
+      const effectiveBg = (el: Element): string | null => {
         let node: Element | null = el;
         while (node && node !== document.documentElement) {
           const cs = getComputedStyle(node);
+          if (cs.backgroundImage && cs.backgroundImage !== "none") return null;
           const parsed = cs.backgroundColor.match(/rgba?\(([^)]+)\)/);
           if (parsed) {
             const parts = parsed[1]!.split(/[\s,/]+/).filter(Boolean);
             const alpha = parts[3];
             if (alpha === undefined || Number(alpha) > 0.85) return cs.backgroundColor;
           }
-          if (cs.backgroundImage && cs.backgroundImage !== "none") return "rgb(255, 255, 255)";
           node = node.parentElement;
         }
         return getComputedStyle(document.body).backgroundColor;
@@ -128,11 +130,13 @@ test.describe("Alternating band rhythm on the homepage", () => {
             (n) => n.nodeType === 3 && n.textContent?.trim(),
           );
           if (!direct) continue; // only measure elements with their own text
+          const bg = effectiveBg(node);
+          if (!bg) continue; // gradient-filled surface: no single background colour
           out.push({
             text: (node.textContent ?? "").trim().slice(0, 40),
             tag: node.tagName.toLowerCase(),
             color: getComputedStyle(node).color,
-            bg: effectiveBg(node),
+            bg,
           });
         }
       }
@@ -148,6 +152,24 @@ test.describe("Alternating band rhythm on the homepage", () => {
     expect(failures, `low-contrast text: ${JSON.stringify(failures.slice(0, 8), null, 1)}`).toEqual(
       [],
     );
+
+    // Gradient CTAs are excluded above, so assert their intent directly: on a
+    // light band the brand `primary → highlight` button must carry white text.
+    const ctas = await page
+      .locator(
+        ".gw-band-white .from-primary.text-white, .gw-band-porcelain .from-primary.text-white",
+      )
+      .evaluateAll((els) =>
+        els.map((el) => {
+          const cs = getComputedStyle(el);
+          return { color: cs.color, image: cs.backgroundImage };
+        }),
+      );
+    expect(ctas.length, "brand gradient CTAs in light bands").toBeGreaterThan(0);
+    for (const cta of ctas) {
+      expect(cta.image, "CTA is painted with a gradient").toContain("gradient");
+      expect(cta.color, "CTA text stays white on the gradient").toBe("rgb(255, 255, 255)");
+    }
   });
 
   test("photography keeps light overlay captions legible", async ({ page }) => {

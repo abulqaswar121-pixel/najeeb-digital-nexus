@@ -75,8 +75,12 @@ test.describe("Mobile layout at 360px has zero horizontal scrolling", () => {
 
       await page.goto(path);
       // Portals are lazy + auth-gated, so wait for the real header to replace
-      // the loading fallback.
-      await page.locator("header .ndh-family-sector").first().waitFor({ timeout: 15_000 });
+      // the loading fallback. The chunk is compiled on demand by the dev
+      // server, so allow a generous window and only match a displayed lockup
+      // (the header renders a mobile and a desktop one).
+      await expect(page.locator("header .ndh-family-sector:visible").first()).toBeVisible({
+        timeout: 30_000,
+      });
       await expectNoHorizontalScroll(page, path);
     });
   }
@@ -108,9 +112,9 @@ test.describe("Open Gateway master mark + agency sector badge", () => {
       });
       await page.goto(path);
       await expect(
-        page.locator("header .ndh-family-sector").first(),
+        page.locator("header .ndh-family-sector:visible").first(),
         `sector badge in ${path}`,
-      ).toBeVisible({ timeout: 15_000 });
+      ).toBeVisible({ timeout: 30_000 });
     }
   });
 
