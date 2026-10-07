@@ -79,6 +79,9 @@ jobs:
       # The failing assertions are published on the PR so a run can be triaged
       # from the conversation instead of digging through the log archive.
       - name: Comment failures on the pull request
+        # Best-effort: the token may not carry pull-requests: write, in which
+        # case the annotations below are the machine-readable record.
+        continue-on-error: true
         if: always() && github.event_name == 'pull_request' && steps.playwright.outcome == 'failure'
         env:
           GH_TOKEN: ${{ github.token }}
@@ -93,6 +96,18 @@ jobs:
             echo "_Full report: the \`playwright-report\` artifact on this run._"
           } > /tmp/e2e-comment.md
           gh pr comment "${{ github.event.pull_request.number }}" --body-file /tmp/e2e-comment.md
+      # Annotations ride on the job's check run and are readable via the
+      # Checks API, unlike the raw log archive.
+      - name: Publish failure annotations
+        if: always() && steps.playwright.outcome == 'failure'
+        run: |
+          grep -aE "^[[:space:]]*[0-9]+\) " e2e-output.txt | head -40 | while IFS= read -r line; do
+            echo "::error::$(printf '%s' "$line" | tr -d '\r')"
+          done
+          grep -aE "^(Expected|Received|Error:|TimeoutError|locator|Call log)" e2e-output.txt | head -60 | while IFS= read -r line; do
+            echo "::error::$(printf '%s' "$line" | tr -d '\r')"
+          done
+
       - name: Fail the job if Playwright failed
         if: steps.playwright.outcome == 'failure'
         run: exit 1
