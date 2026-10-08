@@ -76,6 +76,21 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
 
   useModalA11y(isOpen, onClose);
 
+  // Load the live public key saved in the backend secrets.
+  useEffect(() => {
+    if (!isOpen) return;
+    let cancelled = false;
+    fetch("/api/payments/config")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((body: { paystackPublicKey?: string | null } | null) => {
+        if (!cancelled && body?.paystackPublicKey) setPaystackPublicKey(body.paystackPublicKey);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const availableCredit =

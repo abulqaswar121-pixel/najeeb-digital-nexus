@@ -12,6 +12,12 @@ export async function handleApiRequest(request: Request): Promise<Response> {
   if (url.pathname === "/api/health") {
     return Response.json({ ok: true, service: "ndh-agency-api" });
   }
+  if (url.pathname === "/api/payments/config" && request.method === "GET") {
+    const { env } = await import("./env.js");
+    const key = env.PAYSTACK_PUBLIC_KEY;
+    // Public keys are safe to expose; never return the secret key here.
+    return Response.json({ paystackPublicKey: /^pk_(live|test)_/.test(key) ? key : null });
+  }
   // Serialize requests within this instance so shared in-memory state is
   // never interleaved between hydrate and flush.
   const run = async () => {
