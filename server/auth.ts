@@ -6,7 +6,6 @@
 import type { Request, Response, NextFunction } from "./http.js";
 import crypto from "node:crypto";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { env } from "./env.js";
 import type { UserRole } from "../src/types/ndh.js";
 import { users, type UserRecord, toPublicUser } from "./collections.js";
@@ -33,8 +32,39 @@ export function generateTemporaryPassword(): string {
   return crypto.randomBytes(9).toString("base64url"); // 12 URL-safe characters
 }
 
+// Minimal HS256 JWT using node:crypto. jsonwebtoken crashes on the edge
+// runtime (it relies on Node stream inheritance), which took the whole API down.
+function b64url(input: string | Buffer): string {
+  return Buffer.from(input).toString("base64url");
+}
+function hmac(data: string): string {
+  return crypto.createHmac("sha256", env.SESSION_SECRET).update(data).digest("base64url");
+}
+
 export function signSession(userId: string): string {
-  return jwt.sign({ sub: userId }, env.SESSION_SECRET, { expiresIn: SESSION_TTL_SECONDS });
+  const now = Math.floor(Date.now() / 1000);
+  const head = b64url(JSON.stringify({ alg: "HS256", typ: "JWT" }));
+  const body = b64url(JSON.stringify({ sub: userId, iat: now, exp: now + SESSION_TTL_SECONDS }));
+  return `${head}.${body}.${hmac(`${head}.${body}`)}`;
+}
+
+export function verifySession(token: string): { sub: string } | null {
+  const parts = token.split(".");
+  if (parts.length !== 3) return null;
+  const [head, body, sig] = parts;
+  const expected = Buffer.from(hmac(`${head}.${body}`));
+  const given = Buffer.from(sig);
+  if (expected.length !== given.length || !crypto.timingSafeEqual(expected, given)) return null;
+  try {
+    const header = JSON.parse(Buffer.from(head, "base64url").toString());
+    if (header.alg !== "HS256") return null;
+    const payload = JSON.parse(Buffer.from(body, "base64url").toString());
+    if (typeof payload.sub !== "string" || typeof payload.exp !== "number") return null;
+    if (payload.exp < Math.floor(Date.now() / 1000)) return null;
+    return { sub: payload.sub };
+  } catch {
+    return null;
+  }
 }
 
 export function setSessionCookie(res: Response, token: string) {
@@ -55,7 +85,8 @@ function getUserFromRequest(req: Request): UserRecord | null {
   const token = req.cookies?.[SESSION_COOKIE];
   if (!token) return null;
   try {
-    const payload = jwt.verify(token, env.SESSION_SECRET) as { sub: string };
+    const payload = verifySession(token);
+    if (!payload) return null;
     const user = users.find((u) => u.id === payload.sub);
     return user || null;
   } catch {
