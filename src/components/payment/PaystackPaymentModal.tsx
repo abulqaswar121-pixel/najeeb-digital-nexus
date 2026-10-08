@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useModalA11y } from "../../hooks/use-modal-a11y";
 import { dbService, calculateWelcomeCreditDeduction } from "../../lib/databaseStore";
 import { useAuth } from "../../lib/authStore";
