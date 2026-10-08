@@ -1104,6 +1104,7 @@ export const useCurrencyLanguage = () => {
   const [detectedCountry, setCountry] = useState<string>(detectedCountryName);
 
   useEffect(() => {
+    applyDetectionOnce();
     const update = () => {
       setCurr(currentCurrency);
       setLang(currentLanguage);
