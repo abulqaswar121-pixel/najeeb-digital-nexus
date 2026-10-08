@@ -100,17 +100,19 @@ test.describe("Alternating band rhythm on the homepage", () => {
 
     const results = await page.$$eval(".gw-band-white, .gw-band-porcelain", (bands) => {
       // Walk up to the nearest ancestor that actually paints a background.
-      const effectiveBg = (el: Element): string => {
+      // Gradient-filled surfaces have no single colour, so `null` marks them as
+      // unmeasurable (they are asserted structurally after the ratio sweep).
+      const effectiveBg = (el: Element): string | null => {
         let node: Element | null = el;
         while (node && node !== document.documentElement) {
           const cs = getComputedStyle(node);
+          if (cs.backgroundImage && cs.backgroundImage !== "none") return null;
           const parsed = cs.backgroundColor.match(/rgba?\(([^)]+)\)/);
           if (parsed) {
             const parts = parsed[1]!.split(/[\s,/]+/).filter(Boolean);
             const alpha = parts[3];
             if (alpha === undefined || Number(alpha) > 0.85) return cs.backgroundColor;
           }
-          if (cs.backgroundImage && cs.backgroundImage !== "none") return "rgb(255, 255, 255)";
           node = node.parentElement;
         }
         return getComputedStyle(document.body).backgroundColor;
@@ -128,11 +130,13 @@ test.describe("Alternating band rhythm on the homepage", () => {
             (n) => n.nodeType === 3 && n.textContent?.trim(),
           );
           if (!direct) continue; // only measure elements with their own text
+          const bg = effectiveBg(node);
+          if (!bg) continue; // gradient-filled surface: no single background colour
           out.push({
             text: (node.textContent ?? "").trim().slice(0, 40),
             tag: node.tagName.toLowerCase(),
             color: getComputedStyle(node).color,
-            bg: effectiveBg(node),
+            bg,
           });
         }
       }
@@ -148,6 +152,24 @@ test.describe("Alternating band rhythm on the homepage", () => {
     expect(failures, `low-contrast text: ${JSON.stringify(failures.slice(0, 8), null, 1)}`).toEqual(
       [],
     );
+
+    // Gradient CTAs are excluded above, so assert their intent directly: on a
+    // light band the brand `primary → highlight` button must carry white text.
+    const ctas = await page
+      .locator(
+        ".gw-band-white .from-primary.text-white, .gw-band-porcelain .from-primary.text-white",
+      )
+      .evaluateAll((els) =>
+        els.map((el) => {
+          const cs = getComputedStyle(el);
+          return { color: cs.color, image: cs.backgroundImage };
+        }),
+      );
+    expect(ctas.length, "brand gradient CTAs in light bands").toBeGreaterThan(0);
+    for (const cta of ctas) {
+      expect(cta.image, "CTA is painted with a gradient").toContain("gradient");
+      expect(cta.color, "CTA text stays white on the gradient").toBe("rgb(255, 255, 255)");
+    }
   });
 
   test("photography keeps light overlay captions legible", async ({ page }) => {
@@ -239,23 +261,37 @@ test.describe("Floating AI assistant launcher", () => {
     await expect(pill).toBeVisible();
     await expect(pill).toContainText(/Need a quote or technical team/i);
 
-    await pill.getByRole("button", { name: /^ask$/i }).click();
-    await expect(page.getByRole("dialog", { name: /ndh sentinel ai assistant/i })).toBeVisible();
+    // The dev server hydrates after first paint, so an early click can be
+    // lost; retry the interaction until the drawer actually opens.
+    await expect(async () => {
+      await pill.getByRole("button", { name: /^ask$/i }).click();
+      await expect(page.getByRole("dialog", { name: /ndh sentinel ai assistant/i })).toBeVisible({
+        timeout: 2_000,
+      });
+    }).toPass({ timeout: 20_000 });
+
     // The launcher yields to the open drawer.
     await expect(page.locator(".ai-assistant-launcher")).toHaveCount(0);
   });
 
   test("dismissing the greeting keeps the launcher", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("button", { name: /dismiss ai assistant greeting/i }).click();
-    await expect(page.locator(".ai-assistant-greeting")).toHaveCount(0);
+    const dismiss = page.getByRole("button", { name: /dismiss ai assistant greeting/i });
+    await expect(async () => {
+      await dismiss.click();
+      await expect(page.locator(".ai-assistant-greeting")).toHaveCount(0, { timeout: 2_000 });
+    }).toPass({ timeout: 20_000 });
+
     await expect(page.locator(".ai-assistant-launcher")).toBeVisible();
   });
 
   test("drawer offers the five agency quick actions", async ({ page }) => {
     await page.goto("/");
-    await page.locator(".ai-assistant-launcher").click();
     const dialog = page.getByRole("dialog", { name: /ndh sentinel ai assistant/i });
+    await expect(async () => {
+      await page.locator(".ai-assistant-launcher").click();
+      await expect(dialog).toBeVisible({ timeout: 2_000 });
+    }).toPass({ timeout: 20_000 });
 
     for (const label of [
       "Submit a Project Brief",
@@ -307,10 +343,26 @@ test.describe("Mobile 360px: no horizontal scroll, launcher clear of the viewpor
     await page.goto("/");
     const offenders = await page.evaluate(() => {
       const limit = document.documentElement.clientWidth;
+
+      // Decorative glow/grid layers are deliberately oversized and clipped by
+      // an `overflow-hidden` ancestor, so their bounding box says nothing
+      // about whether the page actually scrolls sideways.
+      const isClipped = (el: Element) => {
+        let node: Element | null = el.parentElement;
+        while (node && node !== document.documentElement) {
+          if (/hidden|clip|auto|scroll/.test(getComputedStyle(node).overflowX)) return true;
+          node = node.parentElement;
+        }
+        return false;
+      };
+
       return [...document.querySelectorAll<HTMLElement>("*")]
         .filter((el) => {
+          if (el.getAttribute("aria-hidden") === "true") return false;
           const r = el.getBoundingClientRect();
-          return r.width > 0 && r.right > limit + 1 && getComputedStyle(el).position !== "fixed";
+          if (r.width <= 0 || r.right <= limit + 1) return false;
+          if (getComputedStyle(el).position === "fixed") return false;
+          return !isClipped(el);
         })
         .slice(0, 10)
         .map((el) => ({
