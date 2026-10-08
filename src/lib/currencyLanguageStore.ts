@@ -1032,10 +1032,22 @@ export const UI_TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> 
 };
 
 // Global Store State
-const detectedInit = detectUserCountryAndCurrency();
-let currentCurrency: SupportedCurrency = detectedInit.currency;
-let currentLanguage: SupportedLanguage = detectedInit.language;
-let detectedCountryName: string = detectedInit.country;
+// Always start from the SSR-safe default (NGN/en) so the client's first render
+// matches the server HTML exactly; real detection runs once after mount.
+let currentCurrency: SupportedCurrency = "NGN";
+let currentLanguage: SupportedLanguage = "en";
+let detectedCountryName: string = "Nigeria";
+let detectionApplied = false;
+
+const applyDetectionOnce = () => {
+  if (detectionApplied || typeof window === "undefined") return;
+  detectionApplied = true;
+  const detected = detectUserCountryAndCurrency();
+  currentCurrency = detected.currency;
+  currentLanguage = detected.language;
+  detectedCountryName = detected.country;
+  listeners.forEach((fn) => fn());
+};
 
 const listeners = new Set<() => void>();
 
