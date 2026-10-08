@@ -1111,6 +1111,7 @@ export const useCurrencyLanguage = () => {
       setCountry(detectedCountryName);
     };
     listeners.add(update);
+    update();
     return () => {
       listeners.delete(update);
     };
