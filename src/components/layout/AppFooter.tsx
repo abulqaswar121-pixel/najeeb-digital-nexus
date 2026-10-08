@@ -270,29 +270,6 @@ export const AppFooter: React.FC<AppFooterProps> = ({
                 Refund Policy
               </button>
             </div>
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-[11px]">
-              <span className="text-muted-foreground/70">Staff &amp; Partner Access:</span>
-              <button
-                onClick={() => openAuthModal("login", "admin")}
-                className="hover:text-foreground underline underline-offset-2"
-              >
-                Admin
-              </button>
-              <span className="text-muted-foreground/40">•</span>
-              <button
-                onClick={() => openAuthModal("login", "pm")}
-                className="hover:text-foreground underline underline-offset-2"
-              >
-                Project Manager
-              </button>
-              <span className="text-muted-foreground/40">•</span>
-              <button
-                onClick={() => openAuthModal("login", "talent")}
-                className="hover:text-foreground underline underline-offset-2"
-              >
-                Talent
-              </button>
-            </div>
           </div>
           <div className="flex flex-wrap items-center gap-6">
             <span className="flex items-center gap-1.5">
