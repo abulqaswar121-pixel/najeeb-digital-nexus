@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useModalA11y } from "../../hooks/use-modal-a11y";
 import { dbService, calculateWelcomeCreditDeduction } from "../../lib/databaseStore";
 import { useAuth } from "../../lib/authStore";
@@ -75,6 +75,21 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
   const [paymentError, setPaymentError] = useState<string | null>(null);
 
   useModalA11y(isOpen, onClose);
+
+  // Load the live public key saved in the backend secrets.
+  useEffect(() => {
+    if (!isOpen) return;
+    let cancelled = false;
+    fetch("/api/payments/config")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((body: { paystackPublicKey?: string | null } | null) => {
+        if (!cancelled && body?.paystackPublicKey) setPaystackPublicKey(body.paystackPublicKey);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 

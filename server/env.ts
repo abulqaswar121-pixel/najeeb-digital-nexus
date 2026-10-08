@@ -36,7 +36,17 @@ export const env = {
   NODE_ENV: process.env["NODE_ENV"] || "development",
   // Paystack: PUBLIC key is also read client-side (VITE_PAYSTACK_PUBLIC_KEY);
   // the SECRET key must only ever exist here on the server.
-  PAYSTACK_SECRET_KEY: process.env["PAYSTACK_SECRET_KEY"] || "",
+  // Read lazily so edge runtimes that inject env at request time still see it.
+  get PAYSTACK_SECRET_KEY(): string {
+    return (process.env["Paystack_live_keys"] || process.env["PAYSTACK_SECRET_KEY"] || "").trim();
+  },
+  get PAYSTACK_PUBLIC_KEY(): string {
+    return (
+      process.env["Paystack_Public_keys"] ||
+      process.env["VITE_PAYSTACK_PUBLIC_KEY"] ||
+      ""
+    ).trim();
+  },
   CLIENT_ORIGIN: process.env["CLIENT_ORIGIN"] || "http://localhost:5173",
 };
 
