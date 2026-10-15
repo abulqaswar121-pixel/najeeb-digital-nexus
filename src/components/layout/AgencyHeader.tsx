@@ -14,12 +14,12 @@ import { ArrowRight, Check, ChevronDown, LogOut, Menu, User, X } from "lucide-re
  * family directory in either place.
  */
 const PRIMARY_LINKS: { id: MainNavView; label: string }[] = [
-  { id: "services", label: "Services" },
-  { id: "case-study", label: "Case Studies" },
-  { id: "process", label: "How It Works" },
-  { id: "talent-network", label: "Talent Network" },
-  { id: "insights", label: "Insights" },
-  { id: "contact", label: "Contact" },
+  { id: "services", label: "nav_services" },
+  { id: "case-study", label: "nav_case_studies" },
+  { id: "process", label: "nav_how_it_works" },
+  { id: "talent-network", label: "nav_talent_network" },
+  { id: "insights", label: "nav_insights" },
+  { id: "contact", label: "nav_contact" },
 ];
 
 interface Props {
@@ -39,7 +39,7 @@ interface Props {
  */
 export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpenBriefWizard }) => {
   const { user, isAuthenticated, logout } = useAuth();
-  const { currency, setCurrency, currencies, language, setLanguage, languages } =
+  const { currency, setCurrency, currencies, language, setLanguage, languages, t } =
     useCurrencyLanguage();
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -90,12 +90,12 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
         {/* Brand lockup — Open Gateway tile + agency sector badge */}
         <div className="min-w-0 shrink-0">
           <BrandLogo size="sm" asLink className="sm:hidden" />
-          <BrandLogo size="md" asLink className="hidden sm:flex" />
+          <BrandLogo size="md" asLink compactBadge className="hidden sm:flex" />
         </div>
 
         {/* Desktop navigation — agency destinations only */}
         <nav
-          className="mx-auto hidden min-w-0 items-center gap-1 lg:flex"
+          className="mx-auto hidden min-w-0 items-center gap-0.5 xl:flex"
           aria-label="Main navigation"
         >
           {PRIMARY_LINKS.map((link) => {
@@ -106,11 +106,11 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
                 type="button"
                 onClick={() => go(link.id)}
                 aria-current={isActive ? "page" : undefined}
-                className={`text-muted-foreground hover:text-foreground hover:bg-accent/60 rounded-lg px-3 py-2 text-sm font-semibold whitespace-nowrap transition-colors ${
+                className={`text-muted-foreground hover:text-foreground hover:bg-accent/60 rounded-lg px-2.5 py-2 text-[13px] font-semibold whitespace-nowrap transition-colors ${
                   isActive ? "text-foreground bg-accent/60 font-bold" : ""
                 }`}
               >
-                {link.label}
+                {t(link.label)}
               </button>
             );
           })}
@@ -131,8 +131,8 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
             >
               <span className="text-sm leading-none">{currencies[currency]?.flag}</span>
               <span className="font-mono">{currency}</span>
-              <span className="text-muted-foreground/60">·</span>
-              <span className="uppercase">{language}</span>
+              <span className="text-muted-foreground/60 hidden lg:inline">·</span>
+              <span className="hidden uppercase lg:inline">{language}</span>
               <ChevronDown
                 className={`text-muted-foreground h-3.5 w-3.5 transition-transform ${prefsOpen ? "rotate-180" : ""}`}
               />
@@ -141,7 +141,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
             {prefsOpen && (
               <div className="border-border bg-surface absolute right-0 z-50 mt-2 w-64 rounded-2xl border p-3 shadow-2xl">
                 <div className="text-brand-soft mb-2 text-[10px] font-bold tracking-[0.14em] uppercase">
-                  Currency
+                  {t("nav_currency")}
                 </div>
                 <div className="mb-3 max-h-44 space-y-0.5 overflow-y-auto">
                   {(Object.keys(currencies) as (keyof typeof currencies)[]).map((code) => {
@@ -169,7 +169,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
                 </div>
 
                 <div className="border-border text-brand-soft border-t pt-3 pb-2 text-[10px] font-bold tracking-[0.14em] uppercase">
-                  Language
+                  {t("nav_language")}
                 </div>
                 <div className="space-y-0.5">
                   {(Object.keys(languages) as (keyof typeof languages)[]).map((code) => {
@@ -212,7 +212,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
                   className="border-border bg-surface hover:border-primary/45 flex items-center gap-2 rounded-xl border py-1 pr-2.5 pl-1 transition-colors"
                 >
                   <img src={user.avatarUrl} alt="" className="h-7 w-7 rounded-lg object-cover" />
-                  <span className="text-foreground max-w-[7rem] truncate text-xs font-bold">
+                  <span className="text-foreground hidden max-w-[6rem] truncate text-xs lg:inline font-bold">
                     {user.fullName}
                   </span>
                   <ChevronDown className="text-muted-foreground h-3.5 w-3.5" />
@@ -234,7 +234,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
                       className="hover:bg-accent text-foreground/85 flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-semibold transition-colors"
                     >
                       <User className="h-3.5 w-3.5" />
-                      My workspace
+                      {t("nav_my_workspace")}
                     </button>
                     <button
                       type="button"
@@ -245,7 +245,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
                       className="hover:bg-accent flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-semibold text-red-600 transition-colors"
                     >
                       <LogOut className="h-3.5 w-3.5" />
-                      Sign out
+                      {t("nav_sign_out")}
                     </button>
                   </div>
                 )}
@@ -256,7 +256,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
                 onClick={() => openAuthModal("login")}
                 className="text-muted-foreground hover:text-foreground hover:bg-accent/60 rounded-lg px-3 py-2 text-xs font-bold transition-colors"
               >
-                Sign In
+                {t("nav_sign_in")}
               </button>
             )}
           </div>
@@ -265,9 +265,9 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
           <button
             type="button"
             onClick={onOpenBriefWizard}
-            className="from-primary to-highlight hidden items-center gap-1.5 rounded-xl bg-gradient-to-r px-4 py-2.5 text-xs font-extrabold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-[1.03] active:scale-95 sm:inline-flex"
+            className="from-primary to-highlight hidden items-center gap-1.5 shrink-0 whitespace-nowrap rounded-xl bg-gradient-to-r px-4 py-2.5 text-xs font-extrabold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-[1.03] active:scale-95 sm:inline-flex"
           >
-            Start a Project
+            {t("nav_start_project")}
             <ArrowRight className="h-3.5 w-3.5" />
           </button>
 
@@ -277,7 +277,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Toggle navigation menu"
             aria-expanded={mobileOpen}
-            className="border-border bg-surface text-foreground grid h-10 w-10 place-items-center rounded-xl border lg:hidden"
+            className="border-border bg-surface text-foreground grid h-10 w-10 place-items-center rounded-xl border xl:hidden"
           >
             {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
@@ -286,7 +286,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
 
       {/* Mobile drawer — same six agency destinations, nothing else */}
       {mobileOpen && (
-        <div className="border-border bg-surface max-h-[calc(100dvh-4rem)] overflow-y-auto border-t lg:hidden">
+        <div className="border-border bg-surface max-h-[calc(100dvh-4rem)] overflow-y-auto border-t xl:hidden">
           <div className="mx-auto max-w-7xl space-y-4 px-4 py-5 sm:px-6">
             <nav className="space-y-1" aria-label="Mobile navigation">
               {PRIMARY_LINKS.map((link) => (
@@ -300,7 +300,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
                       : "text-foreground/80 hover:bg-accent/60"
                   }`}
                 >
-                  {link.label}
+                  {t(link.label)}
                 </button>
               ))}
             </nav>
@@ -313,13 +313,13 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
               }}
               className="from-primary to-highlight w-full rounded-xl bg-gradient-to-r py-3.5 text-center text-sm font-extrabold text-white shadow-lg"
             >
-              Start a Project
+              {t("nav_start_project")}
             </button>
 
             <div className="border-border grid grid-cols-2 gap-3 border-t pt-4">
               <label className="block min-w-0">
                 <span className="text-muted-foreground mb-1 block text-[10px] font-bold uppercase">
-                  Currency
+                  {t("nav_currency")}
                 </span>
                 <select
                   value={currency}
@@ -335,7 +335,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
               </label>
               <label className="block min-w-0">
                 <span className="text-muted-foreground mb-1 block text-[10px] font-bold uppercase">
-                  Language
+                  {t("nav_language")}
                 </span>
                 <select
                   value={language}
@@ -379,7 +379,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
                 className="border-border bg-surface-raised text-foreground flex w-full items-center justify-center gap-2 rounded-xl border py-3 text-xs font-bold"
               >
                 <User className="text-brand-soft h-4 w-4" />
-                Sign In / Register
+                {t("nav_sign_in")}
               </button>
             )}
           </div>

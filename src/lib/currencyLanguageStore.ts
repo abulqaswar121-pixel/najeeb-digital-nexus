@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ServiceDepartment } from "../types/ndh";
+import { EXTRA_TRANSLATIONS } from "./extraTranslations";
 
 export type SupportedCurrency = "USD" | "NGN" | "GBP" | "EUR" | "AED";
 export type SupportedLanguage = "en" | "fr" | "ar";
@@ -70,7 +71,7 @@ export const LANGUAGES: Record<SupportedLanguage, LanguageConfig> = {
 };
 
 // Automatic Country & Currency Detection Engine
-export const detectUserCountryAndCurrency = (): {
+const detectRaw = (): {
   currency: SupportedCurrency;
   language: SupportedLanguage;
   country: string;
@@ -152,6 +153,13 @@ export const detectUserCountryAndCurrency = (): {
   } catch {
     return { currency: "NGN", language: "en", country: "Nigeria" };
   }
+};
+
+export const detectUserCountryAndCurrency = () => {
+  const r = detectRaw();
+  if (typeof window === "undefined") return r;
+  const saved = localStorage.getItem("ndh_language") as SupportedLanguage | null;
+  return saved && LANGUAGES[saved] ? { ...r, language: saved } : r;
 };
 
 // 16 Complete Global Departments with Market-Realistic Accessible Pricing across all 5 currencies
@@ -1117,8 +1125,21 @@ export const useCurrencyLanguage = () => {
     };
   }, []);
 
+  // Arabic reads right-to-left; keep the page direction and lang in sync.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+  }, [language]);
+
   const t = (key: string): string => {
-    return UI_TRANSLATIONS[language]?.[key] || UI_TRANSLATIONS.en[key] || key;
+    return (
+      EXTRA_TRANSLATIONS[language]?.[key] ||
+      UI_TRANSLATIONS[language]?.[key] ||
+      EXTRA_TRANSLATIONS.en[key] ||
+      UI_TRANSLATIONS.en[key] ||
+      key
+    );
   };
 
   return {

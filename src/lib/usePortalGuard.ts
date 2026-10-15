@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { useAuth } from "./authStore";
+import { useAuth, openAuthModal } from "./authStore";
 import { UserRole } from "../types/ndh";
 
 // Client-side defense-in-depth redirect for portal routes. The REAL security
@@ -16,7 +16,11 @@ export function usePortalGuard(allowedRoles: UserRole[]) {
 
   useEffect(() => {
     if (isSessionLoading) return;
-    if (!user || !allowedRoles.includes(user.role)) {
+    if (!user) {
+      // Not signed in: take them home and open the sign-in window right away.
+      void navigate({ to: "/" });
+      openAuthModal("login");
+    } else if (!allowedRoles.includes(user.role)) {
       void navigate({ to: "/" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

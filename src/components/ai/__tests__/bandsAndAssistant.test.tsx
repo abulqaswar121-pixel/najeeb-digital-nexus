@@ -76,7 +76,7 @@ describe("Homepage Academy contrast rhythm", () => {
     const pill = hero.querySelector(".gw-eyebrow");
     expect(pill).not.toBeNull();
     expect(pill!.querySelector(".gw-eyebrow-dot")).not.toBeNull();
-    expect(pill!.textContent).toMatch(/Managed Digital Bureau of Najeeb Digital Hub/i);
+    expect(pill!.textContent).toMatch(/Najeeb Digital Hub/i);
 
     // The gradient highlight span sits inside the h1.
     expect(hero.querySelector("h1 .text-gradient-brand")).not.toBeNull();
@@ -104,7 +104,7 @@ describe("Homepage Academy contrast rhythm", () => {
     const band = container.querySelector("#case-studies")!;
     expect(band).not.toBeNull();
     expect(band.classList.contains("gw-band-white")).toBe(true);
-    expect(band.textContent).toContain("Verified work");
+    expect(band.textContent).toContain("Real projects for real clients");
   });
 
   it("keeps the estimator deep-linkable (the hero pill scrolls to #estimator)", () => {
@@ -119,7 +119,7 @@ describe("Homepage Academy contrast rhythm", () => {
  * 1b. The Academy layout primitives
  * ------------------------------------------------------------------ */
 
-describe("Continuous services marquee", () => {
+describe.skip("Continuous services marquee (removed from homepage to avoid repetition)", () => {
   const renderHome = () =>
     render(<HomepagePreview onOpenBriefWizard={() => {}} onSelectScreen={() => {}} />);
 
@@ -187,7 +187,7 @@ describe("16 department showcase", () => {
     const { container } = renderHome();
     const showcase = container.querySelector("#departments")!;
     const cards = showcase.querySelectorAll("article.gw-card");
-    expect(cards.length).toBe(16);
+    expect(cards.length).toBe(8);
 
     for (const card of cards) {
       expect(card.querySelector(".gw-icon-pill")).not.toBeNull();
@@ -202,7 +202,7 @@ describe("16 department showcase", () => {
     const { container } = renderHome();
     const showcase = container.querySelector("#departments")!;
     const summaries = showcase.querySelectorAll("p.line-clamp-2");
-    expect(summaries.length).toBe(16);
+    expect(summaries.length).toBe(8);
   });
 });
 
@@ -214,8 +214,8 @@ describe("Verified case studies & client feedback", () => {
     const { container } = renderHome();
     const band = container.querySelector("#case-studies")!;
     // Copy that only makes sense once real, approval-recorded quotes exist.
-    expect(band.textContent).toContain("Verified feedback");
-    expect(band.textContent).toContain("Read the full case-study dossiers");
+    expect(band.textContent).toContain("What clients say");
+    expect(band.textContent).toContain("See all our case studies");
   });
 
   it("renders fetched dossiers and client quotes once the API responds (e2e covers the loaded DOM)", async () => {

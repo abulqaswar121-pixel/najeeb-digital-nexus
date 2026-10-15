@@ -4,8 +4,7 @@ import { SERVICE_DEPARTMENTS } from "../../../data/mockData";
 import { DEPARTMENT_CARDS, departmentProfile } from "../../../data/agencyDepartments";
 import { useCurrencyLanguage } from "../../../lib/currencyLanguageStore";
 import { useCaseStudies } from "../../../lib/databaseStore";
-import { HeroShowcaseSlider } from "../../home/HeroShowcaseSlider";
-import { ClientsMarquee, ServicesMarquee } from "../../home/Marquees";
+import { ClientsMarquee } from "../../home/Marquees";
 import { DeliveryArc } from "../../home/DeliveryArc";
 import { DepartmentCard } from "../../home/DepartmentCard";
 import { ServiceDetailModal } from "../modals/ServiceDetailModal";
@@ -15,8 +14,6 @@ import {
   ArrowRight,
   Layers,
   TrendingUp,
-  Sliders,
-  Globe,
   Quote,
   Sparkles,
   BadgeCheck,
@@ -51,29 +48,12 @@ const TIER_FOCUS: Record<ServiceDepartment, string> = {
   nocode_rapid_mvp: "no-code MVP",
 };
 
-function getTierOptions(dept: ServiceDepartment) {
-  const focus = TIER_FOCUS[dept] || "project";
+function getTierOptions(_dept: ServiceDepartment) {
   return [
-    {
-      id: "starter",
-      title: "Starter MVP",
-      desc: `${focus.charAt(0).toUpperCase()}${focus.slice(1)}, rapid launch & essential features`,
-    },
-    {
-      id: "growth",
-      title: "Growth Build (Most Popular)",
-      desc: `Full custom ${focus}, backend & complete QA`,
-    },
-    {
-      id: "enterprise",
-      title: "Enterprise Dedicated",
-      desc: `High concurrency ${focus}, 24/7 SLA & security audit`,
-    },
-    {
-      id: "custom",
-      title: "Custom Scope",
-      desc: "Bigger, smaller, or different — let's talk & quote it",
-    },
+    { id: "starter", title: "tier_starter", desc: "tier_starter_desc" },
+    { id: "growth", title: "tier_growth", desc: "tier_growth_desc" },
+    { id: "enterprise", title: "tier_enterprise", desc: "tier_enterprise_desc" },
+    { id: "custom", title: "tier_custom", desc: "tier_custom_desc" },
   ] as const;
 }
 
@@ -177,15 +157,6 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               {t("hero_desc")}
             </p>
 
-            {/* Currency auto-detected from your browser/timezone; override
-                anytime from the header preferences. */}
-            <div className="text-[var(--eco-on-dark-muted)] inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-3 py-1.5 text-xs backdrop-blur-md">
-              <Globe className="h-3.5 w-3.5 text-emerald-300" aria-hidden="true" />
-              <span>
-                {t("hero_price_prefix")} <strong className="text-white">{currency}</strong> ·{" "}
-                {t("hero_price_suffix")}
-              </span>
-            </div>
 
             <div className="flex flex-col items-center justify-center gap-4 pt-2 sm:flex-row">
               <button
@@ -220,18 +191,9 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             ))}
           </div>
 
-          {/* Auto-changing showcase of verified work */}
-          <div className="pt-2">
-            <HeroShowcaseSlider
-              onOpenBriefWizard={onOpenBriefWizard}
-              onSelectScreen={onSelectScreen}
-            />
-          </div>
         </div>
       </section>
 
-      {/* ───────── Continuous services marquee — all 16 departments ───────── */}
-      <ServicesMarquee />
 
       {/* ───────── 2. WHITE STRIP — real clients only ───────── */}
       <ClientsMarquee />
@@ -241,16 +203,12 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
         <div className="mx-auto max-w-7xl space-y-10 px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow={t("section_build_badge")}
-            title={
-              <>
-                16 service departments, <span className="text-gradient-brand">one bureau</span>
-              </>
-            }
+            title={t("home_services_title")}
             description={t("section_build_desc")}
           />
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {DEPARTMENT_CARDS.map((dept) => (
+            {DEPARTMENT_CARDS.slice(0, 8).map((dept) => (
               <DepartmentCard
                 key={dept.id}
                 dept={dept}
@@ -269,13 +227,6 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               <Layers className="text-brand-soft h-4 w-4" aria-hidden="true" />
               {t("btn_view_all_departments")}
             </button>
-            <button
-              onClick={onOpenBriefWizard}
-              className="from-primary to-highlight inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r px-8 py-3.5 text-xs font-extrabold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-[1.03]"
-            >
-              {t("cta_primary")}
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </button>
           </div>
         </div>
       </section>
@@ -285,11 +236,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
         <div className="mx-auto max-w-7xl space-y-10 px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow={t("arc_badge")}
-            title={
-              <>
-                Brief → PM → Sprint → <span className="text-gradient-brand">Launch</span>
-              </>
-            }
+            title={t("home_arc_title")}
             description={t("arc_desc")}
           />
           <DeliveryArc onStepClick={() => onSelectScreen("process")} />
@@ -301,10 +248,6 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="border-border bg-surface mx-auto max-w-4xl space-y-8 rounded-2xl border p-8 shadow-[0_4px_16px_rgba(16,27,64,0.07)] sm:p-12">
             <div className="space-y-3 text-center">
-              <span className="gw-eyebrow">
-                <Sliders className="h-3.5 w-3.5" aria-hidden="true" />
-                {t("estimator_title")}
-              </span>
               <h2 className="text-foreground font-display text-3xl font-black tracking-tight sm:text-4xl">
                 {t("estimator_title")}
               </h2>
@@ -360,8 +303,8 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                           : "border-border bg-surface-raised hover:border-primary/50"
                       }`}
                     >
-                      <div className="text-foreground text-xs font-bold">{tier.title}</div>
-                      <div className="text-muted-foreground mt-1 text-[11px]">{tier.desc}</div>
+                      <div className="text-foreground text-xs font-bold">{t(tier.title)}</div>
+                      <div className="text-muted-foreground mt-1 text-[11px]">{t(tier.desc)}</div>
                     </button>
                   );
                 })}
@@ -421,11 +364,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             <SectionHeading
               align="left"
               eyebrow={t("section_results_badge")}
-              title={
-                <>
-                  Verified work, <span className="text-gradient-brand">named clients</span>
-                </>
-              }
+              title={t("home_results_title")}
               description={t("section_results_desc")}
             />
             <div className="no-scrollbar flex items-center gap-2 overflow-x-auto">
@@ -575,7 +514,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                         </span>
                         {quote.verifiedNDH && (
                           <span className="border-success/30 text-success rounded-md border bg-emerald-400/10 px-2 py-0.5 font-mono text-[10px] tracking-wide uppercase">
-                            Verified
+                            {t("verified")}
                           </span>
                         )}
                       </div>
@@ -598,7 +537,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 className="text-brand-soft inline-flex items-center gap-2 text-sm font-bold hover:underline"
               >
                 <TrendingUp className="h-4 w-4" aria-hidden="true" />
-                Read the full case-study dossiers
+                {t("home_all_case_studies")}
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
@@ -615,7 +554,7 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
         <div className="relative z-10 mx-auto max-w-3xl space-y-6 px-4 text-center sm:px-6">
           <span className="gw-eyebrow">
             <span className="gw-eyebrow-dot" aria-hidden="true" />
-            Managed Digital Bureau
+            {t("cta_badge")}
           </span>
           <h2 className="font-display text-3xl font-black tracking-tight text-white sm:text-5xl">
             {t("cta_title")}
