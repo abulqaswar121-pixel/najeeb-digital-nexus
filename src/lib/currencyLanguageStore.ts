@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ServiceDepartment } from "../types/ndh";
+import { EXTRA_TRANSLATIONS } from "./extraTranslations";
 
 export type SupportedCurrency = "USD" | "NGN" | "GBP" | "EUR" | "AED";
 export type SupportedLanguage = "en" | "fr" | "ar";
@@ -1117,8 +1118,21 @@ export const useCurrencyLanguage = () => {
     };
   }, []);
 
+  // Arabic reads right-to-left; keep the page direction and lang in sync.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+  }, [language]);
+
   const t = (key: string): string => {
-    return UI_TRANSLATIONS[language]?.[key] || UI_TRANSLATIONS.en[key] || key;
+    return (
+      EXTRA_TRANSLATIONS[language]?.[key] ||
+      UI_TRANSLATIONS[language]?.[key] ||
+      EXTRA_TRANSLATIONS.en[key] ||
+      UI_TRANSLATIONS.en[key] ||
+      key
+    );
   };
 
   return {
