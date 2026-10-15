@@ -427,6 +427,33 @@ export const dbService = {
     return payoutBatch;
   },
 
+  async listBanks(): Promise<{ name: string; code: string }[]> {
+    const { banks } = await api.get<{ banks: { name: string; code: string }[] }>("/payouts/banks");
+    return banks;
+  },
+
+  async listBankTransfers(): Promise<BankTransfer[]> {
+    const { transfers } = await api.get<{ transfers: BankTransfer[] }>("/payouts/transfers");
+    return transfers;
+  },
+
+  async requestBankTransfer(input: {
+    recipientName: string;
+    accountNumber: string;
+    bankCode: string;
+    bankName: string;
+    amountNGN: number;
+    reason: string;
+  }): Promise<BankTransfer> {
+    const { transfer } = await api.post<{ transfer: BankTransfer }>("/payouts/transfers", input);
+    return transfer;
+  },
+
+  async approveBankTransfer(id: string): Promise<BankTransfer> {
+    const { transfer } = await api.post<{ transfer: BankTransfer }>(`/payouts/transfers/${id}/approve`);
+    return transfer;
+  },
+
   async getMilestoneApproval(
     projectId: string,
     milestoneIndex: number,
@@ -464,6 +491,21 @@ export interface PayoutBatch {
   approvals: { userId: string; userName: string; role: string; signedAt: string }[];
   disbursed: boolean;
   disbursedAt?: string;
+}
+
+export interface BankTransfer {
+  id: string;
+  recipientName: string;
+  accountName: string;
+  accountNumber: string;
+  bankName: string;
+  amountNGN: number;
+  reason: string;
+  requestedByUserId: string;
+  requestedByName: string;
+  approvedByName?: string;
+  status: "awaiting_approval" | "processing" | "success" | "failed" | "otp_required";
+  error?: string;
 }
 
 export interface MilestoneApproval {

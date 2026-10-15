@@ -852,6 +852,29 @@ export const payoutBatches = new Collection<PayoutBatchRecord>("payoutBatches", 
   },
 ]);
 
+export interface BankTransferRecord {
+  id: string;
+  reference: string;
+  recipientName: string;
+  accountName: string;
+  accountNumber: string;
+  bankCode: string;
+  bankName: string;
+  amountNGN: number;
+  reason: string;
+  requestedByUserId: string;
+  requestedByName: string;
+  requestedAt: string;
+  approvedByUserId?: string;
+  approvedByName?: string;
+  approvedAt?: string;
+  status: "awaiting_approval" | "processing" | "success" | "failed" | "otp_required";
+  transferCode?: string;
+  error?: string;
+}
+
+export const bankTransfers = new Collection<BankTransferRecord>("bankTransfers", []);
+
 export const projectApprovals = new Collection<ProjectApprovalRecord>("projectApprovals", []);
 
 // Case studies used to be purely static frontend data (src/data/mockData.ts)
