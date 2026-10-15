@@ -54,8 +54,8 @@ describe("Open Gateway master mark", () => {
 describe("Header brand lockup", () => {
   it("carries the wordmark, sub-label and bureau micro-badge", () => {
     const { container } = render(<BrandLogo size="md" />);
-    expect(container.querySelector(".ndh-brand-wordmark")).toHaveTextContent("NAJEEB DIGITAL HUB");
-    expect(container.querySelector(".ndh-brand-sublabel")).toHaveTextContent(/NDH Agency/i);
+    expect(container.querySelector(".ndh-brand-wordmark")).toHaveTextContent(/NDH Agency/i);
+    expect(container.querySelector(".ndh-brand-sublabel")).toHaveTextContent(/Najeeb Digital Hub/i);
     expect(container.querySelector(".ndh-brand-badge")).toHaveTextContent(
       /Managed Digital Bureau/i,
     );
