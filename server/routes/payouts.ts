@@ -153,7 +153,7 @@ payoutsRouter.post("/transfers", requireRole(...APPROVER_ROLES), async (req, res
 
 payoutsRouter.post("/transfers/:id/approve", requireRole(...APPROVER_ROLES), async (req, res) => {
   const user = req.ndhUser!;
-  const t = bankTransfers.find((x) => x.id === req.params.id);
+  const t = bankTransfers.find((x) => x.id === req.params["id"]);
   if (!t) {
     res.status(404).json({ error: "Transfer not found." });
     return;
