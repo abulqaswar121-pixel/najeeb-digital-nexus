@@ -51,7 +51,7 @@ export function signSession(userId: string): string {
 export function verifySession(token: string): { sub: string } | null {
   const parts = token.split(".");
   if (parts.length !== 3) return null;
-  const [head, body, sig] = parts;
+  const [head = "", body = "", sig = ""] = parts;
   const expected = Buffer.from(hmac(`${head}.${body}`));
   const given = Buffer.from(sig);
   if (expected.length !== given.length || !crypto.timingSafeEqual(expected, given)) return null;

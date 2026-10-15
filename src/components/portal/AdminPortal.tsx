@@ -59,6 +59,7 @@ import {
   Terminal,
 } from "lucide-react";
 import { PortalNavDropdown } from "./PortalNavDropdown";
+import { BankTransfersPanel } from "./BankTransfersPanel";
 
 export const AdminPortal: React.FC = () => {
   const { user } = useAuth();
@@ -1466,6 +1467,8 @@ export const AdminPortal: React.FC = () => {
                   </div>
                 </div>
               </div>
+
+              <BankTransfersPanel currentUserId={user?.id} />
 
               {payoutBatch?.disbursed ? (
                 <div className="p-8 text-center rounded-3xl bg-emerald-950/40 border border-emerald-500/40 space-y-3">

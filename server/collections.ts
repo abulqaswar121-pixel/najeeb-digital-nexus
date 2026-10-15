@@ -1,5 +1,10 @@
 import bcrypt from "bcryptjs";
 import { Collection, SingletonRecord } from "./db.js";
+
+// Seed accounts are hashed when this module loads. Edge runtimes forbid random
+// numbers at load time, so seeds use a fixed salt; real sign-ups and password
+// changes still get a fresh random salt per request.
+const SEED_SALT = "$2b$10$ndhAgencySeedSaltValue.";
 import type {
   UserRole,
   UserSession,
@@ -823,7 +828,7 @@ export const users = new Collection<UserRecord>(
     ...rest,
     // Real bcrypt hashing of the seed password (not a shortcut/lookup table)
     // -- verified via bcrypt.compare() at login time in server/auth.ts.
-    passwordHash: bcrypt.hashSync(plainPassword, 10),
+    passwordHash: bcrypt.hashSync(plainPassword, SEED_SALT),
   })),
 );
 
@@ -851,6 +856,29 @@ export const payoutBatches = new Collection<PayoutBatchRecord>("payoutBatches", 
     disbursed: false,
   },
 ]);
+
+export interface BankTransferRecord {
+  id: string;
+  reference: string;
+  recipientName: string;
+  accountName: string;
+  accountNumber: string;
+  bankCode: string;
+  bankName: string;
+  amountNGN: number;
+  reason: string;
+  requestedByUserId: string;
+  requestedByName: string;
+  requestedAt: string;
+  approvedByUserId?: string;
+  approvedByName?: string;
+  approvedAt?: string;
+  status: "awaiting_approval" | "processing" | "success" | "failed" | "otp_required";
+  transferCode?: string;
+  error?: string;
+}
+
+export const bankTransfers = new Collection<BankTransferRecord>("bankTransfers", []);
 
 export const projectApprovals = new Collection<ProjectApprovalRecord>("projectApprovals", []);
 

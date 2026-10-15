@@ -1,6 +1,6 @@
 import { Router } from "../http.js";
 import { requireAuth } from "../auth.js";
-import { transactions, type TransactionRecord } from "../collections.js";
+import { transactions, bankTransfers, type TransactionRecord } from "../collections.js";
 import { verifyPaystackTransaction, verifyPaystackWebhookSignature } from "../paystack.js";
 
 export const paymentsRouter = Router();
@@ -92,6 +92,19 @@ paymentsRouter.post("/webhook", (req, res) => {
     transactions.update(
       (t) => t.reference === event.data?.reference,
       (t) => ({ ...t, status: "success", verifiedByGateway: true }),
+    );
+  }
+
+  const transferEvents: Record<string, "success" | "failed"> = {
+    "transfer.success": "success",
+    "transfer.failed": "failed",
+    "transfer.reversed": "failed",
+  };
+  const transferStatus = event.event ? transferEvents[event.event] : undefined;
+  if (transferStatus && event.data?.reference) {
+    bankTransfers.update(
+      (t) => t.reference === event.data?.reference,
+      (t) => ({ ...t, status: transferStatus }),
     );
   }
 

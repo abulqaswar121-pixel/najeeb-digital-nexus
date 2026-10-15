@@ -86,3 +86,68 @@ export function verifyPaystackWebhookSignature(rawBody: Buffer, signatureHeader?
     .digest("hex");
   return expected === signatureHeader;
 }
+
+// ---------------------------------------------------------------------------
+// Transfers (paying PMs and talents straight to their Nigerian bank account)
+// ---------------------------------------------------------------------------
+
+async function paystackCall<T>(path: string, init?: RequestInit): Promise<T> {
+  if (!env.PAYSTACK_SECRET_KEY) throw new Error("Paystack secret key is not set up.");
+  const response = await fetch(`https://api.paystack.co${path}`, {
+    ...init,
+    headers: {
+      Authorization: `Bearer ${env.PAYSTACK_SECRET_KEY}`,
+      "Content-Type": "application/json",
+    },
+  });
+  const body = (await response.json().catch(() => ({}))) as {
+    status?: boolean;
+    message?: string;
+    data?: T;
+  };
+  if (!response.ok || !body.status) {
+    throw new Error(body.message || `Paystack request failed (${response.status})`);
+  }
+  return body.data as T;
+}
+
+export function listNigerianBanks() {
+  return paystackCall<{ name: string; code: string }[]>("/bank?country=nigeria&perPage=100");
+}
+
+export function resolveBankAccount(accountNumber: string, bankCode: string) {
+  return paystackCall<{ account_name: string; account_number: string }>(
+    `/bank/resolve?account_number=${encodeURIComponent(accountNumber)}&bank_code=${encodeURIComponent(bankCode)}`,
+  );
+}
+
+export async function sendBankTransfer(input: {
+  name: string;
+  accountNumber: string;
+  bankCode: string;
+  amountKobo: number;
+  reason: string;
+  reference: string;
+}) {
+  const recipient = await paystackCall<{ recipient_code: string }>("/transferrecipient", {
+    method: "POST",
+    body: JSON.stringify({
+      type: "nuban",
+      name: input.name,
+      account_number: input.accountNumber,
+      bank_code: input.bankCode,
+      currency: "NGN",
+    }),
+  });
+  const transfer = await paystackCall<{ status: string; transfer_code: string }>("/transfer", {
+    method: "POST",
+    body: JSON.stringify({
+      source: "balance",
+      amount: input.amountKobo,
+      recipient: recipient.recipient_code,
+      reason: input.reason,
+      reference: input.reference,
+    }),
+  });
+  return { recipientCode: recipient.recipient_code, ...transfer };
+}

@@ -14,15 +14,19 @@ function warnOnce(key: string, message: string) {
 // SESSION_SECRET signs the auth cookie. In dev, auto-generate one so the
 // server runs out of the box, but warn loudly that this means sessions won't
 // survive a server restart and that production MUST set a real secret.
-let sessionSecret = process.env["SESSION_SECRET"];
-if (!sessionSecret) {
-  sessionSecret = crypto.randomBytes(32).toString("hex");
-  warnOnce(
-    "session_secret",
-    "[ndh-server] SESSION_SECRET is not set — generated a random one for this " +
-      "process only. All sessions will be invalidated on restart. Set a real " +
-      "SESSION_SECRET in your environment before deploying anywhere real.",
-  );
+let generatedSecret: string | undefined;
+function getSessionSecret(): string {
+  const fromEnv = process.env["SESSION_SECRET"];
+  if (fromEnv) return fromEnv;
+  if (!generatedSecret) {
+    generatedSecret = crypto.randomBytes(32).toString("hex");
+    warnOnce(
+      "session_secret",
+      "[ndh-server] SESSION_SECRET is not set — generated a random one for this " +
+        "process only. Set a real SESSION_SECRET before deploying.",
+    );
+  }
+  return generatedSecret;
 }
 
 export const env = {
@@ -32,7 +36,9 @@ export const env = {
   // same-origin /api/*, which the Vite dev server proxies to localhost — so
   // set API_HOST=127.0.0.1 to keep the API off the public interface entirely.
   HOST: process.env["API_HOST"] || "0.0.0.0",
-  SESSION_SECRET: sessionSecret,
+  get SESSION_SECRET(): string {
+    return getSessionSecret();
+  },
   NODE_ENV: process.env["NODE_ENV"] || "development",
   // Paystack: PUBLIC key is also read client-side (VITE_PAYSTACK_PUBLIC_KEY);
   // the SECRET key must only ever exist here on the server.
