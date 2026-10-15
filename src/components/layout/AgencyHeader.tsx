@@ -265,7 +265,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
           <button
             type="button"
             onClick={onOpenBriefWizard}
-            className="from-primary to-highlight hidden items-center gap-1.5 rounded-xl bg-gradient-to-r px-4 py-2.5 text-xs font-extrabold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-[1.03] active:scale-95 sm:inline-flex"
+            className="from-primary to-highlight hidden items-center gap-1.5 shrink-0 whitespace-nowrap rounded-xl bg-gradient-to-r px-4 py-2.5 text-xs font-extrabold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-[1.03] active:scale-95 sm:inline-flex"
           >
             {t("nav_start_project")}
             <ArrowRight className="h-3.5 w-3.5" />
