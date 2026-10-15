@@ -14,14 +14,14 @@ export const TypingWords: React.FC<Props> = ({ words, className }) => {
   useEffect(() => {
     if (words.length < 2) return;
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    const word = words[index % words.length];
+    const word = words[index % words.length] ?? "";
     let delay = deleting ? 45 : 85;
     if (!deleting && text === word) delay = reduce ? 2600 : 1800;
     const timer = window.setTimeout(() => {
       if (reduce) {
         const next = (index + 1) % words.length;
         setIndex(next);
-        setText(words[next]);
+        setText(words[next] ?? "");
         return;
       }
       if (!deleting && text === word) setDeleting(true);
