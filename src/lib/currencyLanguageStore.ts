@@ -71,7 +71,7 @@ export const LANGUAGES: Record<SupportedLanguage, LanguageConfig> = {
 };
 
 // Automatic Country & Currency Detection Engine
-export const detectUserCountryAndCurrency = (): {
+const detectRaw = (): {
   currency: SupportedCurrency;
   language: SupportedLanguage;
   country: string;
@@ -153,6 +153,13 @@ export const detectUserCountryAndCurrency = (): {
   } catch {
     return { currency: "NGN", language: "en", country: "Nigeria" };
   }
+};
+
+export const detectUserCountryAndCurrency = () => {
+  const r = detectRaw();
+  if (typeof window === "undefined") return r;
+  const saved = localStorage.getItem("ndh_language") as SupportedLanguage | null;
+  return saved && LANGUAGES[saved] ? { ...r, language: saved } : r;
 };
 
 // 16 Complete Global Departments with Market-Realistic Accessible Pricing across all 5 currencies
