@@ -343,7 +343,9 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
               src={assistantAvatar}
               alt=""
               width={192}
-              height={192} decoding="async" fetchPriority="high"
+              height={192}
+              decoding="async"
+              fetchPriority="high"
             />
             <span className="ai-assistant-status" aria-hidden="true" />
           </button>
