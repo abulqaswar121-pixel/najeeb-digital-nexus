@@ -90,7 +90,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
         {/* Brand lockup — Open Gateway tile + agency sector badge */}
         <div className="min-w-0 shrink-0">
           <BrandLogo size="sm" asLink className="sm:hidden" />
-          <BrandLogo size="md" asLink className="hidden sm:flex" />
+          <BrandLogo size="md" asLink compactBadge className="hidden sm:flex" />
         </div>
 
         {/* Desktop navigation — agency destinations only */}
