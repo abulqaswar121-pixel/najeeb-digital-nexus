@@ -4,7 +4,7 @@ import { SERVICE_DEPARTMENTS } from "../../data/mockData";
 import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 import { ServiceDepartment } from "../../types/ndh";
 // Official NDH assistant avatar, shared with the parent gateway's OmniHubChat.
-import assistantAvatar from "@/assets/ndh-ai-assistant.png";
+import assistantAvatar from "@/assets/ndh-ai-assistant.webp";
 import {
   Bot,
   X,
@@ -295,8 +295,8 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
               className="ai-assistant-avatar"
               src={assistantAvatar}
               alt=""
-              width={816}
-              height={816}
+              width={192}
+              height={192} decoding="async" fetchPriority="high"
             />
             <span className="ai-assistant-status" aria-hidden="true" />
           </button>

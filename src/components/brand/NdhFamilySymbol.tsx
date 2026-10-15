@@ -1,5 +1,5 @@
 import type { ComponentType, SVGProps } from "react";
-import gatewayLogo from "@/assets/ndh-logo-gateway-cropped.png";
+import gatewayLogo from "@/assets/ndh-logo-gateway-cropped.webp";
 
 type SectorIcon = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -20,7 +20,7 @@ export function NdhFamilySymbol({
   return (
     <span className={`ndh-family-symbol${className ? ` ${className}` : ""}`} aria-hidden="true">
       <span className="ndh-family-tile">
-        <img src={gatewayLogo} alt="" width={684} height={679} />
+        <img src={gatewayLogo} alt="" width={192} height={191} decoding="async" fetchPriority="high" />
       </span>
       {SectorIcon ? (
         <span className="ndh-family-sector">
