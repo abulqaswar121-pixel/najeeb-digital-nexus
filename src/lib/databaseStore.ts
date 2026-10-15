@@ -450,7 +450,9 @@ export const dbService = {
   },
 
   async approveBankTransfer(id: string): Promise<BankTransfer> {
-    const { transfer } = await api.post<{ transfer: BankTransfer }>(`/payouts/transfers/${id}/approve`);
+    const { transfer } = await api.post<{ transfer: BankTransfer }>(
+      `/payouts/transfers/${id}/approve`,
+    );
     return transfer;
   },
 

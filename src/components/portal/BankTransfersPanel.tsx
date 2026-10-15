@@ -68,13 +68,14 @@ export function BankTransfersPanel({ currentUserId }: { currentUserId?: string |
     refresh();
   };
 
-  const input =
-    "w-full rounded-xl bg-eco-dark border border-white/10 px-3 py-2 text-xs text-white";
+  const input = "w-full rounded-xl bg-eco-dark border border-white/10 px-3 py-2 text-xs text-white";
 
   return (
     <div className="p-5 rounded-2xl bg-white/[0.04] border border-eco-cyan/20 space-y-4 text-xs">
       <div>
-        <div className="font-bold text-white text-sm">Pay a PM or talent (Paystack bank transfer)</div>
+        <div className="font-bold text-white text-sm">
+          Pay a PM or talent (Paystack bank transfer)
+        </div>
         <p className="text-[var(--eco-on-dark-muted)] text-[11px] mt-1">
           Money is sent from your Paystack balance. One admin creates the payment, a different admin
           approves it.

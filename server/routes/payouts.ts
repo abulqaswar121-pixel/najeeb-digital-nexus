@@ -96,7 +96,9 @@ payoutsRouter.get("/banks", requireRole(...APPROVER_ROLES), async (_req, res) =>
   try {
     res.json({ banks: await listNigerianBanks() });
   } catch (error) {
-    res.status(502).json({ error: error instanceof Error ? error.message : "Could not load banks." });
+    res
+      .status(502)
+      .json({ error: error instanceof Error ? error.message : "Could not load banks." });
   }
 });
 
@@ -181,7 +183,11 @@ payoutsRouter.post("/transfers/:id/approve", requireRole(...APPROVER_ROLES), asy
       reference: t.reference,
     });
     const status: BankTransferRecord["status"] =
-      result.status === "success" ? "success" : result.status === "otp" ? "otp_required" : "processing";
+      result.status === "success"
+        ? "success"
+        : result.status === "otp"
+          ? "otp_required"
+          : "processing";
     const updated = bankTransfers.update(
       (x) => x.id === t.id,
       (x) => ({ ...x, ...approved, status, transferCode: result.transfer_code }),
