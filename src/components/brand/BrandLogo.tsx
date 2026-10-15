@@ -55,19 +55,13 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         className="shrink-0 transition-transform duration-300 group-hover:scale-[1.04]"
       />
 
-      {/* Wordmark stack — NAJEEB DIGITAL HUB over NDH Agency */}
+      {/* Wordmark stack — small parent line over bold NDH AGENCY */}
       <span className="flex min-w-0 flex-col justify-center leading-none">
-        <span
-          className={`ndh-brand-wordmark truncate font-bold tracking-tight ${wordmarkSizes[size]}`}
-        >
-          NAJEEB DIGITAL HUB
-        </span>
-
-        <span className="mt-1 flex min-w-0 items-center gap-1.5">
+        <span className="mb-1 flex min-w-0 items-center gap-1.5">
           <span
-            className={`ndh-brand-sublabel shrink-0 font-semibold uppercase ${subLabelSizes[size]}`}
+            className={`ndh-brand-sublabel shrink-0 truncate font-semibold uppercase tracking-[0.14em] opacity-80 ${subLabelSizes[size]}`}
           >
-            NDH Agency
+            Najeeb Digital Hub
           </span>
 
           {!compactBadge && (
@@ -77,6 +71,12 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
               Managed Digital Bureau
             </span>
           )}
+        </span>
+
+        <span
+          className={`ndh-brand-wordmark truncate font-extrabold uppercase tracking-tight ${wordmarkSizes[size]}`}
+        >
+          NDH Agency
         </span>
       </span>
     </>
