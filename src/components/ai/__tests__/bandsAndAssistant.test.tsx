@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 
 import { AIAssistantWidget } from "@/components/ai/AIAssistantWidget";
 import { HomepagePreview } from "@/components/directions/views/HomepagePreview";
@@ -277,6 +277,29 @@ describe("Floating AI assistant launcher", () => {
     expect(container.querySelector(".ai-assistant-greeting")).toBeNull();
     // Dismissing the pill must not remove the launcher itself.
     expect(container.querySelector(".ai-assistant-launcher")).not.toBeNull();
+  });
+
+  it("rolls the micro-greeting away on its own a few seconds after it appears", () => {
+    vi.useFakeTimers();
+    try {
+      const { container } = renderWidget();
+      expect(container.querySelector(".ai-assistant-greeting")).not.toBeNull();
+
+      // Still reading on screen just before the roll is due.
+      act(() => vi.advanceTimersByTime(4100));
+      expect(container.querySelector(".ai-assistant-greeting")).not.toBeNull();
+
+      // Then it slides out, and is taken off the page once the slide finishes.
+      act(() => vi.advanceTimersByTime(200));
+      expect(container.querySelector(".ai-assistant-greeting--leaving")).not.toBeNull();
+
+      act(() => vi.advanceTimersByTime(400));
+      expect(container.querySelector(".ai-assistant-greeting")).toBeNull();
+      // The launcher itself always stays put.
+      expect(container.querySelector(".ai-assistant-launcher")).not.toBeNull();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("opens the drawer from the pill's Ask shortcut", () => {
