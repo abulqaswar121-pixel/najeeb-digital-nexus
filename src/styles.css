@@ -874,6 +874,24 @@ h6,
   }
 }
 
+/* The pill rolls itself back out a few seconds after it appears so it never
+   lingers over the page. `both` holds the end state until React removes it. */
+.ai-assistant-greeting--leaving {
+  animation: ai-assistant-greeting-out 0.36s ease-in both;
+  pointer-events: none;
+}
+
+@keyframes ai-assistant-greeting-out {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(14px) scale(0.94);
+  }
+}
+
 /* Very small screens: keep the pill clear of the left edge and shrink the
    launcher target slightly without dropping below the 44px minimum. */
 @media (max-width: 400px) {

@@ -51,7 +51,7 @@ export const AppShell: React.FC<AppShellProps> = ({ currentView, children }) => 
   };
 
   return (
-    <div className="bg-background text-foreground flex min-h-screen w-full max-w-full flex-col overflow-x-hidden font-sans antialiased">
+    <div className="bg-background text-foreground flex min-h-screen w-full max-w-full flex-col overflow-x-clip font-sans antialiased">
       {/* Accessibility: skip-to-content link, visually hidden until focused
           via keyboard, so keyboard/screen-reader users don't have to tab
           through the announcement bar + full navbar on every page. */}

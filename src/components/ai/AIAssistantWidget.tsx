@@ -36,6 +36,15 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
   // The micro-greeting pill is dismissible; once closed it stays closed for the
   // rest of the session rather than reappearing on every navigation.
   const [isGreetingDismissed, setIsGreetingDismissed] = useState<boolean>(false);
+  // It also rolls itself away on a timer: shown when the page loads, then
+  // animated back out after a few seconds so it never sits on the page forever.
+  const [isGreetingGone, setIsGreetingGone] = useState<boolean>(false);
+  const [isGreetingLeaving, setIsGreetingLeaving] = useState<boolean>(false);
+  // Hovering or keyboard-focusing the pill holds it in place; moving away
+  // restarts a shorter second countdown before it rolls out.
+  const [isGreetingHeld, setIsGreetingHeld] = useState<boolean>(false);
+  const greetingRemoveTimer = useRef<number | null>(null);
+  const greetingHasBeenHeld = useRef<boolean>(false);
   const [inputMessage, setInputMessage] = useState<string>("");
   const [activeTab, setActiveTab] = useState<"chat" | "calculator" | "brief_checker">("chat");
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -85,6 +94,31 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, isOpen]);
+
+  // Auto-roll the greeting away a few seconds after it appears. While the
+  // pointer or keyboard focus is on it, the countdown is paused.
+  useEffect(() => {
+    if (isGreetingDismissed || isGreetingGone || isOpen || isGreetingHeld) return;
+
+    const wait = greetingHasBeenHeld.current ? 1600 : 4200;
+    greetingHasBeenHeld.current = true;
+
+    const rollTimer = window.setTimeout(() => {
+      setIsGreetingLeaving(true);
+      greetingRemoveTimer.current = window.setTimeout(() => {
+        setIsGreetingGone(true);
+        setIsGreetingLeaving(false);
+      }, 420);
+    }, wait);
+
+    return () => {
+      window.clearTimeout(rollTimer);
+      if (greetingRemoveTimer.current !== null) {
+        window.clearTimeout(greetingRemoveTimer.current);
+        greetingRemoveTimer.current = null;
+      }
+    };
+  }, [isGreetingDismissed, isGreetingGone, isOpen, isGreetingHeld]);
 
   const handleSendMessage = (textToSend?: string) => {
     const query = textToSend || inputMessage;
@@ -260,8 +294,21 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
           overflow, and sits clear of the bottom-left install banner. */}
       {!isOpen && (
         <>
-          {!isGreetingDismissed && (
-            <div className="ai-assistant-greeting" role="status">
+          {!isGreetingDismissed && !isGreetingGone && (
+            <div
+              className={`ai-assistant-greeting${
+                isGreetingLeaving ? " ai-assistant-greeting--leaving" : ""
+              }`}
+              role="status"
+              onPointerEnter={() => setIsGreetingHeld(true)}
+              onPointerLeave={() => setIsGreetingHeld(false)}
+              onFocus={() => setIsGreetingHeld(true)}
+              onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+                  setIsGreetingHeld(false);
+                }
+              }}
+            >
               <span className="ai-assistant-greeting-text">
                 Need a quote or technical team? Ask NDH AI
               </span>
@@ -296,7 +343,9 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
               src={assistantAvatar}
               alt=""
               width={192}
-              height={192} decoding="async" fetchPriority="high"
+              height={192}
+              decoding="async"
+              fetchPriority="high"
             />
             <span className="ai-assistant-status" aria-hidden="true" />
           </button>
