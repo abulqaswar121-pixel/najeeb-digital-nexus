@@ -23,7 +23,7 @@ authRouter.post("/login", async (req, res) => {
   if (!account) {
     res.status(401).json({
       error:
-        "No account found with that email. Try one of the demo accounts below, or create a new client account.",
+        "Invalid email or password. Please try again.",
     });
     return;
   }

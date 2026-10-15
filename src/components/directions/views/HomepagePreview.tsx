@@ -14,8 +14,6 @@ import {
   ArrowRight,
   Layers,
   TrendingUp,
-  Sliders,
-  Globe,
   Quote,
   Sparkles,
   BadgeCheck,
