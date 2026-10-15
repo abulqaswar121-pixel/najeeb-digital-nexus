@@ -3,6 +3,7 @@
 export const EXTRA_TRANSLATIONS: Record<"en" | "fr" | "ar", Record<string, string>> = {
   en: {
     nav_case_studies: "Case Studies",
+    nav_insights: "Insights",
     nav_talent_network: "Talent Network",
     nav_sign_in: "Sign In",
     nav_start_project: "Start a Project",
