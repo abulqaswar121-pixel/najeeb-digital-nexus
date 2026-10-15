@@ -10,7 +10,7 @@ const STATUS_LABEL: Record<BankTransfer["status"], string> = {
 };
 
 /** Real Paystack bank transfers to PMs and talents (two different admins required). */
-export function BankTransfersPanel({ currentUserId }: { currentUserId?: string }) {
+export function BankTransfersPanel({ currentUserId }: { currentUserId?: string | undefined }) {
   const [banks, setBanks] = useState<{ name: string; code: string }[]>([]);
   const [transfers, setTransfers] = useState<BankTransfer[]>([]);
   const [form, setForm] = useState({
