@@ -12,6 +12,8 @@ export const EXTRA_TRANSLATIONS: Record<"en" | "fr" | "ar", Record<string, strin
     nav_currency: "Currency",
     nav_language: "Language",
     hero_badge: "Najeeb Digital Hub · Agency",
+    hero_lead: "We build",
+    hero_type_words: "websites|mobile apps|online stores|brands & logos|sales copy & content|marketing that sells|AI assistants",
     hero_title_1: "We build websites, apps and brands",
     hero_title_2: "that help you grow.",
     hero_desc:
@@ -72,6 +74,8 @@ export const EXTRA_TRANSLATIONS: Record<"en" | "fr" | "ar", Record<string, strin
     nav_currency: "Devise",
     nav_language: "Langue",
     hero_badge: "Najeeb Digital Hub · Agence",
+    hero_lead: "Nous créons",
+    hero_type_words: "des sites web|des applis mobiles|des boutiques en ligne|des marques et logos|des textes qui vendent|du marketing efficace|des assistants IA",
     hero_title_1: "Nous créons sites, applis et marques",
     hero_title_2: "qui vous aident à grandir.",
     hero_desc:
@@ -133,6 +137,8 @@ export const EXTRA_TRANSLATIONS: Record<"en" | "fr" | "ar", Record<string, strin
     nav_currency: "العملة",
     nav_language: "اللغة",
     hero_badge: "نجيب ديجيتال هب · الوكالة",
+    hero_lead: "نصنع",
+    hero_type_words: "المواقع|تطبيقات الجوال|المتاجر الإلكترونية|العلامات والشعارات|المحتوى والكتابة|التسويق الناجح|مساعدي الذكاء الاصطناعي",
     hero_title_1: "نصنع المواقع والتطبيقات والعلامات",
     hero_title_2: "التي تساعدك على النمو.",
     hero_desc:

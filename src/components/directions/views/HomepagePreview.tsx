@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { ServiceDepartment, ServiceDepartmentInfo } from "../../../types/ndh";
 import { SERVICE_DEPARTMENTS } from "../../../data/mockData";
-import { DEPARTMENT_CARDS, departmentProfile } from "../../../data/agencyDepartments";
+import {
+  DEPARTMENT_CARDS,
+  HOMEPAGE_DEPARTMENT_IDS,
+  departmentProfile,
+} from "../../../data/agencyDepartments";
+import { TypingWords } from "../../home/TypingWords";
 import { useCurrencyLanguage } from "../../../lib/currencyLanguageStore";
 import { useCaseStudies } from "../../../lib/databaseStore";
 import { ClientsMarquee } from "../../home/Marquees";
@@ -150,7 +155,17 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             </div>
 
             <h1 className="font-display text-4xl leading-[1.08] font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
-              {t("hero_title_1")} <span className="text-gradient-brand">{t("hero_title_2")}</span>
+              <span className="sr-only">{t("hero_title_1")} {t("hero_title_2")}</span>
+              <span aria-hidden="true">
+                {t("hero_lead")}{" "}
+                <TypingWords
+                  key={t("hero_type_words")}
+                  words={t("hero_type_words").split("|")}
+                  className="text-gradient-brand"
+                />
+                <br />
+                {t("hero_title_2")}
+              </span>
             </h1>
 
             <p className="mx-auto max-w-3xl text-base leading-relaxed text-[var(--eco-on-dark-muted)] sm:text-xl">
@@ -208,7 +223,9 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           />
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {DEPARTMENT_CARDS.slice(0, 8).map((dept) => (
+            {HOMEPAGE_DEPARTMENT_IDS.map((id) => DEPARTMENT_CARDS.find((d) => d.id === id))
+              .filter((d): d is (typeof DEPARTMENT_CARDS)[number] => Boolean(d))
+              .map((dept) => (
               <DepartmentCard
                 key={dept.id}
                 dept={dept}

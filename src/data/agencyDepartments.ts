@@ -48,113 +48,125 @@ export const DEPARTMENT_PROFILES: DepartmentProfile[] = [
     id: "ui_ux_design",
     shortName: "UI/UX Design",
     scope:
-      "Research-led product design: wireframes, clickable prototypes and WCAG-checked design systems.",
+      "Clear, easy-to-use screen designs for your app or website, planned before any coding starts.",
     icon: Layout,
   },
   {
     id: "ai_automation",
     shortName: "AI Automation",
     scope:
-      "Agents and workflow automation wired into your real tools — fewer manual handoffs, measurable hours back.",
+      "Smart chat assistants and automatic tasks that answer customers and save your team hours.",
     icon: Bot,
   },
   {
     id: "web_app_development",
     shortName: "Web App Development",
     scope:
-      "Custom web platforms and dashboards, built to production standards with a clean Git handoff.",
+      "Fast, modern websites and web apps built for your business and handed over fully to you.",
     icon: Code,
   },
   {
     id: "cloud_devops",
     shortName: "Cloud DevOps",
     scope:
-      "Provisioning, CI/CD pipelines and observability so releases are boring and rollbacks are instant.",
+      "Reliable hosting, backups and updates so your website stays fast and never goes down.",
     icon: Server,
   },
   {
     id: "cybersecurity_compliance",
     shortName: "Cybersecurity",
     scope:
-      "Hardening, penetration testing and compliance readiness for teams handling sensitive data.",
+      "Protect your website and customer data from hackers, with checks and safety fixes.",
     icon: ShieldCheck,
   },
   {
     id: "brand_strategy",
     shortName: "Brand Strategy",
     scope:
-      "Positioning, visual identity systems and the brand guidelines that keep every surface consistent.",
+      "Logos, colours and brand style that make your business look trusted and easy to remember.",
     icon: Sparkles,
   },
   {
     id: "mobile_app_development",
     shortName: "Mobile Apps",
     scope:
-      "Cross-platform iOS and Android builds — one codebase, native-feeling interactions, store-ready.",
+      "Android and iPhone apps your customers enjoy using, ready for the app stores.",
     icon: Smartphone,
   },
   {
     id: "ecommerce",
     shortName: "E-Commerce",
     scope:
-      "Conversion-focused storefronts with catalogue, checkout and fulfilment wired end to end.",
+      "Online stores that show your products, take payments safely and track every order.",
     icon: ShoppingBag,
   },
   {
     id: "fintech_payments",
     shortName: "Fintech & Payments",
-    scope: "Payment rails, ledgers and reconciliation with NGN and multi-currency gateway support.",
+    scope: "Safe payment features with Paystack, cards and bank transfers in Naira and other currencies.",
     icon: CreditCard,
   },
   {
     id: "digital_marketing",
     shortName: "Digital Marketing",
     scope:
-      "Paid funnels, landing pages and campaign telemetry tied to actual pipeline, not vanity reach.",
+      "Ads and campaigns on social media and Google that bring you real paying customers.",
     icon: TrendingUp,
   },
   {
     id: "seo_growth",
     shortName: "SEO & Growth",
     scope:
-      "Technical audits, keyword architecture and content plans that compound month over month.",
+      "Help people find your business on Google with better pages, keywords and content.",
     icon: Search,
   },
   {
     id: "content_copywriting",
     shortName: "Content & Copy",
     scope:
-      "Sales pages, editorial series and long-form content written to a brief, reviewed before delivery.",
+      "Website words, blog posts, articles and sales pages written clearly to win customers.",
     icon: PenTool,
   },
   {
     id: "social_media",
     shortName: "Social Media",
     scope:
-      "Content calendars, community management and creative production your audience actually shares.",
+      "Posts, graphics and page management that grow your followers and keep them engaged.",
     icon: Share2,
   },
   {
     id: "video_media",
     shortName: "Video & Media",
     scope:
-      "Explainers, promos and motion edits — scripted, shot or animated, delivered platform-ready.",
+      "Short videos, adverts and animations made ready for social media and your website.",
     icon: Video,
   },
   {
     id: "data_business",
     shortName: "Data & Research",
     scope:
-      "BI dashboards, market research and reporting that turn scattered numbers into decisions.",
+      "Simple reports and dashboards that turn your business numbers into clear decisions.",
     icon: BarChart3,
   },
   {
     id: "nocode_rapid_mvp",
     shortName: "No-Code MVP",
     scope:
-      "A working product in weeks, not quarters — validated first, then hardened into custom code.",
+      "Test your business idea fast with a working first version, ready in a few weeks.",
     icon: Zap,
   },
+];
+
+/** The 8 most requested services, shown on the homepage. */
+export const HOMEPAGE_DEPARTMENT_IDS: ServiceDepartment[] = [
+  "web_app_development",
+  "mobile_app_development",
+  "ecommerce",
+  "brand_strategy",
+  "content_copywriting",
+  "digital_marketing",
+  "seo_growth",
+  "ai_automation",
 ];
 
 const PROFILE_BY_ID = new Map(DEPARTMENT_PROFILES.map((p) => [p.id, p]));
