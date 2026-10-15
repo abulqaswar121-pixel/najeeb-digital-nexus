@@ -379,7 +379,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
                 className="border-border bg-surface-raised text-foreground flex w-full items-center justify-center gap-2 rounded-xl border py-3 text-xs font-bold"
               >
                 <User className="text-brand-soft h-4 w-4" />
-                Sign In / Register
+                {t("nav_sign_in")}
               </button>
             )}
           </div>
