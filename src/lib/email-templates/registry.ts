@@ -18,6 +18,23 @@ export interface TemplateEntry {
  *   // then add to TEMPLATES: 'welcome': welcomeTemplate
  */
 export const TEMPLATES: Record<string, TemplateEntry> = {
-  // Add templates here as they are created, e.g.:
-  // 'welcome': welcomeTemplate,
+  welcome: welcomeTemplate,
+  'brief-received': briefReceivedTemplate,
+  'team-brief-alert': teamBriefAlertTemplate,
+  'consultation-received': consultationReceivedTemplate,
+  'talent-application-received': talentApplicationReceivedTemplate,
+  'talent-approved': talentApprovedTemplate,
+  'talent-not-approved': talentNotApprovedTemplate,
+  'payment-receipt': paymentReceiptTemplate,
 }
+
+import {
+  welcomeTemplate,
+  briefReceivedTemplate,
+  teamBriefAlertTemplate,
+  consultationReceivedTemplate,
+  talentApplicationReceivedTemplate,
+  talentApprovedTemplate,
+  talentNotApprovedTemplate,
+  paymentReceiptTemplate,
+} from './agency-emails'
