@@ -3,6 +3,7 @@ import { Link } from "@react-email/components";
 import { CTA, Code, EmailLayout, Note, P, brand } from "./layout.js";
 
 interface EmailChangeEmailProps {
+  email?: string;
   siteName: string;
   oldEmail: string;
   newEmail: string;
