@@ -1,10 +1,11 @@
+import { notify } from "../../src/lib/email-templates/notify.js";
 import { Router } from "../http.js";
 import { requireRole } from "../auth.js";
 import { consultationRequests, type ConsultationRequestRecord } from "../collections.js";
 
 export const consultationsRouter = Router();
 
-consultationsRouter.post("/", (req, res) => {
+consultationsRouter.post("/", async (req, res) => {
   const body = req.body as {
     fullName?: string;
     email?: string;
@@ -28,6 +29,7 @@ consultationsRouter.post("/", (req, res) => {
   };
 
   consultationRequests.insert(record);
+  await notify("consultation-received", record.email, `consultation-${record.id}`, { name: record.fullName, preferredDate: record.preferredDate, focusArea: record.focusArea });
   res.status(201).json({ consultationRequest: record });
 });
 

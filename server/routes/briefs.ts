@@ -1,3 +1,4 @@
+import { notify } from "../../src/lib/email-templates/notify.js";
 import { Router } from "../http.js";
 import { optionalAuth, requireAuth, requireRole } from "../auth.js";
 import { briefs, type BriefRecord } from "../collections.js";
@@ -8,7 +9,7 @@ export const briefsRouter = Router();
 // Public: anyone can submit a project brief (this is the "Start Your
 // Project" wizard's backing endpoint). optionalAuth so we can record which
 // logged-in user submitted it, if any, without requiring login.
-briefsRouter.post("/", optionalAuth, (req, res) => {
+briefsRouter.post("/", optionalAuth, async (req, res) => {
   const body = req.body as {
     projectName?: string;
     organizationName?: string;
@@ -53,6 +54,9 @@ briefsRouter.post("/", optionalAuth, (req, res) => {
   };
 
   briefs.insert(newBrief);
+  const briefData = { projectName: newBrief.projectName, organizationName: newBrief.organizationName, department: newBrief.department, scopeTier: newBrief.scopeTier, timelineWeeks: newBrief.timelineWeeks, budgetAmount: newBrief.budgetAmount, currency: newBrief.currency, clientEmail: newBrief.clientEmail };
+  await notify("brief-received", newBrief.clientEmail, `brief-received-${newBrief.id}`, briefData);
+  await notify("team-brief-alert", newBrief.clientEmail, `team-brief-alert-${newBrief.id}`, briefData);
   res.status(201).json({ brief: newBrief });
 });
 

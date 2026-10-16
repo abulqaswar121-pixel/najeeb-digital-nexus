@@ -1,4 +1,14 @@
 import type { ComponentType } from 'react'
+import {
+  welcomeTemplate,
+  briefReceivedTemplate,
+  teamBriefAlertTemplate,
+  consultationReceivedTemplate,
+  talentApplicationReceivedTemplate,
+  talentApprovedTemplate,
+  talentNotApprovedTemplate,
+  paymentReceiptTemplate,
+} from './agency-emails'
 
 export interface TemplateEntry {
   component: ComponentType<any>
@@ -28,13 +38,3 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'payment-receipt': paymentReceiptTemplate,
 }
 
-import {
-  welcomeTemplate,
-  briefReceivedTemplate,
-  teamBriefAlertTemplate,
-  consultationReceivedTemplate,
-  talentApplicationReceivedTemplate,
-  talentApprovedTemplate,
-  talentNotApprovedTemplate,
-  paymentReceiptTemplate,
-} from './agency-emails'

@@ -1,3 +1,4 @@
+import { notify } from "../../src/lib/email-templates/notify.js";
 import { Router } from "../http.js";
 import { requireRole, hashPassword, generateTemporaryPassword, toPublicUser } from "../auth.js";
 import {
@@ -14,7 +15,7 @@ export const talentApplicationsRouter = Router();
 
 const REVIEW_ROLES = ["super_admin", "talent_admin"] as const;
 
-talentApplicationsRouter.post("/", (req, res) => {
+talentApplicationsRouter.post("/", async (req, res) => {
   const body = req.body as Omit<TalentApplicationRecord, "id" | "status" | "submittedAt"> & {
     primaryDepartment?: ServiceDepartment;
   };
@@ -33,6 +34,7 @@ talentApplicationsRouter.post("/", (req, res) => {
   } as TalentApplicationRecord;
 
   talentApplications.insert(record);
+  await notify("talent-application-received", record.email, `talent-app-${record.id}`, { name: record.fullName, department: record.primaryDepartment });
   res.status(201).json({ talentApplication: record });
 });
 
@@ -130,6 +132,7 @@ talentApplicationsRouter.post("/:id/approve", requireRole(...REVIEW_ROLES), asyn
     }),
   );
 
+  await notify("talent-approved", application.email, `talent-approved-${application.id}`, { name: application.fullName, email: application.email });
   res.json({
     user: toPublicUser(newUser),
     talentProfile: newTalent,
@@ -137,7 +140,7 @@ talentApplicationsRouter.post("/:id/approve", requireRole(...REVIEW_ROLES), asyn
   });
 });
 
-talentApplicationsRouter.post("/:id/reject", requireRole(...REVIEW_ROLES), (req, res) => {
+talentApplicationsRouter.post("/:id/reject", requireRole(...REVIEW_ROLES), async (req, res) => {
   const application = talentApplications.find((a) => a.id === req.params["id"]);
   if (!application) {
     res.status(404).json({ error: "Talent application not found." });
@@ -160,5 +163,6 @@ talentApplicationsRouter.post("/:id/reject", requireRole(...REVIEW_ROLES), (req,
     }),
   );
 
+  await notify("talent-not-approved", application.email, `talent-rejected-${application.id}`, { name: application.fullName, reason });
   res.json({ talentApplication: updated });
 });
