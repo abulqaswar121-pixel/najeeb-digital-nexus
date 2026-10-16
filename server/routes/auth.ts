@@ -1,3 +1,4 @@
+import { notify } from "../../src/lib/email-templates/notify.js";
 import { Router } from "../http.js";
 import {
   hashPassword,
@@ -22,8 +23,7 @@ authRouter.post("/login", async (req, res) => {
   const account = users.find((u) => u.email.toLowerCase() === email.trim().toLowerCase());
   if (!account) {
     res.status(401).json({
-      error:
-        "Invalid email or password. Please try again.",
+      error: "Invalid email or password. Please try again.",
     });
     return;
   }
@@ -103,5 +103,9 @@ authRouter.post("/register", async (req, res) => {
 
   const token = await signSession(newUser.id);
   setSessionCookie(res, token);
+  await notify("welcome", newUser.email, `welcome-${newUser.id}`, {
+    name: fullName,
+    organizationName,
+  });
   res.status(201).json({ user: toPublicUser(newUser) });
 });
