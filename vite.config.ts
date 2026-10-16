@@ -5,7 +5,7 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 // Load all env vars into process.env for server-side code (server routes and
 // server functions). Client code still only sees VITE_-prefixed vars; these
 // are never added to the client bundle.
-const serverEnv = loadEnv(process.env.NODE_ENV || "development", process.cwd(), "");
+const serverEnv = loadEnv(process.env["NODE_ENV"] || "development", process.cwd(), "");
 Object.assign(process.env, serverEnv);
 
 export default defineConfig({
