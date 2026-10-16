@@ -26,5 +26,6 @@
   this project is intentionally _not_ an all-dark theme.
 - **No fabricated data.** Case studies, clients, testimonials and metrics must
   stay real and verifiable.
+- **Homepage imagery.** Use an optimized bundled background and a public JPEG of the same image for homepage share metadata; keep image metadata on leaf routes so unrelated pages do not inherit it.
 - **Keep it green.** `npm run typecheck`, `npm run lint`, `npm run test` and
   `npm run build` must pass before pushing; CI runs the same pipeline.
