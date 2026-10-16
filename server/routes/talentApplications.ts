@@ -34,7 +34,10 @@ talentApplicationsRouter.post("/", async (req, res) => {
   } as TalentApplicationRecord;
 
   talentApplications.insert(record);
-  await notify("talent-application-received", record.email, `talent-app-${record.id}`, { name: record.fullName, department: record.primaryDepartment });
+  await notify("talent-application-received", record.email, `talent-app-${record.id}`, {
+    name: record.fullName,
+    department: record.primaryDepartment,
+  });
   res.status(201).json({ talentApplication: record });
 });
 
@@ -132,7 +135,10 @@ talentApplicationsRouter.post("/:id/approve", requireRole(...REVIEW_ROLES), asyn
     }),
   );
 
-  await notify("talent-approved", application.email, `talent-approved-${application.id}`, { name: application.fullName, email: application.email });
+  await notify("talent-approved", application.email, `talent-approved-${application.id}`, {
+    name: application.fullName,
+    email: application.email,
+  });
   res.json({
     user: toPublicUser(newUser),
     talentProfile: newTalent,
@@ -163,6 +169,9 @@ talentApplicationsRouter.post("/:id/reject", requireRole(...REVIEW_ROLES), async
     }),
   );
 
-  await notify("talent-not-approved", application.email, `talent-rejected-${application.id}`, { name: application.fullName, reason });
+  await notify("talent-not-approved", application.email, `talent-rejected-${application.id}`, {
+    name: application.fullName,
+    reason,
+  });
   res.json({ talentApplication: updated });
 });

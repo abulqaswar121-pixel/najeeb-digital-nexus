@@ -29,7 +29,11 @@ consultationsRouter.post("/", async (req, res) => {
   };
 
   consultationRequests.insert(record);
-  await notify("consultation-received", record.email, `consultation-${record.id}`, { name: record.fullName, preferredDate: record.preferredDate, focusArea: record.focusArea });
+  await notify("consultation-received", record.email, `consultation-${record.id}`, {
+    name: record.fullName,
+    preferredDate: record.preferredDate,
+    focusArea: record.focusArea,
+  });
   res.status(201).json({ consultationRequest: record });
 });
 

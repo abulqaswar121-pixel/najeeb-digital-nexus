@@ -65,7 +65,14 @@ paymentsRouter.post("/verify", requireAuth, async (req, res) => {
 
   transactions.insert(tx);
   if (status === "success" && verifiedByGateway) {
-    await notify("payment-receipt", tx.customerEmail, `receipt-${tx.reference}`, { name: tx.customerName, amount: tx.amount.toLocaleString("en-US"), currency: tx.currency, reference: tx.reference, purpose: tx.purpose, date: new Date(tx.timestamp).toDateString() });
+    await notify("payment-receipt", tx.customerEmail, `receipt-${tx.reference}`, {
+      name: tx.customerName,
+      amount: tx.amount.toLocaleString("en-US"),
+      currency: tx.currency,
+      reference: tx.reference,
+      purpose: tx.purpose,
+      date: new Date(tx.timestamp).toDateString(),
+    });
   }
   res.status(status === "success" ? 201 : 402).json({ transaction: tx });
 });

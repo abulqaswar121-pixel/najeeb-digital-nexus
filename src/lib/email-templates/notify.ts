@@ -1,4 +1,4 @@
-import { sendTemplateEmail } from './send-email'
+import { sendTemplateEmail } from "./send-email.js";
 
 // Server-only. Sends an app email but never lets an email problem break the
 // main action (sign-up, brief, payment). Skips quietly when email is not
@@ -9,10 +9,10 @@ export async function notify(
   idempotencyKey: string,
   templateData: Record<string, unknown> = {},
 ): Promise<void> {
-  if (!process.env['LOVABLE_API_KEY'] || process.env['VITEST']) return
+  if (!process.env["LOVABLE_API_KEY"] || process.env["VITEST"]) return;
   try {
-    await sendTemplateEmail(template, to, { templateData, idempotencyKey })
+    await sendTemplateEmail(template, to, { templateData, idempotencyKey });
   } catch (error) {
-    console.error('[email] send failed', template, error)
+    console.error("[email] send failed", template, error);
   }
 }

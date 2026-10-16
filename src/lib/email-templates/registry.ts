@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react'
+import type { ComponentType } from "react";
 import {
   welcomeTemplate,
   briefReceivedTemplate,
@@ -8,15 +8,15 @@ import {
   talentApprovedTemplate,
   talentNotApprovedTemplate,
   paymentReceiptTemplate,
-} from './agency-emails'
+} from "./agency-emails";
 
 export interface TemplateEntry {
-  component: ComponentType<any>
-  subject: string | ((data: Record<string, any>) => string)
-  displayName?: string
-  previewData?: Record<string, any>
+  component: ComponentType<any>;
+  subject: string | ((data: Record<string, any>) => string);
+  displayName?: string;
+  previewData?: Record<string, any>;
   /** Fixed recipient — overrides caller-provided recipientEmail when set. */
-  to?: string
+  to?: string;
 }
 
 /**
@@ -29,12 +29,11 @@ export interface TemplateEntry {
  */
 export const TEMPLATES: Record<string, TemplateEntry> = {
   welcome: welcomeTemplate,
-  'brief-received': briefReceivedTemplate,
-  'team-brief-alert': teamBriefAlertTemplate,
-  'consultation-received': consultationReceivedTemplate,
-  'talent-application-received': talentApplicationReceivedTemplate,
-  'talent-approved': talentApprovedTemplate,
-  'talent-not-approved': talentNotApprovedTemplate,
-  'payment-receipt': paymentReceiptTemplate,
-}
-
+  "brief-received": briefReceivedTemplate,
+  "team-brief-alert": teamBriefAlertTemplate,
+  "consultation-received": consultationReceivedTemplate,
+  "talent-application-received": talentApplicationReceivedTemplate,
+  "talent-approved": talentApprovedTemplate,
+  "talent-not-approved": talentNotApprovedTemplate,
+  "payment-receipt": paymentReceiptTemplate,
+};

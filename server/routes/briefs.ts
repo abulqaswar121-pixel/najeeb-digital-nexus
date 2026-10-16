@@ -54,9 +54,23 @@ briefsRouter.post("/", optionalAuth, async (req, res) => {
   };
 
   briefs.insert(newBrief);
-  const briefData = { projectName: newBrief.projectName, organizationName: newBrief.organizationName, department: newBrief.department, scopeTier: newBrief.scopeTier, timelineWeeks: newBrief.timelineWeeks, budgetAmount: newBrief.budgetAmount, currency: newBrief.currency, clientEmail: newBrief.clientEmail };
+  const briefData = {
+    projectName: newBrief.projectName,
+    organizationName: newBrief.organizationName,
+    department: newBrief.department,
+    scopeTier: newBrief.scopeTier,
+    timelineWeeks: newBrief.timelineWeeks,
+    budgetAmount: newBrief.budgetAmount,
+    currency: newBrief.currency,
+    clientEmail: newBrief.clientEmail,
+  };
   await notify("brief-received", newBrief.clientEmail, `brief-received-${newBrief.id}`, briefData);
-  await notify("team-brief-alert", newBrief.clientEmail, `team-brief-alert-${newBrief.id}`, briefData);
+  await notify(
+    "team-brief-alert",
+    newBrief.clientEmail,
+    `team-brief-alert-${newBrief.id}`,
+    briefData,
+  );
   res.status(201).json({ brief: newBrief });
 });
 
