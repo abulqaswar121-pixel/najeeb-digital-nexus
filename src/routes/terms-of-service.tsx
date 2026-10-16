@@ -4,7 +4,15 @@ import { LegalView } from "../components/public/LegalView";
 
 export const Route = createFileRoute("/terms-of-service")({
   head: () => ({
-    meta: [{ title: "Terms of Service | NDH Agency" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { name: "description", content: "Read the terms for using NDH Agency services." },
+      { property: "og:title", content: "Terms of Service | NDH Agency" },
+      { property: "og:description", content: "Read the terms for using NDH Agency services." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { title: "Terms of Service | NDH Agency" },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   component: () => (
     <AppShell currentView="terms-of-service">

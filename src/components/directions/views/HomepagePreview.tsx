@@ -158,7 +158,9 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             </div>
 
             <h1 className="font-display text-4xl leading-[1.08] font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
-              <span className="sr-only">{t("hero_title_1")} {t("hero_title_2")}</span>
+              <span className="sr-only">
+                {t("hero_title_1")} {t("hero_title_2")}
+              </span>
               <span aria-hidden="true">
                 {t("hero_lead")}{" "}
                 <TypingWords
@@ -174,7 +176,6 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             <p className="mx-auto max-w-3xl text-base leading-relaxed text-[var(--eco-on-dark-muted)] sm:text-xl">
               {t("hero_desc")}
             </p>
-
 
             <div className="flex flex-col items-center justify-center gap-4 pt-2 sm:flex-row">
               <button
@@ -208,10 +209,8 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               </div>
             ))}
           </div>
-
         </div>
       </section>
-
 
       {/* ───────── 2. WHITE STRIP — real clients only ───────── */}
       <ClientsMarquee />
@@ -229,14 +228,14 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             {HOMEPAGE_DEPARTMENT_IDS.map((id) => DEPARTMENT_CARDS.find((d) => d.id === id))
               .filter((d): d is (typeof DEPARTMENT_CARDS)[number] => Boolean(d))
               .map((dept) => (
-              <DepartmentCard
-                key={dept.id}
-                dept={dept}
-                currency={currency}
-                fromPrice={getRegionalPricing(dept.id, "starter").price}
-                onOpen={(d) => setSelectedModalDept(d.record)}
-              />
-            ))}
+                <DepartmentCard
+                  key={dept.id}
+                  dept={dept}
+                  currency={currency}
+                  fromPrice={getRegionalPricing(dept.id, "starter").price}
+                  onOpen={(d) => setSelectedModalDept(d.record)}
+                />
+              ))}
           </div>
 
           <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">

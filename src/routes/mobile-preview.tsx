@@ -4,7 +4,15 @@ import { MobileSimulatorPreview } from "../components/directions/views/MobileSim
 
 export const Route = createFileRoute("/mobile-preview")({
   head: () => ({
-    meta: [{ title: "Mobile Preview | NDH Agency" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { name: "description", content: "View a mobile project preview from NDH Agency." },
+      { property: "og:title", content: "Mobile Preview | NDH Agency" },
+      { property: "og:description", content: "View a mobile project preview from NDH Agency." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { title: "Mobile Preview | NDH Agency" },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   component: () => (
     <AppShell currentView="mobile-view">

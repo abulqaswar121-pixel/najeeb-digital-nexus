@@ -6,6 +6,17 @@ import { MainNavView } from "../components/layout/navViews";
 export const Route = createFileRoute("/journey")({
   head: () => ({
     meta: [
+      {
+        name: "description",
+        content: "Explore how NDH Agency projects move from a brief to delivery.",
+      },
+      { property: "og:title", content: "Interactive Journey Walkthrough | NDH Agency" },
+      {
+        property: "og:description",
+        content: "Explore how NDH Agency projects move from a brief to delivery.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Interactive Journey Walkthrough | NDH Agency" },
       { name: "robots", content: "noindex" },
     ],

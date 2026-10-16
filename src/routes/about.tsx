@@ -5,6 +5,13 @@ import { AboutView } from "../components/public/AboutView";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
+      { property: "og:title", content: "About | NDH Agency" },
+      {
+        property: "og:description",
+        content: "NDH Agency's mission, operating model, and the team behind it.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "About | NDH Agency" },
       {
         name: "description",

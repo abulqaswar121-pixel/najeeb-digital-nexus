@@ -5,6 +5,13 @@ import { InsightsView } from "../components/public/InsightsView";
 export const Route = createFileRoute("/insights")({
   head: () => ({
     meta: [
+      { property: "og:title", content: "Insights | NDH Agency" },
+      {
+        property: "og:description",
+        content: "Engineering and growth insights from NDH Agency's delivery teams.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Insights | NDH Agency" },
       {
         name: "description",

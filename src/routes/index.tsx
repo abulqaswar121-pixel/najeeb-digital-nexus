@@ -20,11 +20,17 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:image", content: "https://agency.ndh.com.ng/images/ndh-agency-hero-20261016.jpg" },
+      {
+        property: "og:image",
+        content: "https://agency.ndh.com.ng/images/ndh-agency-hero-20261016.jpg",
+      },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "640" },
       { property: "og:image:alt", content: "NDH Agency — digital design and development studio" },
-      { name: "twitter:image", content: "https://agency.ndh.com.ng/images/ndh-agency-hero-20261016.jpg" },
+      {
+        name: "twitter:image",
+        content: "https://agency.ndh.com.ng/images/ndh-agency-hero-20261016.jpg",
+      },
     ],
   }),
   component: () => (

@@ -12,7 +12,18 @@ const ClientPortal = React.lazy(() =>
 
 export const Route = createFileRoute("/portal/client")({
   head: () => ({
-    meta: [{ title: "Client Portal | NDH Agency" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { name: "description", content: "Private workspace for tracking your NDH Agency projects." },
+      { property: "og:title", content: "Client Portal | NDH Agency" },
+      {
+        property: "og:description",
+        content: "Private workspace for tracking your NDH Agency projects.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { title: "Client Portal | NDH Agency" },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   component: () => (
     <AppShell currentView="client-dashboard">
