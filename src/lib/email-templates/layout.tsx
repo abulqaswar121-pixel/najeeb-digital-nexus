@@ -53,6 +53,13 @@ export function EmailLayout({
           }}
         >
           <Section style={{ backgroundColor: brand.navy, padding: "28px 32px" }}>
+            <Img
+              src={`${SITE_URL}/images/ndh-email-logo.png`}
+              width="52"
+              height="52"
+              alt="NDH Agency logo"
+              style={{ borderRadius: "12px", marginBottom: "14px" }}
+            />
             <Text
               style={{
                 margin: 0,
