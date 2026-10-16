@@ -215,13 +215,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Top-tier digital engineering, brand systems, and market research for high-growth enterprises and global startups. Managed bureau model with dedicated PM leadership.",
       },
       { property: "og:url", content: "https://agency.ndh.com.ng" },
-      {
-        property: "og:image",
-        content:
-          "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&auto=format&fit=crop&q=80",
-      },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
       { property: "og:locale", content: "en_NG" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@NDHAgency" },
@@ -231,11 +224,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "twitter:description",
         content:
           "Sovereign digital engineering, brand identity, and Pan-African market research. Dedicated PM layer with zero client-talent friction.",
-      },
-      {
-        name: "twitter:image",
-        content:
-          "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&auto=format&fit=crop&q=80",
       },
       { name: "theme-color", content: "#0A1A30" },
       { name: "apple-mobile-web-app-capable", content: "yes" },

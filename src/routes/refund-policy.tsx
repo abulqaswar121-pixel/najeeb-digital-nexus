@@ -5,6 +5,11 @@ import { LegalView } from "../components/public/LegalView";
 export const Route = createFileRoute("/refund-policy")({
   head: () => ({
     meta: [
+      { name: "description", content: "Read NDH Agency refund and cancellation terms." },
+      { property: "og:title", content: "Refund & Cancellation Policy | NDH Agency" },
+      { property: "og:description", content: "Read NDH Agency refund and cancellation terms." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Refund & Cancellation Policy | NDH Agency" },
       { name: "robots", content: "noindex" },
     ],

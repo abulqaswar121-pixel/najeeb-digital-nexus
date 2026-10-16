@@ -10,7 +10,18 @@ const TalentPortal = React.lazy(() =>
 
 export const Route = createFileRoute("/portal/talent")({
   head: () => ({
-    meta: [{ title: "Talent Portal | NDH Agency" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { name: "description", content: "Private workspace for NDH Agency talent assignments." },
+      { property: "og:title", content: "Talent Portal | NDH Agency" },
+      {
+        property: "og:description",
+        content: "Private workspace for NDH Agency talent assignments.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { title: "Talent Portal | NDH Agency" },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   component: () => (
     <AppShell currentView="talent-dashboard">

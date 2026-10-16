@@ -5,6 +5,12 @@ import { ServicesPreview } from "../components/directions/views/ServicesPreview"
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
+      {
+        property: "og:description",
+        content:
+          "16 service departments spanning web & mobile development, brand strategy, AI automation, fintech, cloud/DevOps, and more -- with transparent regional pricing.",
+      },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Services | NDH Agency" },
       {
         name: "description",

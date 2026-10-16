@@ -10,7 +10,18 @@ const AdminPortal = React.lazy(() =>
 
 export const Route = createFileRoute("/portal/admin")({
   head: () => ({
-    meta: [{ title: "Admin Command Center | NDH Agency" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { name: "description", content: "Private workspace for managing NDH Agency operations." },
+      { property: "og:title", content: "Admin Command Center | NDH Agency" },
+      {
+        property: "og:description",
+        content: "Private workspace for managing NDH Agency operations.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { title: "Admin Command Center | NDH Agency" },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   component: () => (
     <AppShell currentView="admin-command">

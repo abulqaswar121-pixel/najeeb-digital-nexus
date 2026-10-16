@@ -5,6 +5,13 @@ import { ContactView } from "../components/public/ContactView";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
+      { property: "og:title", content: "Contact | NDH Agency" },
+      {
+        property: "og:description",
+        content: "Start a project or book a discovery consultation with NDH Agency.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Contact | NDH Agency" },
       {
         name: "description",

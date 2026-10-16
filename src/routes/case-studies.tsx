@@ -5,6 +5,14 @@ import { CaseStudyPreview } from "../components/directions/views/CaseStudyPrevie
 export const Route = createFileRoute("/case-studies")({
   head: () => ({
     meta: [
+      { property: "og:title", content: "Case Studies | NDH Agency" },
+      {
+        property: "og:description",
+        content:
+          "Real, verifiable NDH client case studies across agriculture investment tech, curriculum development, education administration, and digital publishing.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Case Studies | NDH Agency" },
       {
         name: "description",

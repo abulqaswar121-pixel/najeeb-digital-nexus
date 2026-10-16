@@ -11,6 +11,17 @@ const PMPortal = React.lazy(() =>
 export const Route = createFileRoute("/portal/pm")({
   head: () => ({
     meta: [
+      {
+        name: "description",
+        content: "Private workspace for managing NDH Agency project delivery.",
+      },
+      { property: "og:title", content: "Project Manager Portal | NDH Agency" },
+      {
+        property: "og:description",
+        content: "Private workspace for managing NDH Agency project delivery.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Project Manager Portal | NDH Agency" },
       { name: "robots", content: "noindex" },
     ],

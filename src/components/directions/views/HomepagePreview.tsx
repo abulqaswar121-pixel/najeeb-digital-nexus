@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import heroImage from "@/assets/ndh-agency-hero.webp";
 import { ServiceDepartment, ServiceDepartmentInfo } from "../../../types/ndh";
 import { SERVICE_DEPARTMENTS } from "../../../data/mockData";
 import {
@@ -133,17 +134,19 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
 
   return (
     <div className="bg-background text-foreground min-h-screen overflow-x-hidden font-sans">
-      {/* ───────── 1. HERO BAND — deep navy + ambient cyan glow ───────── */}
-      <section className="gw-band gw-band-hero relative overflow-hidden pt-14 pb-16 sm:pt-16 sm:pb-20">
-        <div className="bg-grid-pattern absolute inset-0 opacity-40" aria-hidden="true" />
-        <div
-          className="gw-glow-cyan top-0 left-1/2 h-[360px] w-[720px] -translate-x-1/2"
+      {/* ───────── 1. HERO BAND — agency studio background ───────── */}
+      <section className="gw-band gw-band-hero ndh-home-hero relative overflow-hidden pt-14 pb-16 sm:pt-16 sm:pb-20">
+        <img
+          src={heroImage}
+          alt=""
           aria-hidden="true"
+          width={1600}
+          height={853}
+          fetchPriority="high"
+          decoding="async"
+          className="ndh-home-hero-image"
         />
-        <div
-          className="gw-glow-cyan top-24 right-6 h-[300px] w-[420px] opacity-70"
-          aria-hidden="true"
-        />
+        <div className="ndh-home-hero-scrim" aria-hidden="true" />
 
         <div className="relative z-10 mx-auto max-w-7xl space-y-10 px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-4xl space-y-6 text-center">
@@ -155,7 +158,9 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             </div>
 
             <h1 className="font-display text-4xl leading-[1.08] font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
-              <span className="sr-only">{t("hero_title_1")} {t("hero_title_2")}</span>
+              <span className="sr-only">
+                {t("hero_title_1")} {t("hero_title_2")}
+              </span>
               <span aria-hidden="true">
                 {t("hero_lead")}{" "}
                 <TypingWords
@@ -171,7 +176,6 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             <p className="mx-auto max-w-3xl text-base leading-relaxed text-[var(--eco-on-dark-muted)] sm:text-xl">
               {t("hero_desc")}
             </p>
-
 
             <div className="flex flex-col items-center justify-center gap-4 pt-2 sm:flex-row">
               <button
@@ -205,10 +209,8 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               </div>
             ))}
           </div>
-
         </div>
       </section>
-
 
       {/* ───────── 2. WHITE STRIP — real clients only ───────── */}
       <ClientsMarquee />
@@ -226,14 +228,14 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
             {HOMEPAGE_DEPARTMENT_IDS.map((id) => DEPARTMENT_CARDS.find((d) => d.id === id))
               .filter((d): d is (typeof DEPARTMENT_CARDS)[number] => Boolean(d))
               .map((dept) => (
-              <DepartmentCard
-                key={dept.id}
-                dept={dept}
-                currency={currency}
-                fromPrice={getRegionalPricing(dept.id, "starter").price}
-                onOpen={(d) => setSelectedModalDept(d.record)}
-              />
-            ))}
+                <DepartmentCard
+                  key={dept.id}
+                  dept={dept}
+                  currency={currency}
+                  fromPrice={getRegionalPricing(dept.id, "starter").price}
+                  onOpen={(d) => setSelectedModalDept(d.record)}
+                />
+              ))}
           </div>
 
           <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">
