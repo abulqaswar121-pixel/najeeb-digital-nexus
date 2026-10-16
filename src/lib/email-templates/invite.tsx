@@ -1,16 +1,6 @@
 import * as React from "react";
-
-import {
-  Body,
-  Button,
-  Container,
-  Head,
-  Heading,
-  Html,
-  Link,
-  Preview,
-  Text,
-} from "@react-email/components";
+import { Link } from "@react-email/components";
+import { CTA, Code, EmailLayout, Note, P, brand } from "./layout.js";
 
 interface InviteEmailProps {
   siteName: string;
@@ -18,68 +8,15 @@ interface InviteEmailProps {
   confirmationUrl: string;
 }
 
-export const InviteEmail = ({ siteName, siteUrl, confirmationUrl }: InviteEmailProps) => (
-  <Html lang="en" dir="ltr">
-    <Head>
-      <style>{darkModeCss}</style>
-    </Head>
-    <Preview>You've been invited to join {siteName}</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={h1}>You've been invited</Heading>
-        <Text style={text}>
-          You've been invited to join{" "}
-          <Link href={siteUrl} style={link}>
-            <strong>{siteName}</strong>
-          </Link>
-          . Click the button below to accept the invitation and create your account.
-        </Text>
-        <Button className="dm-btn" style={button} href={confirmationUrl}>
-          Accept Invitation
-        </Button>
-        <Text style={footer}>
-          If you weren't expecting this invitation, you can safely ignore this email.
-        </Text>
-      </Container>
-    </Body>
-  </Html>
+export const InviteEmail = ({ siteName, confirmationUrl }: InviteEmailProps) => (
+  <EmailLayout preview={`You've been invited to join ${siteName}`} title="You've been invited">
+    <P>
+      You've been invited to join {siteName}. Press the button below to accept and set up your
+      account.
+    </P>
+    <CTA href={confirmationUrl}>Accept invitation</CTA>
+    <Note>If you weren't expecting this invitation, you can safely ignore this email.</Note>
+  </EmailLayout>
 );
 
 export default InviteEmail;
-
-const main = {
-  backgroundColor: "#ffffff",
-  fontFamily: "'DM Sans', 'Segoe UI', Helvetica, Arial, sans-serif",
-};
-const container = { padding: "20px 25px" };
-const h1 = {
-  fontSize: "22px",
-  fontWeight: "bold" as const,
-  color: "#091b3f",
-  margin: "0 0 20px",
-};
-const text = {
-  fontSize: "14px",
-  color: "#1d2a44",
-  lineHeight: "1.5",
-  margin: "0 0 25px",
-};
-const link = { color: "#3159c6", textDecoration: "underline" };
-const button = {
-  backgroundColor: "#3159c6",
-  color: "#ffffff",
-  fontSize: "14px",
-  border: "1px solid #000000",
-  borderRadius: "10px",
-  padding: "12px 20px",
-  textDecoration: "none",
-};
-const footer = { fontSize: "12px", color: "#5b6782", margin: "30px 0 0" };
-// Rendered as a text child, which React may HTML-escape: keep this CSS free of >, &, and quotes.
-const darkModeCss = `
-  @media (prefers-color-scheme: dark) {
-    .dm-btn { background-color: #55d5fb !important; color: #091b3f !important; }
-  }
-  [data-ogsc] .dm-btn { background-color: #55d5fb !important; color: #091b3f !important; }
-  [data-ogsb] .dm-btn { background-color: #55d5fb !important; color: #091b3f !important; }
-`;

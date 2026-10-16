@@ -1,15 +1,6 @@
 import * as React from "react";
-
-import {
-  Body,
-  Button,
-  Container,
-  Head,
-  Heading,
-  Html,
-  Preview,
-  Text,
-} from "@react-email/components";
+import { Link } from "@react-email/components";
+import { CTA, Code, EmailLayout, Note, P, brand } from "./layout.js";
 
 interface RecoveryEmailProps {
   siteName: string;
@@ -17,64 +8,14 @@ interface RecoveryEmailProps {
 }
 
 export const RecoveryEmail = ({ siteName, confirmationUrl }: RecoveryEmailProps) => (
-  <Html lang="en" dir="ltr">
-    <Head>
-      <style>{darkModeCss}</style>
-    </Head>
-    <Preview>Reset your password for {siteName}</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={h1}>Reset your password</Heading>
-        <Text style={text}>
-          We received a request to reset your password for {siteName}. Click the button below to
-          choose a new password.
-        </Text>
-        <Button className="dm-btn" style={button} href={confirmationUrl}>
-          Reset Password
-        </Button>
-        <Text style={footer}>
-          If you didn't request a password reset, you can safely ignore this email. Your password
-          will not be changed.
-        </Text>
-      </Container>
-    </Body>
-  </Html>
+  <EmailLayout preview={`Reset your password for ${siteName}`} title="Reset your password">
+    <P>
+      We got a request to reset your {siteName} password. Press the button below to choose a new
+      one.
+    </P>
+    <CTA href={confirmationUrl}>Choose a new password</CTA>
+    <Note>If you didn't ask for this, ignore this email. Your password will stay the same.</Note>
+  </EmailLayout>
 );
 
 export default RecoveryEmail;
-
-const main = {
-  backgroundColor: "#ffffff",
-  fontFamily: "'DM Sans', 'Segoe UI', Helvetica, Arial, sans-serif",
-};
-const container = { padding: "20px 25px" };
-const h1 = {
-  fontSize: "22px",
-  fontWeight: "bold" as const,
-  color: "#091b3f",
-  margin: "0 0 20px",
-};
-const text = {
-  fontSize: "14px",
-  color: "#1d2a44",
-  lineHeight: "1.5",
-  margin: "0 0 25px",
-};
-const button = {
-  backgroundColor: "#3159c6",
-  color: "#ffffff",
-  fontSize: "14px",
-  border: "1px solid #000000",
-  borderRadius: "10px",
-  padding: "12px 20px",
-  textDecoration: "none",
-};
-const footer = { fontSize: "12px", color: "#5b6782", margin: "30px 0 0" };
-// Rendered as a text child, which React may HTML-escape: keep this CSS free of >, &, and quotes.
-const darkModeCss = `
-  @media (prefers-color-scheme: dark) {
-    .dm-btn { background-color: #55d5fb !important; color: #091b3f !important; }
-  }
-  [data-ogsc] .dm-btn { background-color: #55d5fb !important; color: #091b3f !important; }
-  [data-ogsb] .dm-btn { background-color: #55d5fb !important; color: #091b3f !important; }
-`;

@@ -7,6 +7,7 @@ import {
   Heading,
   Hr,
   Html,
+  Img,
   Link,
   Preview,
   Section,
@@ -114,6 +115,31 @@ export function EmailLayout({
     </Html>
   );
 }
+
+export const Note = ({ children }: { children: React.ReactNode }) => (
+  <Text style={{ margin: "24px 0 0", fontSize: "13px", lineHeight: "1.6", color: brand.muted }}>
+    {children}
+  </Text>
+);
+
+export const Code = ({ children }: { children: React.ReactNode }) => (
+  <Text
+    style={{
+      margin: "8px 0 20px",
+      padding: "16px",
+      backgroundColor: brand.porcelain,
+      borderRadius: "12px",
+      textAlign: "center",
+      fontFamily: "'Space Grotesk', monospace",
+      fontSize: "30px",
+      fontWeight: 700,
+      letterSpacing: "8px",
+      color: brand.navy,
+    }}
+  >
+    {children}
+  </Text>
+);
 
 export const P = ({ children }: { children: React.ReactNode }) => (
   <Text style={{ margin: "0 0 14px", fontSize: "15px", lineHeight: "1.65", color: brand.text }}>
