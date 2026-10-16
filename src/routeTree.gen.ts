@@ -27,6 +27,7 @@ import { Route as PortalAdminRouteImport } from './routes/portal/admin'
 import { Route as PortalClientRouteImport } from './routes/portal/client'
 import { Route as PortalPmRouteImport } from './routes/portal/pm'
 import { Route as PortalTalentRouteImport } from './routes/portal/talent'
+import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -118,6 +119,12 @@ const PortalTalentRoute = PortalTalentRouteImport.update({
   path: '/portal/talent',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LovableEmailTransactionalPreviewRoute =
+  LovableEmailTransactionalPreviewRouteImport.update({
+    id: '/lovable/email/transactional/preview',
+    path: '/lovable/email/transactional/preview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/portal/client': typeof PortalClientRoute
   '/portal/pm': typeof PortalPmRoute
   '/portal/talent': typeof PortalTalentRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -158,6 +166,7 @@ export interface FileRoutesByTo {
   '/portal/client': typeof PortalClientRoute
   '/portal/pm': typeof PortalPmRoute
   '/portal/talent': typeof PortalTalentRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -179,6 +188,7 @@ export interface FileRoutesById {
   '/portal/client': typeof PortalClientRoute
   '/portal/pm': typeof PortalPmRoute
   '/portal/talent': typeof PortalTalentRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -201,6 +211,7 @@ export interface FileRouteTypes {
     | '/portal/client'
     | '/portal/pm'
     | '/portal/talent'
+    | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -221,6 +232,7 @@ export interface FileRouteTypes {
     | '/portal/client'
     | '/portal/pm'
     | '/portal/talent'
+    | '/lovable/email/transactional/preview'
   id:
     | '__root__'
     | '/'
@@ -241,6 +253,7 @@ export interface FileRouteTypes {
     | '/portal/client'
     | '/portal/pm'
     | '/portal/talent'
+    | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -262,6 +275,7 @@ export interface RootRouteChildren {
   PortalClientRoute: typeof PortalClientRoute
   PortalPmRoute: typeof PortalPmRoute
   PortalTalentRoute: typeof PortalTalentRoute
+  LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -392,6 +406,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalTalentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lovable/email/transactional/preview': {
+      id: '/lovable/email/transactional/preview'
+      path: '/lovable/email/transactional/preview'
+      fullPath: '/lovable/email/transactional/preview'
+      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -414,6 +435,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortalClientRoute: PortalClientRoute,
   PortalPmRoute: PortalPmRoute,
   PortalTalentRoute: PortalTalentRoute,
+  LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
