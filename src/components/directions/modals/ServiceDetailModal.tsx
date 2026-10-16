@@ -43,9 +43,9 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Service details"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans"
     >
-      <div className="w-full max-w-3xl rounded-3xl bg-eco-navy border border-eco-cyan/25 shadow-2xl relative space-y-6 my-8 overflow-hidden">
+      <div className="w-full max-w-3xl max-h-[calc(100dvh-2rem)] rounded-3xl bg-eco-navy border border-eco-cyan/25 shadow-2xl relative space-y-6 overflow-y-auto overscroll-contain">
         {/* Visual Cover Banner */}
         <div className="relative h-60 w-full overflow-hidden bg-eco-dark">
           <img
@@ -57,6 +57,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
 
           <button
             onClick={onClose}
+            aria-label="Close service details"
             className="absolute top-4 right-4 bg-black/60 hover:bg-black/90 text-white p-2.5 rounded-full backdrop-blur-md border border-white/20 transition-all hover:scale-105"
           >
             <X className="w-5 h-5" />
