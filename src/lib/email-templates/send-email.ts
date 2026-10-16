@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import { render } from "@react-email/render";
 import { EmailAPIError, sendLovableEmail } from "@lovable.dev/email-js";
-import { TEMPLATES } from "./registry";
+import { TEMPLATES } from "./registry.js";
 
 // Server-only: reads LOVABLE_API_KEY. Never import from client components.
 

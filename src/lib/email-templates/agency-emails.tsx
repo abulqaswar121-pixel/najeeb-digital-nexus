@@ -1,6 +1,6 @@
 import * as React from "react";
-import type { TemplateEntry } from "./registry";
-import { CTA, Details, Divider, EmailLayout, P, SITE_URL } from "./layout";
+import type { TemplateEntry } from "./registry.js";
+import { CTA, Details, Divider, EmailLayout, P, SITE_URL } from "./layout.js";
 
 const hi = (name?: string) => (name ? `Hi ${name.split(" ")[0]},` : "Hi there,");
 
@@ -168,7 +168,7 @@ export const welcomeTemplate = {
 
 export const briefReceivedTemplate = {
   component: BriefReceived,
-  subject: (d: Record<string, any>) =>
+  subject: (d: Record<string, unknown>) =>
     `We received your brief${d["projectName"] ? `: ${d["projectName"]}` : ""}`,
   displayName: "Project brief received",
   previewData: {
@@ -181,7 +181,7 @@ export const briefReceivedTemplate = {
 
 export const teamBriefAlertTemplate = {
   component: TeamBriefAlert,
-  subject: (d: Record<string, any>) => `New brief: ${d["projectName"] ?? "project"}`,
+  subject: (d: Record<string, unknown>) => `New brief: ${d["projectName"] ?? "project"}`,
   displayName: "New brief alert (team)",
   to: "hello@ndh.com.ng",
   previewData: {
