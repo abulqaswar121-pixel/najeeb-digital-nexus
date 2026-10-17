@@ -6,6 +6,10 @@ import {
   useBriefs,
   useConsultationRequests,
   useInternalTalents,
+  useProjectMessages,
+  useProjectMilestones,
+  useProjectApprovals,
+  type DatabaseProjectBrief,
 } from "../../lib/databaseStore";
 import { ServiceDepartment } from "../../types/ndh";
 import { SERVICE_DEPARTMENTS } from "../../data/mockData";
@@ -56,6 +60,9 @@ export const PMPortal: React.FC = () => {
   const liveBriefs = useBriefs();
   const liveConsultRequests = useConsultationRequests();
   const [claimingBriefId, setClaimingBriefId] = useState<string | null>(null);
+  // The brief the PM has opened to work on (chat + milestones + details).
+  const [openBriefId, setOpenBriefId] = useState<string | null>(null);
+  const openBrief = liveBriefs.find((b) => b.id === openBriefId) || null;
 
   const pmNavTabs = [
     {
@@ -183,14 +190,29 @@ export const PMPortal: React.FC = () => {
                             {brief.organizationName} • {brief.timelineWeeks}
                           </p>
                         </div>
-                        <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 text-white capitalize">
-                          {brief.status.replace(/_/g, " ")}
-                        </span>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 text-white capitalize">
+                            {brief.status.replace(/_/g, " ")}
+                          </span>
+                          <button
+                            onClick={() => setOpenBriefId(brief.id)}
+                            className="px-3.5 py-1.5 rounded-lg bg-primary hover:bg-eco-cyan/20 text-white font-semibold text-xs flex items-center gap-1"
+                          >
+                            Open
+                            <ArrowRight className="w-3 h-3" />
+                          </button>
+                        </div>
                       </li>
                     ))}
                   </ul>
                 )}
               </div>
+
+              {/* Opened project: full details, chat with the client, and the
+                  milestone creator -- the PM's actual working space. */}
+              {openBrief && (
+                <BriefWorkspace brief={openBrief} onClose={() => setOpenBriefId(null)} />
+              )}
             </div>
           )}
 
@@ -564,6 +586,281 @@ export const PMPortal: React.FC = () => {
           <span>Need help? hello@ndh.com.ng</span>
         </div>
       </footer>
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// The PM's working space for one project: everything the client asked for,
+// a live two-way chat with the client, and the milestone creator. Messages
+// and milestones are saved on the server, so the client sees them in their
+// own portal straight away.
+// ---------------------------------------------------------------------------
+const BriefWorkspace: React.FC<{ brief: DatabaseProjectBrief; onClose: () => void }> = ({
+  brief,
+  onClose,
+}) => {
+  const { user } = useAuth();
+  const messages = useProjectMessages(brief.id);
+  const milestones = useProjectMilestones(brief.id);
+  const approvals = useProjectApprovals(brief.id);
+
+  const [chatInput, setChatInput] = useState("");
+  const [sending, setSending] = useState(false);
+  const [chatError, setChatError] = useState<string | null>(null);
+
+  const [msTitle, setMsTitle] = useState("");
+  const [msAmount, setMsAmount] = useState("");
+  const [msDueDate, setMsDueDate] = useState("");
+  const [msDescription, setMsDescription] = useState("");
+  const [msSaving, setMsSaving] = useState(false);
+  const [msError, setMsError] = useState<string | null>(null);
+  const [qaBusyIndex, setQaBusyIndex] = useState<number | null>(null);
+
+  const sendMessage = async () => {
+    if (!chatInput.trim() || sending) return;
+    setSending(true);
+    setChatError(null);
+    try {
+      await dbService.sendProjectMessage(brief.id, chatInput.trim());
+      setChatInput("");
+    } catch (err) {
+      setChatError(err instanceof Error ? err.message : "Message not sent. Try again.");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const addMilestone = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!msTitle.trim() || msSaving) return;
+    setMsSaving(true);
+    setMsError(null);
+    try {
+      await dbService.addProjectMilestone(brief.id, {
+        title: msTitle.trim(),
+        description: msDescription.trim(),
+        amount: msAmount.trim(),
+        currency: brief.currency || "NGN",
+        dueDate: msDueDate.trim(),
+      });
+      setMsTitle("");
+      setMsAmount("");
+      setMsDueDate("");
+      setMsDescription("");
+    } catch (err) {
+      setMsError(err instanceof Error ? err.message : "Could not save. Try again.");
+    } finally {
+      setMsSaving(false);
+    }
+  };
+
+  return (
+    <div className="p-5 sm:p-6 rounded-2xl bg-eco-navy/90 border border-eco-cyan/25 space-y-6 shadow-2xl">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
+        <div className="min-w-0">
+          <h3 className="font-bold text-base text-white break-words">{brief.projectName}</h3>
+          <p className="text-xs text-[var(--eco-on-dark-muted)] break-words">
+            {brief.organizationName} • {brief.clientEmail}
+            {brief.clientPhone ? ` • ${brief.clientPhone}` : ""}
+          </p>
+        </div>
+        <button
+          onClick={onClose}
+          className="px-3.5 py-1.5 rounded-lg border border-white/12 bg-white/[0.06] text-slate-200 text-xs font-medium hover:bg-white/[0.08]"
+        >
+          Close
+        </button>
+      </div>
+
+      {/* Everything the client submitted */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-[11px]">
+        <div>
+          <span className="text-[var(--eco-on-dark-muted)] block text-[10px]">Service</span>
+          <span className="font-semibold text-white uppercase break-words">
+            {brief.department.replace(/_/g, " ")}
+          </span>
+        </div>
+        <div>
+          <span className="text-[var(--eco-on-dark-muted)] block text-[10px]">Budget</span>
+          <span className="font-semibold text-emerald-400 capitalize">
+            {brief.scopeTier} — {brief.budgetAmount} {brief.currency}
+          </span>
+        </div>
+        <div>
+          <span className="text-[var(--eco-on-dark-muted)] block text-[10px]">Timeline</span>
+          <span className="font-semibold text-white">{brief.timelineWeeks}</span>
+        </div>
+        <div>
+          <span className="text-[var(--eco-on-dark-muted)] block text-[10px]">Sent</span>
+          <span className="font-semibold text-white">
+            {new Date(brief.createdAt).toLocaleDateString()}
+          </span>
+        </div>
+      </div>
+      {brief.briefDetails && (
+        <p className="text-xs text-slate-200 leading-relaxed p-4 rounded-xl bg-white/[0.04] border border-white/10 break-words">
+          {brief.briefDetails}
+        </p>
+      )}
+
+      {/* Milestones */}
+      <div className="space-y-3">
+        <h4 className="font-bold text-sm text-white">Milestones (steps the client pays for)</h4>
+        {milestones.length === 0 ? (
+          <p className="text-xs text-[var(--eco-on-dark-muted)]">
+            No milestones yet. Add the first step below -- the client will see it in their portal.
+          </p>
+        ) : (
+          <ul className="space-y-2">
+            {milestones.map((ms, idx) => {
+              const approval = approvals.find((a) => a.milestoneIndex === idx);
+              return (
+                <li
+                  key={ms.id}
+                  className="p-4 rounded-xl bg-white/[0.06] border border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs"
+                >
+                  <div className="min-w-0">
+                    <p className="font-semibold text-white break-words">
+                      {idx + 1}. {ms.title}
+                    </p>
+                    <p className="text-[var(--eco-on-dark-muted)] break-words">
+                      {ms.amount ? `${ms.amount} ${ms.currency} • ` : ""}
+                      {ms.dueDate ? `Due ${ms.dueDate} • ` : ""}
+                      {ms.status === "approved"
+                        ? "Client approved ✓"
+                        : approval?.qaApproved
+                          ? "Checked — waiting for client"
+                          : "Planned"}
+                    </p>
+                    {ms.description && (
+                      <p className="text-slate-300 mt-1 break-words">{ms.description}</p>
+                    )}
+                  </div>
+                  {ms.status !== "approved" && !approval?.qaApproved && (
+                    <button
+                      onClick={async () => {
+                        setQaBusyIndex(idx);
+                        try {
+                          await dbService.approveQaGate(brief.id, idx);
+                        } catch {
+                          // button stays clickable for retry
+                        } finally {
+                          setQaBusyIndex(null);
+                        }
+                      }}
+                      disabled={qaBusyIndex === idx}
+                      className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-semibold text-xs shrink-0"
+                    >
+                      {qaBusyIndex === idx ? "Saving..." : "Mark ready for client"}
+                    </button>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+
+        <form
+          onSubmit={addMilestone}
+          className="p-4 rounded-xl bg-white/[0.04] border border-white/10 space-y-3"
+        >
+          <p className="text-xs font-semibold text-white">Add a milestone</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <input
+              type="text"
+              placeholder="Title (e.g. Design & logo)"
+              value={msTitle}
+              onChange={(e) => setMsTitle(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-eco-dark border border-white/10 text-xs text-white focus:outline-none focus:border-eco-cyan/40"
+            />
+            <input
+              type="text"
+              placeholder={`Amount (${brief.currency || "NGN"})`}
+              value={msAmount}
+              onChange={(e) => setMsAmount(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-eco-dark border border-white/10 text-xs text-white focus:outline-none focus:border-eco-cyan/40"
+            />
+            <input
+              type="text"
+              placeholder="Due date (e.g. 2 weeks)"
+              value={msDueDate}
+              onChange={(e) => setMsDueDate(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-eco-dark border border-white/10 text-xs text-white focus:outline-none focus:border-eco-cyan/40"
+            />
+          </div>
+          <textarea
+            placeholder="What is included in this step? (optional)"
+            value={msDescription}
+            onChange={(e) => setMsDescription(e.target.value)}
+            rows={2}
+            className="w-full px-3 py-2 rounded-lg bg-eco-dark border border-white/10 text-xs text-white focus:outline-none focus:border-eco-cyan/40"
+          />
+          {msError && <p className="text-xs text-red-400">{msError}</p>}
+          <button
+            type="submit"
+            disabled={!msTitle.trim() || msSaving}
+            className="px-4 py-2 rounded-xl bg-primary hover:bg-eco-cyan/20 disabled:opacity-50 text-white font-semibold text-xs"
+          >
+            {msSaving ? "Saving..." : "Save milestone"}
+          </button>
+        </form>
+      </div>
+
+      {/* Chat with the client */}
+      <div className="space-y-3">
+        <h4 className="font-bold text-sm text-white">Chat with the client</h4>
+        <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
+          {messages.length === 0 ? (
+            <p className="text-xs text-[var(--eco-on-dark-muted)]">
+              No messages yet. Say hello and share your plan -- the client sees this in their
+              portal.
+            </p>
+          ) : (
+            messages.map((msg) => (
+              <div
+                key={msg.id}
+                className={`p-3.5 rounded-2xl text-xs space-y-1 ${
+                  msg.senderRole === "pm"
+                    ? "bg-white/[0.04] border border-eco-cyan/20 ml-6"
+                    : "bg-white/[0.06] border border-white/10"
+                }`}
+              >
+                <div className="flex items-center justify-between text-[11px] text-[var(--eco-on-dark-muted)] font-semibold">
+                  <span>
+                    {msg.senderRole === "pm" ? `${msg.senderName} (You)` : msg.senderName}
+                  </span>
+                  <span className="font-mono">
+                    {new Date(msg.createdAt).toLocaleString()}
+                  </span>
+                </div>
+                <p className="text-slate-200 leading-relaxed break-words">{msg.text}</p>
+              </div>
+            ))
+          )}
+        </div>
+        {chatError && <p className="text-xs text-red-400">{chatError}</p>}
+        <div className="flex items-center gap-2">
+          <input
+            type="text"
+            placeholder={`Message ${brief.organizationName}...`}
+            value={chatInput}
+            onChange={(e) => setChatInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            className="flex-1 min-w-0 px-4 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-xs text-white focus:outline-none focus:border-eco-cyan/40"
+          />
+          <button
+            onClick={sendMessage}
+            disabled={!chatInput.trim() || sending}
+            className="px-5 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 disabled:opacity-50 text-white font-bold text-xs shrink-0"
+          >
+            {sending ? "Sending..." : "Send"}
+          </button>
+        </div>
+        <p className="text-[10px] text-[var(--eco-on-dark-muted)]">
+          Signed in as {user?.fullName} (PM). The client sees your messages in their portal.
+        </p>
+      </div>
     </div>
   );
 };

@@ -902,6 +902,37 @@ export const bankTransfers = new Collection<BankTransferRecord>("bankTransfers",
 
 export const projectApprovals = new Collection<ProjectApprovalRecord>("projectApprovals", []);
 
+// Two-way PM <-> client chat, one thread per brief/project. This replaces
+// the old "messaging is being rolled out" placeholder in both portals.
+export interface ProjectMessageRecord {
+  id: string;
+  briefId: string;
+  senderUserId: string;
+  senderName: string;
+  senderRole: "pm" | "client";
+  text: string;
+  createdAt: string;
+}
+
+// Real milestones a PM creates for a brief (title, amount, due date). The
+// client sees these in their portal and approves each one after QA.
+export interface ProjectMilestoneRecord {
+  id: string;
+  briefId: string;
+  title: string;
+  description: string;
+  amount: string;
+  currency: string;
+  dueDate: string;
+  status: "planned" | "in_progress" | "qa_ready" | "approved";
+  createdAt: string;
+  createdByName: string;
+}
+
+export const projectMessages = new Collection<ProjectMessageRecord>("projectMessages", []);
+
+export const projectMilestones = new Collection<ProjectMilestoneRecord>("projectMilestones", []);
+
 // Case studies used to be purely static frontend data (src/data/mockData.ts)
 // with no admin path at all -- editing one meant a code change and a
 // redeploy. Seeded once from that same real content, then persisted and

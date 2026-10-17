@@ -6,6 +6,9 @@
 - [x] No sideways scrolling on phones (fixed a style error that broke page widths).
 - [x] Removed demo labels, sample leads, fake portal numbers and the sample client workspace (case studies kept).
 - [ ] Some deep portal tabs still use long words — simplify in a later pass.
+- [x] PM can open a project: full details, two-way chat with the client, milestone creator.
+- [x] Client portal shows the real chat and real milestones (approve & release payment per step).
+- [x] Chat privacy tested: only the PM and the owning client can read or write a project's thread.
 
 ## SEO corrections
 - [x] Fix and verify self-referencing search and shared-link addresses on every page.

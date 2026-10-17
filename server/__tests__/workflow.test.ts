@@ -69,6 +69,73 @@ describe("Payout dual-approval is a real maker-checker control", () => {
   });
 });
 
+describe("PM <-> client project chat and milestones", () => {
+  it("PM and the owning client can chat; another client cannot read or write the thread", async () => {
+    // Create a brief owned by the demo client account.
+    const createRes = await request(app).post("/api/briefs").send({
+      organizationName: "Chat Test Co",
+      department: "web_app_development",
+      scopeTier: "starter",
+      clientEmail: "folake@kobopay.com",
+      briefDetails: "Chat test brief",
+    });
+    expect(createRes.status).toBe(201);
+    const briefId = createRes.body.brief.id as string;
+
+    const pm = await loginAgent("tariq.pm@agency.ndh.com.ng");
+    const client = await loginAgent("folake@kobopay.com");
+
+    // PM creates a milestone; the client cannot.
+    const ms = await pm
+      .post(`/api/projects/${briefId}/milestones`)
+      .send({ title: "Design & logo", amount: "500000", currency: "NGN", dueDate: "2 weeks" });
+    expect(ms.status).toBe(201);
+    const forbiddenMs = await client
+      .post(`/api/projects/${briefId}/milestones`)
+      .send({ title: "Sneaky" });
+    expect(forbiddenMs.status).toBe(403);
+
+    // Both sides can send and read messages.
+    const pmMsg = await pm
+      .post(`/api/projects/${briefId}/messages`)
+      .send({ text: "Hello, I am your PM." });
+    expect(pmMsg.status).toBe(201);
+    const clientMsg = await client
+      .post(`/api/projects/${briefId}/messages`)
+      .send({ text: "Hi, thanks!" });
+    expect(clientMsg.status).toBe(201);
+
+    const thread = await client.get(`/api/projects/${briefId}/messages`);
+    expect(thread.status).toBe(200);
+    expect(thread.body.messages).toHaveLength(2);
+
+    const msList = await client.get(`/api/projects/${briefId}/milestones`);
+    expect(msList.status).toBe(200);
+    expect(msList.body.milestones).toHaveLength(1);
+    expect(msList.body.milestones[0].title).toBe("Design & logo");
+
+    // A different client (finance admin is staff; use a fresh non-owner
+    // client account) must be blocked from the thread.
+    const outsider = request.agent(app);
+    await outsider.post("/api/auth/register").send({
+      fullName: "Outsider Client",
+      email: "outsider@example.com",
+      password: "OutsiderPass2026!",
+      organizationName: "Outsider Ltd",
+    });
+    const blockedRead = await outsider.get(`/api/projects/${briefId}/messages`);
+    expect(blockedRead.status).toBe(403);
+    const blockedWrite = await outsider
+      .post(`/api/projects/${briefId}/messages`)
+      .send({ text: "should not work" });
+    expect(blockedWrite.status).toBe(403);
+
+    // Signed-out visitors are blocked too.
+    const anon = await request(app).get(`/api/projects/${briefId}/messages`);
+    expect(anon.status).toBe(401);
+  });
+});
+
 describe("QA gate -> client milestone approval ordering is enforced server-side", () => {
   it("a client cannot approve a milestone before the PM has QA-approved it", async () => {
     const client = await loginAgent("folake@kobopay.com");

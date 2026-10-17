@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../lib/authStore";
 import { AgencySectorMark } from "../brand/AgencySectorMark";
 import { ACTIVE_PROJECTS, CLIENT_ORGANIZATIONS, FINANCIAL_INVOICES } from "../../data/mockData";
-import { dbService, useMyBriefs, useMyReferrals, useMyTransactions } from "../../lib/databaseStore";
+import {
+  dbService,
+  useMyBriefs,
+  useMyReferrals,
+  useMyTransactions,
+  useProjectMessages,
+  useProjectMilestones,
+  useProjectApprovals,
+} from "../../lib/databaseStore";
 import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 import { PaystackPaymentModal } from "../payment/PaystackPaymentModal";
 import { PortalNavDropdown } from "./PortalNavDropdown";
@@ -111,6 +119,29 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
   const displayUserName =
     user?.fullName || (isDemoWorkspace ? currentOrg.primaryContact.name : "there");
   const myLatestBrief = myBriefs.length > 0 ? myBriefs[myBriefs.length - 1]! : null;
+
+  // Real two-way chat + milestones for the client's own project, saved on
+  // the server so the PM sees them in the PM portal (and vice versa).
+  const projectMessages = useProjectMessages(myLatestBrief?.id);
+  const projectMilestones = useProjectMilestones(myLatestBrief?.id);
+  const projectApprovals = useProjectApprovals(myLatestBrief?.id);
+  const [sendingMessage, setSendingMessage] = useState(false);
+  const [messageError, setMessageError] = useState<string | null>(null);
+  const [approvingIndex, setApprovingIndex] = useState<number | null>(null);
+
+  const handleSendRealMessage = async () => {
+    if (!myLatestBrief || !clientMessageInput.trim() || sendingMessage) return;
+    setSendingMessage(true);
+    setMessageError(null);
+    try {
+      await dbService.sendProjectMessage(myLatestBrief.id, clientMessageInput.trim());
+      setClientMessageInput("");
+    } catch (err) {
+      setMessageError(err instanceof Error ? err.message : "Message not sent. Try again.");
+    } finally {
+      setSendingMessage(false);
+    }
+  };
   const mySuccessfulTx = myTransactions.filter((t) => t.status === "success");
   const myTxTotalsByCurrency = mySuccessfulTx.reduce<Record<string, number>>((acc, t) => {
     acc[t.currency] = (acc[t.currency] || 0) + t.amount;
@@ -939,14 +970,104 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                     )}
                   </div>
                 </>
-              ) : (
+              ) : !myLatestBrief ? (
                 <div className="text-center py-10 space-y-2">
                   <CheckCircle2 className="w-10 h-10 text-[var(--eco-on-dark-muted)]/70 mx-auto" />
-                  <h3 className="font-bold text-base text-white">No deliverables yet</h3>
+                  <h3 className="font-bold text-base text-white">No project yet</h3>
                   <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
-                    Once your PM assigns milestones to your project, QA-verified deliverables will
-                    appear here for your inspection and approval.
+                    Start a project first -- your milestones will appear here once your PM adds
+                    them.
                   </p>
+                </div>
+              ) : projectMilestones.length === 0 ? (
+                <div className="text-center py-10 space-y-2">
+                  <CheckCircle2 className="w-10 h-10 text-[var(--eco-on-dark-muted)]/70 mx-auto" />
+                  <h3 className="font-bold text-base text-white">No milestones yet</h3>
+                  <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
+                    Your PM is planning the steps for "{myLatestBrief.projectName}". They will
+                    appear here as soon as they are added.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <div className="border-b border-white/10 pb-4">
+                    <h3 className="font-bold text-base text-white break-words">
+                      {myLatestBrief.projectName} — steps &amp; approvals
+                    </h3>
+                    <p className="text-xs text-[var(--eco-on-dark-muted)]">
+                      Check each finished step, then approve it to release its payment.
+                    </p>
+                  </div>
+                  {projectMilestones.map((ms, idx) => {
+                    const approval = projectApprovals.find((a) => a.milestoneIndex === idx);
+                    const isApproved = ms.status === "approved" || !!approval?.milestoneApproved;
+                    const isReady = !!approval?.qaApproved || ms.status === "qa_ready";
+                    return (
+                      <div
+                        key={ms.id}
+                        className="p-4 rounded-2xl bg-white/[0.06] border border-white/10 space-y-2 text-xs"
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <span className="font-bold text-white break-words">
+                            {idx + 1}. {ms.title}
+                          </span>
+                          <span
+                            className={`px-2 py-0.5 rounded-full font-mono text-[10px] font-bold ${
+                              isApproved
+                                ? "bg-emerald-500/20 text-emerald-300"
+                                : isReady
+                                  ? "bg-eco-cyan/15 text-eco-cyan"
+                                  : "bg-white/[0.08] text-slate-200"
+                            }`}
+                          >
+                            {isApproved
+                              ? "Approved ✓"
+                              : isReady
+                                ? "Ready for your review"
+                                : "In progress"}
+                          </span>
+                        </div>
+                        <p className="text-[var(--eco-on-dark-muted)] break-words">
+                          {ms.amount ? `${ms.amount} ${ms.currency} • ` : ""}
+                          {ms.dueDate ? `Due ${ms.dueDate}` : ""}
+                        </p>
+                        {ms.description && (
+                          <p className="text-slate-200 leading-relaxed break-words">
+                            {ms.description}
+                          </p>
+                        )}
+                        {isReady && !isApproved && (
+                          <button
+                            onClick={async () => {
+                              if (!myLatestBrief) return;
+                              setApprovingIndex(idx);
+                              setMilestoneApprovalError(null);
+                              try {
+                                await dbService.approveMilestoneAsClient(myLatestBrief.id, idx);
+                              } catch (err) {
+                                setMilestoneApprovalError(
+                                  err instanceof Error
+                                    ? err.message
+                                    : "Could not approve this step.",
+                                );
+                              } finally {
+                                setApprovingIndex(null);
+                              }
+                            }}
+                            disabled={approvingIndex === idx}
+                            className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold text-xs"
+                          >
+                            {approvingIndex === idx
+                              ? "Approving..."
+                              : "Approve & release payment"}
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+                  {milestoneApprovalError && (
+                    <p className="text-xs text-red-400">{milestoneApprovalError}</p>
+                  )}
                 </div>
               )}
             </div>
@@ -1102,24 +1223,80 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                     </button>
                   </div>
                 </>
-              ) : myLatestBrief && myLatestBrief.assignedPM !== "Unassigned" ? (
-                <div className="text-center py-10 space-y-2">
-                  <MessageSquare className="w-10 h-10 text-[var(--eco-on-dark-muted)]/70 mx-auto" />
-                  <h3 className="font-bold text-base text-white">
-                    You're connected with {myLatestBrief.assignedPM}
-                  </h3>
-                  <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
-                    Direct in-portal messaging is being rolled out -- for now, your PM will follow
-                    up by email at {user?.email}.
-                  </p>
-                </div>
+              ) : myLatestBrief ? (
+                <>
+                  <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-10 h-10 rounded-xl bg-primary/20 border border-eco-cyan/40 flex items-center justify-center text-eco-cyan font-bold shrink-0">
+                        {(myLatestBrief.assignedPM || "P").charAt(0)}
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="font-bold text-sm text-white break-words">
+                          Chat about "{myLatestBrief.projectName}"
+                        </h3>
+                        <p className="text-[11px] text-[var(--eco-on-dark-muted)]">
+                          With your project manager
+                          {myLatestBrief.assignedPM !== "Unassigned"
+                            ? `, ${myLatestBrief.assignedPM}`
+                            : ""}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
+                    {projectMessages.length === 0 ? (
+                      <p className="text-xs text-[var(--eco-on-dark-muted)] text-center py-6">
+                        No messages yet. Say hello -- your PM sees this straight away.
+                      </p>
+                    ) : (
+                      projectMessages.map((msg) => (
+                        <div
+                          key={msg.id}
+                          className={`p-4 rounded-2xl text-xs space-y-1 ${msg.senderRole === "pm" ? "bg-white/[0.06] border border-white/10" : "bg-white/[0.04] border border-eco-cyan/20 ml-6"}`}
+                        >
+                          <div className="flex items-center justify-between text-[11px] text-[var(--eco-on-dark-muted)] font-semibold">
+                            <span>
+                              {msg.senderRole === "pm"
+                                ? `${msg.senderName} (PM)`
+                                : `${msg.senderName} (You)`}
+                            </span>
+                            <span className="font-mono">
+                              {new Date(msg.createdAt).toLocaleString()}
+                            </span>
+                          </div>
+                          <p className="text-slate-200 leading-relaxed break-words">{msg.text}</p>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  {messageError && <p className="text-xs text-red-400">{messageError}</p>}
+                  <div className="pt-2 flex items-center gap-2">
+                    <input
+                      type="text"
+                      placeholder="Write a message..."
+                      value={clientMessageInput}
+                      onChange={(e) => setClientMessageInput(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleSendRealMessage()}
+                      className="flex-1 min-w-0 px-4 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-xs text-white focus:outline-none focus:border-eco-cyan/40"
+                    />
+                    <button
+                      onClick={handleSendRealMessage}
+                      disabled={!clientMessageInput.trim() || sendingMessage}
+                      className="px-5 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 disabled:opacity-50 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shrink-0"
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                      <span>{sendingMessage ? "Sending..." : "Send"}</span>
+                    </button>
+                  </div>
+                </>
               ) : (
                 <div className="text-center py-10 space-y-2">
                   <MessageSquare className="w-10 h-10 text-[var(--eco-on-dark-muted)]/70 mx-auto" />
-                  <h3 className="font-bold text-base text-white">No PM assigned yet</h3>
+                  <h3 className="font-bold text-base text-white">No project yet</h3>
                   <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
-                    You'll be connected with a dedicated PM here as soon as your brief is reviewed
-                    and claimed.
+                    Start a project first -- then you can chat with your project manager here.
                   </p>
                 </div>
               )}
