@@ -82,11 +82,11 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
   if (!talent) {
     return (
-      <div className="bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col items-center justify-center gap-4 p-8 text-center">
+      <div className="ndh-portal-light bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col items-center justify-center gap-4 p-8 text-center">
         <p className="text-sm text-[var(--eco-on-dark-muted)]">Loading your talent profile…</p>
         <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-md">
-          If this doesn't load, this account may not have a linked talent profile on the server yet
-          (only the demo "Architect-Alpha" account is currently linked).
+          If this doesn't load, your talent profile may not be set up yet. Please contact your
+          project manager.
         </p>
       </div>
     );
@@ -135,7 +135,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
   ];
 
   return (
-    <div className="bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col">
+    <div className="ndh-portal-light bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col">
       {/* Standalone Talent Workspace Top Bar */}
       <header className="sticky top-0 z-40 flex w-full max-w-full items-center justify-between gap-3 overflow-x-clip border-b border-white/10 bg-eco-navy/95 px-4 py-3.5 backdrop-blur-xl sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-4">
@@ -305,11 +305,11 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                       Active Milestone Task Allocations
                     </h3>
                     <p className="text-xs text-[var(--eco-on-dark-muted)] mt-0.5">
-                      Tasks assigned by your PM with funded escrow guarantee
+                      Tasks assigned by your PM with funded safe payment guarantee
                     </p>
                   </div>
                   <span className="text-xs text-emerald-400 font-mono font-bold bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
-                    Escrow Locked • Risk Free
+                    Safe Payment Locked • Risk Free
                   </span>
                 </div>
 
@@ -608,7 +608,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                   </h3>
                   <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
                     Uploaded artifacts undergo automated linting and PM QA scoring before milestone
-                    escrow disbursement.
+                    safe payment payout.
                   </p>
                 </div>
 
@@ -721,7 +721,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                     </p>
                   </div>
                   <span className="px-3 py-1 rounded-xl bg-eco-cyan/10 text-eco-cyan font-mono text-xs font-bold border border-eco-cyan/25 shrink-0">
-                    Escrow Model: 45% Admin / 15% PM / 40% Talent
+                    Safe Payment Model: 45% Admin / 15% PM / 40% Talent
                   </span>
                 </div>
 
@@ -733,8 +733,8 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                       <span>1. Admin / Owner (45%)</span>
                     </div>
                     <p className="text-slate-200 leading-relaxed text-[11px]">
-                      Covers client acquisition, legal escrow liability, server infrastructure,
-                      platform R&D, and agency treasury net profits.
+                      Covers client acquisition, legal safe payment liability, server
+                      infrastructure, platform R&D, and agency treasury net profits.
                     </p>
                   </div>
 
@@ -947,22 +947,9 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
       {/* Standalone Talent Workspace System Footer */}
       <footer className="mt-auto border-t border-white/10 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px]">
-              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Talent Privacy Shield Active</span>
-            </div>
-            <span className="text-[var(--eco-on-dark-muted)]/70 hidden sm:inline">•</span>
-            <span className="text-[11px] text-[var(--eco-on-dark-muted)]">
-              Assigned PM: <strong className="text-slate-200">Your PM</strong> • Next Payout:{" "}
-              <strong className="text-emerald-400">Oct 15, 2026</strong>
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-[11px] text-[var(--eco-on-dark-muted)]">
-            <span>Automated NIBSS / Wise Direct Deposit</span>
-          </div>
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+          <span>NDH Agency · Talent workspace</span>
+          <span>Need help? hello@ndh.com.ng</span>
         </div>
       </footer>
     </div>

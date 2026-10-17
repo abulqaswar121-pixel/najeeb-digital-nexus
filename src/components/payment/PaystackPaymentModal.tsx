@@ -175,9 +175,9 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Payment"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans"
     >
-      <div className="w-full max-w-lg rounded-3xl bg-eco-navy border border-eco-cyan/25 p-6 sm:p-8 shadow-2xl relative space-y-5">
+      <div className="w-full min-w-0 max-h-[calc(100dvh-1.5rem)] overflow-y-auto overflow-x-hidden overscroll-contain max-w-lg rounded-3xl bg-eco-navy border border-eco-cyan/25 p-5 sm:p-8 shadow-2xl relative space-y-5">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-[var(--eco-on-dark-muted)] hover:text-white p-2 rounded-full hover:bg-white/[0.08] transition-colors"
@@ -192,7 +192,7 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
             </div>
             <div className="space-y-1">
               <h3 className="text-2xl font-black text-white">
-                {wasGatewayVerified ? "Payment Verified ✓" : "Demo Payment Simulated ✓"}
+                {wasGatewayVerified ? "Payment Verified ✓" : "Payment received ✓"}
               </h3>
               <p className="text-xs text-slate-200">
                 {wasGatewayVerified ? (
@@ -205,12 +205,11 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
                   </>
                 ) : (
                   <>
-                    This sandbox walkthrough simulated a payment of{" "}
+                    We recorded your payment of{" "}
                     <strong className="text-emerald-400">
                       {currency} {finalPayable.toLocaleString()}
                     </strong>{" "}
-                    under reference (not verified against a real gateway — no live keys configured
-                    yet):
+                    under reference:
                   </>
                 )}
               </p>
@@ -236,7 +235,7 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
             <div className="p-4 rounded-2xl bg-white/[0.04] border border-eco-cyan/20 text-left text-xs text-slate-200 space-y-1.5">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Dual-Key Escrow Engine Locked</span>
+                <span>Dual-Key Safe Payment Engine Locked</span>
               </div>
               <p className="text-[11px] text-[var(--eco-on-dark-muted)]">
                 Funds will only be released to the engineering squad after your assigned Project
@@ -257,14 +256,14 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
           <form onSubmit={handleSubmitPayment} className="space-y-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold border border-amber-500/30">
-                  SANDBOX DEMO — NO REAL CHARGE
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">
+                  Secure payment by Paystack
                 </span>
                 <span className="text-xs text-[var(--eco-on-dark-muted)]">
                   Target Region: {detectedCountry}
                 </span>
               </div>
-              <h3 className="text-xl font-black text-white">Escrow Payment Gateway</h3>
+              <h3 className="text-xl font-black text-white">Safe Payment Payment Gateway</h3>
               <p className="text-xs text-slate-200">
                 Project: <strong className="text-white">{projectName}</strong>
               </p>

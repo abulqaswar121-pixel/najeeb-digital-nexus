@@ -105,8 +105,8 @@ export const AboutView: React.FC<AboutViewProps> = ({ onSelectView, onOpenBriefW
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <span>
-                      Clients contract NDH Agency with guaranteed SLAs, milestone escrow, and fixed
-                      deliverables.
+                      Clients contract NDH Agency with guaranteed SLAs, milestone safe payment, and
+                      fixed deliverables.
                     </span>
                   </li>
                   <li className="flex items-start gap-2.5">

@@ -47,7 +47,7 @@ export const ProcessView: React.FC<ProcessViewProps> = ({ onSelectView, onOpenBr
     "03": {
       points: [
         "Weekly verified deliverables land in your Client Workspace for review",
-        "Escrow releases per approved milestone, so payment tracks accepted work",
+        "Safe Payment releases per approved milestone, so payment tracks accepted work",
         "PM QA gates: automated checks, latency and accessibility review before preview",
       ],
     },

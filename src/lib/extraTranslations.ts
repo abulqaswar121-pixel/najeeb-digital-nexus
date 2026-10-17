@@ -13,7 +13,8 @@ export const EXTRA_TRANSLATIONS: Record<"en" | "fr" | "ar", Record<string, strin
     nav_language: "Language",
     hero_badge: "Najeeb Digital Hub · Agency",
     hero_lead: "We build",
-    hero_type_words: "websites|mobile apps|online stores|brands & logos|sales copy & content|marketing that sells|AI assistants",
+    hero_type_words:
+      "websites|mobile apps|online stores|brands & logos|sales copy & content|marketing that sells|AI assistants",
     hero_title_1: "We build websites, apps and brands",
     hero_title_2: "that help you grow.",
     hero_desc:
@@ -28,11 +29,13 @@ export const EXTRA_TRANSLATIONS: Record<"en" | "fr" | "ar", Record<string, strin
     stat_3_sub: "Web, mobile, design and more",
     section_build_badge: "What we do",
     home_services_title: "Our main services",
-    section_build_desc: "Pick a service to see what you get, how long it takes and the starting price.",
+    section_build_desc:
+      "Pick a service to see what you get, how long it takes and the starting price.",
     btn_view_all_departments: "See all 16 services",
     arc_badge: "How it works",
     home_arc_title: "Four simple steps",
-    arc_desc: "You share your idea, we give you a project manager, the team builds in stages, and you approve before you pay.",
+    arc_desc:
+      "You share your idea, we give you a project manager, the team builds in stages, and you approve before you pay.",
     estimator_title: "Check the price",
     estimator_desc: "Choose a service and a size to see the price and time.",
     label_select_service: "1. Choose a service",
@@ -51,7 +54,8 @@ export const EXTRA_TRANSLATIONS: Record<"en" | "fr" | "ar", Record<string, strin
     home_all_case_studies: "See all our case studies",
     cta_badge: "Ready when you are",
     cta_title: "Let's start your project",
-    cta_desc: "Tell us what you need. A project manager will reply with the plan, time and price. No obligation.",
+    cta_desc:
+      "Tell us what you need. A project manager will reply with the plan, time and price. No obligation.",
     tier_starter: "Starter",
     tier_growth: "Growth (most popular)",
     tier_enterprise: "Large business",
@@ -75,7 +79,8 @@ export const EXTRA_TRANSLATIONS: Record<"en" | "fr" | "ar", Record<string, strin
     nav_language: "Langue",
     hero_badge: "Najeeb Digital Hub · Agence",
     hero_lead: "Nous créons",
-    hero_type_words: "des sites web|des applis mobiles|des boutiques en ligne|des marques et logos|des textes qui vendent|du marketing efficace|des assistants IA",
+    hero_type_words:
+      "des sites web|des applis mobiles|des boutiques en ligne|des marques et logos|des textes qui vendent|du marketing efficace|des assistants IA",
     hero_title_1: "Nous créons sites, applis et marques",
     hero_title_2: "qui vous aident à grandir.",
     hero_desc:
@@ -90,11 +95,13 @@ export const EXTRA_TRANSLATIONS: Record<"en" | "fr" | "ar", Record<string, strin
     stat_3_sub: "Web, mobile, design et plus",
     section_build_badge: "Ce que nous faisons",
     home_services_title: "Nos services principaux",
-    section_build_desc: "Choisissez un service pour voir le contenu, le délai et le prix de départ.",
+    section_build_desc:
+      "Choisissez un service pour voir le contenu, le délai et le prix de départ.",
     btn_view_all_departments: "Voir les 16 services",
     arc_badge: "Comment ça marche",
     home_arc_title: "Quatre étapes simples",
-    arc_desc: "Vous partagez votre idée, nous vous donnons un chef de projet, l'équipe avance par étapes et vous validez avant de payer.",
+    arc_desc:
+      "Vous partagez votre idée, nous vous donnons un chef de projet, l'équipe avance par étapes et vous validez avant de payer.",
     estimator_title: "Voir le prix",
     estimator_desc: "Choisissez un service et une taille pour voir le prix et le délai.",
     label_select_service: "1. Choisissez un service",
@@ -113,7 +120,8 @@ export const EXTRA_TRANSLATIONS: Record<"en" | "fr" | "ar", Record<string, strin
     home_all_case_studies: "Voir toutes nos études de cas",
     cta_badge: "Prêts quand vous l'êtes",
     cta_title: "Lançons votre projet",
-    cta_desc: "Dites-nous ce qu'il vous faut. Un chef de projet vous répond avec le plan, le délai et le prix. Sans engagement.",
+    cta_desc:
+      "Dites-nous ce qu'il vous faut. Un chef de projet vous répond avec le plan, le délai et le prix. Sans engagement.",
     cta_primary: "Lancer un projet",
     cta_secondary: "Parler à un chef de projet",
     tier_starter: "Débutant",
@@ -138,7 +146,8 @@ export const EXTRA_TRANSLATIONS: Record<"en" | "fr" | "ar", Record<string, strin
     nav_language: "اللغة",
     hero_badge: "نجيب ديجيتال هب · الوكالة",
     hero_lead: "نصنع",
-    hero_type_words: "المواقع|تطبيقات الجوال|المتاجر الإلكترونية|العلامات والشعارات|المحتوى والكتابة|التسويق الناجح|مساعدي الذكاء الاصطناعي",
+    hero_type_words:
+      "المواقع|تطبيقات الجوال|المتاجر الإلكترونية|العلامات والشعارات|المحتوى والكتابة|التسويق الناجح|مساعدي الذكاء الاصطناعي",
     hero_title_1: "نصنع المواقع والتطبيقات والعلامات",
     hero_title_2: "التي تساعدك على النمو.",
     hero_desc:

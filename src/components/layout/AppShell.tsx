@@ -93,7 +93,11 @@ export const AppShell: React.FC<AppShellProps> = ({ currentView, children }) => 
 
       <AuthModal onNavigatePortal={(portal) => onSelectView(portal as MainNavView)} />
 
-      <InteractiveBriefModal isOpen={isBriefModalOpen} onClose={() => setIsBriefModalOpen(false)} />
+      <InteractiveBriefModal
+        isOpen={isBriefModalOpen}
+        onClose={() => setIsBriefModalOpen(false)}
+        onOpenPortal={() => onSelectView("client-dashboard" as MainNavView)}
+      />
 
       <TalentApplicationModal
         isOpen={isTalentModalOpen}

@@ -163,7 +163,12 @@ describe("4-step delivery arc", () => {
     );
     expect(numerals).toEqual(["01", "02", "03", "04"]);
 
-    for (const title of ["Brief & Scope", "Dedicated PM", "Sprint & Escrow", "Production Launch"]) {
+    for (const title of [
+      "Tell Us Your Idea",
+      "Meet Your Manager",
+      "We Build In Steps",
+      "Launch & Support",
+    ]) {
       expect(container.textContent).toContain(title);
     }
   });

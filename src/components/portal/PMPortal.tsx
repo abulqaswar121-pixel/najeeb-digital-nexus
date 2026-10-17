@@ -8,7 +8,7 @@ import {
   useInternalTalents,
 } from "../../lib/databaseStore";
 import { ServiceDepartment } from "../../types/ndh";
-import { ACTIVE_PROJECTS, INCOMING_LEADS, SERVICE_DEPARTMENTS } from "../../data/mockData";
+import { SERVICE_DEPARTMENTS } from "../../data/mockData";
 import {
   Briefcase,
   Users,
@@ -60,30 +60,29 @@ export const PMPortal: React.FC = () => {
   const pmNavTabs = [
     {
       id: "projects",
-      label: "Active Sprints & Margin Health",
+      label: "Projects",
       icon: <Briefcase className="w-4 h-4" />,
     },
     {
       id: "triage",
-      label: "Brief Triage & Scope Builder",
+      label: "New requests",
       icon: <FileCheck className="w-4 h-4" />,
-      badge: "3 Leads",
     },
     {
       id: "talent_matching",
-      label: "Intelligent Talent Allocator",
+      label: "Find talent",
       icon: <Users className="w-4 h-4" />,
     },
     {
       id: "qa_gates",
-      label: "QA Approval & Revision Gates",
+      label: "Check work",
       icon: <CheckCircle2 className="w-4 h-4" />,
       badge: "1 Gate",
     },
   ];
 
   return (
-    <div className="bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col">
+    <div className="ndh-portal-light bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col">
       {/* Standalone PM Operations Top Bar */}
       <header className="sticky top-0 z-40 flex w-full max-w-full items-center justify-between gap-3 overflow-x-clip border-b border-white/10 bg-eco-navy/95 px-4 py-3.5 backdrop-blur-xl sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-4">
@@ -91,10 +90,10 @@ export const PMPortal: React.FC = () => {
             {/* Open Gateway master mark + agency sector badge */}
             <AgencySectorMark size="sm" className="shrink-0" />
             <span className="truncate font-display text-sm font-semibold text-white sm:text-base">
-              Project Manager Operations Command
+              Project Manager
             </span>
             <span className="hidden shrink-0 rounded px-2 py-0.5 font-mono text-[10px] font-bold min-[420px]:inline-block bg-eco-glow/15 text-eco-glow border border-eco-glow/25">
-              INTERNAL DISPATCH
+              STAFF
             </span>
           </div>
         </div>
@@ -124,162 +123,78 @@ export const PMPortal: React.FC = () => {
               <div>
                 <div className="flex items-center gap-2">
                   <h1 className="text-xl sm:text-2xl font-bold text-white">
-                    Operations Command: {user?.fullName || "PM"}
+                    Welcome, {user?.fullName || "PM"}
                   </h1>
                   <span className="px-2.5 py-0.5 rounded bg-eco-cyan/10 text-eco-cyan font-mono text-[10px] font-bold border border-eco-cyan/25">
-                    Principal Project Manager
+                    Project Manager
                   </span>
                 </div>
                 <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
-                  3 Active Sprints • 2 Pending QA Sign-offs • 99.4% Team On-Time SLA
+                  {liveBriefs.length} project requests
                 </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="p-3 rounded-2xl bg-white/[0.06] border border-white/10 text-xs flex items-center gap-4">
-                <div>
-                  <span className="text-[10px] text-[var(--eco-on-dark-muted)] block">
-                    Agency Margin Guard:
-                  </span>
-                  <span className="font-mono font-bold text-emerald-400">60.0% Protected</span>
-                </div>
-                <div className="w-px h-6 bg-white/[0.08]"></div>
-                <div>
-                  <span className="text-[10px] text-[var(--eco-on-dark-muted)] block">
-                    Active Squads:
-                  </span>
-                  <span className="font-mono font-bold text-white">8 Talents Assigned</span>
-                </div>
               </div>
             </div>
           </div>
 
-          {/* Tab 1: Active Sprints */}
+          {/* Tab 1: Real projects from client requests */}
           {activeTab === "projects" && (
             <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-2">
-                  <span className="text-xs text-[var(--eco-on-dark-muted)]">
-                    Client Revenue Under Management
-                  </span>
-                  <div className="text-2xl font-bold font-mono text-white">$88,500 USD</div>
-                  <div className="text-xs text-[var(--eco-on-dark-muted)] font-mono">
-                    ₦132,750,000 NGN across 3 projects
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {[
+                  { label: "All requests", value: liveBriefs.length },
+                  {
+                    label: "Waiting for a PM",
+                    value: liveBriefs.filter((b) => b.status === "submitted").length,
+                  },
+                  {
+                    label: "In progress",
+                    value: liveBriefs.filter(
+                      (b) => b.status !== "submitted" && b.status !== "completed",
+                    ).length,
+                  },
+                ].map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="p-5 rounded-2xl bg-eco-navy/80 border border-white/10"
+                  >
+                    <span className="text-xs text-[var(--eco-on-dark-muted)]">{stat.label}</span>
+                    <div className="text-2xl font-bold text-white">{stat.value}</div>
                   </div>
-                </div>
-
-                <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-2">
-                  <span className="text-xs text-[var(--eco-on-dark-muted)]">
-                    Talent Cost Allocation
-                  </span>
-                  <div className="text-2xl font-bold font-mono text-white">$34,500 USD</div>
-                  <div className="text-xs text-emerald-400 font-mono">
-                    Gross Agency Margin: $54,000 (61.0%)
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-2">
-                  <span className="text-xs text-[var(--eco-on-dark-muted)]">
-                    Delivery Health Index
-                  </span>
-                  <div className="text-2xl font-bold font-mono text-emerald-400">98.5% Healthy</div>
-                  <div className="text-xs text-[var(--eco-on-dark-muted)]">
-                    0 Critical Blockers • 1 Scope Clarification
-                  </div>
-                </div>
+                ))}
               </div>
-
-              {/* Projects Table with PM Controls */}
-              <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-4">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <h3 className="font-bold text-sm text-white">Managed Client Sprints</h3>
-                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-mono">
-                    Confidential Financial Controls Active
-                  </span>
-                </div>
-
-                <div className="space-y-4">
-                  {ACTIVE_PROJECTS.map((proj) => (
-                    <div
-                      key={proj.id}
-                      className="p-5 rounded-xl bg-white/[0.06] border border-white/10 space-y-4 text-xs"
-                    >
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono text-xs text-eco-cyan font-bold">
-                              {proj.code}
-                            </span>
-                            <span className="font-bold text-sm text-white">{proj.title}</span>
-                            <span className="px-2 py-0.5 rounded bg-eco-cyan/10 text-eco-cyan font-mono text-[10px]">
-                              {proj.department.replace("_", " ").toUpperCase()}
-                            </span>
-                          </div>
-                          <p className="text-[var(--eco-on-dark-muted)] mt-0.5">
-                            Client: <strong>{proj.organizationName}</strong> • Target:{" "}
-                            {proj.targetEndDate}
+              <div className="p-5 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-3">
+                <h3 className="font-bold text-sm text-white">Projects</h3>
+                {liveBriefs.length === 0 ? (
+                  <p className="text-xs text-[var(--eco-on-dark-muted)]">
+                    No projects yet. New client requests will show here.
+                  </p>
+                ) : (
+                  <ul className="divide-y divide-white/10">
+                    {liveBriefs.map((brief) => (
+                      <li
+                        key={brief.id}
+                        className="py-3 flex flex-wrap items-center justify-between gap-2 text-xs"
+                      >
+                        <div className="min-w-0">
+                          <p className="font-semibold text-white break-words">
+                            {brief.projectName}
+                          </p>
+                          <p className="text-[var(--eco-on-dark-muted)] break-words">
+                            {brief.organizationName} • {brief.timelineWeeks}
                           </p>
                         </div>
-
-                        <div className="flex items-center gap-3">
-                          <div className="text-right">
-                            <div className="font-mono font-bold text-white">
-                              Client: ${proj.totalClientBudgetUSD.toLocaleString()} | Margin:{" "}
-                              {proj.grossMarginPercentage}%
-                            </div>
-                            <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
-                              Talent Payout Cap: ${proj.totalTalentCostUSD.toLocaleString()} USD
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Progress Bar & Milestone Status */}
-                      <div className="space-y-1.5">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-[var(--eco-on-dark-muted)]">Sprint Progress:</span>
-                          <span className="font-mono text-eco-cyan font-semibold">
-                            {proj.progressPercentage}%
-                          </span>
-                        </div>
-                        <div className="w-full bg-eco-dark rounded-full h-2 overflow-hidden border border-white/10">
-                          <div
-                            className="bg-eco-cyan/20 h-full rounded-full"
-                            style={{ width: `${proj.progressPercentage}%` }}
-                          ></div>
-                        </div>
-                      </div>
-
-                      {/* Quick PM Actions */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-white/10">
-                        <div className="flex items-center gap-2 text-[var(--eco-on-dark-muted)]">
-                          <Lock className="w-3.5 h-3.5 text-emerald-400" />
-                          <span>Client cannot see talent identities or internal margin</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => setActiveTab("talent_matching")}
-                            className="px-3 py-1.5 rounded-lg bg-white/[0.08] text-slate-200 hover:bg-white/12"
-                          >
-                            Manage Squad Talents
-                          </button>
-                          <button
-                            onClick={() => setActiveTab("qa_gates")}
-                            className="px-3.5 py-1.5 rounded-lg bg-primary hover:bg-eco-cyan/20 text-white font-semibold"
-                          >
-                            Review QA Deliverables
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                        <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 text-white capitalize">
+                          {brief.status.replace(/_/g, " ")}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
           )}
 
-          {/* Tab 2: Brief Triage & Scope Builder */}
+          {/* Tab 2: Brief Review & Scope Builder */}
           {activeTab === "triage" && (
             <div className="space-y-6">
               {/* Live submissions from the public "Start Your Project" wizard and
@@ -436,88 +351,6 @@ export const PMPortal: React.FC = () => {
                     ))}
                   </div>
                 )}
-              </div>
-
-              <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-4">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <h3 className="font-bold text-sm text-white">
-                    Incoming Brief Qualification & Scope Builder
-                  </h3>
-                  <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-mono text-[10px] font-bold uppercase">
-                    Sample Data — Demo Leads
-                  </span>
-                </div>
-
-                <div className="space-y-4">
-                  {INCOMING_LEADS.map((lead) => (
-                    <div
-                      key={lead.id}
-                      className="p-5 rounded-xl bg-white/[0.06] border border-white/10 space-y-3 text-xs"
-                    >
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-sm text-white">{lead.companyName}</span>
-                          <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono text-[10px] font-bold">
-                            Score: {lead.score}/100
-                          </span>
-                          {lead.ndaRequested && (
-                            <span className="px-2 py-0.5 rounded bg-eco-cyan/10 text-eco-cyan font-mono text-[10px]">
-                              NDA Requested
-                            </span>
-                          )}
-                        </div>
-                        <span className="text-[var(--eco-on-dark-muted)] font-mono">
-                          Source: {lead.source}
-                        </span>
-                      </div>
-
-                      <p className="text-slate-200 leading-relaxed">{lead.projectOverview}</p>
-
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1 text-[11px]">
-                        <div>
-                          <span className="text-[var(--eco-on-dark-muted)] block text-[10px]">
-                            Department:
-                          </span>
-                          <span className="font-semibold text-white uppercase">
-                            {lead.department.replace("_", " ")}
-                          </span>
-                        </div>
-                        <div>
-                          <span className="text-[var(--eco-on-dark-muted)] block text-[10px]">
-                            Budget Range:
-                          </span>
-                          <span className="font-semibold text-emerald-400 font-mono">
-                            {lead.budgetRange}
-                          </span>
-                        </div>
-                        <div>
-                          <span className="text-[var(--eco-on-dark-muted)] block text-[10px]">
-                            Timeline:
-                          </span>
-                          <span className="font-semibold text-white">{lead.timeline}</span>
-                        </div>
-                        <div>
-                          <span className="text-[var(--eco-on-dark-muted)] block text-[10px]">
-                            Contact:
-                          </span>
-                          <span className="font-semibold text-white">
-                            {lead.contactName} ({lead.country})
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-3 border-t border-white/10">
-                        <span className="text-[var(--eco-on-dark-muted)]">
-                          Auto-assigned PM: {user?.fullName || "You"}
-                        </span>
-                        <button className="px-4 py-2 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-semibold flex items-center gap-1.5 shadow-md">
-                          <Sparkles className="w-3.5 h-3.5" />
-                          <span>Draft Formal Proposal & Milestone Schedule</span>
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
           )}
@@ -726,22 +559,9 @@ export const PMPortal: React.FC = () => {
 
       {/* Dedicated Standalone PM Operations System Footer */}
       <footer className="mt-auto border-t border-white/10 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 text-eco-glow font-mono text-[11px]">
-              <div className="w-2 h-2 rounded-full bg-eco-glow animate-pulse" />
-              <span>NDH PM Operational Command Active</span>
-            </div>
-            <span className="text-[var(--eco-on-dark-muted)]/70 hidden sm:inline">•</span>
-            <span className="text-[11px] text-[var(--eco-on-dark-muted)]">
-              Active Sprints: <strong className="text-slate-200">12 Projects</strong> • Margin
-              Health: <strong className="text-emerald-400">61.8% Avg</strong>
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-[11px] text-[var(--eco-on-dark-muted)]">
-            <span>Sovereign Bureau Isolation Protocol Active</span>
-          </div>
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+          <span>NDH Agency · Project manager workspace</span>
+          <span>Need help? hello@ndh.com.ng</span>
         </div>
       </footer>
     </div>

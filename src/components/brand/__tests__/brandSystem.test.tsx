@@ -56,9 +56,7 @@ describe("Header brand lockup", () => {
     const { container } = render(<BrandLogo size="md" />);
     expect(container.querySelector(".ndh-brand-wordmark")).toHaveTextContent(/NDH Agency/i);
     expect(container.querySelector(".ndh-brand-sublabel")).toHaveTextContent(/Najeeb Digital Hub/i);
-    expect(container.querySelector(".ndh-brand-badge")).toHaveTextContent(
-      /Managed Digital Bureau/i,
-    );
+    expect(container.querySelector(".ndh-brand-badge")).toHaveTextContent(/Digital Studio/i);
   });
 
   it("renders the Open Gateway mark with the agency sector badge", () => {

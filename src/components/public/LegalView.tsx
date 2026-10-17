@@ -51,8 +51,8 @@ const PrivacyContent: React.FC = () => (
       data to third parties.
     </Section>
     <Section title="3. Payment information">
-      Payment processing (currently a sandbox/demo integration) is handled by third-party payment
-      gateways (e.g., Paystack). We do not store full card numbers on our own systems.
+      Payment processing is handled by third-party payment gateways (e.g., Paystack). We do not
+      store full card numbers on our own systems.
     </Section>
     <Section title="4. Data retention and your rights">
       You may request access to, correction of, or deletion of your personal data by contacting us

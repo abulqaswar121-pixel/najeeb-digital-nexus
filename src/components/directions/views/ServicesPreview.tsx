@@ -76,7 +76,7 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWiz
           <p className="max-w-3xl text-sm leading-relaxed sm:text-base">
             From budget-friendly starter MVPs and fast websites to enterprise FinTech
             infrastructure. Every project is assigned a dedicated Project Manager with guaranteed
-            milestones and IP escrow.
+            milestones and IP safe payment.
           </p>
 
           {/* Currency is auto-detected from your browser locale; override anytime from the

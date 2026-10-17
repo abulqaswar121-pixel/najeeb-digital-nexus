@@ -68,7 +68,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
             <span
               className={`ndh-brand-badge hidden shrink-0 items-center rounded-full px-1.5 py-[1px] font-mono font-bold uppercase sm:inline-flex ${subLabelSizes[size]}`}
             >
-              Managed Digital Bureau
+              Digital Studio
             </span>
           )}
         </span>

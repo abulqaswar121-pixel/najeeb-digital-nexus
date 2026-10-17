@@ -44,7 +44,8 @@ import {
 // every other (i.e. every real) client sees their own actual (new/empty)
 // account state instead.
 function isSampleDemoWorkspace(user: ReturnType<typeof useAuth>["user"]): boolean {
-  return Boolean(user?.isDemoAccount && user?.organizationId === "org-kobopay");
+  void user;
+  return false; // Sample workspace retired: every client sees only their real data.
 }
 
 interface ClientPortalProps {
@@ -199,7 +200,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
     },
     {
       id: "invoices",
-      label: "Invoices & Escrow",
+      label: "Invoices & Safe Payment",
       icon: <CreditCard className="w-4 h-4" />,
     },
     {
@@ -229,7 +230,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
   ];
 
   return (
-    <div className="bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col">
+    <div className="ndh-portal-light bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col">
       {/* Standalone Client Workspace Top Bar */}
       <header className="sticky top-0 z-40 flex w-full max-w-full items-center justify-between gap-3 overflow-x-clip border-b border-white/10 bg-eco-navy/95 px-4 py-3.5 backdrop-blur-xl sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-4">
@@ -303,7 +304,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                   )}
                 </div>
                 <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
-                  Authorized User: <strong className="text-white">{displayUserName}</strong>{" "}
+                  Signed in as: <strong className="text-white">{displayUserName}</strong>{" "}
                   {isDemoWorkspace ? (
                     <>
                       • PM: <strong className="text-eco-cyan">Tariq Al-Najeeb</strong>
@@ -328,7 +329,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-transform hover:scale-105"
               >
                 <PlusCircle className="w-3.5 h-3.5" />
-                <span>Drop Custom Task / Budget</span>
+                <span>Add a small task</span>
               </button>
 
               <button
@@ -336,7 +337,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 className="px-4 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-md shadow-cyan-500/30 flex items-center gap-1.5 transition-transform hover:scale-105"
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Submit Full Brief</span>
+                <span>New project</span>
               </button>
             </div>
           </div>
@@ -360,13 +361,13 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
 
                   <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
                     <span className="text-xs text-[var(--eco-on-dark-muted)]">
-                      Total Escrow Deposited
+                      Total Safe Payment Deposited
                     </span>
                     <div className="text-2xl font-bold font-mono text-white">
                       ${activeProject.totalClientBudgetUSD.toLocaleString()}
                     </div>
                     <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
-                      100% Escrow Protected
+                      100% Safe Payment Protected
                     </div>
                   </div>
 
@@ -409,7 +410,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
 
                     <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
                       <span className="text-xs text-[var(--eco-on-dark-muted)]">
-                        Total Paid to Escrow
+                        Total paid
                       </span>
                       <div className="text-2xl font-bold font-mono text-white">
                         {myTxTotalsLabel || "₦0"}
@@ -463,7 +464,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                           className="px-5 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-md shadow-cyan-500/30 flex items-center gap-1.5"
                         >
                           <Sparkles className="w-3.5 h-3.5" />
-                          <span>Submit Full Brief</span>
+                          <span>New project</span>
                         </button>
                         <button
                           onClick={() => setActiveTab("custom_task")}
@@ -564,7 +565,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                     }}
                     className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg"
                   >
-                    Proceed to Escrow Deposit
+                    Proceed to Safe Payment Deposit
                   </button>
                 </div>
               ) : (
@@ -615,7 +616,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                     type="submit"
                     className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.01]"
                   >
-                    <span>Submit Task to PM &amp; Request Escrow Deposit</span>
+                    <span>Submit Task to PM &amp; Request Safe Payment Deposit</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </form>
@@ -823,7 +824,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                   </div>
                   <p>
                     Discounts and cashback credits are generated only upon verified first milestone
-                    escrow funding. This ensures 100% genuine referrals and immediate project
+                    safe payment funding. This ensures 100% genuine referrals and immediate project
                     execution.
                   </p>
                 </div>
@@ -863,7 +864,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                               </span>
                             ) : (
                               <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono font-bold text-[10px]">
-                                Pending First Milestone Escrow
+                                Pending First Milestone Safe Payment
                               </span>
                             )}
                           </div>
@@ -929,8 +930,8 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                         }`}
                       >
                         {milestoneApproved
-                          ? "Deliverable Approved & Escrow Released ✓"
-                          : "Approve Deliverable & Release Escrow"}
+                          ? "Deliverable Approved & Safe Payment Released ✓"
+                          : "Approve Deliverable & Release Safe Payment"}
                       </button>
                     </div>
                     {milestoneApprovalError && (
@@ -956,13 +957,13 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
             <div className="p-6 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
               <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <h3 className="font-bold text-base text-white">
-                  Escrow Invoices &amp; Billing History
+                  Safe Payment Invoices &amp; Billing History
                 </h3>
                 <button
                   onClick={() => setIsPaymentModalOpen(true)}
                   className="px-4 py-2 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-md"
                 >
-                  Make Escrow Deposit
+                  Make Safe Payment Deposit
                 </button>
               </div>
 
@@ -1008,7 +1009,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                   <h3 className="font-bold text-base text-white">No invoices yet</h3>
                   <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
                     Once your first project milestone is scheduled, invoices will appear here. You
-                    can also make an ad-hoc escrow deposit anytime via the button above.
+                    can also make an ad-hoc safe payment deposit anytime via the button above.
                   </p>
                 </div>
               ) : (
@@ -1165,39 +1166,19 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
         </div>
       </div>
 
-      {/* Escrow Deposit Modal */}
+      {/* Safe Payment Deposit Modal */}
       <PaystackPaymentModal
         isOpen={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}
-        projectName={customTaskTitle || selectedPaymentInvoice || "Milestone Escrow Deposit"}
+        projectName={customTaskTitle || selectedPaymentInvoice || "Milestone Safe Payment Deposit"}
         defaultAmount={Number(customBudgetAmount) || 75000}
       />
 
       {/* Dedicated Standalone Client Portal System Footer */}
       <footer className="mt-auto border-t border-white/10 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px]">
-              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>NDH Client Secure Rails Active</span>
-            </div>
-            <span className="text-[var(--eco-on-dark-muted)]/70 hidden sm:inline">•</span>
-            <span className="text-[11px] text-[var(--eco-on-dark-muted)]">
-              Assigned PM:{" "}
-              <strong className="text-slate-200">
-                {isDemoWorkspace
-                  ? "Tariq Al-Najeeb"
-                  : myLatestBrief && myLatestBrief.assignedPM !== "Unassigned"
-                    ? myLatestBrief.assignedPM
-                    : "Not yet assigned"}
-              </strong>{" "}
-              (SLA &lt;15m)
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-[11px] text-[var(--eco-on-dark-muted)]">
-            <span>NDA-Protected • Dual-Key Escrow Milestones</span>
-          </div>
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+          <span>NDH Agency · Client workspace</span>
+          <span>Need help? hello@ndh.com.ng</span>
         </div>
       </footer>
     </div>

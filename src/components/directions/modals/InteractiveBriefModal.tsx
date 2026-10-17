@@ -3,18 +3,25 @@ import { useModalA11y } from "../../../hooks/use-modal-a11y";
 import { ServiceDepartment, ServiceDepartmentInfo } from "../../../types/ndh";
 import { SERVICE_DEPARTMENTS } from "../../../data/mockData";
 import { dbService } from "../../../lib/databaseStore";
+import { useAuth, registerClientAccount, loginWithCredentials } from "../../../lib/authStore";
 import { useCurrencyLanguage } from "../../../lib/currencyLanguageStore";
 import { X, Sparkles, ArrowRight, ArrowLeft, CheckCircle2, ShieldCheck, Globe } from "lucide-react";
 
 interface InteractiveBriefModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenPortal?: () => void;
 }
 
 export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
   isOpen,
   onClose,
+  onOpenPortal,
 }) => {
+  const { user } = useAuth();
+  const [password, setPassword] = useState("");
+  const [accountError, setAccountError] = useState<string | null>(null);
+  const [creatingAccount, setCreatingAccount] = useState(false);
   const { currency, detectedCountry, getRegionalPricing } = useCurrencyLanguage();
 
   const [step, setStep] = useState<number>(1);
@@ -56,7 +63,7 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
         budgetAmount: pricingEstimate.price,
         currency,
         timelineWeeks: timeline,
-        clientEmail: contactEmail || "client@example.com",
+        clientEmail: contactEmail,
         ...(contactPhone ? { clientPhone: contactPhone } : {}),
         briefDetails: projectOverview || `Scope: ${pricingEstimate.starterDesc}`,
       });
@@ -69,14 +76,51 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
     }
   };
 
+  const finishAndOpenPortal = () => {
+    onClose();
+    setSubmitted(false);
+    setStep(1);
+    onOpenPortal?.();
+  };
+
+  const handleCreateAccount = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAccountError(null);
+    if (password.length < 8) {
+      setAccountError("Your password needs at least 8 characters.");
+      return;
+    }
+    setCreatingAccount(true);
+    const result = await registerClientAccount({
+      fullName: contactName || companyName || "Client",
+      email: contactEmail,
+      password,
+      organizationName: companyName || contactName || "My Business",
+      ...(contactPhone ? { phone: contactPhone } : {}),
+    });
+    if (!result.success) {
+      // The email may already have an account — try signing in instead.
+      const login = await loginWithCredentials(contactEmail, password);
+      setCreatingAccount(false);
+      if (!login.success) {
+        setAccountError(
+          "This email already has an account. Enter its password, or sign in from the top menu.",
+        );
+        return;
+      }
+    }
+    setCreatingAccount(false);
+    finishAndOpenPortal();
+  };
+
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-label="Project brief wizard"
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto font-sans"
+      className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 font-sans"
     >
-      <div className="relative w-full max-w-2xl bg-card border border-border rounded-2xl shadow-2xl overflow-hidden my-8">
+      <div className="relative w-full min-w-0 max-w-2xl max-h-[calc(100dvh-1.5rem)] overflow-y-auto overflow-x-hidden overscroll-contain bg-card border border-border rounded-2xl shadow-2xl">
         {/* Modal Header */}
         <div className="px-6 py-4 border-b border-border flex items-center justify-between bg-muted/40">
           <div className="flex items-center gap-2">
@@ -84,12 +128,8 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
               N
             </div>
             <div>
-              <h3 className="font-bold text-sm text-foreground">
-                NDH Agency • Request a Tailored Proposal
-              </h3>
-              <p className="text-[10px] text-muted-foreground">
-                Step {step} of 3 • Tailored Scoping Engine
-              </p>
+              <h3 className="font-bold text-sm text-foreground">Start a project</h3>
+              <p className="text-[10px] text-muted-foreground">Step {step} of 3</p>
             </div>
           </div>
 
@@ -109,42 +149,88 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
             </div>
 
             <div className="space-y-1">
-              <h4 className="text-xl font-bold text-foreground">Brief Successfully Received</h4>
+              <h4 className="text-xl font-bold text-foreground">We got your project request</h4>
               <p className="text-xs text-muted-foreground max-w-md mx-auto">
-                Your brief has been logged in the NDH Operations Command center. A project manager
-                will review it and reach out directly.
+                A project manager will review it and reply within 24 hours.
               </p>
             </div>
 
             <div className="p-4 rounded-xl bg-muted/50 border border-border text-left space-y-2 text-xs max-w-md mx-auto">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Assigned Department:</span>
+                <span className="text-muted-foreground">Service:</span>
                 <span className="font-semibold text-foreground">{currentDept.name}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Assigned PM Lead:</span>
+                <span className="text-muted-foreground">Project manager:</span>
                 <span className="font-semibold text-foreground">
                   {submittedAssignedPM === "Unassigned" ? "Not yet assigned" : submittedAssignedPM}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Mutual NDA Status:</span>
+                <span className="text-muted-foreground">Privacy:</span>
                 <span className="font-semibold text-emerald-500 font-mono">
-                  {ndaRequested ? "Mutual NDA Draft Attached" : "Standard Confidentiality"}
+                  {ndaRequested ? "NDA included" : "Kept private"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Proposal Delivery SLA:</span>
-                <span className="font-semibold text-primary font-mono">Within 24 Hours</span>
+                <span className="text-muted-foreground">Plan and price:</span>
+                <span className="font-semibold text-primary font-mono">Within 24 hours</span>
               </div>
             </div>
 
-            <button
-              onClick={onClose}
-              className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-xs hover:bg-primary/90"
-            >
-              Close & Return to Direction Studio
-            </button>
+            {user ? (
+              <button
+                onClick={finishAndOpenPortal}
+                className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-xs hover:bg-primary/90"
+              >
+                Open my portal
+              </button>
+            ) : (
+              <form
+                onSubmit={handleCreateAccount}
+                className="max-w-md mx-auto text-left space-y-3 p-4 rounded-xl border border-border bg-background"
+              >
+                <div>
+                  <p className="font-semibold text-sm text-foreground">
+                    Last step: create your account
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Track your project, pay, and chat with your project manager in your portal.
+                  </p>
+                </div>
+                <p className="text-xs text-muted-foreground break-all">
+                  Email: <span className="font-semibold text-foreground">{contactEmail}</span>
+                </p>
+                <label className="block text-xs font-semibold text-foreground">
+                  Choose a password
+                  <input
+                    type="password"
+                    required
+                    minLength={8}
+                    autoComplete="new-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="mt-1 w-full px-3 py-2 rounded-lg border border-border bg-background text-sm"
+                    placeholder="At least 8 characters"
+                  />
+                </label>
+                {accountError && <p className="text-xs text-destructive">{accountError}</p>}
+                <button
+                  type="submit"
+                  disabled={creatingAccount}
+                  className="w-full px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-xs hover:bg-primary/90 disabled:opacity-60"
+                >
+                  {creatingAccount ? "Creating your account..." : "Create account & open my portal"}
+                </button>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="w-full text-xs text-muted-foreground underline"
+                >
+                  Not now
+                </button>
+              </form>
+            )}
           </div>
         ) : (
           /* Multi-Step Wizard Form */
@@ -388,7 +474,7 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
                   >
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>
-                      {isSubmitting ? "Submitting..." : "Submit Brief & Dispatch PM Triage"}
+                      {isSubmitting ? "Submitting..." : "Submit Brief & Dispatch PM Review"}
                     </span>
                   </button>
                 </div>
