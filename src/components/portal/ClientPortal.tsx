@@ -970,14 +970,104 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                     )}
                   </div>
                 </>
-              ) : (
+              ) : !myLatestBrief ? (
                 <div className="text-center py-10 space-y-2">
                   <CheckCircle2 className="w-10 h-10 text-[var(--eco-on-dark-muted)]/70 mx-auto" />
-                  <h3 className="font-bold text-base text-white">No deliverables yet</h3>
+                  <h3 className="font-bold text-base text-white">No project yet</h3>
                   <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
-                    Once your PM assigns milestones to your project, QA-verified deliverables will
-                    appear here for your inspection and approval.
+                    Start a project first -- your milestones will appear here once your PM adds
+                    them.
                   </p>
+                </div>
+              ) : projectMilestones.length === 0 ? (
+                <div className="text-center py-10 space-y-2">
+                  <CheckCircle2 className="w-10 h-10 text-[var(--eco-on-dark-muted)]/70 mx-auto" />
+                  <h3 className="font-bold text-base text-white">No milestones yet</h3>
+                  <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
+                    Your PM is planning the steps for "{myLatestBrief.projectName}". They will
+                    appear here as soon as they are added.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <div className="border-b border-white/10 pb-4">
+                    <h3 className="font-bold text-base text-white break-words">
+                      {myLatestBrief.projectName} — steps &amp; approvals
+                    </h3>
+                    <p className="text-xs text-[var(--eco-on-dark-muted)]">
+                      Check each finished step, then approve it to release its payment.
+                    </p>
+                  </div>
+                  {projectMilestones.map((ms, idx) => {
+                    const approval = projectApprovals.find((a) => a.milestoneIndex === idx);
+                    const isApproved = ms.status === "approved" || !!approval?.milestoneApproved;
+                    const isReady = !!approval?.qaApproved || ms.status === "qa_ready";
+                    return (
+                      <div
+                        key={ms.id}
+                        className="p-4 rounded-2xl bg-white/[0.06] border border-white/10 space-y-2 text-xs"
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <span className="font-bold text-white break-words">
+                            {idx + 1}. {ms.title}
+                          </span>
+                          <span
+                            className={`px-2 py-0.5 rounded-full font-mono text-[10px] font-bold ${
+                              isApproved
+                                ? "bg-emerald-500/20 text-emerald-300"
+                                : isReady
+                                  ? "bg-eco-cyan/15 text-eco-cyan"
+                                  : "bg-white/[0.08] text-slate-200"
+                            }`}
+                          >
+                            {isApproved
+                              ? "Approved ✓"
+                              : isReady
+                                ? "Ready for your review"
+                                : "In progress"}
+                          </span>
+                        </div>
+                        <p className="text-[var(--eco-on-dark-muted)] break-words">
+                          {ms.amount ? `${ms.amount} ${ms.currency} • ` : ""}
+                          {ms.dueDate ? `Due ${ms.dueDate}` : ""}
+                        </p>
+                        {ms.description && (
+                          <p className="text-slate-200 leading-relaxed break-words">
+                            {ms.description}
+                          </p>
+                        )}
+                        {isReady && !isApproved && (
+                          <button
+                            onClick={async () => {
+                              if (!myLatestBrief) return;
+                              setApprovingIndex(idx);
+                              setMilestoneApprovalError(null);
+                              try {
+                                await dbService.approveMilestoneAsClient(myLatestBrief.id, idx);
+                              } catch (err) {
+                                setMilestoneApprovalError(
+                                  err instanceof Error
+                                    ? err.message
+                                    : "Could not approve this step.",
+                                );
+                              } finally {
+                                setApprovingIndex(null);
+                              }
+                            }}
+                            disabled={approvingIndex === idx}
+                            className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold text-xs"
+                          >
+                            {approvingIndex === idx
+                              ? "Approving..."
+                              : "Approve & release payment"}
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+                  {milestoneApprovalError && (
+                    <p className="text-xs text-red-400">{milestoneApprovalError}</p>
+                  )}
                 </div>
               )}
             </div>
