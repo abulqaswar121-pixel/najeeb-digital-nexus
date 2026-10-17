@@ -947,22 +947,9 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
       {/* Standalone Talent Workspace System Footer */}
       <footer className="mt-auto border-t border-white/10 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px]">
-              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Talent Privacy Shield Active</span>
-            </div>
-            <span className="text-[var(--eco-on-dark-muted)]/70 hidden sm:inline">•</span>
-            <span className="text-[11px] text-[var(--eco-on-dark-muted)]">
-              Assigned PM: <strong className="text-slate-200">Your PM</strong> • Next Payout:{" "}
-              <strong className="text-emerald-400">Oct 15, 2026</strong>
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-[11px] text-[var(--eco-on-dark-muted)]">
-            <span>Automated NIBSS / Wise Direct Deposit</span>
-          </div>
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+          <span>NDH Agency · Talent workspace</span>
+          <span>Need help? hello@ndh.com.ng</span>
         </div>
       </footer>
     </div>

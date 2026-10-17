@@ -386,7 +386,7 @@ export const AdminPortal: React.FC = () => {
   const splitResult = calculateRevenueSplit(sampleBudget, Math.round(sampleBudget / 1500));
 
   const adminNavTabs = [
-    { id: "overview", label: "Platform Telemetry" },
+    { id: "overview", label: "Overview" },
     {
       id: "pipeline",
       label: "Live Lead Pipeline",
@@ -434,7 +434,7 @@ export const AdminPortal: React.FC = () => {
               Admin Dashboard
             </span>
             <span className="hidden shrink-0 rounded px-2 py-0.5 font-mono text-[10px] font-bold min-[420px]:inline-block bg-amber-500/20 text-amber-300 border border-amber-500/30">
-              DUAL-KEY AUTHORITY
+              ADMIN
             </span>
           </div>
         </div>
@@ -470,12 +470,11 @@ export const AdminPortal: React.FC = () => {
                     Super Admin
                   </span>
                   <span className="px-2.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono text-[10px]">
-                    Root Access Active
+                    Owner
                   </span>
                 </div>
                 <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
-                  Full Website CMS Control • Profit Split Governance • Talent Ranks Desk • Bi-Weekly
-                  Payout Engine
+                  Manage projects, team, payments and website content.
                 </p>
               </div>
             </div>
@@ -491,90 +490,47 @@ export const AdminPortal: React.FC = () => {
             </div>
           </div>
 
-          {/* TAB 1: Platform Telemetry */}
+          {/* TAB 1: Overview with real numbers only */}
           {activeTab === "overview" && (
             <div className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="p-6 rounded-3xl bg-eco-navy/80 border border-white/10 space-y-1">
-                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-semibold">
-                    Total Platform GMV
-                  </span>
-                  <div className="text-2xl font-bold font-mono text-white">$188,500 USD</div>
-                  <div className="text-[10px] text-emerald-400 font-mono">
-                    ₦282,750,000 NGN Equivalent
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  { label: "Project requests", value: String(liveBriefs.length) },
+                  {
+                    label: "Waiting for a PM",
+                    value: String(liveBriefs.filter((b) => b.status === "submitted").length),
+                  },
+                  {
+                    label: "Paid payments",
+                    value: String(liveTransactions.filter((t) => t.status === "success").length),
+                  },
+                  { label: "Talents", value: String(internalTalents.length) },
+                ].map((stat) => (
+                  <div key={stat.label} className="p-5 rounded-2xl bg-eco-navy/80 border border-white/10">
+                    <span className="text-xs text-[var(--eco-on-dark-muted)]">{stat.label}</span>
+                    <div className="text-2xl font-bold text-white">{stat.value}</div>
                   </div>
-                </div>
-
-                <div className="p-6 rounded-3xl bg-eco-navy/80 border border-white/10 space-y-1">
-                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-semibold">
-                    Admin / Owner Net Reserve
-                  </span>
-                  <div className="text-2xl font-bold font-mono text-amber-400">$84,825 USD</div>
-                  <div className="text-[10px] text-amber-300 font-mono">
-                    45% Guaranteed Retained Margin
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-3xl bg-eco-navy/80 border border-white/10 space-y-1">
-                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-semibold">
-                    Active Vetted Talents
-                  </span>
-                  <div className="text-2xl font-bold font-mono text-white">140 Talents</div>
-                  <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
-                    16 Specialized Global Departments
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-3xl bg-eco-navy/80 border border-white/10 space-y-1">
-                  <span className="text-xs text-[var(--eco-on-dark-muted)] font-semibold">
-                    Next Bi-Weekly Payout Cycle
-                  </span>
-                  <div className="text-2xl font-bold font-mono text-emerald-400">Oct 15, 2026</div>
-                  <div className="text-[10px] text-[var(--eco-on-dark-muted)] font-mono">
-                    NIBSS &amp; Paystack Rails Ready
-                  </div>
-                </div>
+                ))}
               </div>
-
-              {/* Live Project Health Matrix */}
-              <div className="p-6 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-4">
-                <h3 className="font-bold text-sm text-white">
-                  Live Client Projects & Milestone Safe Payment Status
-                </h3>
-                <div className="space-y-3">
-                  {ACTIVE_PROJECTS.map((proj) => (
-                    <div
-                      key={proj.id}
-                      className="p-4 rounded-2xl bg-white/[0.06] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs"
-                    >
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono text-eco-cyan font-bold">{proj.code}</span>
-                          <span className="font-bold text-white text-sm">{proj.title}</span>
-                          <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                            {proj.status.replace("_", " ").toUpperCase()}
-                          </span>
+              <div className="p-5 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-3">
+                <h3 className="font-bold text-sm text-white">Latest project requests</h3>
+                {liveBriefs.length === 0 ? (
+                  <p className="text-xs text-[var(--eco-on-dark-muted)]">No project requests yet.</p>
+                ) : (
+                  <ul className="divide-y divide-white/10">
+                    {liveBriefs.slice(0, 8).map((brief) => (
+                      <li key={brief.id} className="py-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+                        <div className="min-w-0">
+                          <p className="font-semibold text-white break-words">{brief.projectName}</p>
+                          <p className="text-[var(--eco-on-dark-muted)] break-all">{brief.clientEmail}</p>
                         </div>
-                        <div className="text-[var(--eco-on-dark-muted)] text-[11px] mt-1">
-                          Client:{" "}
-                          <strong className="text-slate-200">{proj.organizationName}</strong> • PM:{" "}
-                          <strong className="text-eco-glow">{proj.assignedPMName}</strong>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-4 shrink-0 font-mono">
-                        <div className="text-right">
-                          <div className="text-slate-200 font-bold">
-                            ${proj.totalClientBudgetUSD.toLocaleString()} USD
-                          </div>
-                          <div className="text-emerald-400 text-[10px]">
-                            {proj.grossMarginPercentage}% Margin
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                        <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 text-white capitalize">
+                          {brief.status.replace(/_/g, " ")}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
           )}
@@ -2035,22 +1991,9 @@ export const AdminPortal: React.FC = () => {
 
       {/* Standalone Admin Dashboard System Footer */}
       <footer className="mt-auto border-t border-white/10 bg-eco-dark px-4 sm:px-6 lg:px-8 py-4 text-xs text-[var(--eco-on-dark-muted)]">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 text-red-400 font-mono text-[11px]">
-              <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
-              <span>Root Governance Authority Active</span>
-            </div>
-            <span className="text-[var(--eco-on-dark-muted)]/70 hidden sm:inline">•</span>
-            <span className="text-[11px] text-[var(--eco-on-dark-muted)]">
-              Bi-Weekly Payout Cycle: <strong className="text-emerald-400">Oct 15, 2026</strong> •
-              NIBSS Dual-Approval Verified
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-[11px] text-[var(--eco-on-dark-muted)]">
-            <span>Server Health: 99.99% Uptime</span>
-          </div>
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+          <span>NDH Agency · Admin workspace</span>
+          <span>Need help? hello@ndh.com.ng</span>
         </div>
       </footer>
     </div>
