@@ -52,10 +52,10 @@ const ensureWidget = (): Promise<void> => {
     container.setAttribute("aria-hidden", "true");
     document.body.appendChild(container);
 
-    (window as unknown as Record<string, unknown>).googleTranslateElementInit = () => {
+    (window as unknown as Record<string, unknown>)["googleTranslateElementInit"] = () => {
       const w = window as unknown as Record<string, any>;
-      if (w.google?.translate?.TranslateElement) {
-        new w.google.translate.TranslateElement(
+      if (w["google"]?.translate?.TranslateElement) {
+        new w["google"].translate.TranslateElement(
           {
             pageLanguage: "en",
             includedLanguages: "en,fr,ar",
