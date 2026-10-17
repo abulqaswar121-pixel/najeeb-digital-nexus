@@ -41,7 +41,14 @@ export interface SeedAccount extends Omit<UserRecord, "passwordHash"> {
 
 export const DEMO_ACCOUNT_PASSWORD = "NDHDemo2026!";
 
-export const SEED_ACCOUNTS: SeedAccount[] = [
+// Sample accounts/data only load in automatic tests. The live site starts clean.
+export const IS_TEST_RUN =
+  typeof process !== "undefined" && !!process.env && !!process.env["VITEST"];
+
+/** The one real PM who covers all services until more staff join. */
+export const DEFAULT_PM_EMAIL = "abulqaswar121@gmail.com";
+
+const ALL_SEED_ACCOUNTS: SeedAccount[] = [
   {
     id: "user-client-folake",
     fullName: "Dr. Folake Adeleke",
@@ -133,6 +140,10 @@ export const SEED_ACCOUNTS: SeedAccount[] = [
   },
 ];
 
+export const SEED_ACCOUNTS: SeedAccount[] = IS_TEST_RUN
+  ? ALL_SEED_ACCOUNTS
+  : ALL_SEED_ACCOUNTS.filter((a) => !a.isDemoAccount);
+
 // ============================================================================
 // TALENTS
 // ============================================================================
@@ -141,9 +152,10 @@ export const SEED_ACCOUNTS: SeedAccount[] = [
 // own full (internal) profile via GET /api/talents/me. Persisted (not a
 // plain in-memory const) because approving a talent application now creates
 // new links at runtime, not just at seed time.
-export const talentUserLinks = new SingletonRecord<Record<string, string>>("talentUserLinks", {
-  "tal-001": "user-talent-alpha",
-});
+export const talentUserLinks = new SingletonRecord<Record<string, string>>(
+  "talentUserLinks",
+  IS_TEST_RUN ? { "tal-001": "user-talent-alpha" } : {},
+);
 
 export interface PublicTalentProfile {
   id: string;
@@ -832,7 +844,7 @@ export const users = new Collection<UserRecord>(
   })),
 );
 
-export const talents = new Collection<TalentProfile>("talents", SEED_TALENTS);
+export const talents = new Collection<TalentProfile>("talents", IS_TEST_RUN ? SEED_TALENTS : []);
 
 export const briefs = new Collection<BriefRecord>("briefs", []);
 
@@ -845,17 +857,25 @@ export const talentApplications = new Collection<TalentApplicationRecord>("talen
 
 export const transactions = new Collection<TransactionRecord>("transactions", []);
 
-export const referrals = new Collection<ClientReferralRecord>("referrals", SEED_REFERRALS);
+export const referrals = new Collection<ClientReferralRecord>(
+  "referrals",
+  IS_TEST_RUN ? SEED_REFERRALS : [],
+);
 
-export const payoutBatches = new Collection<PayoutBatchRecord>("payoutBatches", [
-  {
-    id: "batch-2026-10-01",
-    label: "Bi-Weekly Payout Batch — Oct 1, 2026",
-    totalNGN: 14850000,
-    approvals: [],
-    disbursed: false,
-  },
-]);
+export const payoutBatches = new Collection<PayoutBatchRecord>(
+  "payoutBatches",
+  !IS_TEST_RUN
+    ? []
+    : [
+        {
+          id: "batch-2026-10-01",
+          label: "Bi-Weekly Payout Batch — Oct 1, 2026",
+          totalNGN: 14850000,
+          approvals: [],
+          disbursed: false,
+        },
+      ],
+);
 
 export interface BankTransferRecord {
   id: string;
