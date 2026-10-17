@@ -57,7 +57,7 @@ describe("Header brand lockup", () => {
     expect(container.querySelector(".ndh-brand-wordmark")).toHaveTextContent(/NDH Agency/i);
     expect(container.querySelector(".ndh-brand-sublabel")).toHaveTextContent(/Najeeb Digital Hub/i);
     expect(container.querySelector(".ndh-brand-badge")).toHaveTextContent(
-      /Managed Digital Bureau/i,
+      /Digital Studio/i,
     );
   });
 

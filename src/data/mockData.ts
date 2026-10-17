@@ -1287,7 +1287,7 @@ export const FINANCIAL_INVOICES: FinancialInvoice[] = [
     status: "paid",
     dueDate: "2026-08-30",
     paidDate: "2026-08-28",
-    paymentGateway: "Direct Wire (Safe Payment)",
+    paymentGateway: "Direct Wire (Escrow)",
     milestoneTitle: "Milestone 1: n8n Workflow Automation Architecture",
   },
   {
