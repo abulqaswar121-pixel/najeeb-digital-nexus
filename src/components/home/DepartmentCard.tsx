@@ -45,7 +45,7 @@ export const DepartmentCard: React.FC<Props> = ({ dept, fromPrice, currency, onO
         <div className="border-border mt-4 flex items-center justify-between gap-3 border-t pt-3.5">
           <span className="min-w-0">
             <span className="text-muted-foreground block font-mono text-[10px] tracking-wider uppercase">
-              {record.averageTurnaroundDays}-day SLA · from
+              {record.averageTurnaroundDays} days · from
             </span>
             <span className="text-foreground block truncate font-mono text-xs font-bold">
               {fromPrice ?? `$${record.startingBudgetUSD}`}

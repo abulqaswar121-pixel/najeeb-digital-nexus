@@ -15,26 +15,26 @@ export interface DeliveryStep {
 export const DELIVERY_STEPS: DeliveryStep[] = [
   {
     num: "01",
-    title: "Brief & Scope",
-    text: "AI-assisted brief scoping turns your requirements into a written, milestone-locked scope with fixed pricing before any work starts.",
+    title: "Tell Us Your Idea",
+    text: "We turn your idea into a clear plan with a fixed price before any work starts.",
     icon: ClipboardList,
   },
   {
     num: "02",
-    title: "Dedicated PM",
-    text: "You are matched with a vetted lead project manager and the specialist talent your scope actually needs — no anonymous freelancer roulette.",
+    title: "Meet Your Manager",
+    text: "You get one project manager and checked experts picked for your project.",
     icon: UserCheck,
   },
   {
     num: "03",
-    title: "Sprint & Safe Payment",
-    text: "Weekly verified deliverables land in your workspace. Milestone approvals release safe payment, so payment always tracks accepted work.",
+    title: "We Build In Steps",
+    text: "You see progress every week. You only pay for each step after you approve it.",
     icon: ShieldCheck,
   },
   {
     num: "04",
-    title: "Production Launch",
-    text: "Secure production deployment, a clean Git repository handoff, QA signoff and SLA-backed support after go-live.",
+    title: "Launch & Support",
+    text: "We put it live, hand everything over to you, and stay to help after launch.",
     icon: GitBranch,
   },
 ];
