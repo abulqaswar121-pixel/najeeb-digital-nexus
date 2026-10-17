@@ -662,7 +662,7 @@ export const AdminPortal: React.FC = () => {
               <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-4">
                 <div className="flex items-center justify-between border-b border-white/10 pb-3">
                   <h3 className="font-bold text-sm text-white">
-                    Recorded Payment Transactions (Sandbox)
+                    Payments
                   </h3>
                   <span className="text-xs text-[var(--eco-on-dark-muted)] font-mono">
                     {liveTransactions.length} recorded
@@ -670,7 +670,7 @@ export const AdminPortal: React.FC = () => {
                 </div>
                 {liveTransactions.length === 0 ? (
                   <p className="text-xs text-[var(--eco-on-dark-muted)] italic">
-                    No transactions recorded yet. Transactions created through the Paystack sandbox
+                    No transactions recorded yet. Payments made through Paystack
                     payment modal will appear here — this is the first place in the app where that
                     data was ever surfaced for reconciliation.
                   </p>

@@ -44,7 +44,8 @@ import {
 // every other (i.e. every real) client sees their own actual (new/empty)
 // account state instead.
 function isSampleDemoWorkspace(user: ReturnType<typeof useAuth>["user"]): boolean {
-  return Boolean(user?.isDemoAccount && user?.organizationId === "org-kobopay");
+  void user;
+  return false; // Sample workspace retired: every client sees only their real data.
 }
 
 interface ClientPortalProps {

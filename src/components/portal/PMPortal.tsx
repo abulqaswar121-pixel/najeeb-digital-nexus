@@ -8,7 +8,7 @@ import {
   useInternalTalents,
 } from "../../lib/databaseStore";
 import { ServiceDepartment } from "../../types/ndh";
-import { ACTIVE_PROJECTS, INCOMING_LEADS, SERVICE_DEPARTMENTS } from "../../data/mockData";
+import { ACTIVE_PROJECTS, SERVICE_DEPARTMENTS } from "../../data/mockData";
 import {
   Briefcase,
   Users,
