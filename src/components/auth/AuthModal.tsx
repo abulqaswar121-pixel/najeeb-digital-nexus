@@ -159,9 +159,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
       role="dialog"
       aria-modal="true"
       aria-label={activeTab === "login" ? "Sign in" : "Create account"}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 font-sans"
     >
-      <div className="w-full max-w-md rounded-3xl bg-eco-navy border border-eco-cyan/25 p-6 sm:p-8 shadow-2xl relative space-y-6">
+      <div className="w-full min-w-0 max-h-[calc(100dvh-1.5rem)] overflow-y-auto overflow-x-hidden overscroll-contain max-w-md rounded-3xl bg-eco-navy border border-eco-cyan/25 p-5 sm:p-8 shadow-2xl relative space-y-6">
         <button
           onClick={closeAuthModal}
           className="absolute top-4 right-4 text-[var(--eco-on-dark-muted)] hover:text-white p-2 rounded-full hover:bg-white/[0.08] transition-colors"
