@@ -733,8 +733,8 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                       <span>1. Admin / Owner (45%)</span>
                     </div>
                     <p className="text-slate-200 leading-relaxed text-[11px]">
-                      Covers client acquisition, legal safe payment liability, server infrastructure,
-                      platform R&D, and agency treasury net profits.
+                      Covers client acquisition, legal safe payment liability, server
+                      infrastructure, platform R&D, and agency treasury net profits.
                     </p>
                   </div>
 

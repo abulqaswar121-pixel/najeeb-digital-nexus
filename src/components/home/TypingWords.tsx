@@ -36,7 +36,10 @@ export const TypingWords: React.FC<Props> = ({ words, className }) => {
   return (
     <span>
       <span className={className}>{text}</span>
-      <span className="ml-0.5 inline-block w-[3px] animate-pulse bg-[var(--eco-cyan,currentColor)] align-middle" style={{ height: "0.9em" }} />
+      <span
+        className="ml-0.5 inline-block w-[3px] animate-pulse bg-[var(--eco-cyan,currentColor)] align-middle"
+        style={{ height: "0.9em" }}
+      />
     </span>
   );
 };

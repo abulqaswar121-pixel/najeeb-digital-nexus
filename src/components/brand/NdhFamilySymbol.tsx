@@ -20,7 +20,14 @@ export function NdhFamilySymbol({
   return (
     <span className={`ndh-family-symbol${className ? ` ${className}` : ""}`} aria-hidden="true">
       <span className="ndh-family-tile">
-        <img src={gatewayLogo} alt="" width={192} height={191} decoding="async" fetchPriority="high" />
+        <img
+          src={gatewayLogo}
+          alt=""
+          width={192}
+          height={191}
+          decoding="async"
+          fetchPriority="high"
+        />
       </span>
       {SectorIcon ? (
         <span className="ndh-family-sector">

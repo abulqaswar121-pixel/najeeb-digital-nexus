@@ -128,12 +128,8 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
               N
             </div>
             <div>
-              <h3 className="font-bold text-sm text-foreground">
-                Start a project
-              </h3>
-              <p className="text-[10px] text-muted-foreground">
-                Step {step} of 3
-              </p>
+              <h3 className="font-bold text-sm text-foreground">Start a project</h3>
+              <p className="text-[10px] text-muted-foreground">Step {step} of 3</p>
             </div>
           </div>
 
@@ -195,7 +191,9 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
                 className="max-w-md mx-auto text-left space-y-3 p-4 rounded-xl border border-border bg-background"
               >
                 <div>
-                  <p className="font-semibold text-sm text-foreground">Last step: create your account</p>
+                  <p className="font-semibold text-sm text-foreground">
+                    Last step: create your account
+                  </p>
                   <p className="text-xs text-muted-foreground">
                     Track your project, pay, and chat with your project manager in your portal.
                   </p>
@@ -224,7 +222,11 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
                 >
                   {creatingAccount ? "Creating your account..." : "Create account & open my portal"}
                 </button>
-                <button type="button" onClick={onClose} className="w-full text-xs text-muted-foreground underline">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="w-full text-xs text-muted-foreground underline"
+                >
                   Not now
                 </button>
               </form>

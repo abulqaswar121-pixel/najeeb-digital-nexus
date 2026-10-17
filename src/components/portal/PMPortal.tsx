@@ -134,7 +134,6 @@ export const PMPortal: React.FC = () => {
                 </p>
               </div>
             </div>
-
           </div>
 
           {/* Tab 1: Real projects from client requests */}
@@ -149,10 +148,15 @@ export const PMPortal: React.FC = () => {
                   },
                   {
                     label: "In progress",
-                    value: liveBriefs.filter((b) => b.status !== "submitted" && b.status !== "completed").length,
+                    value: liveBriefs.filter(
+                      (b) => b.status !== "submitted" && b.status !== "completed",
+                    ).length,
                   },
                 ].map((stat) => (
-                  <div key={stat.label} className="p-5 rounded-2xl bg-eco-navy/80 border border-white/10">
+                  <div
+                    key={stat.label}
+                    className="p-5 rounded-2xl bg-eco-navy/80 border border-white/10"
+                  >
                     <span className="text-xs text-[var(--eco-on-dark-muted)]">{stat.label}</span>
                     <div className="text-2xl font-bold text-white">{stat.value}</div>
                   </div>
@@ -167,9 +171,14 @@ export const PMPortal: React.FC = () => {
                 ) : (
                   <ul className="divide-y divide-white/10">
                     {liveBriefs.map((brief) => (
-                      <li key={brief.id} className="py-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+                      <li
+                        key={brief.id}
+                        className="py-3 flex flex-wrap items-center justify-between gap-2 text-xs"
+                      >
                         <div className="min-w-0">
-                          <p className="font-semibold text-white break-words">{brief.projectName}</p>
+                          <p className="font-semibold text-white break-words">
+                            {brief.projectName}
+                          </p>
                           <p className="text-[var(--eco-on-dark-muted)] break-words">
                             {brief.organizationName} • {brief.timelineWeeks}
                           </p>
@@ -343,7 +352,6 @@ export const PMPortal: React.FC = () => {
                   </div>
                 )}
               </div>
-
             </div>
           )}
 

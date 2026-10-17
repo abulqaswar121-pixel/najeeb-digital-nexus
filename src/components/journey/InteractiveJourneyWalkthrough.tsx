@@ -746,8 +746,8 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                       </div>
                     </div>
                     <p className="text-slate-200 font-mono text-[11px]">
-                      Payout: ₦36,900,000 NGN ($24,600 USD) transmitted to NIBSS Nigerian
-                      Inter-Bank Network.
+                      Payout: ₦36,900,000 NGN ($24,600 USD) transmitted to NIBSS Nigerian Inter-Bank
+                      Network.
                     </p>
                   </div>
 

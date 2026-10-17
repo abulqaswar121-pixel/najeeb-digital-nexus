@@ -68,15 +68,13 @@ export const DEPARTMENT_PROFILES: DepartmentProfile[] = [
   {
     id: "cloud_devops",
     shortName: "Cloud DevOps",
-    scope:
-      "Reliable hosting, backups and updates so your website stays fast and never goes down.",
+    scope: "Reliable hosting, backups and updates so your website stays fast and never goes down.",
     icon: Server,
   },
   {
     id: "cybersecurity_compliance",
     shortName: "Cybersecurity",
-    scope:
-      "Protect your website and customer data from hackers, with checks and safety fixes.",
+    scope: "Protect your website and customer data from hackers, with checks and safety fixes.",
     icon: ShieldCheck,
   },
   {
@@ -89,70 +87,62 @@ export const DEPARTMENT_PROFILES: DepartmentProfile[] = [
   {
     id: "mobile_app_development",
     shortName: "Mobile Apps",
-    scope:
-      "Android and iPhone apps your customers enjoy using, ready for the app stores.",
+    scope: "Android and iPhone apps your customers enjoy using, ready for the app stores.",
     icon: Smartphone,
   },
   {
     id: "ecommerce",
     shortName: "E-Commerce",
-    scope:
-      "Online stores that show your products, take payments safely and track every order.",
+    scope: "Online stores that show your products, take payments safely and track every order.",
     icon: ShoppingBag,
   },
   {
     id: "fintech_payments",
     shortName: "Fintech & Payments",
-    scope: "Safe payment features with Paystack, cards and bank transfers in Naira and other currencies.",
+    scope:
+      "Safe payment features with Paystack, cards and bank transfers in Naira and other currencies.",
     icon: CreditCard,
   },
   {
     id: "digital_marketing",
     shortName: "Digital Marketing",
-    scope:
-      "Ads and campaigns on social media and Google that bring you real paying customers.",
+    scope: "Ads and campaigns on social media and Google that bring you real paying customers.",
     icon: TrendingUp,
   },
   {
     id: "seo_growth",
     shortName: "SEO & Growth",
-    scope:
-      "Help people find your business on Google with better pages, keywords and content.",
+    scope: "Help people find your business on Google with better pages, keywords and content.",
     icon: Search,
   },
   {
     id: "content_copywriting",
     shortName: "Content & Copy",
-    scope:
-      "Website words, blog posts, articles and sales pages written clearly to win customers.",
+    scope: "Website words, blog posts, articles and sales pages written clearly to win customers.",
     icon: PenTool,
   },
   {
     id: "social_media",
     shortName: "Social Media",
-    scope:
-      "Posts, graphics and page management that grow your followers and keep them engaged.",
+    scope: "Posts, graphics and page management that grow your followers and keep them engaged.",
     icon: Share2,
   },
   {
     id: "video_media",
     shortName: "Video & Media",
-    scope:
-      "Short videos, adverts and animations made ready for social media and your website.",
+    scope: "Short videos, adverts and animations made ready for social media and your website.",
     icon: Video,
   },
   {
     id: "data_business",
     shortName: "Data & Research",
-    scope:
-      "Simple reports and dashboards that turn your business numbers into clear decisions.",
+    scope: "Simple reports and dashboards that turn your business numbers into clear decisions.",
     icon: BarChart3,
   },
   {
     id: "nocode_rapid_mvp",
     shortName: "No-Code MVP",
-    scope:
-      "Test your business idea fast with a working first version, ready in a few weeks.",
+    scope: "Test your business idea fast with a working first version, ready in a few weeks.",
     icon: Zap,
   },
 ];

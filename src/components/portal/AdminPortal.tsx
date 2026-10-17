@@ -15,7 +15,6 @@ import {
 import {
   SECURITY_AUDIT_LOGS,
   SERVICE_DEPARTMENTS,
-  ACTIVE_PROJECTS,
   CLIENT_ORGANIZATIONS,
   TALENT_RANK_CONFIGS,
   calculateRevenueSplit,
@@ -506,7 +505,10 @@ export const AdminPortal: React.FC = () => {
                   },
                   { label: "Talents", value: String(internalTalents.length) },
                 ].map((stat) => (
-                  <div key={stat.label} className="p-5 rounded-2xl bg-eco-navy/80 border border-white/10">
+                  <div
+                    key={stat.label}
+                    className="p-5 rounded-2xl bg-eco-navy/80 border border-white/10"
+                  >
                     <span className="text-xs text-[var(--eco-on-dark-muted)]">{stat.label}</span>
                     <div className="text-2xl font-bold text-white">{stat.value}</div>
                   </div>
@@ -515,14 +517,23 @@ export const AdminPortal: React.FC = () => {
               <div className="p-5 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-3">
                 <h3 className="font-bold text-sm text-white">Latest project requests</h3>
                 {liveBriefs.length === 0 ? (
-                  <p className="text-xs text-[var(--eco-on-dark-muted)]">No project requests yet.</p>
+                  <p className="text-xs text-[var(--eco-on-dark-muted)]">
+                    No project requests yet.
+                  </p>
                 ) : (
                   <ul className="divide-y divide-white/10">
                     {liveBriefs.slice(0, 8).map((brief) => (
-                      <li key={brief.id} className="py-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+                      <li
+                        key={brief.id}
+                        className="py-3 flex flex-wrap items-center justify-between gap-2 text-xs"
+                      >
                         <div className="min-w-0">
-                          <p className="font-semibold text-white break-words">{brief.projectName}</p>
-                          <p className="text-[var(--eco-on-dark-muted)] break-all">{brief.clientEmail}</p>
+                          <p className="font-semibold text-white break-words">
+                            {brief.projectName}
+                          </p>
+                          <p className="text-[var(--eco-on-dark-muted)] break-all">
+                            {brief.clientEmail}
+                          </p>
                         </div>
                         <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 text-white capitalize">
                           {brief.status.replace(/_/g, " ")}
@@ -615,9 +626,7 @@ export const AdminPortal: React.FC = () => {
 
               <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-4">
                 <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <h3 className="font-bold text-sm text-white">
-                    Payments
-                  </h3>
+                  <h3 className="font-bold text-sm text-white">Payments</h3>
                   <span className="text-xs text-[var(--eco-on-dark-muted)] font-mono">
                     {liveTransactions.length} recorded
                   </span>

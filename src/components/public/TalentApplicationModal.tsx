@@ -135,8 +135,8 @@ export const TalentApplicationModal: React.FC<TalentApplicationModalProps> = ({
                 Apply to the NDH Talent Squad
               </h2>
               <p className="text-xs text-slate-200">
-                Work on high-impact enterprise projects with guaranteed prompt safe payment payments in
-                NGN/USD and dedicated PM protection.
+                Work on high-impact enterprise projects with guaranteed prompt safe payment payments
+                in NGN/USD and dedicated PM protection.
               </p>
             </div>
 
