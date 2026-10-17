@@ -1,7 +1,7 @@
 import { notify } from "../../src/lib/email-templates/notify.js";
 import { Router } from "../http.js";
 import { optionalAuth, requireAuth, requireRole } from "../auth.js";
-import { briefs, type BriefRecord } from "../collections.js";
+import { briefs, users, DEFAULT_PM_EMAIL, type BriefRecord } from "../collections.js";
 import type { ServiceDepartment } from "../../src/types/ndh.js";
 
 export const briefsRouter = Router();
@@ -28,6 +28,11 @@ briefsRouter.post("/", optionalAuth, async (req, res) => {
     return;
   }
 
+  // Every service goes to the main PM while he is the only one.
+  const defaultPm = users
+    .all()
+    .find((u) => u.email.toLowerCase() === DEFAULT_PM_EMAIL && u.role === "project_manager");
+
   const newBrief: BriefRecord = {
     id: `brief-${Date.now()}`,
     projectName: body.projectName || `${body.department} Project`,
@@ -40,7 +45,7 @@ briefsRouter.post("/", optionalAuth, async (req, res) => {
     clientEmail: body.clientEmail,
     ...(body.clientPhone ? { clientPhone: body.clientPhone } : {}),
     briefDetails: body.briefDetails || "",
-    status: "submitted",
+    status: defaultPm ? "pm_assigned" : "submitted",
     // Previously this was hardcoded to a specific named PM
     // ("Tariq Al-Najeeb") on every single brief regardless of whether any
     // human had actually looked at it -- a client reading "Auto-assigned
@@ -48,7 +53,7 @@ briefsRouter.post("/", optionalAuth, async (req, res) => {
     // placeholder rather than a real assignment. Briefs now start
     // genuinely unassigned until a PM actually claims one via
     // PATCH /:id/assign below.
-    assignedPM: "Unassigned",
+    assignedPM: defaultPm ? defaultPm.fullName.trim() : "Unassigned",
     createdAt: new Date().toISOString(),
     ...(req.ndhUser ? { submittedByUserId: req.ndhUser.id } : {}),
   };
