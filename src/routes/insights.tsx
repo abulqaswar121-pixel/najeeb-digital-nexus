@@ -4,7 +4,9 @@ import { InsightsView } from "../components/public/InsightsView";
 
 export const Route = createFileRoute("/insights")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/insights" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/insights" },
       { property: "og:title", content: "Insights | NDH Agency" },
       {
         property: "og:description",

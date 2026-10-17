@@ -5,7 +5,9 @@ import { MainNavView } from "../components/layout/navViews";
 
 export const Route = createFileRoute("/journey")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/journey" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/journey" },
       {
         name: "description",
         content: "Explore how NDH Agency projects move from a brief to delivery.",

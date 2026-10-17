@@ -4,7 +4,9 @@ import { LegalView } from "../components/public/LegalView";
 
 export const Route = createFileRoute("/terms-of-service")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/terms-of-service" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/terms-of-service" },
       { name: "description", content: "Read the terms for using NDH Agency services." },
       { property: "og:title", content: "Terms of Service | NDH Agency" },
       { property: "og:description", content: "Read the terms for using NDH Agency services." },

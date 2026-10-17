@@ -4,7 +4,9 @@ import { CaseStudyPreview } from "../components/directions/views/CaseStudyPrevie
 
 export const Route = createFileRoute("/case-studies")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/case-studies" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/case-studies" },
       { property: "og:title", content: "Case Studies | NDH Agency" },
       {
         property: "og:description",

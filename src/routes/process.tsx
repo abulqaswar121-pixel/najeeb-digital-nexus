@@ -4,7 +4,9 @@ import { ProcessView } from "../components/public/ProcessView";
 
 export const Route = createFileRoute("/process")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/process" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/process" },
       { property: "og:title", content: "Our Process | NDH Agency" },
       {
         property: "og:description",

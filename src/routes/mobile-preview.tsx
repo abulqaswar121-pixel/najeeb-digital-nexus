@@ -4,7 +4,9 @@ import { MobileSimulatorPreview } from "../components/directions/views/MobileSim
 
 export const Route = createFileRoute("/mobile-preview")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/mobile-preview" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/mobile-preview" },
       { name: "description", content: "View a mobile project preview from NDH Agency." },
       { property: "og:title", content: "Mobile Preview | NDH Agency" },
       { property: "og:description", content: "View a mobile project preview from NDH Agency." },

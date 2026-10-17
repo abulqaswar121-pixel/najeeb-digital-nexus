@@ -209,9 +209,9 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Roadmap List */}
           <div className="lg:col-span-5 space-y-2.5">
-            <h3 className="text-xs font-mono uppercase tracking-wider text-[var(--eco-on-dark-muted)] mb-2">
+            <h2 className="text-xs font-mono uppercase tracking-wider text-[var(--eco-on-dark-muted)] mb-2">
               Primary Lifecycle Stages (Click any stage to inspect):
-            </h3>
+            </h2>
 
             <div className="space-y-2 max-h-[750px] overflow-y-auto pr-1 no-scrollbar">
               {stages.map((s) => {

@@ -4,7 +4,9 @@ import { ContactView } from "../components/public/ContactView";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/contact" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/contact" },
       { property: "og:title", content: "Contact | NDH Agency" },
       {
         property: "og:description",
