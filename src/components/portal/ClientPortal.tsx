@@ -119,6 +119,29 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
   const displayUserName =
     user?.fullName || (isDemoWorkspace ? currentOrg.primaryContact.name : "there");
   const myLatestBrief = myBriefs.length > 0 ? myBriefs[myBriefs.length - 1]! : null;
+
+  // Real two-way chat + milestones for the client's own project, saved on
+  // the server so the PM sees them in the PM portal (and vice versa).
+  const projectMessages = useProjectMessages(myLatestBrief?.id);
+  const projectMilestones = useProjectMilestones(myLatestBrief?.id);
+  const projectApprovals = useProjectApprovals(myLatestBrief?.id);
+  const [sendingMessage, setSendingMessage] = useState(false);
+  const [messageError, setMessageError] = useState<string | null>(null);
+  const [approvingIndex, setApprovingIndex] = useState<number | null>(null);
+
+  const handleSendRealMessage = async () => {
+    if (!myLatestBrief || !clientMessageInput.trim() || sendingMessage) return;
+    setSendingMessage(true);
+    setMessageError(null);
+    try {
+      await dbService.sendProjectMessage(myLatestBrief.id, clientMessageInput.trim());
+      setClientMessageInput("");
+    } catch (err) {
+      setMessageError(err instanceof Error ? err.message : "Message not sent. Try again.");
+    } finally {
+      setSendingMessage(false);
+    }
+  };
   const mySuccessfulTx = myTransactions.filter((t) => t.status === "success");
   const myTxTotalsByCurrency = mySuccessfulTx.reduce<Record<string, number>>((acc, t) => {
     acc[t.currency] = (acc[t.currency] || 0) + t.amount;
