@@ -121,7 +121,7 @@ describe("PM <-> client project chat and milestones", () => {
       fullName: "Outsider Client",
       email: "outsider@example.com",
       password: "OutsiderPass2026!",
-      role: "client_owner",
+      organizationName: "Outsider Ltd",
     });
     const blockedRead = await outsider.get(`/api/projects/${briefId}/messages`);
     expect(blockedRead.status).toBe(403);
