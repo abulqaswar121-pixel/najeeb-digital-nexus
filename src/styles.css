@@ -1701,19 +1701,16 @@ section.gw-band {
   &.text-eco-glow {
     color: #1f5fbf !important;
   }
-  &input,
-  &select,
-  &textarea {
-    background: #ffffff !important;
-    color: var(--portal-ink) !important;
-    border-color: #cfd8e8 !important;
-  }
-  &input::placeholder,
-  &textarea::placeholder {
-    color: #8a94ab !important;
-  }
 }
-.ndh-portal-light :not(header, header *):is(main) {
+.ndh-portal-light :is(input, select, textarea):not(header *) {
+  background: #ffffff !important;
+  color: var(--portal-ink) !important;
+  border-color: #cfd8e8 !important;
+}
+.ndh-portal-light :is(input, textarea):not(header *)::placeholder {
+  color: #8a94ab !important;
+}
+.ndh-portal-light main:not(header *) {
   background: #ffffff !important;
 }
 .ndh-portal-light {
