@@ -83,7 +83,7 @@ export const PMPortal: React.FC = () => {
   ];
 
   return (
-    <div className="bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col">
+    <div className="ndh-portal-light bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col">
       {/* Standalone PM Operations Top Bar */}
       <header className="sticky top-0 z-40 flex w-full max-w-full items-center justify-between gap-3 overflow-x-clip border-b border-white/10 bg-eco-navy/95 px-4 py-3.5 backdrop-blur-xl sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-4">

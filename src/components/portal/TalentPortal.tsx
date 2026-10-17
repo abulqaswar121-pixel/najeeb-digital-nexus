@@ -82,7 +82,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
 
   if (!talent) {
     return (
-      <div className="bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col items-center justify-center gap-4 p-8 text-center">
+      <div className="ndh-portal-light bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col items-center justify-center gap-4 p-8 text-center">
         <p className="text-sm text-[var(--eco-on-dark-muted)]">Loading your talent profile…</p>
         <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-md">
           If this doesn't load, this account may not have a linked talent profile on the server yet
@@ -135,7 +135,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
   ];
 
   return (
-    <div className="bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col">
+    <div className="ndh-portal-light bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col">
       {/* Standalone Talent Workspace Top Bar */}
       <header className="sticky top-0 z-40 flex w-full max-w-full items-center justify-between gap-3 overflow-x-clip border-b border-white/10 bg-eco-navy/95 px-4 py-3.5 backdrop-blur-xl sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-4">

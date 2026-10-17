@@ -1650,3 +1650,75 @@ section.gw-band {
 .animate-float-slow {
   animation: float-slow 6s ease-in-out infinite;
 }
+
+/* ---------------------------------------------------------------
+   Light portals: white, airy workspace. Dark navy stays only in the
+   top bar and small accents. Applied by the .ndh-portal-light root.
+---------------------------------------------------------------- */
+.ndh-portal-light {
+  --portal-ink: #14213d;
+  --portal-muted: #5b6782;
+  --portal-line: #e3e9f3;
+  --portal-soft: #f5f7fb;
+  background: #ffffff !important;
+  color: var(--portal-ink) !important;
+}
+.ndh-portal-light :is(main, section, aside, div, form, table, article):not(header, header *) {
+  &.bg-eco-dark,
+  &[class*="bg-eco-dark/"],
+  &.bg-eco-navy,
+  &[class*="bg-eco-navy/"],
+  &[class*="from-eco-navy"],
+  &[class*="from-eco-dark"] {
+    background: #ffffff !important;
+    background-image: none !important;
+    box-shadow: 0 1px 2px rgb(20 33 61 / 0.05);
+  }
+  &.bg-black,
+  &[class*="bg-black/"],
+  &[class*="bg-white/"] {
+    background: var(--portal-soft) !important;
+  }
+}
+.ndh-portal-light :not(header, header *) {
+  &[class*="border-white"],
+  &[class*="divide-white"] > * + *,
+  &.border-eco-cyan\/10,
+  &.border-eco-cyan\/15,
+  &.border-eco-cyan\/20,
+  &.border-eco-cyan\/25 {
+    border-color: var(--portal-line) !important;
+  }
+  &.text-white:not([class*="bg-eco-electric"], [class*="bg-primary"], [class*="bg-emerald"], [class*="bg-rose"], [class*="bg-red"], [class*="bg-amber"], [class*="bg-violet"], [class*="bg-blue"], [class*="bg-gradient"]),
+  &.text-slate-100,
+  &.text-slate-200 {
+    color: var(--portal-ink) !important;
+  }
+  &[class*="text-[var(--eco-on-dark"] {
+    color: var(--portal-muted) !important;
+  }
+  &.text-eco-cyan,
+  &.text-eco-glow {
+    color: #1f5fbf !important;
+  }
+  &input,
+  &select,
+  &textarea {
+    background: #ffffff !important;
+    color: var(--portal-ink) !important;
+    border-color: #cfd8e8 !important;
+  }
+  &input::placeholder,
+  &textarea::placeholder {
+    color: #8a94ab !important;
+  }
+}
+.ndh-portal-light :not(header, header *):is(main) {
+  background: #ffffff !important;
+}
+.ndh-portal-light {
+  overflow-x: clip;
+}
+.ndh-portal-light table {
+  min-width: 0;
+}
