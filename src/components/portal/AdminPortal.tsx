@@ -15,7 +15,6 @@ import {
 import {
   SECURITY_AUDIT_LOGS,
   SERVICE_DEPARTMENTS,
-  CLIENT_ORGANIZATIONS,
   TALENT_RANK_CONFIGS,
   calculateRevenueSplit,
 } from "../../data/mockData";

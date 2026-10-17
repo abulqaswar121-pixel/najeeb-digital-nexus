@@ -43,7 +43,7 @@ export const DEMO_ACCOUNT_PASSWORD = "NDHDemo2026!";
 
 // Sample accounts/data only load in automatic tests. The live site starts clean.
 export const IS_TEST_RUN =
-  typeof process !== "undefined" && !!process.env && !!process.env.VITEST;
+  typeof process !== "undefined" && !!process.env && !!process.env["VITEST"];
 
 /** The one real PM who covers all services until more staff join. */
 export const DEFAULT_PM_EMAIL = "abulqaswar121@gmail.com";
