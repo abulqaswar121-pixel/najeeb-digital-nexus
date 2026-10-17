@@ -8,6 +8,6 @@
 - [ ] Some deep portal tabs still use long words — simplify in a later pass.
 
 ## SEO corrections
-- [ ] Fix and verify self-referencing search and shared-link addresses on every page.
-- [ ] Verify legal pages have one main heading and fix skipped journey heading.
-- [ ] Repair and validate sitemap XML without changing its page list.
+- [x] Fix and verify self-referencing search and shared-link addresses on every page.
+- [x] Verify legal pages have one main heading and fix skipped journey heading.
+- [x] Repair and validate sitemap XML without changing its page list.
