@@ -1223,24 +1223,80 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                     </button>
                   </div>
                 </>
-              ) : myLatestBrief && myLatestBrief.assignedPM !== "Unassigned" ? (
-                <div className="text-center py-10 space-y-2">
-                  <MessageSquare className="w-10 h-10 text-[var(--eco-on-dark-muted)]/70 mx-auto" />
-                  <h3 className="font-bold text-base text-white">
-                    You're connected with {myLatestBrief.assignedPM}
-                  </h3>
-                  <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
-                    Direct in-portal messaging is being rolled out -- for now, your PM will follow
-                    up by email at {user?.email}.
-                  </p>
-                </div>
+              ) : myLatestBrief ? (
+                <>
+                  <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-10 h-10 rounded-xl bg-primary/20 border border-eco-cyan/40 flex items-center justify-center text-eco-cyan font-bold shrink-0">
+                        {(myLatestBrief.assignedPM || "P").charAt(0)}
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="font-bold text-sm text-white break-words">
+                          Chat about "{myLatestBrief.projectName}"
+                        </h3>
+                        <p className="text-[11px] text-[var(--eco-on-dark-muted)]">
+                          With your project manager
+                          {myLatestBrief.assignedPM !== "Unassigned"
+                            ? `, ${myLatestBrief.assignedPM}`
+                            : ""}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
+                    {projectMessages.length === 0 ? (
+                      <p className="text-xs text-[var(--eco-on-dark-muted)] text-center py-6">
+                        No messages yet. Say hello -- your PM sees this straight away.
+                      </p>
+                    ) : (
+                      projectMessages.map((msg) => (
+                        <div
+                          key={msg.id}
+                          className={`p-4 rounded-2xl text-xs space-y-1 ${msg.senderRole === "pm" ? "bg-white/[0.06] border border-white/10" : "bg-white/[0.04] border border-eco-cyan/20 ml-6"}`}
+                        >
+                          <div className="flex items-center justify-between text-[11px] text-[var(--eco-on-dark-muted)] font-semibold">
+                            <span>
+                              {msg.senderRole === "pm"
+                                ? `${msg.senderName} (PM)`
+                                : `${msg.senderName} (You)`}
+                            </span>
+                            <span className="font-mono">
+                              {new Date(msg.createdAt).toLocaleString()}
+                            </span>
+                          </div>
+                          <p className="text-slate-200 leading-relaxed break-words">{msg.text}</p>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  {messageError && <p className="text-xs text-red-400">{messageError}</p>}
+                  <div className="pt-2 flex items-center gap-2">
+                    <input
+                      type="text"
+                      placeholder="Write a message..."
+                      value={clientMessageInput}
+                      onChange={(e) => setClientMessageInput(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleSendRealMessage()}
+                      className="flex-1 min-w-0 px-4 py-2.5 rounded-xl bg-eco-dark border border-white/10 text-xs text-white focus:outline-none focus:border-eco-cyan/40"
+                    />
+                    <button
+                      onClick={handleSendRealMessage}
+                      disabled={!clientMessageInput.trim() || sendingMessage}
+                      className="px-5 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 disabled:opacity-50 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shrink-0"
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                      <span>{sendingMessage ? "Sending..." : "Send"}</span>
+                    </button>
+                  </div>
+                </>
               ) : (
                 <div className="text-center py-10 space-y-2">
                   <MessageSquare className="w-10 h-10 text-[var(--eco-on-dark-muted)]/70 mx-auto" />
-                  <h3 className="font-bold text-base text-white">No PM assigned yet</h3>
+                  <h3 className="font-bold text-base text-white">No project yet</h3>
                   <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
-                    You'll be connected with a dedicated PM here as soon as your brief is reviewed
-                    and claimed.
+                    Start a project first -- then you can chat with your project manager here.
                   </p>
                 </div>
               )}
