@@ -588,14 +588,12 @@ export const AdminPortal: React.FC = () => {
                     Real Project Briefs — "Start Your Project" Wizard
                   </h3>
                   <span className="text-xs text-[var(--eco-on-dark-muted)] font-mono">
-                    {liveBriefs.length} submitted this browser session
+                    {liveBriefs.length} received
                   </span>
                 </div>
                 {liveBriefs.length === 0 ? (
                   <p className="text-xs text-[var(--eco-on-dark-muted)] italic">
-                    No live brief submissions yet. These are real visitor submissions captured by
-                    the public brief wizard — distinct from the hardcoded sample leads shown inside
-                    the PM Portal's Triage tab.
+                    No project requests yet. New requests from the website show up here.
                   </p>
                 ) : (
                   <div className="space-y-3">
@@ -670,9 +668,7 @@ export const AdminPortal: React.FC = () => {
                 </div>
                 {liveTransactions.length === 0 ? (
                   <p className="text-xs text-[var(--eco-on-dark-muted)] italic">
-                    No transactions recorded yet. Payments made through Paystack
-                    payment modal will appear here — this is the first place in the app where that
-                    data was ever surfaced for reconciliation.
+                    No payments yet. Payments made through Paystack show up here.
                   </p>
                 ) : (
                   <div className="space-y-2">
@@ -1052,13 +1048,13 @@ export const AdminPortal: React.FC = () => {
                             ) : (
                               <div>
                                 <div className="text-xs font-mono text-amber-400 font-bold">
-                                  Discount Locked: Awaiting First Escrow Payment
+                                  Discount waiting for first payment
                                 </div>
                                 <button
                                   onClick={() => handleSimulateReferralPayment(ref.id)}
                                   className="mt-1 px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] shadow-sm transition-all"
                                 >
-                                  Simulate First Escrow Deposit →
+                                  Mark first payment received
                                 </button>
                               </div>
                             )}
