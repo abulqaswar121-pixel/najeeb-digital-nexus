@@ -75,27 +75,20 @@ const TermsContent: React.FC = () => (
       <p className="text-xs text-slate-500">Last updated: {LAST_UPDATED}</p>
     </header>
 
-    <Section title="1. Services">
-      NDH Agency provides software development, design, automation, and related digital services as
-      scoped in an individually agreed statement of work or project brief.
+    <Section title="1. Payment">
+      You pay one step at a time. We start each step after it is paid.
     </Section>
-    <Section title="2. Engagement process">
-      Submitting a brief or consultation request does not itself create a binding contract. A
-      project begins once both parties have agreed on scope, price, and timeline in a signed
-      proposal or statement of work.
+    <Section title="2. Work">
+      We agree on what to build, the price and the time first. Your PM keeps you updated.
     </Section>
-    <Section title="3. Payment and milestones">
-      Projects are typically billed in milestones. Specific payment terms, currency, and schedule
-      are defined per-engagement in the signed proposal, not by this general template.
+    <Section title="3. Ownership">
+      When you finish paying, the work is yours.
     </Section>
-    <Section title="4. Intellectual property">
-      Unless otherwise agreed in writing, ownership of final deliverables transfers to the client
-      upon full payment. NDH Agency retains the right to showcase non-confidential aspects of
-      completed work for portfolio purposes unless an NDA states otherwise.
+    <Section title="4. Privacy">
+      We keep your ideas and details private. We never sell them.
     </Section>
-    <Section title="5. Limitation of liability">
-      To the extent permitted by law, NDH Agency's liability for any claim arising from a project is
-      limited to the amount paid for that specific engagement.
+    <Section title="5. Fixes">
+      If something is not what we agreed, we fix it.
     </Section>
   </div>
 );

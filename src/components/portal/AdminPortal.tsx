@@ -1202,45 +1202,39 @@ export const AdminPortal: React.FC = () => {
             <div className="p-6 sm:p-8 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
               <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <div>
-                  <h3 className="font-bold text-base text-white">
-                    Registered Client Organizations
-                  </h3>
+                  <h3 className="font-bold text-base text-white">Clients</h3>
                   <p className="text-xs text-[var(--eco-on-dark-muted)]">
-                    Client account owners, loyalty badges, total spend, and active projects.
+                    People who sent a project request.
                   </p>
                 </div>
                 <span className="px-3 py-1 rounded-full bg-eco-cyan/20 text-eco-cyan text-xs font-mono font-bold">
-                  {CLIENT_ORGANIZATIONS.length} Active Organizations
+                  {new Set(liveBriefs.map((b) => b.clientEmail.toLowerCase())).size} clients
                 </span>
               </div>
 
               <div className="space-y-3">
-                {CLIENT_ORGANIZATIONS.map((org) => (
+                {liveBriefs.length === 0 && (
+                  <p className="text-xs text-[var(--eco-on-dark-muted)]">No clients yet.</p>
+                )}
+                {Array.from(
+                  new Map(liveBriefs.map((b) => [b.clientEmail.toLowerCase(), b])).values(),
+                ).map((b) => (
                   <div
-                    key={org.id}
-                    className="p-4 rounded-2xl bg-white/[0.06] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs"
+                    key={b.clientEmail}
+                    className="p-4 rounded-2xl bg-white/[0.06] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-eco-cyan/10 border border-eco-cyan/25 flex items-center justify-center text-eco-cyan font-bold">
-                        <Building className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-white text-sm">{org.name}</div>
-                        <div className="text-[var(--eco-on-dark-muted)] text-[11px]">
-                          Contact: {org.primaryContact.name} ({org.primaryContact.email}) •{" "}
-                          {org.city}
+                    <div className="flex items-center gap-3 min-w-0">
+                      <Building className="w-5 h-5 text-eco-cyan shrink-0" />
+                      <div className="min-w-0">
+                        <div className="font-bold text-white text-sm break-words">
+                          {b.organizationName}
+                        </div>
+                        <div className="text-[var(--eco-on-dark-muted)] break-all">
+                          {b.clientEmail}
                         </div>
                       </div>
                     </div>
-
-                    <div className="flex items-center gap-3">
-                      <span className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 font-mono text-[11px] font-bold border border-emerald-500/20">
-                        {org.tier} Tier
-                      </span>
-                      <span className="font-mono text-slate-200 font-bold">
-                        ${org.totalSpentUSD.toLocaleString()} USD
-                      </span>
-                    </div>
+                    <span className="text-slate-200">PM: {b.assignedPM}</span>
                   </div>
                 ))}
               </div>
