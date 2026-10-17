@@ -190,14 +190,29 @@ export const PMPortal: React.FC = () => {
                             {brief.organizationName} • {brief.timelineWeeks}
                           </p>
                         </div>
-                        <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 text-white capitalize">
-                          {brief.status.replace(/_/g, " ")}
-                        </span>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 text-white capitalize">
+                            {brief.status.replace(/_/g, " ")}
+                          </span>
+                          <button
+                            onClick={() => setOpenBriefId(brief.id)}
+                            className="px-3.5 py-1.5 rounded-lg bg-primary hover:bg-eco-cyan/20 text-white font-semibold text-xs flex items-center gap-1"
+                          >
+                            Open
+                            <ArrowRight className="w-3 h-3" />
+                          </button>
+                        </div>
                       </li>
                     ))}
                   </ul>
                 )}
               </div>
+
+              {/* Opened project: full details, chat with the client, and the
+                  milestone creator -- the PM's actual working space. */}
+              {openBrief && (
+                <BriefWorkspace brief={openBrief} onClose={() => setOpenBriefId(null)} />
+              )}
             </div>
           )}
 
