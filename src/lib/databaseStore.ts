@@ -254,6 +254,42 @@ export function useCaseStudies(): CaseStudy[] {
   return useApiList<CaseStudy>("/case-studies");
 }
 
+// Real PM <-> client chat and milestones, one thread per project (brief).
+export interface ProjectMessage {
+  id: string;
+  briefId: string;
+  senderUserId: string;
+  senderName: string;
+  senderRole: "pm" | "client";
+  text: string;
+  createdAt: string;
+}
+
+export interface ProjectMilestone {
+  id: string;
+  briefId: string;
+  title: string;
+  description: string;
+  amount: string;
+  currency: string;
+  dueDate: string;
+  status: "planned" | "in_progress" | "qa_ready" | "approved";
+  createdAt: string;
+  createdByName: string;
+}
+
+export function useProjectMessages(briefId?: string): ProjectMessage[] {
+  return useApiList<ProjectMessage>(`/projects/${briefId || "none"}/messages`);
+}
+
+export function useProjectMilestones(briefId?: string): ProjectMilestone[] {
+  return useApiList<ProjectMilestone>(`/projects/${briefId || "none"}/milestones`);
+}
+
+export function useProjectApprovals(briefId?: string): MilestoneApproval[] {
+  return useApiList<MilestoneApproval>(`/projects/${briefId || "none"}/approvals`);
+}
+
 export function useAnnouncement(): DatabaseAnnouncement | null {
   const [announcement, setAnnouncement] = useState<DatabaseAnnouncement | null>(null);
   const refetch = useCallback(() => {

@@ -64,6 +64,13 @@ projectsRouter.post(
       }),
     );
 
+    // Keep the milestone's own status in step so both portals show it.
+    const msList = projectMilestones.filter((m) => m.briefId === projectId);
+    const ms = msList[Number(milestoneIndex)];
+    if (ms && ms.status !== "approved") {
+      projectMilestones.update((m) => m.id === ms.id, (m) => ({ ...m, status: "qa_ready" }));
+    }
+
     res.json({ approval: updated });
   },
 );
