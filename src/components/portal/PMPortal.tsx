@@ -60,6 +60,9 @@ export const PMPortal: React.FC = () => {
   const liveBriefs = useBriefs();
   const liveConsultRequests = useConsultationRequests();
   const [claimingBriefId, setClaimingBriefId] = useState<string | null>(null);
+  // The brief the PM has opened to work on (chat + milestones + details).
+  const [openBriefId, setOpenBriefId] = useState<string | null>(null);
+  const openBrief = liveBriefs.find((b) => b.id === openBriefId) || null;
 
   const pmNavTabs = [
     {
