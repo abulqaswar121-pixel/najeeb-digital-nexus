@@ -520,6 +520,27 @@ export const dbService = {
     notify();
     return approval;
   },
+
+  async sendProjectMessage(briefId: string, text: string): Promise<ProjectMessage> {
+    const { message } = await api.post<{ message: ProjectMessage }>(
+      `/projects/${briefId}/messages`,
+      { text },
+    );
+    notify();
+    return message;
+  },
+
+  async addProjectMilestone(
+    briefId: string,
+    data: { title: string; description?: string; amount?: string; currency?: string; dueDate?: string },
+  ): Promise<ProjectMilestone> {
+    const { milestone } = await api.post<{ milestone: ProjectMilestone }>(
+      `/projects/${briefId}/milestones`,
+      data,
+    );
+    notify();
+    return milestone;
+  },
 };
 
 export interface PayoutBatch {
