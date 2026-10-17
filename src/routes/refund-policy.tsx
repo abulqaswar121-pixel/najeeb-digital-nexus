@@ -4,7 +4,9 @@ import { LegalView } from "../components/public/LegalView";
 
 export const Route = createFileRoute("/refund-policy")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/refund-policy" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/refund-policy" },
       { name: "description", content: "Read NDH Agency refund and cancellation terms." },
       { property: "og:title", content: "Refund & Cancellation Policy | NDH Agency" },
       { property: "og:description", content: "Read NDH Agency refund and cancellation terms." },

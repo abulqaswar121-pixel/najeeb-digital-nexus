@@ -4,7 +4,9 @@ import { TalentNetworkView } from "../components/public/TalentNetworkView";
 
 export const Route = createFileRoute("/talent-network")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/talent-network" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/talent-network" },
       { property: "og:title", content: "Talent Network | NDH Agency" },
       {
         property: "og:description",

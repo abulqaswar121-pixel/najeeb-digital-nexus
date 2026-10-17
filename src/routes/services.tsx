@@ -4,7 +4,9 @@ import { ServicesPreview } from "../components/directions/views/ServicesPreview"
 
 export const Route = createFileRoute("/services")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/services" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/services" },
       {
         property: "og:description",
         content:

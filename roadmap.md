@@ -6,3 +6,8 @@
 - [x] No sideways scrolling on phones (fixed a style error that broke page widths).
 - [x] Removed demo labels, sample leads, fake portal numbers and the sample client workspace (case studies kept).
 - [ ] Some deep portal tabs still use long words — simplify in a later pass.
+
+## SEO corrections
+- [x] Fix and verify self-referencing search and shared-link addresses on every page.
+- [x] Verify legal pages have one main heading and fix skipped journey heading.
+- [x] Repair and validate sitemap XML without changing its page list.

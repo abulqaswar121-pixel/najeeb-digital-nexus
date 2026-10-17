@@ -10,7 +10,9 @@ const AdminPortal = React.lazy(() =>
 
 export const Route = createFileRoute("/portal/admin")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/portal/admin" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/portal/admin" },
       { name: "description", content: "Private workspace for managing NDH Agency operations." },
       { property: "og:title", content: "Admin Command Center | NDH Agency" },
       {

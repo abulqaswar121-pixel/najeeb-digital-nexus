@@ -4,7 +4,9 @@ import { AboutView } from "../components/public/AboutView";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/about" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/about" },
       { property: "og:title", content: "About | NDH Agency" },
       {
         property: "og:description",

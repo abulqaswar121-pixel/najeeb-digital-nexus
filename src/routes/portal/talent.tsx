@@ -10,7 +10,9 @@ const TalentPortal = React.lazy(() =>
 
 export const Route = createFileRoute("/portal/talent")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/portal/talent" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/portal/talent" },
       { name: "description", content: "Private workspace for NDH Agency talent assignments." },
       { property: "og:title", content: "Talent Portal | NDH Agency" },
       {

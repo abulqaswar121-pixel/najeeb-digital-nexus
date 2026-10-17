@@ -214,7 +214,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Top-tier digital engineering, brand systems, and market research for high-growth enterprises and global startups. Managed bureau model with dedicated PM leadership.",
       },
-      { property: "og:url", content: "https://agency.ndh.com.ng" },
       { property: "og:locale", content: "en_NG" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@NDHAgency" },
@@ -231,7 +230,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "format-detection", content: "telephone=no" },
     ],
     links: [
-      { rel: "canonical", href: "https://agency.ndh.com.ng" },
       {
         rel: "stylesheet",
         href: appCss,

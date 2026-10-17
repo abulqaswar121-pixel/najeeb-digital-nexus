@@ -29,3 +29,5 @@
 - **Homepage imagery.** Use an optimized bundled background and a public JPEG of the same image for homepage share metadata; keep image metadata on leaf routes so unrelated pages do not inherit it.
 - **Keep it green.** `npm run typecheck`, `npm run lint`, `npm run test` and
   `npm run build` must pass before pushing; CI runs the same pipeline.
+
+- **Page identity metadata.** Keep canonical and `og:url` on leaf content routes only, each pointing to its own public URL, because root canonical links are inherited without deduplication.

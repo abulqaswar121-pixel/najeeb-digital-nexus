@@ -3,7 +3,7 @@
   Generated after the routing migration (see AUDIT_REPORT.md) converted every
   public page from a client-side view switch into a real, crawlable
   TanStack Router route. Portal routes (/portal/*), the interactive journey
-  walkthrough, and the mobile simulator preview are deliberately excluded --
+  walkthrough, and the mobile simulator preview are deliberately excluded —
   they are gated behind auth and/or marked noindex in their own <head>, so
   listing them here would contradict the per-page robots meta tag.
 -->
@@ -58,7 +58,7 @@
   </url>
   <!--
     The legal pages (/privacy-policy, /terms-of-service, /refund-policy) are
-    intentionally omitted here: they currently render a "Draft -- Pending
+    intentionally omitted here: they currently render a "Draft — Pending
     Legal Review" banner over label_sample placeholder content and are
     marked <meta name="robots" content="noindex"> in their route head.
     Add them here once real counsel-reviewed copy replaces the draft and the

@@ -4,7 +4,9 @@ import { LegalView } from "../components/public/LegalView";
 
 export const Route = createFileRoute("/privacy-policy")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/privacy-policy" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/privacy-policy" },
       {
         name: "description",
         content: "Read how NDH Agency handles personal information and privacy.",

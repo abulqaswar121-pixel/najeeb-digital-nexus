@@ -12,7 +12,9 @@ const ClientPortal = React.lazy(() =>
 
 export const Route = createFileRoute("/portal/client")({
   head: () => ({
+    links: [{ rel: "canonical", href: "https://agency.ndh.com.ng/portal/client" }],
     meta: [
+      { property: "og:url", content: "https://agency.ndh.com.ng/portal/client" },
       { name: "description", content: "Private workspace for tracking your NDH Agency projects." },
       { property: "og:title", content: "Client Portal | NDH Agency" },
       {
