@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../lib/authStore";
 import { AgencySectorMark } from "../brand/AgencySectorMark";
 import { ACTIVE_PROJECTS, CLIENT_ORGANIZATIONS, FINANCIAL_INVOICES } from "../../data/mockData";
-import { dbService, useMyBriefs, useMyReferrals, useMyTransactions } from "../../lib/databaseStore";
+import {
+  dbService,
+  useMyBriefs,
+  useMyReferrals,
+  useMyTransactions,
+  useProjectMessages,
+  useProjectMilestones,
+  useProjectApprovals,
+} from "../../lib/databaseStore";
 import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 import { PaystackPaymentModal } from "../payment/PaystackPaymentModal";
 import { PortalNavDropdown } from "./PortalNavDropdown";
