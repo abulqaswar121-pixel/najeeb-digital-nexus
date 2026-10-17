@@ -81,15 +81,11 @@ const TermsContent: React.FC = () => (
     <Section title="2. Work">
       We agree on what to build, the price and the time first. Your PM keeps you updated.
     </Section>
-    <Section title="3. Ownership">
-      When you finish paying, the work is yours.
-    </Section>
+    <Section title="3. Ownership">When you finish paying, the work is yours.</Section>
     <Section title="4. Privacy">
       We keep your ideas and details private. We never sell them.
     </Section>
-    <Section title="5. Fixes">
-      If something is not what we agreed, we fix it.
-    </Section>
+    <Section title="5. Fixes">If something is not what we agreed, we fix it.</Section>
   </div>
 );
 

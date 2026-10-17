@@ -862,15 +862,20 @@ export const referrals = new Collection<ClientReferralRecord>(
   IS_TEST_RUN ? SEED_REFERRALS : [],
 );
 
-export const payoutBatches = new Collection<PayoutBatchRecord>("payoutBatches", !IS_TEST_RUN ? [] : [
-  {
-    id: "batch-2026-10-01",
-    label: "Bi-Weekly Payout Batch — Oct 1, 2026",
-    totalNGN: 14850000,
-    approvals: [],
-    disbursed: false,
-  },
-]);
+export const payoutBatches = new Collection<PayoutBatchRecord>(
+  "payoutBatches",
+  !IS_TEST_RUN
+    ? []
+    : [
+        {
+          id: "batch-2026-10-01",
+          label: "Bi-Weekly Payout Batch — Oct 1, 2026",
+          totalNGN: 14850000,
+          approvals: [],
+          disbursed: false,
+        },
+      ],
+);
 
 export interface BankTransferRecord {
   id: string;
