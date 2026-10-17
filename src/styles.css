@@ -1719,3 +1719,20 @@ section.gw-band {
 .ndh-portal-light table {
   min-width: 0;
 }
+
+/* Google Translate runs invisibly — hide its banner, tooltip and gadget so
+   the page layout never shifts and the header picker stays the only control. */
+.goog-te-banner-frame,
+.goog-te-balloon-frame,
+#goog-gt-tt,
+.goog-te-gadget,
+.goog-te-spinner-pos {
+  display: none !important;
+}
+body {
+  top: 0 !important;
+  position: static !important;
+}
+.skiptranslate iframe {
+  display: none !important;
+}
