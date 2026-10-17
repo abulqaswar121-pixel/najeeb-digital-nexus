@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ServiceDepartment } from "../types/ndh";
 import { EXTRA_TRANSLATIONS } from "./extraTranslations";
+import { applyGoogleTranslate, restoreGoogleTranslate } from "./googleTranslate";
 
 export type SupportedCurrency = "USD" | "NGN" | "GBP" | "EUR" | "AED";
 export type SupportedLanguage = "en" | "fr" | "ar";
@@ -1075,6 +1076,8 @@ export const setLanguage = (l: SupportedLanguage) => {
   currentLanguage = l;
   if (typeof window !== "undefined") {
     localStorage.setItem("ndh_language", l);
+    // Let Google Translate cover every word we have not translated by hand.
+    applyGoogleTranslate(l);
   }
   listeners.forEach((fn) => fn());
 };
@@ -1113,6 +1116,8 @@ export const useCurrencyLanguage = () => {
 
   useEffect(() => {
     applyDetectionOnce();
+    // Re-apply a saved non-English choice so it survives page navigation.
+    restoreGoogleTranslate(currentLanguage);
     const update = () => {
       setCurr(currentCurrency);
       setLang(currentLanguage);
