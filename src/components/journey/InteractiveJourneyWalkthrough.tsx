@@ -49,7 +49,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
       actor: "Operations Admin",
       roleBadge: "Ops Admin",
       isCompleted: state.leadQualified,
-      description: "Lead score calculated at 96/100. Triage bot routes brief to the NDH PM Team.",
+      description: "Lead score calculated at 96/100. Review bot routes brief to the NDH PM Team.",
     },
     {
       step: 3,
@@ -170,7 +170,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
             <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-2xl">
               Experience the end-to-end lifecycle of a client engagement from public brief
               submission, PM triage, private talent matching, QA revision cycles, and milestone
-              sign-off, to dual-approval finance disbursement and case study publishing.
+              sign-off, to dual-approval finance payout and case study publishing.
             </p>
           </div>
 
@@ -347,7 +347,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                   <div className="p-4 rounded-xl bg-white/[0.06] border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-sm">
-                        Lead Triage & AI Scoring Engine
+                        Lead Review & AI Scoring Engine
                       </span>
                       <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono text-[10px] font-bold">
                         Quality Score: 96/100
@@ -746,7 +746,7 @@ export const InteractiveJourneyWalkthrough: React.FC<InteractiveJourneyWalkthrou
                       </div>
                     </div>
                     <p className="text-slate-200 font-mono text-[11px]">
-                      Disbursement: ₦36,900,000 NGN ($24,600 USD) transmitted to NIBSS Nigerian
+                      Payout: ₦36,900,000 NGN ($24,600 USD) transmitted to NIBSS Nigerian
                       Inter-Bank Network.
                     </p>
                   </div>

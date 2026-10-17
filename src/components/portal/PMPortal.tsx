@@ -185,7 +185,7 @@ export const PMPortal: React.FC = () => {
             </div>
           )}
 
-          {/* Tab 2: Brief Triage & Scope Builder */}
+          {/* Tab 2: Brief Review & Scope Builder */}
           {activeTab === "triage" && (
             <div className="space-y-6">
               {/* Live submissions from the public "Start Your Project" wizard and

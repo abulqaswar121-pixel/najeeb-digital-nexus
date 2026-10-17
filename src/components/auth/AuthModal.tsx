@@ -25,7 +25,7 @@ const PORTAL_COPY: Record<
 > = {
   admin: {
     heading: "Admin Sign In",
-    subheading: "Operations Command Center access for NDH super admins.",
+    subheading: "Operations Dashboard access for NDH super admins.",
     roles: ["super_admin"],
     redirectView: "admin-command",
   },
@@ -180,7 +180,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onNavigatePortal }) => {
           <p className="text-xs text-[var(--eco-on-dark-muted)]">
             {activeTab === "login"
               ? portalCopy.subheading
-              : "Start your project with milestone escrow protection and dedicated PMs"}
+              : "Start your project with milestone safe payment protection and dedicated PMs"}
           </p>
         </div>
 

@@ -27,8 +27,8 @@ export const DELIVERY_STEPS: DeliveryStep[] = [
   },
   {
     num: "03",
-    title: "Sprint & Escrow",
-    text: "Weekly verified deliverables land in your workspace. Milestone approvals release escrow, so payment always tracks accepted work.",
+    title: "Sprint & Safe Payment",
+    text: "Weekly verified deliverables land in your workspace. Milestone approvals release safe payment, so payment always tracks accepted work.",
     icon: ShieldCheck,
   },
   {

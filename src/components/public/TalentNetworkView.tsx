@@ -39,7 +39,7 @@ export const TalentNetworkView: React.FC<TalentNetworkViewProps> = ({
     },
     {
       tier: "Tier 3: Lead Systems Architect",
-      desc: "7+ years leading mission-critical fintech cores, distributed microservices, and multi-cloud infrastructure.",
+      desc: "7+ years leading important fintech cores, distributed microservices, and multi-cloud infrastructure.",
       badge: "Staff Architect",
     },
     {

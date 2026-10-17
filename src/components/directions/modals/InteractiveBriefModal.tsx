@@ -472,7 +472,7 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
                   >
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>
-                      {isSubmitting ? "Submitting..." : "Submit Brief & Dispatch PM Triage"}
+                      {isSubmitting ? "Submitting..." : "Submit Brief & Dispatch PM Review"}
                     </span>
                   </button>
                 </div>

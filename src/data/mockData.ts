@@ -41,7 +41,7 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     capabilities: [
       "Brand Architecture & Archetype Mapping",
       "Visual Identity Systems & Brand Guidelines",
-      "Bespoke Typography & Iconography",
+      "Custom Typography & Iconography",
       "Rebranding & Market Repositioning",
       "Investor Pitch Decks & Corporate Collateral",
     ],
@@ -156,10 +156,10 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
       "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&auto=format&fit=crop&q=80",
     capabilities: [
       "Custom Enterprise RAG & Semantic Search",
-      "LLM Tool Calling & Multi-Agent Orchestration",
+      "LLM Tool Calling & Multi-Agent Planning",
       "Automated CRM & Operations Pipelines (n8n/Make)",
       "Document Parsing & OCR Extraction Engines",
-      "Customer Support Agentic Triage Bots",
+      "Customer Support Agentic Review Bots",
     ],
     deliverables: [
       "Custom LLM Pipeline API Integration",
@@ -205,7 +205,7 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     id: "fintech_payments",
     category: "engineering",
     name: "FinTech & Payment Gateway Systems",
-    tagline: "Bank-grade transaction settlement, escrow engines, and sub-300ms APIs.",
+    tagline: "Bank-grade transaction settlement, safe payment engines, and sub-300ms APIs.",
     description:
       "End-to-end FinTech infrastructure, automated split payouts, Paystack/Flutterwave/Stripe webhook engines, virtual account issuance, and NIBSS banking integrations.",
     activeTalentsCount: 16,
@@ -215,7 +215,7 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     capabilities: [
       "Paystack, Flutterwave, Stripe & Moniepoint Integrations",
       "Virtual Account Generation & Webhook Processing",
-      "Multi-Tier Escrow & Dual-Approval Payout Engines",
+      "Multi-Tier Safe Payment & Dual-Approval Payout Engines",
       "PCI-DSS Compliance Audits & Tokenized Vaults",
       "High-Throughput Financial Ledger Engineering",
     ],
@@ -243,7 +243,7 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
       "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900&auto=format&fit=crop&q=80",
     capabilities: [
       "AWS / GCP / Cloudflare Multi-Region Architecture",
-      "Docker & Kubernetes Cluster Orchestration",
+      "Docker & Kubernetes Cluster Planning",
       "Automated Zero-Downtime CI/CD Pipelines",
       "Edge CDN Optimization & Sub-100ms Latency",
       "24/7 Datadog / Prometheus Telemetry & SRE",
@@ -265,7 +265,7 @@ export const SERVICE_DEPARTMENTS: ServiceDepartmentInfo[] = [
     name: "Cybersecurity, Penetration Audits & Compliance",
     tagline: "Sovereign protection, NDPR/GDPR compliance, and penetration testing.",
     description:
-      "Vulnerability assessments, automated ethical hacking, cryptographic key escrow, SOC 2 Type II audit readiness, and NDPR data protection governance.",
+      "Vulnerability assessments, automated ethical hacking, cryptographic key safe payment, SOC 2 Type II audit readiness, and NDPR data protection governance.",
     activeTalentsCount: 10,
     averageTurnaroundDays: 10,
     coverImage:
@@ -609,7 +609,7 @@ export const TALENT_RANK_CONFIGS: Record<TalentRank, TalentRankDetails> = {
     perks: [
       "VIP Priority Queue & High-Ticket Briefs",
       "+10% Performance Task Bonus (1.10x Rate)",
-      "Fast-Track Escrow Release",
+      "Fast-Track Safe Payment Release",
       "Eligible for Hybrid PM-Lead Appointed Roles",
     ],
   },
@@ -1107,7 +1107,7 @@ export const ACTIVE_PROJECTS: Project[] = [
       },
       {
         id: "ms-12",
-        title: "Milestone 2: SMS Bot Triage & Route Optimization",
+        title: "Milestone 2: SMS Bot Review & Route Optimization",
         description: "Twilio SMS/WhatsApp integration and automated logistics dispatch queues.",
         department: "ai_automation",
         dueDate: "2026-09-30",
@@ -1129,7 +1129,7 @@ export const ACTIVE_PROJECTS: Project[] = [
   {
     id: "proj-003",
     code: "NDH-2026-101",
-    title: "DiasporaDirect Sovereign Investor Portal & Escrow Vault",
+    title: "DiasporaDirect Sovereign Investor Portal & Safe Payment Vault",
     organizationId: "org-diaspora",
     organizationName: "DiasporaDirect Diaspora Services",
     department: "brand_strategy",
@@ -1139,7 +1139,7 @@ export const ACTIVE_PROJECTS: Project[] = [
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
     status: "proposal_review",
     healthScore: "needs_attention",
-    healthReason: "Client requested custom escrow verification clause in Section 4.2",
+    healthReason: "Client requested custom safe payment verification clause in Section 4.2",
     progressPercentage: 25,
     startDate: "2026-09-10",
     targetEndDate: "2026-11-20",
@@ -1165,7 +1165,7 @@ export const ACTIVE_PROJECTS: Project[] = [
       },
       {
         id: "ms-22",
-        title: "Milestone 2: Escrow Portal UI/UX Prototypes",
+        title: "Milestone 2: Safe Payment Portal UI/UX Prototypes",
         description:
           "High-fidelity Figma prototypes for tokenized asset ownership and legal vault.",
         department: "ui_ux_design",
@@ -1287,7 +1287,7 @@ export const FINANCIAL_INVOICES: FinancialInvoice[] = [
     status: "paid",
     dueDate: "2026-08-30",
     paidDate: "2026-08-28",
-    paymentGateway: "Direct Wire (Escrow)",
+    paymentGateway: "Direct Wire (Safe Payment)",
     milestoneTitle: "Milestone 1: n8n Workflow Automation Architecture",
   },
   {
@@ -1302,7 +1302,7 @@ export const FINANCIAL_INVOICES: FinancialInvoice[] = [
     status: "draft",
     dueDate: "2026-10-20",
     paymentGateway: "Paystack",
-    milestoneTitle: "Milestone 2: SMS Bot Triage & Route Optimization",
+    milestoneTitle: "Milestone 2: SMS Bot Review & Route Optimization",
   },
 ];
 

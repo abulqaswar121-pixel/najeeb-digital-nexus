@@ -200,7 +200,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
     },
     {
       id: "invoices",
-      label: "Invoices & Escrow",
+      label: "Invoices & Safe Payment",
       icon: <CreditCard className="w-4 h-4" />,
     },
     {
@@ -361,13 +361,13 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
 
                   <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
                     <span className="text-xs text-[var(--eco-on-dark-muted)]">
-                      Total Escrow Deposited
+                      Total Safe Payment Deposited
                     </span>
                     <div className="text-2xl font-bold font-mono text-white">
                       ${activeProject.totalClientBudgetUSD.toLocaleString()}
                     </div>
                     <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
-                      100% Escrow Protected
+                      100% Safe Payment Protected
                     </div>
                   </div>
 
@@ -410,7 +410,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
 
                     <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
                       <span className="text-xs text-[var(--eco-on-dark-muted)]">
-                        Total Paid to Escrow
+                        Total Paid to Safe Payment
                       </span>
                       <div className="text-2xl font-bold font-mono text-white">
                         {myTxTotalsLabel || "₦0"}
@@ -565,7 +565,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                     }}
                     className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg"
                   >
-                    Proceed to Escrow Deposit
+                    Proceed to Safe Payment Deposit
                   </button>
                 </div>
               ) : (
@@ -616,7 +616,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                     type="submit"
                     className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.01]"
                   >
-                    <span>Submit Task to PM &amp; Request Escrow Deposit</span>
+                    <span>Submit Task to PM &amp; Request Safe Payment Deposit</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </form>
@@ -824,7 +824,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                   </div>
                   <p>
                     Discounts and cashback credits are generated only upon verified first milestone
-                    escrow funding. This ensures 100% genuine referrals and immediate project
+                    safe payment funding. This ensures 100% genuine referrals and immediate project
                     execution.
                   </p>
                 </div>
@@ -864,7 +864,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                               </span>
                             ) : (
                               <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono font-bold text-[10px]">
-                                Pending First Milestone Escrow
+                                Pending First Milestone Safe Payment
                               </span>
                             )}
                           </div>
@@ -930,8 +930,8 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                         }`}
                       >
                         {milestoneApproved
-                          ? "Deliverable Approved & Escrow Released ✓"
-                          : "Approve Deliverable & Release Escrow"}
+                          ? "Deliverable Approved & Safe Payment Released ✓"
+                          : "Approve Deliverable & Release Safe Payment"}
                       </button>
                     </div>
                     {milestoneApprovalError && (
@@ -957,13 +957,13 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
             <div className="p-6 rounded-3xl bg-eco-navy/90 border border-white/10 space-y-6 shadow-2xl">
               <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <h3 className="font-bold text-base text-white">
-                  Escrow Invoices &amp; Billing History
+                  Safe Payment Invoices &amp; Billing History
                 </h3>
                 <button
                   onClick={() => setIsPaymentModalOpen(true)}
                   className="px-4 py-2 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-md"
                 >
-                  Make Escrow Deposit
+                  Make Safe Payment Deposit
                 </button>
               </div>
 
@@ -1009,7 +1009,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                   <h3 className="font-bold text-base text-white">No invoices yet</h3>
                   <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-sm mx-auto">
                     Once your first project milestone is scheduled, invoices will appear here. You
-                    can also make an ad-hoc escrow deposit anytime via the button above.
+                    can also make an ad-hoc safe payment deposit anytime via the button above.
                   </p>
                 </div>
               ) : (
@@ -1166,11 +1166,11 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
         </div>
       </div>
 
-      {/* Escrow Deposit Modal */}
+      {/* Safe Payment Deposit Modal */}
       <PaystackPaymentModal
         isOpen={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}
-        projectName={customTaskTitle || selectedPaymentInvoice || "Milestone Escrow Deposit"}
+        projectName={customTaskTitle || selectedPaymentInvoice || "Milestone Safe Payment Deposit"}
         defaultAmount={Number(customBudgetAmount) || 75000}
       />
 
@@ -1197,7 +1197,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
           </div>
 
           <div className="flex items-center gap-4 text-[11px] text-[var(--eco-on-dark-muted)]">
-            <span>NDA-Protected • Dual-Key Escrow Milestones</span>
+            <span>NDA-Protected • Dual-Key Safe Payment Milestones</span>
           </div>
         </div>
       </footer>

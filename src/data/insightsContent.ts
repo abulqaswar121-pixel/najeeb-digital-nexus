@@ -59,20 +59,20 @@ export const INSIGHTS_RESOURCES: InsightResource[] = [
     ],
   },
   {
-    id: "insight-escrow-trust",
+    id: "insight-safe payment-trust",
     format: "read",
     tag: "Payments & Trust",
     readTime: "5 min read",
     date: "August 2026",
-    title: "Why Milestone-Based Escrow Protects Both Clients and Talent",
+    title: "Why Milestone-Based Safe Payment Protects Both Clients and Talent",
     excerpt:
-      "Remote software work has a trust problem in both directions. Milestone escrow isn't a buzzword — it's a specific mechanism for fixing it. Here's how it actually works and why it matters to both sides of the table.",
+      "Remote software work has a trust problem in both directions. Milestone safe payment isn't a buzzword — it's a specific mechanism for fixing it. Here's how it actually works and why it matters to both sides of the table.",
     body: [
-      'Remote software engagements have a trust problem that runs in both directions, and most explanations of "escrow" only address one side of it. Clients worry about paying up front for work that\'s late, low-quality, or never delivered. Talent — developers, designers, specialists — worry about delivering work and then chasing an invoice that never gets paid, or getting ghosted after the first milestone. Milestone-based escrow is a specific mechanism for reducing both risks at once, not just marketing language for "trust us."',
-      "The structure is simple: instead of paying the full project value up front, or paying nothing until final delivery, the client funds each milestone into escrow before work on it begins. The agency or talent only gets paid out once that specific milestone has been reviewed and accepted against an agreed specification. Nobody is working purely on faith that payment will show up, and nobody is paying purely on faith that the work will show up.",
-      "This matters more the less you know the people you're working with. If you're hiring a development team you've worked with for five years, informal trust already does this job. If you're hiring anyone — an agency, a freelancer, a marketplace contractor — for the first time, milestone escrow replaces reputation you haven't built yet with a structural guarantee that does the same job: nobody loses everything if the relationship doesn't work out after milestone one.",
+      'Remote software engagements have a trust problem that runs in both directions, and most explanations of "escrow" only address one side of it. Clients worry about paying up front for work that\'s late, low-quality, or never delivered. Talent — developers, designers, specialists — worry about delivering work and then chasing an invoice that never gets paid, or getting ghosted after the first milestone. Milestone-based safe payment is a specific mechanism for reducing both risks at once, not just marketing language for "trust us."',
+      "The structure is simple: instead of paying the full project value up front, or paying nothing until final delivery, the client funds each milestone into safe payment before work on it begins. The agency or talent only gets paid out once that specific milestone has been reviewed and accepted against an agreed specification. Nobody is working purely on faith that payment will show up, and nobody is paying purely on faith that the work will show up.",
+      "This matters more the less you know the people you're working with. If you're hiring a development team you've worked with for five years, informal trust already does this job. If you're hiring anyone — an agency, a freelancer, a marketplace contractor — for the first time, milestone safe payment replaces reputation you haven't built yet with a structural guarantee that does the same job: nobody loses everything if the relationship doesn't work out after milestone one.",
       'It also changes incentives for quality, not just payment timing. When a milestone payout depends on passing a review against a written specification, that specification becomes the thing both sides refer back to when there\'s a disagreement about whether something is "done." Without it, "done" is whatever the builder says it is, and disputes become arguments about intent instead of arguments about a document both parties already agreed to.',
-      'The honest caveat: escrow structure only protects you if the milestones themselves are specific enough to be inspected objectively. "Milestone 1: backend work" protects no one. "Milestone 1: user authentication (email + OAuth), core data model for X and Y, and an admin panel to manage both, deployed to a staging environment for review" protects both sides, because there\'s something concrete to check. If a vendor offers escrow but won\'t commit to specific, inspectable milestones, the escrow is mostly theater — ask for both together.',
+      'The honest caveat: safe payment structure only protects you if the milestones themselves are specific enough to be inspected objectively. "Milestone 1: backend work" protects no one. "Milestone 1: user authentication (email + OAuth), core data model for X and Y, and an admin panel to manage both, deployed to a staging environment for review" protects both sides, because there\'s something concrete to check. If a vendor offers safe payment but won\'t commit to specific, inspectable milestones, the safe payment is mostly theater — ask for both together.',
     ],
   },
   {

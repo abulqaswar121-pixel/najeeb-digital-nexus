@@ -225,7 +225,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
                   className="hover:text-foreground flex items-center gap-1.5 text-left transition-colors"
                 >
                   <FileCheck className="text-success h-3.5 w-3.5" />
-                  <span>Dual-Key Escrow Guarantee</span>
+                  <span>Dual-Key Safe Payment Guarantee</span>
                 </button>
               </li>
               <li>
@@ -278,7 +278,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
             </span>
             <span className="flex items-center gap-1.5">
               <Lock className="text-brand-soft h-4 w-4" />
-              <span>Enterprise-Grade Security Practices</span>
+              <span>Strong Security Practices</span>
             </span>
             <span className="flex items-center gap-1.5">
               <CreditCard className="text-gold h-4 w-4" />

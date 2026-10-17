@@ -235,7 +235,7 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
             <div className="p-4 rounded-2xl bg-white/[0.04] border border-eco-cyan/20 text-left text-xs text-slate-200 space-y-1.5">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Dual-Key Escrow Engine Locked</span>
+                <span>Dual-Key Safe Payment Engine Locked</span>
               </div>
               <p className="text-[11px] text-[var(--eco-on-dark-muted)]">
                 Funds will only be released to the engineering squad after your assigned Project
@@ -263,7 +263,7 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
                   Target Region: {detectedCountry}
                 </span>
               </div>
-              <h3 className="text-xl font-black text-white">Escrow Payment Gateway</h3>
+              <h3 className="text-xl font-black text-white">Safe Payment Payment Gateway</h3>
               <p className="text-xs text-slate-200">
                 Project: <strong className="text-white">{projectName}</strong>
               </p>

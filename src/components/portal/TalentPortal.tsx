@@ -305,11 +305,11 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                       Active Milestone Task Allocations
                     </h3>
                     <p className="text-xs text-[var(--eco-on-dark-muted)] mt-0.5">
-                      Tasks assigned by your PM with funded escrow guarantee
+                      Tasks assigned by your PM with funded safe payment guarantee
                     </p>
                   </div>
                   <span className="text-xs text-emerald-400 font-mono font-bold bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
-                    Escrow Locked • Risk Free
+                    Safe Payment Locked • Risk Free
                   </span>
                 </div>
 
@@ -608,7 +608,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                   </h3>
                   <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
                     Uploaded artifacts undergo automated linting and PM QA scoring before milestone
-                    escrow disbursement.
+                    safe payment payout.
                   </p>
                 </div>
 
@@ -721,7 +721,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                     </p>
                   </div>
                   <span className="px-3 py-1 rounded-xl bg-eco-cyan/10 text-eco-cyan font-mono text-xs font-bold border border-eco-cyan/25 shrink-0">
-                    Escrow Model: 45% Admin / 15% PM / 40% Talent
+                    Safe Payment Model: 45% Admin / 15% PM / 40% Talent
                   </span>
                 </div>
 
@@ -733,7 +733,7 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
                       <span>1. Admin / Owner (45%)</span>
                     </div>
                     <p className="text-slate-200 leading-relaxed text-[11px]">
-                      Covers client acquisition, legal escrow liability, server infrastructure,
+                      Covers client acquisition, legal safe payment liability, server infrastructure,
                       platform R&D, and agency treasury net profits.
                     </p>
                   </div>
