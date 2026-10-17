@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ServiceDepartment } from "../types/ndh";
 import { EXTRA_TRANSLATIONS } from "./extraTranslations";
+import { applyGoogleTranslate, restoreGoogleTranslate } from "./googleTranslate";
 
 export type SupportedCurrency = "USD" | "NGN" | "GBP" | "EUR" | "AED";
 export type SupportedLanguage = "en" | "fr" | "ar";
