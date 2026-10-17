@@ -85,8 +85,8 @@ export const TalentPortal: React.FC<TalentPortalProps> = ({ onSwitchToPM }) => {
       <div className="ndh-portal-light bg-eco-dark text-slate-100 min-h-screen font-sans flex flex-col items-center justify-center gap-4 p-8 text-center">
         <p className="text-sm text-[var(--eco-on-dark-muted)]">Loading your talent profile…</p>
         <p className="text-xs text-[var(--eco-on-dark-muted)] max-w-md">
-          If this doesn't load, this account may not have a linked talent profile on the server yet
-          (only the demo "Architect-Alpha" account is currently linked).
+          If this doesn't load, your talent profile may not be set up yet. Please contact your
+          project manager.
         </p>
       </div>
     );

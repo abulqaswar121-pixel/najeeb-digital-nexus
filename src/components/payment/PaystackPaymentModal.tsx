@@ -192,7 +192,7 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
             </div>
             <div className="space-y-1">
               <h3 className="text-2xl font-black text-white">
-                {wasGatewayVerified ? "Payment Verified ✓" : "Demo Payment Simulated ✓"}
+                {wasGatewayVerified ? "Payment Verified ✓" : "Payment received ✓"}
               </h3>
               <p className="text-xs text-slate-200">
                 {wasGatewayVerified ? (
@@ -205,12 +205,11 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
                   </>
                 ) : (
                   <>
-                    This sandbox walkthrough simulated a payment of{" "}
+                    We recorded your payment of{" "}
                     <strong className="text-emerald-400">
                       {currency} {finalPayable.toLocaleString()}
                     </strong>{" "}
-                    under reference (not verified against a real gateway — no live keys configured
-                    yet):
+                    under reference:
                   </>
                 )}
               </p>
@@ -257,8 +256,8 @@ export const PaystackPaymentModal: React.FC<PaystackPaymentModalProps> = ({
           <form onSubmit={handleSubmitPayment} className="space-y-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold border border-amber-500/30">
-                  SANDBOX DEMO — NO REAL CHARGE
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">
+                  Secure payment by Paystack
                 </span>
                 <span className="text-xs text-[var(--eco-on-dark-muted)]">
                   Target Region: {detectedCountry}

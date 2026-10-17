@@ -645,9 +645,9 @@ export const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
           <div className="bg-eco-dark border-t border-white/10 p-2.5 flex items-center justify-between text-[10px] text-[var(--eco-on-dark-muted)] shrink-0">
             <span className="flex items-center gap-1">
               <ShieldCheck className="w-3 h-3 text-emerald-500" />
-              <span>Scripted Concierge — Demo Responses Only</span>
+              <span>NDH AI helper</span>
             </span>
-            <span>NDH Agency Nexus v1.0</span>
+            <span>NDH Agency</span>
           </div>
         </div>
       )}
