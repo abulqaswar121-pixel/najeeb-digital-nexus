@@ -1,10 +1,31 @@
 import { Router } from "../http.js";
-import { requireRole } from "../auth.js";
-import { projectApprovals, type ProjectApprovalRecord } from "../collections.js";
+import { requireAuth, requireRole } from "../auth.js";
+import {
+  briefs,
+  projectApprovals,
+  projectMessages,
+  projectMilestones,
+  type ProjectApprovalRecord,
+} from "../collections.js";
+import type { UserRecord } from "../collections.js";
 
 export const projectsRouter = Router();
 
 const CLIENT_ROLES = ["client_owner", "client_admin", "client_billing", "client_reviewer"] as const;
+const STAFF_ROLES = ["project_manager", "super_admin"] as const;
+
+// A project here is a client brief. Staff (PM/admin) can open any project;
+// a client can only open a project they themselves submitted (matched by
+// their account or by the email on the brief).
+function canAccessProject(user: UserRecord, briefId: string): boolean {
+  if ((STAFF_ROLES as readonly string[]).includes(user.role)) return true;
+  const brief = briefs.find((b) => b.id === briefId);
+  if (!brief) return false;
+  return (
+    brief.submittedByUserId === user.id ||
+    brief.clientEmail.toLowerCase() === user.email.toLowerCase()
+  );
+}
 
 function getOrCreate(projectId: string, milestoneIndex: number): ProjectApprovalRecord {
   const existing = projectApprovals.find(
