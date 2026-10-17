@@ -157,24 +157,24 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
 
             <div className="p-4 rounded-xl bg-muted/50 border border-border text-left space-y-2 text-xs max-w-md mx-auto">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Assigned Department:</span>
+                <span className="text-muted-foreground">Service:</span>
                 <span className="font-semibold text-foreground">{currentDept.name}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Assigned PM Lead:</span>
+                <span className="text-muted-foreground">Project manager:</span>
                 <span className="font-semibold text-foreground">
                   {submittedAssignedPM === "Unassigned" ? "Not yet assigned" : submittedAssignedPM}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Mutual NDA Status:</span>
+                <span className="text-muted-foreground">Privacy:</span>
                 <span className="font-semibold text-emerald-500 font-mono">
-                  {ndaRequested ? "Mutual NDA Draft Attached" : "Standard Confidentiality"}
+                  {ndaRequested ? "NDA included" : "Kept private"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Proposal Delivery SLA:</span>
-                <span className="font-semibold text-primary font-mono">Within 24 Hours</span>
+                <span className="text-muted-foreground">Plan and price:</span>
+                <span className="font-semibold text-primary font-mono">Within 24 hours</span>
               </div>
             </div>
 

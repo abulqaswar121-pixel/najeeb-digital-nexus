@@ -304,7 +304,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                   )}
                 </div>
                 <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1">
-                  Authorized User: <strong className="text-white">{displayUserName}</strong>{" "}
+                  Signed in as: <strong className="text-white">{displayUserName}</strong>{" "}
                   {isDemoWorkspace ? (
                     <>
                       • PM: <strong className="text-eco-cyan">Tariq Al-Najeeb</strong>
@@ -329,7 +329,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-transform hover:scale-105"
               >
                 <PlusCircle className="w-3.5 h-3.5" />
-                <span>Drop Custom Task / Budget</span>
+                <span>Add a small task</span>
               </button>
 
               <button
@@ -337,7 +337,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 className="px-4 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-md shadow-cyan-500/30 flex items-center gap-1.5 transition-transform hover:scale-105"
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Submit Full Brief</span>
+                <span>New project</span>
               </button>
             </div>
           </div>
@@ -410,7 +410,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
 
                     <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
                       <span className="text-xs text-[var(--eco-on-dark-muted)]">
-                        Total Paid to Safe Payment
+                        Total paid
                       </span>
                       <div className="text-2xl font-bold font-mono text-white">
                         {myTxTotalsLabel || "₦0"}
@@ -464,7 +464,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                           className="px-5 py-2.5 rounded-xl bg-primary hover:bg-eco-cyan/20 text-white font-bold text-xs shadow-md shadow-cyan-500/30 flex items-center gap-1.5"
                         >
                           <Sparkles className="w-3.5 h-3.5" />
-                          <span>Submit Full Brief</span>
+                          <span>New project</span>
                         </button>
                         <button
                           onClick={() => setActiveTab("custom_task")}
