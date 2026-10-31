@@ -10,11 +10,13 @@ import {
   UserPlus,
   FileCheck,
   User,
+  MessageCircle,
 } from "lucide-react";
 import { MainNavView } from "./navViews";
 import { BrandLogo } from "../brand/BrandLogo";
 import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 import { useAuth, openAuthModal } from "../../lib/authStore";
+import { InstallAppButton } from "./InstallAppButton";
 
 interface AppFooterProps {
   onSelectView: (view: MainNavView) => void;
@@ -69,9 +71,9 @@ export const AppFooter: React.FC<AppFooterProps> = ({
                 <span>Marmaron Nufawa, Western Bye Pass, Sokoto, Nigeria</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="text-brand-soft h-3.5 w-3.5 shrink-0" />
-                <a href="https://wa.me/2349029932794" className="hover:text-foreground">
-                  +234 902 993 2794 (WhatsApp)
+                <MessageCircle className="text-brand-soft h-3.5 w-3.5 shrink-0" />
+                <a href="https://wa.me/2349029932794" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
+                  Chat on WhatsApp
                 </a>
               </div>
               <div className="flex items-center gap-2">
@@ -86,6 +88,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
                   abunnajeeh7@gmail.com
                 </a>
               </div>
+              <InstallAppButton />
               <div className="flex items-center gap-3 pt-1">
                 <a
                   href="https://www.facebook.com/share/1Be6HN8zjS/"

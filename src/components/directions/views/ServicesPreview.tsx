@@ -2,20 +2,12 @@ import React, { useState } from "react";
 import { ServiceDepartment, ServiceDepartmentInfo, ServiceCategory } from "../../../types/ndh";
 import { SERVICE_DEPARTMENTS } from "../../../data/mockData";
 import { departmentProfile } from "../../../data/agencyDepartments";
-import { useCurrencyLanguage } from "../../../lib/currencyLanguageStore";
 import { ServiceDetailModal } from "../modals/ServiceDetailModal";
 import {
   CheckCircle2,
-  Clock,
   ArrowRight,
   Layers,
   Search,
-  Sparkles,
-  ShieldCheck,
-  Check,
-  Globe,
-  Zap,
-  Filter,
 } from "lucide-react";
 
 /** Renders the department's sector icon inside the tinted pill. */
@@ -30,7 +22,6 @@ interface ServicesPreviewProps {
 }
 
 export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWizard }) => {
-  const { currency, getRegionalPricing } = useCurrencyLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>("all");
   const [activeModalDept, setActiveModalDept] = useState<ServiceDepartmentInfo | null>(null);
@@ -74,20 +65,9 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWiz
             Comprehensive Digital Capabilities. Zero Freelance Chaos.
           </h1>
           <p className="max-w-3xl text-sm leading-relaxed sm:text-base">
-            From budget-friendly starter MVPs and fast websites to enterprise FinTech
-            infrastructure. Every project is assigned a dedicated Project Manager with guaranteed
-            milestones and IP safe payment.
+            From rapid product launches to enterprise FinTech infrastructure, every engagement is custom-scoped and delivered with accountable project leadership.
           </p>
 
-          {/* Currency is auto-detected from your browser locale; override anytime from the
-              header preferences — no need to call out the detected country here. */}
-          <div className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-4 py-2 text-xs text-[var(--eco-on-dark-muted)] backdrop-blur-md">
-            <Globe className="h-4 w-4 text-emerald-300" aria-hidden="true" />
-            <span>
-              Prices shown in <strong className="text-white">{currency}</strong> • detected
-              automatically, changeable anytime
-            </span>
-          </div>
         </div>
       </section>
 
@@ -151,9 +131,7 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWiz
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {filteredDepts.map((dept) => {
-                const starterPricing = getRegionalPricing(dept.id, "starter");
-                return (
+              {filteredDepts.map((dept) => (
                   <div
                     key={dept.id}
                     onClick={() => setActiveModalDept(dept)}
@@ -214,16 +192,9 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWiz
                       </div>
                     </div>
 
-                    {/* Accessible Local Pricing Footer */}
-                    <div className="border-border bg-surface-raised flex items-center justify-between border-t p-5 pt-3">
-                      <div>
-                        <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
-                          Starter Plan ({currency}):
-                        </div>
-                        <div className="text-xs font-mono font-bold text-emerald-400">
-                          From {starterPricing.price}
-                        </div>
-                      </div>
+                    {/* Custom-scoped service CTA */}
+                    <div className="border-border bg-surface-raised flex items-center justify-between gap-3 border-t p-5 pt-3">
+                      <span className="gw-chip text-xs font-semibold">Custom Scope</span>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -236,8 +207,7 @@ export const ServicesPreview: React.FC<ServicesPreviewProps> = ({ onOpenBriefWiz
                       </button>
                     </div>
                   </div>
-                );
-              })}
+              ))}
             </div>
           )}
 

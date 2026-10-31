@@ -219,7 +219,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ onSelectView, onOpenBr
                   <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
                     <div className="flex items-center gap-2 font-bold text-white">
                       <Phone className="w-4 h-4 text-emerald-400" />
-                      <span>WhatsApp / Phone</span>
+                      <span>Chat on WhatsApp</span>
                     </div>
                     <a
                       href="https://wa.me/2349029932794"

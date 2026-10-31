@@ -4,6 +4,7 @@ import { BrandLogo } from "../brand/BrandLogo";
 import { useAuth, openAuthModal } from "../../lib/authStore";
 import { useCurrencyLanguage } from "../../lib/currencyLanguageStore";
 import { ArrowRight, Check, ChevronDown, LogOut, Menu, User, X } from "lucide-react";
+import { InstallAppButton } from "./InstallAppButton";
 
 /**
  * Which nav view each top-level header link maps to.
@@ -193,6 +194,9 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
                     );
                   })}
                 </div>
+                <div className="border-border mt-3 border-t pt-3">
+                  <InstallAppButton compact onDone={() => setPrefsOpen(false)} />
+                </div>
               </div>
             )}
           </div>
@@ -315,6 +319,7 @@ export const AgencyHeader: React.FC<Props> = ({ currentView, onSelectView, onOpe
             >
               {t("nav_start_project")}
             </button>
+            <InstallAppButton compact onDone={() => setMobileOpen(false)} />
 
             <div className="border-border grid grid-cols-2 gap-3 border-t pt-4">
               <label className="block min-w-0">

@@ -22,7 +22,7 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
   const [password, setPassword] = useState("");
   const [accountError, setAccountError] = useState<string | null>(null);
   const [creatingAccount, setCreatingAccount] = useState(false);
-  const { currency, detectedCountry, getRegionalPricing } = useCurrencyLanguage();
+  const { currency } = useCurrencyLanguage();
 
   const [step, setStep] = useState<number>(1);
   const [selectedDept, setSelectedDept] = useState<ServiceDepartment>("web_app_development");
@@ -47,7 +47,6 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
   const currentDept: ServiceDepartmentInfo =
     SERVICE_DEPARTMENTS.find((d) => d.id === selectedDept) || SERVICE_DEPARTMENTS[0]!;
 
-  const pricingEstimate = getRegionalPricing(selectedDept, scopeTier);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,12 +59,12 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
         organizationName: companyName || "Client Organization",
         department: selectedDept,
         scopeTier,
-        budgetAmount: pricingEstimate.price,
+        budgetAmount: "Custom scope to be determined",
         currency,
         timelineWeeks: timeline,
         clientEmail: contactEmail,
         ...(contactPhone ? { clientPhone: contactPhone } : {}),
-        briefDetails: projectOverview || `Scope: ${pricingEstimate.starterDesc}`,
+        briefDetails: projectOverview || `Requested scope tier: ${scopeTier}. Final scope and investment to be agreed during discovery.`,
       });
       setSubmittedAssignedPM(createdBrief.assignedPM || "Unassigned");
       setSubmitted(true);
@@ -173,8 +172,8 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Plan and price:</span>
-                <span className="font-semibold text-primary font-mono">Within 24 hours</span>
+                <span className="text-muted-foreground">Next step:</span>
+                <span className="font-semibold text-primary">Custom scope review</span>
               </div>
             </div>
 
@@ -333,7 +332,7 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
 
                     <div>
                       <label className="font-semibold text-foreground block mb-1">
-                        Scope Tier ({currency} • {detectedCountry})
+                        Project Scope
                       </label>
                       <select
                         value={scopeTier}
@@ -343,14 +342,13 @@ export const InteractiveBriefModal: React.FC<InteractiveBriefModalProps> = ({
                         className="w-full p-2.5 rounded-lg bg-background border border-border text-xs text-foreground focus:outline-none focus:border-primary"
                       >
                         <option value="starter">
-                          Starter MVP ({getRegionalPricing(selectedDept, "starter").price})
+                          Fast MVP
                         </option>
                         <option value="growth">
-                          Growth Build ({getRegionalPricing(selectedDept, "growth").price})
+                          Full Production System
                         </option>
                         <option value="enterprise">
-                          Enterprise Dedicated (
-                          {getRegionalPricing(selectedDept, "enterprise").price})
+                          Enterprise Scale
                         </option>
                       </select>
                     </div>

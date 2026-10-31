@@ -4,7 +4,6 @@ import heroImage from "@/assets/ndh-agency-hero.webp";
 import { useCurrencyLanguage } from "../../../lib/currencyLanguageStore";
 import { useCaseStudies } from "../../../lib/databaseStore";
 import { ClientsMarquee } from "../../home/Marquees";
-import { DeliveryArc } from "../../home/DeliveryArc";
 import { SectionHeading } from "../../home/SectionHeading";
 import {
   ShieldCheck,
@@ -18,6 +17,7 @@ import {
   Quote,
   Sparkles,
   BadgeCheck,
+  MessageCircle,
 } from "lucide-react";
 
 interface HomepagePreviewProps {
@@ -29,16 +29,8 @@ interface HomepagePreviewProps {
 /**
  * Agency home page — the Academy "Precision Gateway" rhythm.
  *
- * Band order (deep navy → porcelain → white → porcelain → white → navy):
- *   1. Hero band          #091B3F with ambient cyan glow, animated bureau pill,
- *                         gradient headline highlight, high-contrast stat counters
- *      + continuous 16-department services marquee directly beneath it
- *   2. White strip        real client marquee
- *   3. Porcelain band     four enterprise solution suites + trust banner
- *   4. White band         the 4-step delivery arc (01 … 04)
- *   5. Porcelain band     enterprise engagement model
- *   6. White band         verified case studies + client feedback
- *   7. Navy anchor band   final CTA
+ * Band order: enterprise hero → client logos → four solution suites + trust,
+ * concise delivery path → verified case studies and approved feedback → CTA.
  */
 export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
   onOpenBriefWizard,
@@ -121,7 +113,10 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
               Dedicated project management, vetted engineering teams, and milestone-locked delivery for ambitious enterprises.
             </p>
 
-            <div className="flex flex-col items-center justify-center gap-4 pt-2 sm:flex-row">
+            <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">
+              <a href="https://wa.me/2349029932794" target="_blank" rel="noopener noreferrer" className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/25 bg-white/[0.08] px-6 py-4 text-sm font-bold text-white transition-colors hover:bg-white/[0.15] sm:w-auto">
+                <MessageCircle className="h-4 w-4" aria-hidden="true" /> Chat on WhatsApp
+              </a>
               <button
                 onClick={onOpenBriefWizard}
                 className="from-eco-electric to-eco-cyan text-eco-dark inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r px-8 py-4 text-sm font-extrabold shadow-2xl shadow-cyan-500/25 transition-transform hover:scale-[1.03] active:scale-95 sm:w-auto"
@@ -181,38 +176,31 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
           <div className="rounded-2xl bg-[#091B3F] p-6 text-white sm:p-8">
             <h3 className="font-display text-2xl font-bold">Guaranteed Delivery &amp; Global Payment Protection</h3>
             <ul className="mt-5 grid gap-4 text-sm leading-relaxed text-white/85 md:grid-cols-3">
-              <li className="flex gap-3"><ShieldCheck className="h-5 w-5 shrink-0 text-cyan-300" />Milestone-locked releases (pay only when deliverables are approved)</li>
+              <li className="flex gap-3"><ShieldCheck className="h-5 w-5 shrink-0 text-cyan-300" />Milestone-based payment protection</li>
               <li className="flex gap-3"><ShieldCheck className="h-5 w-5 shrink-0 text-cyan-300" />International payment flexibility (Paystack, International Wire Transfer, or Upwork Direct Contract Escrow)</li>
-              <li className="flex gap-3"><LockKeyhole className="h-5 w-5 shrink-0 text-cyan-300" />Mutual Non-Disclosure Agreement (NDA) signed prior to project kickoff</li>
+              <li className="flex gap-3"><LockKeyhole className="h-5 w-5 shrink-0 text-cyan-300" />Mutual NDA before kickoff</li>
             </ul>
           </div>
         </div>
       </section>
 
-      {/* ───────── 4. WHITE BAND — the 4-step delivery arc ───────── */}
-      <section className="gw-band gw-band-white gw-band-roomy" id="delivery-arc">
-        <div className="mx-auto max-w-7xl space-y-10 px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow={t("arc_badge")}
-            title={t("home_arc_title")}
-            description={t("arc_desc")}
-          />
-          <DeliveryArc onStepClick={() => onSelectScreen("process")} />
-        </div>
-      </section>
-
-      {/* Enterprise engagement model */}
-      <section id="engagement-model" className="gw-band gw-band-porcelain gw-band-roomy">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="gw-card space-y-8 p-6 sm:p-10">
-            <div className="space-y-3 text-center">
-              <h2 className="font-display text-3xl font-black tracking-tight sm:text-4xl">Enterprise Engagement Model</h2>
-              <p className="text-muted-foreground mx-auto max-w-2xl text-sm">A transparent, accountable delivery partnership designed around outcomes—not price sliders.</p>
+      {/* Concise delivery partnership */}
+      <section className="gw-band gw-band-white py-12 sm:py-16" id="delivery-model">
+        <div className="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-brand-soft text-xs font-bold uppercase tracking-wider">Built for delivery</p>
+              <h2 className="font-display mt-2 text-2xl font-black tracking-tight sm:text-3xl">A clear path from brief to launch.</h2>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {["Fixed Milestones", "Dedicated Technical PM", "Full Code Ownership", "SLA Guarantees"].map((item) => <div key={item} className="rounded-xl border border-border bg-surface-raised p-5 font-bold"><ShieldCheck className="mb-3 h-5 w-5 text-brand-soft" />{item}</div>)}
-            </div>
-            <div className="text-center"><button onClick={onOpenBriefWizard} className="bg-primary inline-flex w-full items-center justify-center gap-2 rounded-xl px-8 py-4 text-sm font-extrabold text-white sm:w-auto">Request a Custom Scope <ArrowRight className="h-4 w-4" /></button></div>
+            <p className="text-muted-foreground max-w-xl text-sm leading-relaxed">One accountable team takes your project from discovery through architecture and build to a supported launch.</p>
+          </div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {["Discover", "Architect", "Build", "Launch"].map((step, index) => (
+              <div key={step} className="flex items-center gap-3 rounded-xl border border-border bg-surface p-4">
+                <span className="text-brand-soft font-mono text-xs font-bold">0{index + 1}</span>
+                <span className="font-semibold">{step}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
