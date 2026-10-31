@@ -1,24 +1,19 @@
 import React, { useState } from "react";
 import heroImage from "@/assets/ndh-agency-hero.webp";
-import { ServiceDepartment, ServiceDepartmentInfo } from "../../../types/ndh";
-import { SERVICE_DEPARTMENTS } from "../../../data/mockData";
-import {
-  DEPARTMENT_CARDS,
-  HOMEPAGE_DEPARTMENT_IDS,
-  departmentProfile,
-} from "../../../data/agencyDepartments";
-import { TypingWords } from "../../home/TypingWords";
+
 import { useCurrencyLanguage } from "../../../lib/currencyLanguageStore";
 import { useCaseStudies } from "../../../lib/databaseStore";
 import { ClientsMarquee } from "../../home/Marquees";
 import { DeliveryArc } from "../../home/DeliveryArc";
-import { DepartmentCard } from "../../home/DepartmentCard";
-import { ServiceDetailModal } from "../modals/ServiceDetailModal";
 import { SectionHeading } from "../../home/SectionHeading";
 import {
   ShieldCheck,
   ArrowRight,
-  Layers,
+  LockKeyhole,
+  BriefcaseBusiness,
+  Plane,
+  Truck,
+  ShoppingCart,
   TrendingUp,
   Quote,
   Sparkles,
@@ -31,38 +26,6 @@ interface HomepagePreviewProps {
   onSelectScreen: (screen: string) => void;
 }
 
-// Short "what you actually get" focus phrase per department, used to make
-// the tier descriptions below genuinely vary by selected service instead of
-// showing the same generic 4 lines no matter which of the 16 departments is
-// picked.
-const TIER_FOCUS: Record<ServiceDepartment, string> = {
-  brand_strategy: "logo & visual identity kit",
-  ui_ux_design: "UI wireframes & prototypes",
-  web_app_development: "landing page",
-  mobile_app_development: "cross-platform mobile app",
-  ai_automation: "AI agent / automation workflow",
-  ecommerce: "online store",
-  fintech_payments: "payment gateway integration",
-  cloud_devops: "cloud infrastructure setup",
-  cybersecurity_compliance: "security & compliance audit",
-  digital_marketing: "ad campaign funnel",
-  seo_growth: "SEO audit & ranking plan",
-  content_copywriting: "sales copy & content set",
-  social_media: "social content calendar",
-  video_media: "promo / explainer video",
-  data_business: "BI dashboard & research",
-  nocode_rapid_mvp: "no-code MVP",
-};
-
-function getTierOptions(_dept: ServiceDepartment) {
-  return [
-    { id: "starter", title: "tier_starter", desc: "tier_starter_desc" },
-    { id: "growth", title: "tier_growth", desc: "tier_growth_desc" },
-    { id: "enterprise", title: "tier_enterprise", desc: "tier_enterprise_desc" },
-    { id: "custom", title: "tier_custom", desc: "tier_custom_desc" },
-  ] as const;
-}
-
 /**
  * Agency home page — the Academy "Precision Gateway" rhythm.
  *
@@ -71,9 +34,9 @@ function getTierOptions(_dept: ServiceDepartment) {
  *                         gradient headline highlight, high-contrast stat counters
  *      + continuous 16-department services marquee directly beneath it
  *   2. White strip        real client marquee
- *   3. Porcelain band     16-department showcase in elevated white cards
+ *   3. Porcelain band     four enterprise solution suites + trust banner
  *   4. White band         the 4-step delivery arc (01 … 04)
- *   5. Porcelain band     instant estimator in a white container card
+ *   5. Porcelain band     enterprise engagement model
  *   6. White band         verified case studies + client feedback
  *   7. Navy anchor band   final CTA
  */
@@ -81,21 +44,9 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
   onOpenBriefWizard,
   onSelectScreen,
 }) => {
-  const { currency, currencies, getRegionalPricing, t } = useCurrencyLanguage();
-
-  const [calculatorDept, setCalculatorDept] = useState<ServiceDepartment>("web_app_development");
-  const [calculatorTier, setCalculatorTier] = useState<
-    "starter" | "growth" | "enterprise" | "custom"
-  >("growth");
+  const { t } = useCurrencyLanguage();
   const [activeCaseIdx, setActiveCaseIdx] = useState<number>(0);
-  const [selectedModalDept, setSelectedModalDept] = useState<ServiceDepartmentInfo | null>(null);
 
-  // "Custom" isn't a priced tier -- it's a deliberate escape hatch so a
-  // visitor whose scope is bigger/smaller/different than Enterprise doesn't
-  // just bounce off a sticker-shock number. No regional price is computed
-  // for it; the UI below routes straight to a scoping conversation instead.
-  const regionalResult =
-    calculatorTier === "custom" ? null : getRegionalPricing(calculatorDept, calculatorTier);
   const caseStudiesData = useCaseStudies();
   const currentCase = caseStudiesData[activeCaseIdx] || caseStudiesData[0];
 
@@ -159,22 +110,15 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
 
             <h1 className="font-display text-4xl leading-[1.08] font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
               <span className="sr-only">
-                {t("hero_title_1")} {t("hero_title_2")}
+                We build high-performance web platforms, booking systems, and digital infrastructure.
               </span>
               <span aria-hidden="true">
-                {t("hero_lead")}{" "}
-                <TypingWords
-                  key={t("hero_type_words")}
-                  words={t("hero_type_words").split("|")}
-                  className="text-gradient-brand"
-                />
-                <br />
-                {t("hero_title_2")}
+                We build high-performance web platforms, booking systems, and digital infrastructure.
               </span>
             </h1>
 
             <p className="mx-auto max-w-3xl text-base leading-relaxed text-[var(--eco-on-dark-muted)] sm:text-xl">
-              {t("hero_desc")}
+              Dedicated project management, vetted engineering teams, and milestone-locked delivery for ambitious enterprises.
             </p>
 
             <div className="flex flex-col items-center justify-center gap-4 pt-2 sm:flex-row">
@@ -182,14 +126,14 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
                 onClick={onOpenBriefWizard}
                 className="from-eco-electric to-eco-cyan text-eco-dark inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r px-8 py-4 text-sm font-extrabold shadow-2xl shadow-cyan-500/25 transition-transform hover:scale-[1.03] active:scale-95 sm:w-auto"
               >
-                <span>{t("hero_cta_primary")}</span>
+                <span>Start a Project</span>
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </button>
               <button
                 onClick={() => onSelectScreen("services")}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/[0.06] px-8 py-4 text-sm font-bold text-white backdrop-blur-md transition-colors hover:bg-white/[0.12] sm:w-auto"
               >
-                {t("hero_cta_secondary")}
+                Explore Solutions
               </button>
             </div>
           </div>
@@ -215,37 +159,32 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
       {/* ───────── 2. WHITE STRIP — real clients only ───────── */}
       <ClientsMarquee />
 
-      {/* ───────── 3. PORCELAIN BAND — the 16-department showcase ───────── */}
+      {/* Enterprise solution suites */}
       <section className="gw-band gw-band-porcelain gw-band-roomy" id="departments">
         <div className="mx-auto max-w-7xl space-y-10 px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow={t("section_build_badge")}
-            title={t("home_services_title")}
-            description={t("section_build_desc")}
-          />
-
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {HOMEPAGE_DEPARTMENT_IDS.map((id) => DEPARTMENT_CARDS.find((d) => d.id === id))
-              .filter((d): d is (typeof DEPARTMENT_CARDS)[number] => Boolean(d))
-              .map((dept) => (
-                <DepartmentCard
-                  key={dept.id}
-                  dept={dept}
-                  currency={currency}
-                  fromPrice={getRegionalPricing(dept.id, "starter").price}
-                  onOpen={(d) => setSelectedModalDept(d.record)}
-                />
-              ))}
+          <SectionHeading eyebrow="Enterprise solutions" title="Digital systems built for ambitious operators" description="Purpose-built platforms for complex operations, high transaction volumes, and sustained growth." />
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {[
+              { icon: Plane, title: "Travel, Tours & Hospitality Systems", description: "Multi-currency booking engines, reservation management, payment integrations, and automated customer SMS/email workflows." },
+              { icon: Truck, title: "Import, Export & Logistics Portals", description: "Real-time consignment tracking, client clearance dashboards, document generation, and customs management." },
+              { icon: ShoppingCart, title: "High-Volume E-Commerce & Marketplaces", description: "Custom online stores, multi-vendor support, automated inventory sync, and seamless debit/credit card and bank checkout." },
+              { icon: BriefcaseBusiness, title: "Corporate Web & Financial Infrastructure", description: "High-security, lightning-fast web systems for investment, consulting, corporate holding companies, and fintech." },
+            ].map(({ icon: Icon, title, description }) => (
+              <article key={title} className="gw-card flex min-w-0 flex-col gap-5 p-6 sm:p-8">
+                <Icon className="text-brand-soft h-7 w-7" aria-hidden="true" />
+                <h3 className="font-display text-2xl font-bold">{title}</h3>
+                <p className="text-muted-foreground flex-1 text-sm leading-relaxed">{description}</p>
+                <button onClick={onOpenBriefWizard} className="bg-primary inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-bold text-white sm:w-fit">Scope this Solution <ArrowRight className="h-4 w-4" /></button>
+              </article>
+            ))}
           </div>
-
-          <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">
-            <button
-              onClick={() => onSelectScreen("services")}
-              className="border-border bg-surface text-foreground hover:border-primary/50 inline-flex items-center gap-2 rounded-2xl border px-8 py-3.5 text-xs font-bold shadow-sm transition-all hover:-translate-y-0.5"
-            >
-              <Layers className="text-brand-soft h-4 w-4" aria-hidden="true" />
-              {t("btn_view_all_departments")}
-            </button>
+          <div className="rounded-2xl bg-[#091B3F] p-6 text-white sm:p-8">
+            <h3 className="font-display text-2xl font-bold">Guaranteed Delivery &amp; Global Payment Protection</h3>
+            <ul className="mt-5 grid gap-4 text-sm leading-relaxed text-white/85 md:grid-cols-3">
+              <li className="flex gap-3"><ShieldCheck className="h-5 w-5 shrink-0 text-cyan-300" />Milestone-locked releases (pay only when deliverables are approved)</li>
+              <li className="flex gap-3"><ShieldCheck className="h-5 w-5 shrink-0 text-cyan-300" />International payment flexibility (Paystack, International Wire Transfer, or Upwork Direct Contract Escrow)</li>
+              <li className="flex gap-3"><LockKeyhole className="h-5 w-5 shrink-0 text-cyan-300" />Mutual Non-Disclosure Agreement (NDA) signed prior to project kickoff</li>
+            </ul>
           </div>
         </div>
       </section>
@@ -262,116 +201,18 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
         </div>
       </section>
 
-      {/* ───────── 5. PORCELAIN BAND — instant estimator ───────── */}
-      <section id="estimator" className="gw-band gw-band-porcelain gw-band-roomy">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="border-border bg-surface mx-auto max-w-4xl space-y-8 rounded-2xl border p-8 shadow-[0_4px_16px_rgba(16,27,64,0.07)] sm:p-12">
+      {/* Enterprise engagement model */}
+      <section id="engagement-model" className="gw-band gw-band-porcelain gw-band-roomy">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="gw-card space-y-8 p-6 sm:p-10">
             <div className="space-y-3 text-center">
-              <h2 className="text-foreground font-display text-3xl font-black tracking-tight sm:text-4xl">
-                {t("estimator_title")}
-              </h2>
-              <p className="text-muted-foreground mx-auto max-w-xl text-sm">
-                {t("estimator_desc")}
-              </p>
+              <h2 className="font-display text-3xl font-black tracking-tight sm:text-4xl">Enterprise Engagement Model</h2>
+              <p className="text-muted-foreground mx-auto max-w-2xl text-sm">A transparent, accountable delivery partnership designed around outcomes—not price sliders.</p>
             </div>
-
-            {/* Step 1: department chips */}
-            <div className="space-y-3">
-              <label className="text-muted-foreground block text-xs font-bold tracking-wider uppercase">
-                {t("label_select_service")}
-              </label>
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                {SERVICE_DEPARTMENTS.map((dept) => {
-                  const { icon: Icon, shortName } = departmentProfile(dept.id);
-                  const selected = calculatorDept === dept.id;
-                  return (
-                    <button
-                      key={dept.id}
-                      onClick={() => setCalculatorDept(dept.id)}
-                      className={`flex items-center gap-2 truncate rounded-xl border px-3 py-2.5 text-left text-xs font-semibold transition-all ${
-                        selected
-                          ? "border-primary bg-primary text-white shadow-lg"
-                          : "border-border bg-surface-raised text-muted-foreground hover:border-primary/50"
-                      }`}
-                    >
-                      <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                      <span className="truncate">{shortName}</span>
-                    </button>
-                  );
-                })}
-              </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {["Fixed Milestones", "Dedicated Technical PM", "Full Code Ownership", "SLA Guarantees"].map((item) => <div key={item} className="rounded-xl border border-border bg-surface-raised p-5 font-bold"><ShieldCheck className="mb-3 h-5 w-5 text-brand-soft" />{item}</div>)}
             </div>
-
-            {/* Step 2: scope & speed tiers */}
-            <div className="space-y-3">
-              <label className="text-muted-foreground block text-xs font-bold tracking-wider uppercase">
-                {t("label_project_tier")}
-              </label>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {getTierOptions(calculatorDept).map((tier) => {
-                  const selected = calculatorTier === tier.id;
-                  return (
-                    <button
-                      key={tier.id}
-                      onClick={() =>
-                        setCalculatorTier(tier.id as Parameters<typeof setCalculatorTier>[0])
-                      }
-                      className={`rounded-xl border p-4 text-left transition-all ${
-                        selected
-                          ? "border-primary bg-brand-subtle shadow-lg"
-                          : "border-border bg-surface-raised hover:border-primary/50"
-                      }`}
-                    >
-                      <div className="text-foreground text-xs font-bold">{t(tier.title)}</div>
-                      <div className="text-muted-foreground mt-1 text-[11px]">{t(tier.desc)}</div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Live calculation output */}
-            <div className="border-border bg-surface-raised flex flex-col items-center justify-between gap-6 rounded-2xl border p-6 sm:p-8 md:flex-row">
-              <div className="space-y-2 text-center md:text-left">
-                <span className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
-                  {regionalResult
-                    ? `${t("label_instant_budget")} (${currencies[currency]?.name})`
-                    : t("label_custom_scope")}
-                </span>
-
-                {regionalResult ? (
-                  <>
-                    <div className="text-success font-mono text-3xl font-extrabold sm:text-4xl">
-                      {regionalResult.price}
-                    </div>
-                    <div className="text-muted-foreground text-xs">
-                      {t("label_estimated_delivery")}{" "}
-                      <strong className="text-foreground font-mono">{regionalResult.weeks}</strong>{" "}
-                      · {t("label_includes_pm_escrow")}
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="text-success text-2xl font-extrabold sm:text-3xl">
-                      {t("label_lets_talk_quote")}
-                    </div>
-                    <div className="text-muted-foreground text-xs">
-                      {t("label_no_fixed_price_desc")}
-                    </div>
-                  </>
-                )}
-              </div>
-
-              <button
-                onClick={onOpenBriefWizard}
-                className="from-primary to-highlight inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r px-8 py-4 text-xs font-extrabold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-[1.03] md:w-auto"
-              >
-                <span>
-                  {regionalResult ? t("btn_generate_proposal") : t("btn_start_custom_scoping")}
-                </span>
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </button>
-            </div>
+            <div className="text-center"><button onClick={onOpenBriefWizard} className="bg-primary inline-flex w-full items-center justify-center gap-2 rounded-xl px-8 py-4 text-sm font-extrabold text-white sm:w-auto">Request a Custom Scope <ArrowRight className="h-4 w-4" /></button></div>
           </div>
         </div>
       </section>
@@ -599,13 +440,6 @@ export const HomepagePreview: React.FC<HomepagePreviewProps> = ({
         </div>
       </section>
 
-      {/* Modal for the service deep-dive */}
-      <ServiceDetailModal
-        dept={selectedModalDept}
-        isOpen={!!selectedModalDept}
-        onClose={() => setSelectedModalDept(null)}
-        onOpenBriefWizard={onOpenBriefWizard}
-      />
     </div>
   );
 };
