@@ -1,18 +1,13 @@
 import React from "react";
 import { useModalA11y } from "../../../hooks/use-modal-a11y";
 import { ServiceDepartmentInfo } from "../../../types/ndh";
-import { useCurrencyLanguage } from "../../../lib/currencyLanguageStore";
 import {
   X,
   CheckCircle2,
   Clock,
-  Sparkles,
   ShieldCheck,
   ArrowRight,
-  Code2,
-  Check,
   User,
-  Zap,
 } from "lucide-react";
 
 interface ServiceDetailModalProps {
@@ -28,15 +23,11 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
   onClose,
   onOpenBriefWizard,
 }) => {
-  const { currency, getRegionalPricing } = useCurrencyLanguage();
 
   useModalA11y(isOpen, onClose);
 
   if (!isOpen || !dept) return null;
 
-  const starterPlan = getRegionalPricing(dept.id, "starter");
-  const growthPlan = getRegionalPricing(dept.id, "growth");
-  const enterprisePlan = getRegionalPricing(dept.id, "enterprise");
 
   return (
     <div
@@ -64,7 +55,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
           </button>
 
           <div className="absolute bottom-4 left-6 right-6 space-y-1.5">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="px-3 py-1 rounded-full bg-primary/90 text-white text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-lg">
                 {dept.category.toUpperCase()}
               </span>
@@ -83,63 +74,15 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
         <div className="p-6 sm:p-8 pt-0 space-y-6">
           <p className="text-sm text-slate-200 leading-relaxed">{dept.description}</p>
 
-          {/* 3 Accessible Tiers Calibrated to User's Country */}
+          {/* Scope tiers — tailored during project discovery, never fixed-price */}
           <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="text-xs font-bold uppercase tracking-wider text-slate-200">
-                Transparent Pricing ({currency})
-              </div>
-              <span className="text-[11px] text-emerald-400 font-mono">
-                No hidden charges • 100% Safe Payment Protected
-              </span>
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-200">Engagement Scope</div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              {["Fast MVP", "Full Production System", "Enterprise Scale"].map((tier) => (
+                <div key={tier} className="rounded-2xl border border-white/10 bg-eco-dark p-4 font-bold text-white">{tier}</div>
+              ))}
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="p-4 rounded-2xl bg-eco-dark border border-white/10 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-white">Starter MVP</span>
-                  <span className="px-2 py-0.5 rounded bg-eco-cyan/20 text-eco-cyan text-[10px] font-mono font-bold">
-                    Starter Plan
-                  </span>
-                </div>
-                <div className="text-2xl font-black font-mono text-emerald-400">
-                  {starterPlan.price}
-                </div>
-                <div className="text-[11px] text-[var(--eco-on-dark-muted)] leading-tight">
-                  {starterPlan.starterDesc}
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-white/[0.04] border border-eco-cyan/40 space-y-2 relative shadow-lg">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-white">Growth Scale</span>
-                  <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold">
-                    Most Popular
-                  </span>
-                </div>
-                <div className="text-2xl font-black font-mono text-eco-cyan">
-                  {growthPlan.price}
-                </div>
-                <div className="text-[11px] text-slate-200 leading-tight">
-                  Complete Custom Build + QA
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-eco-dark border border-white/10 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-white">Enterprise</span>
-                  <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[10px] font-mono font-bold">
-                    Dedicated PM
-                  </span>
-                </div>
-                <div className="text-2xl font-black font-mono text-eco-glow">
-                  {enterprisePlan.price}
-                </div>
-                <div className="text-[11px] text-[var(--eco-on-dark-muted)] leading-tight">
-                  High concurrency &amp; 24/7 SLA
-                </div>
-              </div>
-            </div>
+            <p className="text-xs leading-relaxed text-[var(--eco-on-dark-muted)]">Every engagement is scoped to your requirements, delivery milestones, and operating environment.</p>
           </div>
 
           {/* Capabilities & Tech Stack Grid */}
@@ -194,7 +137,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
           <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-xs text-slate-200">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Dedicated PM Included • Zero Risk IP Safe Payment</span>
+              <span>Custom Scope • Milestone-Based Delivery</span>
             </div>
 
             <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -211,7 +154,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                 }}
                 className="w-1/2 sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-primary via-eco-glow to-eco-dark hover:from-eco-cyan hover:to-eco-glow text-white font-bold text-xs shadow-xl shadow-cyan-500/30 flex items-center justify-center gap-2 transition-transform hover:scale-105"
               >
-                <span>Start This Project</span>
+                <span>Scope This Service</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>

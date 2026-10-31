@@ -18,6 +18,9 @@ export default defineConfig({
         // Pin entities to the hoisted v4.5.0 copy; a nested v7 breaks SSR.
         "entities/lib/decode.js": path.resolve(__dirname, "node_modules/entities/lib/decode.js"),
         "entities/lib/encode.js": path.resolve(__dirname, "node_modules/entities/lib/encode.js"),
+        // htmlparser2 v10 imports the v7 decode API via this subpath; keep it
+        // distinct from the v4 helpers required by @react-email/render.
+        "entities/decode": path.resolve(__dirname, "node_modules/htmlparser2/node_modules/entities/decode.js"),
         entities: path.resolve(__dirname, "node_modules/entities"),
       },
     },

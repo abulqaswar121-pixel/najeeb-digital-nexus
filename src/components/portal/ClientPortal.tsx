@@ -222,41 +222,23 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
   };
 
   const clientNavTabs = [
-    { id: "overview", label: "Sprint Overview", icon: <FileText className="w-4 h-4" /> },
+    { id: "overview", label: "Active Projects & Milestones", icon: <FileText className="w-4 h-4" /> },
+    {
+      id: "messages",
+      label: "Direct PM Chat",
+      icon: <MessageSquare className="w-4 h-4" />,
+      ...(isDemoWorkspace ? { badge: "1 Unread" } : {}),
+    },
     {
       id: "milestones",
-      label: "Deliverables & Approvals",
+      label: "Approved Files & Deliverables",
       icon: <CheckCircle2 className="w-4 h-4" />,
       ...(isDemoWorkspace ? { badge: "Action Due" } : {}),
     },
     {
       id: "invoices",
-      label: "Invoices & Safe Payment",
+      label: "Invoices & Safe Payments",
       icon: <CreditCard className="w-4 h-4" />,
-    },
-    {
-      id: "messages",
-      label: "PM Direct Chat",
-      icon: <MessageSquare className="w-4 h-4" />,
-      ...(isDemoWorkspace ? { badge: "1 Unread" } : {}),
-    },
-    {
-      id: "custom_task",
-      label: "Drop Custom Budget Task",
-      icon: <Zap className="w-4 h-4" />,
-    },
-    {
-      id: "rewards",
-      label: "Ranks, Offers & Referrals",
-      icon: <Gift className="w-4 h-4" />,
-      ...((user?.referralCredits ?? 0) > 0
-        ? { badge: `₦${Math.round((user!.referralCredits ?? 0) / 1000)}k Credits` }
-        : {}),
-    },
-    {
-      id: "contracts",
-      label: "NDA & Legal Contracts",
-      icon: <ShieldCheck className="w-4 h-4" />,
     },
   ];
 
@@ -424,7 +406,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
                       <span className="text-xs text-[var(--eco-on-dark-muted)]">
                         Briefs Submitted
@@ -451,27 +433,6 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                       </div>
                     </div>
 
-                    <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
-                      <span className="text-xs text-[var(--eco-on-dark-muted)]">Loyalty Rank</span>
-                      <div className="text-xl font-bold font-mono text-emerald-400">
-                        {user?.loyaltyTier || "Bronze Pioneer"}
-                      </div>
-                      <div className="text-[10px] text-emerald-400 font-mono">
-                        Earned by project volume
-                      </div>
-                    </div>
-
-                    <div className="p-6 rounded-2xl bg-eco-navy/80 border border-white/10 space-y-1">
-                      <span className="text-xs text-[var(--eco-on-dark-muted)]">
-                        Your Referral Balance
-                      </span>
-                      <div className="text-2xl font-bold font-mono text-amber-400">
-                        ₦{(user?.referralCredits ?? 0).toLocaleString()} NGN
-                      </div>
-                      <div className="text-[10px] text-[var(--eco-on-dark-muted)]">
-                        Available as project credit
-                      </div>
-                    </div>
                   </div>
 
                   {myBriefs.length === 0 ? (
@@ -484,9 +445,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                           Welcome to {displayOrgName}'s NDH workspace!
                         </h3>
                         <p className="text-xs text-[var(--eco-on-dark-muted)] mt-1 max-w-md mx-auto">
-                          You don't have an active project yet. Submit a full brief or drop a custom
-                          task with your own budget to get your first sprint started -- a PM will
-                          review it and reach out here.
+                          You don't have an active project yet. Share your requirements to start a scoped enterprise engagement, then track delivery here.
                         </p>
                       </div>
                       <div className="flex items-center justify-center gap-3 pt-2">
@@ -497,13 +456,7 @@ export const ClientPortal: React.FC<ClientPortalProps> = ({ onOpenBriefWizard })
                           <Sparkles className="w-3.5 h-3.5" />
                           <span>New project</span>
                         </button>
-                        <button
-                          onClick={() => setActiveTab("custom_task")}
-                          className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md flex items-center gap-1.5"
-                        >
-                          <PlusCircle className="w-3.5 h-3.5" />
-                          <span>Drop Custom Task</span>
-                        </button>
+
                       </div>
                     </div>
                   ) : (

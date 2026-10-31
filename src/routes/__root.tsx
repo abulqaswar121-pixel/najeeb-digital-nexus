@@ -8,7 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import type { ErrorComponentProps } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -261,6 +261,37 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+function OfflineStatus() {
+  const [isOnline, setIsOnline] = useState(true);
+
+  useEffect(() => {
+    setIsOnline(navigator.onLine);
+    const online = () => setIsOnline(true);
+    const offline = () => setIsOnline(false);
+    window.addEventListener("online", online);
+    window.addEventListener("offline", offline);
+    if ("serviceWorker" in navigator) {
+      void navigator.serviceWorker.register("/sw.js").catch((error: unknown) => {
+        console.warn("NDH offline support could not be registered", error);
+      });
+    }
+    return () => {
+      window.removeEventListener("online", online);
+      window.removeEventListener("offline", offline);
+    };
+  }, []);
+
+  if (isOnline) return null;
+  return (
+    <aside role="status" className="fixed inset-x-0 bottom-0 z-[100] border-t border-cyan-300/30 bg-[#0A1A30] px-4 py-4 text-sm text-white shadow-2xl">
+      <div className="mx-auto max-w-5xl">
+        <strong className="font-display text-base">You are currently offline.</strong>
+        <p className="mt-1 text-white/80">Your saved project information is preserved. You can still reach us directly on <a className="font-bold text-cyan-300 underline" href="https://wa.me/2349029932794">WhatsApp (+234 902 993 2794)</a> or <a className="font-bold text-cyan-300 underline" href="mailto:hello@ndh.com.ng">email (hello@ndh.com.ng)</a>.</p>
+      </div>
+    </aside>
+  );
+}
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="scroll-smooth">
@@ -269,6 +300,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body className="bg-background text-foreground font-sans antialiased">
         {children}
+        <OfflineStatus />
         <Scripts />
       </body>
     </html>
